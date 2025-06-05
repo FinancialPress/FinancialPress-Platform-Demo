@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -20,7 +21,9 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 89,
       shares: 156,
       timeAgo: "2h ago",
-      category: "Crypto Analysis"
+      category: "Crypto Analysis",
+      hasImage: true,
+      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop"
     },
     {
       title: "DeFi Renaissance: Top 5 Protocols to Watch in 2024",
@@ -32,7 +35,8 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 67,
       shares: 134,
       timeAgo: "4h ago",
-      category: "DeFi"
+      category: "DeFi",
+      hasImage: false
     },
     {
       title: "NFT Market Recovery: Blue Chips Lead the Way",
@@ -44,7 +48,9 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 45,
       shares: 89,
       timeAgo: "6h ago",
-      category: "NFTs"
+      category: "NFTs",
+      hasImage: true,
+      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop"
     },
     {
       title: "AI Revolution in Finance: Which Stocks Will Soar?",
@@ -56,7 +62,8 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 78,
       shares: 167,
       timeAgo: "8h ago",
-      category: "AI & Tech"
+      category: "AI & Tech",
+      hasImage: false
     },
     {
       title: "Macro Outlook: Fed Policy Impact on Crypto Markets",
@@ -68,7 +75,9 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 123,
       shares: 289,
       timeAgo: "1d ago",
-      category: "Macroeconomics"
+      category: "Macroeconomics",
+      hasImage: true,
+      thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop"
     },
     {
       title: "Solana vs Ethereum: The L1 Battle Intensifies",
@@ -80,7 +89,8 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 92,
       shares: 178,
       timeAgo: "1d ago",
-      category: "Blockchain"
+      category: "Blockchain",
+      hasImage: false
     }
   ];
 
@@ -196,6 +206,18 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         <Badge className="bg-blue-600 text-white text-xs">{content.category}</Badge>
                         <span className="text-gray-400 text-sm">{content.timeAgo}</span>
                       </div>
+                      
+                      {/* Conditional Image */}
+                      {content.hasImage && (
+                        <div className="mb-4">
+                          <img 
+                            src={content.thumbnail} 
+                            alt={content.title}
+                            className="w-full h-32 rounded-lg object-cover"
+                          />
+                        </div>
+                      )}
+                      
                       <h3 className="text-lg font-semibold mb-3 text-white line-clamp-2">{content.title}</h3>
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-2">
