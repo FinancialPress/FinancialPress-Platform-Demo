@@ -82,48 +82,65 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Demo Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800 p-4">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between">
-          <div className="text-white font-bold">FinancialPress Demo</div>
-          <div className="flex items-center space-x-4">
-            <div className="flex space-x-2">
-              {screens.map((screen, index) => (
-                <Button
-                  key={index}
-                  size="sm"
-                  variant={currentScreen === index ? "default" : "outline"}
-                  className={currentScreen === index ? "bg-yellow-500 text-black" : "border-gray-600 text-gray-300"}
-                  onClick={() => setCurrentScreen(index)}
-                >
-                  {index + 1}. {screen}
-                </Button>
-              ))}
+      {/* Demo Navigation - Fixed positioning with proper z-index */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800">
+        <div className="max-w-[1440px] mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="text-white font-bold text-sm">FinancialPress Demo</div>
+            <div className="flex items-center space-x-2">
+              <div className="flex space-x-1">
+                {screens.map((screen, index) => (
+                  <Button
+                    key={index}
+                    size="sm"
+                    variant={currentScreen === index ? "default" : "outline"}
+                    className={`text-xs px-2 py-1 h-auto ${
+                      currentScreen === index 
+                        ? "bg-yellow-500 text-black hover:bg-yellow-600" 
+                        : "border-gray-600 text-gray-300 hover:border-gray-500"
+                    }`}
+                    onClick={() => setCurrentScreen(index)}
+                  >
+                    {index + 1}. {screen}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Screen Content */}
-      <div className="pt-20">
-        <Header onNavigate={setCurrentScreen} />
-        <TickerBar />
-        {renderCurrentScreen()}
+      {/* Main Content - Proper spacing to avoid overlap */}
+      <div className="pt-16 relative z-10">
+        {/* Header and Ticker - Fixed positioning below demo nav */}
+        <div className="relative z-20">
+          <Header onNavigate={setCurrentScreen} />
+          <TickerBar />
+        </div>
         
-        {/* Conditional Modals/Overlays */}
+        {/* Screen Content - Proper z-index layering */}
+        <div className="relative z-10">
+          {renderCurrentScreen()}
+        </div>
+        
+        {/* Modal Overlays - Highest z-index */}
         {currentScreen === 4 && showShareModal && (
-          <ShareEarnFlow 
-            post={samplePost}
-            onClose={() => setShowShareModal(false)}
-            onShare={handleShare}
-          />
+          <div className="relative z-50">
+            <ShareEarnFlow 
+              post={samplePost}
+              onClose={() => setShowShareModal(false)}
+              onShare={handleShare}
+            />
+          </div>
         )}
         
         {currentScreen === 5 && (
-          <EarningsTracker 
-            isVisible={showEarningsTracker}
-            onClose={() => setShowEarningsTracker(false)}
-          />
+          <div className="relative z-50">
+            <EarningsTracker 
+              isVisible={showEarningsTracker}
+              onClose={() => setShowEarningsTracker(false)}
+            />
+          </div>
         )}
       </div>
     </div>
