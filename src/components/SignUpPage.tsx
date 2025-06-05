@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,13 +6,24 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { PenTool, Share2, Chrome, Mail, ArrowLeft } from 'lucide-react';
 
-const SignUpPage = () => {
+interface SignUpPageProps {
+  onRoleSelect?: (role: 'creator' | 'distributor') => void;
+  onNavigate?: (screen: number) => void;
+}
+
+const SignUpPage = ({ onRoleSelect, onNavigate }: SignUpPageProps) => {
   const [step, setStep] = useState(1);
   const [selectedRole, setSelectedRole] = useState<'creator' | 'distributor' | null>(null);
 
   const handleRoleSelection = (role: 'creator' | 'distributor') => {
     setSelectedRole(role);
+    onRoleSelect?.(role);
     setStep(2);
+  };
+
+  const handleAccountCreation = () => {
+    // Navigate to onboarding after account creation
+    onNavigate?.(2);
   };
 
   const handleBack = () => {
@@ -155,11 +165,17 @@ const SignUpPage = () => {
             <CardTitle className="text-2xl text-center text-white">Sign Up</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button className="w-full bg-white text-black hover:bg-gray-100 font-semibold py-3">
+            <Button 
+              className="w-full bg-white text-black hover:bg-gray-100 font-semibold py-3"
+              onClick={handleAccountCreation}
+            >
               <Chrome className="w-5 h-5 mr-2" />
               Continue with Google
             </Button>
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3">
+            <Button 
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
+              onClick={handleAccountCreation}
+            >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
@@ -194,11 +210,14 @@ const SignUpPage = () => {
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
-              <Button className={`w-full font-bold py-3 ${
-                selectedRole === 'creator' 
-                  ? 'bg-yellow-500 hover:bg-yellow-600 text-black' 
-                  : 'bg-blue-500 hover:bg-blue-600 text-white'
-              }`}>
+              <Button 
+                className={`w-full font-bold py-3 ${
+                  selectedRole === 'creator' 
+                    ? 'bg-yellow-500 hover:bg-yellow-600 text-black' 
+                    : 'bg-blue-500 hover:bg-blue-600 text-white'
+                }`}
+                onClick={handleAccountCreation}
+              >
                 <Mail className="w-5 h-5 mr-2" />
                 Create {selectedRole === 'creator' ? 'Creator' : 'Distributor'} Account
               </Button>

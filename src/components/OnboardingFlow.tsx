@@ -6,9 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Check, ChevronRight, Award } from 'lucide-react';
+import { Check, ChevronRight, Award, PenTool, Share2 } from 'lucide-react';
 
-const OnboardingFlow = () => {
+interface OnboardingFlowProps {
+  userRole?: 'creator' | 'distributor';
+}
+
+const OnboardingFlow = ({ userRole = 'creator' }: OnboardingFlowProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedCreators, setSelectedCreators] = useState<string[]>([]);
@@ -48,7 +52,10 @@ const OnboardingFlow = () => {
       <CardHeader>
         <CardTitle className="text-3xl text-center text-white">What interests you?</CardTitle>
         <p className="text-center text-gray-300 text-lg">
-          Select topics to personalize your feed and discover relevant creators
+          {userRole === 'creator' 
+            ? 'Select topics you want to create content about'
+            : 'Select topics you want to share and discover content about'
+          }
         </p>
       </CardHeader>
       <CardContent className="p-8">
@@ -87,7 +94,10 @@ const OnboardingFlow = () => {
       <CardHeader>
         <CardTitle className="text-3xl text-center text-white">Follow Top Creators</CardTitle>
         <p className="text-center text-gray-300 text-lg">
-          Start following creators based on your interests
+          {userRole === 'creator' 
+            ? 'Connect with other creators in your space'
+            : 'Start following creators to find great content to share'
+          }
         </p>
       </CardHeader>
       <CardContent className="p-8">
@@ -138,122 +148,138 @@ const OnboardingFlow = () => {
     </Card>
   );
 
-  const renderStep3 = () => (
-    <div className="grid grid-cols-2 gap-12 max-w-6xl mx-auto">
-      {/* Creator Profile Setup */}
-      <Card className="bg-gray-900 border-gray-800">
-        <CardHeader>
-          <CardTitle className="text-2xl text-white">Content Creator Profile</CardTitle>
-          <p className="text-gray-300">Set up your creator profile to start earning</p>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <Label className="text-gray-300">Display Name</Label>
+  const renderCreatorProfile = () => (
+    <Card className="bg-gray-900 border-gray-800 max-w-2xl mx-auto">
+      <CardHeader>
+        <div className="flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center">
+            <PenTool className="w-8 h-8 text-black" />
+          </div>
+        </div>
+        <CardTitle className="text-3xl text-center text-white">Complete Your Creator Profile</CardTitle>
+        <p className="text-center text-gray-300">Set up your profile to start earning from your content</p>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div>
+          <Label className="text-gray-300">Creator Display Name</Label>
+          <Input 
+            placeholder="Your creator name"
+            className="bg-gray-800 border-gray-700 text-white"
+          />
+        </div>
+        <div>
+          <Label className="text-gray-300">Bio & Expertise</Label>
+          <Textarea 
+            placeholder="Tell your audience about your expertise and background..."
+            className="bg-gray-800 border-gray-700 text-white"
+          />
+        </div>
+        <div>
+          <Label className="text-gray-300">Hedera Wallet Address</Label>
+          <Input 
+            placeholder="0x... (for receiving FPT tokens)"
+            className="bg-gray-800 border-gray-700 text-white"
+          />
+        </div>
+        <div>
+          <Label className="text-gray-300">Social Links</Label>
+          <div className="space-y-2">
             <Input 
-              placeholder="Your creator name"
+              placeholder="Twitter/X URL"
               className="bg-gray-800 border-gray-700 text-white"
             />
-          </div>
-          <div>
-            <Label className="text-gray-300">Bio</Label>
-            <Textarea 
-              placeholder="Tell us about your expertise..."
-              className="bg-gray-800 border-gray-700 text-white"
-            />
-          </div>
-          <div>
-            <Label className="text-gray-300">Hedera Wallet Address</Label>
             <Input 
-              placeholder="0x..."
+              placeholder="YouTube URL (optional)"
               className="bg-gray-800 border-gray-700 text-white"
             />
           </div>
-          <div>
-            <Label className="text-gray-300">Social Links</Label>
-            <div className="space-y-2">
-              <Input 
-                placeholder="Twitter/X URL"
-                className="bg-gray-800 border-gray-700 text-white"
-              />
-              <Input 
-                placeholder="YouTube URL"
-                className="bg-gray-800 border-gray-700 text-white"
-              />
-            </div>
-          </div>
-          <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold">
-            Complete Creator Setup
-          </Button>
-        </CardContent>
-      </Card>
+        </div>
+        <Button 
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
+          onClick={() => setCurrentStep(4)}
+        >
+          Complete Creator Setup
+        </Button>
+      </CardContent>
+    </Card>
+  );
 
-      {/* Distributor Profile Setup */}
-      <Card className="bg-gray-900 border-gray-800">
-        <CardHeader>
-          <CardTitle className="text-2xl text-white">Content Distributor Profile</CardTitle>
-          <p className="text-gray-300">Set up your distributor profile to start earning</p>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <Label className="text-gray-300">Display Name</Label>
+  const renderDistributorProfile = () => (
+    <Card className="bg-gray-900 border-gray-800 max-w-2xl mx-auto">
+      <CardHeader>
+        <div className="flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
+            <Share2 className="w-8 h-8 text-white" />
+          </div>
+        </div>
+        <CardTitle className="text-3xl text-center text-white">Complete Your Distributor Profile</CardTitle>
+        <p className="text-center text-gray-300">Set up your profile to start earning from sharing content</p>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div>
+          <Label className="text-gray-300">Distributor Display Name</Label>
+          <Input 
+            placeholder="Your distributor name"
+            className="bg-gray-800 border-gray-700 text-white"
+          />
+        </div>
+        <div>
+          <Label className="text-gray-300">Bio (Optional)</Label>
+          <Textarea 
+            placeholder="Tell us about your interests and sharing style..."
+            className="bg-gray-800 border-gray-700 text-white"
+          />
+        </div>
+        <div>
+          <Label className="text-gray-300">FPT Wallet Address</Label>
+          <Input 
+            placeholder="0x... (for receiving FPT tokens)"
+            className="bg-gray-800 border-gray-700 text-white"
+          />
+        </div>
+        <div>
+          <Label className="text-gray-300">Social Accounts for Sharing</Label>
+          <div className="space-y-2">
             <Input 
-              placeholder="Your distributor name"
+              placeholder="Twitter/X Account"
               className="bg-gray-800 border-gray-700 text-white"
             />
-          </div>
-          <div>
-            <Label className="text-gray-300">Bio (Optional)</Label>
-            <Textarea 
-              placeholder="Tell us about your interests..."
-              className="bg-gray-800 border-gray-700 text-white"
-            />
-          </div>
-          <div>
-            <Label className="text-gray-300">FPT Wallet Address</Label>
             <Input 
-              placeholder="0x..."
+              placeholder="Telegram Channel (optional)"
+              className="bg-gray-800 border-gray-700 text-white"
+            />
+            <Input 
+              placeholder="Reddit Username (optional)"
               className="bg-gray-800 border-gray-700 text-white"
             />
           </div>
-          <div>
-            <Label className="text-gray-300">Social Accounts for Sharing</Label>
-            <div className="space-y-2">
-              <Input 
-                placeholder="Twitter/X Account"
-                className="bg-gray-800 border-gray-700 text-white"
-              />
-              <Input 
-                placeholder="Telegram Channel"
-                className="bg-gray-800 border-gray-700 text-white"
-              />
-              <Input 
-                placeholder="Reddit Username"
-                className="bg-gray-800 border-gray-700 text-white"
-              />
-            </div>
-          </div>
-          <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold">
-            Complete Distributor Setup
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+        <Button 
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3"
+          onClick={() => setCurrentStep(4)}
+        >
+          Complete Distributor Setup
+        </Button>
+      </CardContent>
+    </Card>
   );
 
   const renderWelcome = () => (
     <Card className="bg-gray-900 border-gray-800 max-w-2xl mx-auto text-center">
       <CardContent className="p-12">
-        <div className="w-20 h-20 bg-yellow-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+        <div className={`w-20 h-20 ${userRole === 'creator' ? 'bg-yellow-500' : 'bg-blue-500'} rounded-full mx-auto mb-6 flex items-center justify-center`}>
           <Award className="w-10 h-10 text-black" />
         </div>
         <h2 className="text-4xl font-bold text-white mb-4">Welcome to FinancialPress!</h2>
         <p className="text-xl text-gray-300 mb-6">
-          You've earned your first badge: <Badge className="bg-yellow-500 text-black">Newcomer</Badge>
+          You've earned your first badge: <Badge className={`${userRole === 'creator' ? 'bg-yellow-500' : 'bg-blue-500'} text-white`}>
+            {userRole === 'creator' ? 'Creator' : 'Distributor'} Newcomer
+          </Badge>
         </p>
         <p className="text-gray-400 mb-8">
-          You're now eligible for our leaderboards and ready to start earning FPT tokens!
+          You're now ready to start {userRole === 'creator' ? 'creating content and' : 'sharing content and'} earning FPT tokens!
         </p>
-        <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3">
+        <Button className={`${userRole === 'creator' ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'bg-blue-500 hover:bg-blue-600 text-white'} font-bold px-8 py-3`}>
           Enter FinancialPress
         </Button>
       </CardContent>
@@ -263,6 +289,20 @@ const OnboardingFlow = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-[1440px] mx-auto px-8 py-20">
+        {/* Role Header */}
+        <div className="text-center mb-8">
+          <div className={`inline-flex items-center px-4 py-2 rounded-full ${userRole === 'creator' ? 'bg-yellow-500/20 border border-yellow-500' : 'bg-blue-500/20 border border-blue-500'} mb-4`}>
+            {userRole === 'creator' ? (
+              <PenTool className="w-5 h-5 text-yellow-500 mr-2" />
+            ) : (
+              <Share2 className="w-5 h-5 text-blue-500 mr-2" />
+            )}
+            <span className={`font-semibold ${userRole === 'creator' ? 'text-yellow-500' : 'text-blue-500'}`}>
+              {userRole === 'creator' ? 'Content Creator' : 'Content Distributor'} Onboarding
+            </span>
+          </div>
+        </div>
+
         {/* Progress Steps */}
         <div className="flex justify-center mb-12">
           <div className="flex items-center space-x-4">
@@ -270,14 +310,16 @@ const OnboardingFlow = () => {
               <div key={step} className="flex items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
                   currentStep >= step 
-                    ? 'bg-yellow-500 text-black' 
+                    ? `${userRole === 'creator' ? 'bg-yellow-500' : 'bg-blue-500'} text-black` 
                     : 'bg-gray-700 text-gray-400'
                 }`}>
                   {currentStep > step ? <Check className="w-6 h-6" /> : step}
                 </div>
                 {step < 3 && (
                   <div className={`w-16 h-1 mx-2 ${
-                    currentStep > step ? 'bg-yellow-500' : 'bg-gray-700'
+                    currentStep > step 
+                      ? userRole === 'creator' ? 'bg-yellow-500' : 'bg-blue-500'
+                      : 'bg-gray-700'
                   }`} />
                 )}
               </div>
@@ -287,7 +329,7 @@ const OnboardingFlow = () => {
 
         {currentStep === 1 && renderStep1()}
         {currentStep === 2 && renderStep2()}
-        {currentStep === 3 && renderStep3()}
+        {currentStep === 3 && (userRole === 'creator' ? renderCreatorProfile() : renderDistributorProfile())}
         {currentStep === 4 && renderWelcome()}
       </div>
     </div>

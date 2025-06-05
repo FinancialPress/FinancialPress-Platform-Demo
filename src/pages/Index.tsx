@@ -15,6 +15,7 @@ const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showEarningsTracker, setShowEarningsTracker] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<'creator' | 'distributor'>('creator');
 
   const screens = [
     'Landing Page',
@@ -42,9 +43,9 @@ const Index = () => {
       case 0:
         return <LandingPage onNavigate={setCurrentScreen} />;
       case 1:
-        return <SignUpPage />;
+        return <SignUpPage onRoleSelect={setSelectedRole} onNavigate={setCurrentScreen} />;
       case 2:
-        return <OnboardingFlow />;
+        return <OnboardingFlow userRole={selectedRole} />;
       case 3:
         return (
           <div onClick={() => setShowShareModal(true)}>
