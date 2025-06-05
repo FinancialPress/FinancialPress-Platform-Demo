@@ -9,6 +9,14 @@ import { Heart, MessageCircle, Share2, DollarSign, TrendingUp, Clock, Filter, Ey
 const UserFeed = () => {
   const [selectedFilter, setSelectedFilter] = useState('trending');
 
+  // Live stats similar to landing page but for logged in user
+  const liveStats = [
+    { label: "Your Earnings", value: "24.8 FPT", color: "text-yellow-400" },
+    { label: "Posts Shared", value: "156", color: "text-blue-400" },
+    { label: "Total Views", value: "12.4K", color: "text-green-400" },
+    { label: "Your Rank", value: "#47", color: "text-purple-400" }
+  ];
+
   const feedPosts = [
     {
       id: 1,
@@ -122,6 +130,14 @@ const UserFeed = () => {
     { topic: "Stablecoin News", posts: 98, change: "+6%" }
   ];
 
+  const topCreators = [
+    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K", posts: 127 },
+    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K", posts: 89 },
+    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K", posts: 156 },
+    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K", posts: 78 },
+    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K", posts: 94 }
+  ];
+
   const categories = [
     { name: "Crypto", count: 1234, active: true },
     { name: "Stocks", count: 890, active: false },
@@ -135,6 +151,16 @@ const UserFeed = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-[1440px] mx-auto px-8 py-8">
+        {/* Live Stats Bar - Similar to landing page */}
+        <div className="grid grid-cols-4 gap-4 mb-8">
+          {liveStats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
+              <div className="text-gray-400 text-sm">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
         <div className="grid grid-cols-12 gap-8">
           {/* Main Feed */}
           <div className="col-span-8">
@@ -283,32 +309,7 @@ const UserFeed = () => {
 
           {/* Sidebar */}
           <div className="col-span-4 space-y-6">
-            {/* User Stats */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Your Performance</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-yellow-500">24.8</div>
-                    <div className="text-gray-400 text-sm">FPT Earned</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-white">#47</div>
-                    <div className="text-gray-400 text-sm">Your Rank</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-400">12</div>
-                    <div className="text-gray-400 text-sm">Shares Today</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-400">156</div>
-                    <div className="text-gray-400 text-sm">Total Posts</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Trending Now */}
+            {/* Trending Now - More prominent like landing page */}
             <Card className="bg-gray-900 border-gray-800">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
@@ -325,6 +326,36 @@ const UserFeed = () => {
                       <div className="flex items-center text-green-400 text-sm">
                         <ArrowUp className="w-3 h-3 mr-1" />
                         {trend.change}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Top Creators Leaderboard - From landing page */}
+            <Card className="bg-gray-900 border-gray-800">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                  <Award className="w-5 h-5 mr-2 text-yellow-500" />
+                  Top Creators This Week
+                </h3>
+                <div className="space-y-3">
+                  {topCreators.map((creator, index) => (
+                    <div key={index} className="flex items-center justify-between py-2">
+                      <div className="flex items-center space-x-3">
+                        <div className="text-lg font-bold text-yellow-500">#{index + 1}</div>
+                        <div className="w-8 h-8 bg-yellow-500 rounded-full"></div>
+                        <div>
+                          <div className="font-semibold text-white text-sm">{creator.name}</div>
+                          <div className="text-gray-400 text-xs">{creator.followers} followers • {creator.posts} posts</div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-green-400 font-bold text-sm">{creator.earnings}</div>
+                        <Badge className={`${creator.badge === 'Platinum' ? 'bg-purple-500' : creator.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
+                          {creator.badge}
+                        </Badge>
                       </div>
                     </div>
                   ))}
