@@ -1,11 +1,14 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp } from 'lucide-react';
 
-const LandingPage = () => {
+interface LandingPageProps {
+  onNavigate?: (screen: number) => void;
+}
+
+const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const featuredContent = [
     {
       title: "Bitcoin Bull Run: What's Driving the $94K Rally?",
@@ -117,10 +120,16 @@ const LandingPage = () => {
             Turn your influence into earnings with every share.
           </p>
           <div className="flex gap-4 justify-center mb-8">
-            <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-4 text-lg">
+            <Button 
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-4 text-lg"
+              onClick={() => onNavigate?.(1)}
+            >
               Start Earning
             </Button>
-            <Button variant="outline" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-8 py-4 text-lg">
+            <Button 
+              variant="outline" 
+              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-8 py-4 text-lg"
+            >
               Learn More
             </Button>
           </div>
@@ -281,7 +290,10 @@ const LandingPage = () => {
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
                 <div className="space-y-3">
-                  <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold">
+                  <Button 
+                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold"
+                    onClick={() => onNavigate?.(1)}
+                  >
                     Create Content
                   </Button>
                   <Button variant="outline" className="w-full border-gray-600 text-gray-300">

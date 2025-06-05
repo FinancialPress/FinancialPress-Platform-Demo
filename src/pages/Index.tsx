@@ -40,7 +40,7 @@ const Index = () => {
   const renderCurrentScreen = () => {
     switch(currentScreen) {
       case 0:
-        return <LandingPage />;
+        return <LandingPage onNavigate={setCurrentScreen} />;
       case 1:
         return <SignUpPage />;
       case 2:
@@ -75,7 +75,7 @@ const Index = () => {
       case 6:
         return <FinalCTA />;
       default:
-        return <LandingPage />;
+        return <LandingPage onNavigate={setCurrentScreen} />;
     }
   };
 
@@ -105,7 +105,7 @@ const Index = () => {
 
       {/* Screen Content */}
       <div className="pt-20">
-        <Header />
+        <Header onNavigate={setCurrentScreen} />
         <TickerBar />
         {renderCurrentScreen()}
         

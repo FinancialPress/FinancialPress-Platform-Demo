@@ -4,7 +4,11 @@ import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-const Header = () => {
+interface HeaderProps {
+  onNavigate?: (screen: number) => void;
+}
+
+const Header = ({ onNavigate }: HeaderProps) => {
   return (
     <header className="w-full bg-black border-b border-gray-800">
       <div className="max-w-[1440px] mx-auto px-8 py-4">
@@ -26,7 +30,17 @@ const Header = () => {
                 className="pl-10 w-80 bg-gray-900 border-gray-700 text-white placeholder-gray-400"
               />
             </div>
-            <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6">
+            <Button 
+              variant="outline" 
+              className="border-gray-600 text-gray-300 hover:bg-gray-700 font-semibold px-6"
+              onClick={() => onNavigate?.(1)}
+            >
+              Sign In
+            </Button>
+            <Button 
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6"
+              onClick={() => onNavigate?.(1)}
+            >
               Join Now
             </Button>
           </div>
