@@ -34,12 +34,13 @@ const UserFeed = () => {
       thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
       category: "Crypto Analysis",
       readTime: "5 min read",
-      engagement: 89
+      engagement: 89,
+      hasImage: true
     },
     {
       id: 2,
       title: "DeFi 2.0: The Next Generation of Decentralized Finance",
-      summary: "Exploring the evolution of DeFi protocols, new innovations in yield farming, and the protocols leading the charge in the next wave of decentralized finance...",
+      summary: "Exploring the evolution of DeFi protocols, new innovations in yield farming, and the protocols leading the charge in the next wave of decentralized finance. This comprehensive analysis covers emerging trends, protocol improvements, and what investors should watch for in the coming months...",
       creator: "DeFiGuru",
       badge: "Gold",
       avatar: "DG",
@@ -50,10 +51,10 @@ const UserFeed = () => {
       views: "8.9K",
       estimatedEarnings: "1.8 FPT",
       topics: ["DeFi", "Protocols"],
-      thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
       category: "DeFi",
       readTime: "7 min read",
-      engagement: 76
+      engagement: 76,
+      hasImage: false
     },
     {
       id: 3,
@@ -72,12 +73,13 @@ const UserFeed = () => {
       thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
       category: "Tech Stocks",
       readTime: "6 min read",
-      engagement: 67
+      engagement: 67,
+      hasImage: true
     },
     {
       id: 4,
       title: "Solana's Comeback: Why SOL Could Hit $500",
-      summary: "Deep dive into Solana's network improvements, growing ecosystem, and why analysts are bullish on SOL reaching new all-time highs...",
+      summary: "Deep dive into Solana's network improvements, growing ecosystem, and why analysts are bullish on SOL reaching new all-time highs. The blockchain has seen significant upgrades to its infrastructure, reducing downtime and improving transaction throughput. With major partnerships and a thriving NFT ecosystem, Solana is positioned for substantial growth in the next bull cycle...",
       creator: "BlockchainBull",
       badge: "Gold",
       avatar: "BB",
@@ -88,10 +90,10 @@ const UserFeed = () => {
       views: "15.7K",
       estimatedEarnings: "3.2 FPT",
       topics: ["Solana", "Altcoins"],
-      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
       category: "Crypto Analysis",
       readTime: "4 min read",
-      engagement: 92
+      engagement: 92,
+      hasImage: false
     },
     {
       id: 5,
@@ -110,7 +112,8 @@ const UserFeed = () => {
       thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
       category: "Macroeconomics",
       readTime: "8 min read",
-      engagement: 78
+      engagement: 78,
+      hasImage: true
     }
   ];
 
@@ -201,15 +204,17 @@ const UserFeed = () => {
                     {feedPosts.map((post) => (
                       <Card key={post.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
                         <CardContent className="p-6">
-                          <div className="flex gap-4">
-                            {/* Thumbnail */}
-                            <div className="flex-shrink-0">
-                              <img 
-                                src={post.thumbnail} 
-                                alt={post.title}
-                                className="w-32 h-24 rounded-lg object-cover"
-                              />
-                            </div>
+                          <div className={`flex gap-4 ${post.hasImage ? '' : 'flex-col'}`}>
+                            {/* Conditional Thumbnail */}
+                            {post.hasImage && (
+                              <div className="flex-shrink-0">
+                                <img 
+                                  src={post.thumbnail} 
+                                  alt={post.title}
+                                  className="w-32 h-24 rounded-lg object-cover"
+                                />
+                              </div>
+                            )}
                             
                             {/* Content */}
                             <div className="flex-1">
@@ -249,7 +254,7 @@ const UserFeed = () => {
                               </div>
 
                               <h2 className="text-xl font-semibold text-white mb-2">{post.title}</h2>
-                              <p className="text-gray-300 mb-4 line-clamp-2">{post.summary}</p>
+                              <p className={`text-gray-300 mb-4 ${post.hasImage ? 'line-clamp-2' : 'line-clamp-3'}`}>{post.summary}</p>
 
                               <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center space-x-6">
