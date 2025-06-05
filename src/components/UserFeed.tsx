@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -89,7 +88,7 @@ const UserFeed = () => {
       views: "15.7K",
       estimatedEarnings: "3.2 FPT",
       topics: ["Solana", "Altcoins"],
-      thumbnail: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=200&fit=crop",
+      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
       category: "Crypto Analysis",
       readTime: "4 min read",
       engagement: 92
@@ -108,7 +107,7 @@ const UserFeed = () => {
       views: "9.8K",
       estimatedEarnings: "2.1 FPT",
       topics: ["Fed", "Macro"],
-      thumbnail: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=200&fit=crop",
+      thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
       category: "Macroeconomics",
       readTime: "8 min read",
       engagement: 78
@@ -207,7 +206,7 @@ const UserFeed = () => {
                             <div className="flex-shrink-0">
                               <img 
                                 src={post.thumbnail} 
-                                alt="" 
+                                alt={post.title}
                                 className="w-32 h-24 rounded-lg object-cover"
                               />
                             </div>
