@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import TickerBar from '@/components/TickerBar';
@@ -8,7 +9,7 @@ import UserFeed from '@/components/UserFeed';
 import ContentCreator from '@/components/ContentCreator';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
 import EarningsTracker from '@/components/EarningsTracker';
-import FinalCTA from '@/components/FinalCTA';
+import Dashboard from '@/components/Dashboard';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -25,7 +26,7 @@ const Index = () => {
     'Content Creator',
     'Share & Earn',
     'Earnings Tracker',
-    'Final CTA'
+    'Dashboard'
   ];
 
   const samplePost = {
@@ -73,7 +74,7 @@ const Index = () => {
           </div>
         );
       case 7:
-        return <FinalCTA />;
+        return <Dashboard />;
       default:
         return <LandingPage onNavigate={setCurrentScreen} />;
     }
