@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import TickerBar from '@/components/TickerBar';
@@ -44,7 +43,7 @@ const Index = () => {
       case 4:
         return <ContentCreator onNavigate={setCurrentScreen} />;
       case 5:
-        return <Dashboard />;
+        return <Dashboard onNavigate={setCurrentScreen} />;
       default:
         return <LandingPage onNavigate={setCurrentScreen} />;
     }
