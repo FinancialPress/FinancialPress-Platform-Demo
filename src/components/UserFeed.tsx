@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -35,7 +36,7 @@ const UserFeed = () => {
       },
       content: "Breaking down the key resistance levels and what this means for the next leg up. Watch for these critical support zones.",
       videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop",
+      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
       duration: "12:34",
       metrics: {
         views: "24.5K",
@@ -58,7 +59,7 @@ const UserFeed = () => {
         badge: "Gold",
         verified: true
       },
-      content: "The upcoming Firedancer upgrade could be a game-changer for SOL. Here's my detailed analysis of why Solana is positioned to outperform in 2024:\n\n1. Network improvements with Firedancer\n2. Growing ecosystem adoption\n3. Institutional interest picking up\n4. Developer activity at all-time highs\n\nThe technical fundamentals are stronger than ever, and the market is starting to recognize this value proposition.",
+      content: "The upcoming Firedancer upgrade could be a game-changer for SOL. Here's my detailed analysis of why Solana is positioned to outperform in 2024.",
       metrics: {
         views: "18.2K",
         likes: 654,
@@ -81,7 +82,7 @@ const UserFeed = () => {
         verified: false
       },
       content: "Total Value Locked across all DeFi protocols just hit a new milestone. This chart shows the incredible growth we've seen this year.",
-      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=250&fit=crop",
       metrics: {
         views: "12.8K",
         likes: 445,
@@ -107,7 +108,7 @@ const UserFeed = () => {
       linkPreview: {
         title: "Fed Chair Powell Hints at Rate Cuts in 2024",
         description: "Federal Reserve Chairman Jerome Powell suggested the central bank may cut interest rates multiple times this year...",
-        image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=300&fit=crop",
+        image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
         domain: "reuters.com"
       },
       metrics: {
@@ -158,7 +159,7 @@ const UserFeed = () => {
         badge: "Silver",
         verified: false
       },
-      content: "1/10 🧵 Despite what you might hear, NFTs are evolving rapidly. Here's what most people are missing about the space:\n\nUtility-first projects are gaining traction, blue chips are consolidating, and institutional interest is quietly building...",
+      content: "1/10 🧵 Despite what you might hear, NFTs are evolving rapidly. Here's what most people are missing about the space...",
       threadCount: 10,
       metrics: {
         views: "15.6K",
@@ -170,21 +171,30 @@ const UserFeed = () => {
       },
       tags: ["NFTs", "Thread", "Analysis"]
     }
-  ]);
+  ];
+
+  const quickUpdates = [
+    { title: "BTC breaks $95K resistance", creator: "CryptoNews", tips: "1.2K", timeAgo: "5m" },
+    { title: "Ethereum gas fees drop 40%", creator: "EthTracker", tips: "890", timeAgo: "12m" },
+    { title: "Binance lists new altcoin", creator: "ExchangeAlert", tips: "2.1K", timeAgo: "18m" },
+    { title: "DeFi protocol hack: $10M lost", creator: "SecurityWatch", tips: "3.4K", timeAgo: "25m" },
+    { title: "Whale moves 50K BTC", creator: "WhaleAlert", tips: "1.8K", timeAgo: "32m" },
+    { title: "NFT collection floor up 200%", creator: "NFTFloor", tips: "1.3K", timeAgo: "41m" }
+  ];
 
   const renderPostContent = (post: any) => {
     switch (post.type) {
       case 'video':
         return (
-          <div className="relative mb-4">
+          <div className="relative mb-3">
             <img 
               src={post.thumbnail} 
               alt={post.title}
-              className="w-full h-64 rounded-lg object-cover"
+              className="w-full h-48 rounded object-cover"
             />
-            <div className="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center">
-              <Button className="bg-white/90 hover:bg-white text-black rounded-full p-4">
-                <Play className="w-6 h-6" />
+            <div className="absolute inset-0 bg-black/30 rounded flex items-center justify-center">
+              <Button className="bg-white/90 hover:bg-white text-black rounded-full p-3">
+                <Play className="w-5 h-5" />
               </Button>
             </div>
             <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
@@ -195,29 +205,29 @@ const UserFeed = () => {
       
       case 'image':
         return (
-          <div className="mb-4">
+          <div className="mb-3">
             <img 
               src={post.image} 
               alt={post.title}
-              className="w-full h-64 rounded-lg object-cover"
+              className="w-full h-48 rounded object-cover"
             />
           </div>
         );
       
       case 'link':
         return (
-          <div className="mb-4">
+          <div className="mb-3">
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="flex">
                 <img 
                   src={post.linkPreview.image} 
                   alt=""
-                  className="w-32 h-24 object-cover"
+                  className="w-24 h-18 object-cover"
                 />
                 <div className="p-3 flex-1">
                   <h4 className="text-white text-sm font-medium line-clamp-2">{post.linkPreview.title}</h4>
-                  <p className="text-gray-400 text-xs mt-1 line-clamp-2">{post.linkPreview.description}</p>
-                  <div className="flex items-center mt-2">
+                  <p className="text-gray-400 text-xs mt-1 line-clamp-1">{post.linkPreview.description}</p>
+                  <div className="flex items-center mt-1">
                     <ExternalLink className="w-3 h-3 text-gray-400 mr-1" />
                     <span className="text-gray-400 text-xs">{post.linkPreview.domain}</span>
                   </div>
@@ -229,17 +239,17 @@ const UserFeed = () => {
       
       case 'document':
         return (
-          <div className="mb-4">
-            <Card className="bg-gray-800 border-gray-700 p-4">
+          <div className="mb-3">
+            <Card className="bg-gray-800 border-gray-700 p-3">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-red-600 rounded flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
                   <h4 className="text-white text-sm font-medium">{post.document.title}</h4>
                   <p className="text-gray-400 text-xs">{post.document.pages} pages • {post.document.size}</p>
                 </div>
-                <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1">
+                <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-2 py-1">
                   Download
                 </Button>
               </div>
@@ -255,45 +265,45 @@ const UserFeed = () => {
   return (
     <div className="min-h-screen bg-black text-white pt-32">
       <div className="max-w-[1440px] mx-auto px-8">
-        <div className="grid grid-cols-12 gap-8">
+        <div className="grid grid-cols-12 gap-6">
           {/* Main Feed */}
           <div className="col-span-8">
-            {/* Create Post Button */}
-            <Card className="bg-gray-900 border-gray-800 mb-6">
-              <CardContent className="p-4">
+            {/* Create Post Button - Compact */}
+            <Card className="bg-gray-900 border-gray-800 mb-4">
+              <CardContent className="p-3">
                 <div className="flex items-center space-x-3">
-                  <Avatar>
-                    <AvatarFallback>YOU</AvatarFallback>
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback className="text-xs">YOU</AvatarFallback>
                   </Avatar>
                   <Button 
                     variant="outline" 
-                    className="flex-1 justify-start bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700"
+                    className="flex-1 justify-start bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 text-sm"
                   >
                     Share your financial insights...
                   </Button>
-                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6">
+                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 text-sm">
                     Create
                   </Button>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Posts Feed */}
-            <div className="space-y-6">
+            {/* Posts Feed - Denser Layout */}
+            <div className="space-y-4">
               {posts.map((post) => (
                 <Card key={post.id} className="bg-gray-900 border-gray-800">
-                  <CardContent className="p-6">
-                    {/* Post Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <Avatar>
+                  <CardContent className="p-4">
+                    {/* Post Header - More Compact */}
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Avatar className="w-8 h-8">
                           <AvatarImage src={post.creator.avatar} />
-                          <AvatarFallback>{post.creator.name[0]}</AvatarFallback>
+                          <AvatarFallback className="text-xs">{post.creator.name[0]}</AvatarFallback>
                         </Avatar>
                         <div>
                           <div className="flex items-center space-x-2">
-                            <span className="font-semibold text-white">{post.creator.name}</span>
-                            {post.creator.verified && <Award className="w-4 h-4 text-yellow-500" />}
+                            <span className="font-semibold text-white text-sm">{post.creator.name}</span>
+                            {post.creator.verified && <Award className="w-3 h-3 text-yellow-500" />}
                             <Badge className={`text-xs ${
                               post.creator.badge === 'Platinum' ? 'bg-purple-600' :
                               post.creator.badge === 'Gold' ? 'bg-yellow-600' : 'bg-gray-600'
@@ -301,7 +311,7 @@ const UserFeed = () => {
                               {post.creator.badge}
                             </Badge>
                           </div>
-                          <div className="flex items-center space-x-2 text-gray-400 text-sm">
+                          <div className="flex items-center space-x-2 text-gray-400 text-xs">
                             <span>{post.creator.username}</span>
                             <span>•</span>
                             <span>{post.metrics.timeAgo}</span>
@@ -313,24 +323,24 @@ const UserFeed = () => {
                       </Button>
                     </div>
 
-                    {/* Post Title */}
-                    <h3 className="text-xl font-bold text-white mb-3">{post.title}</h3>
+                    {/* Post Title - Smaller */}
+                    <h3 className="text-lg font-bold text-white mb-2">{post.title}</h3>
 
                     {/* Post Content */}
                     {renderPostContent(post)}
 
-                    {/* Post Text Content */}
-                    <div className="mb-4">
-                      <p className="text-gray-300 whitespace-pre-line">{post.content}</p>
+                    {/* Post Text Content - Truncated */}
+                    <div className="mb-3">
+                      <p className="text-gray-300 text-sm line-clamp-3">{post.content}</p>
                       {post.threadCount && (
-                        <Button variant="link" className="text-blue-400 text-sm p-0 mt-2">
+                        <Button variant="link" className="text-blue-400 text-xs p-0 mt-1">
                           Show this thread ({post.threadCount} parts)
                         </Button>
                       )}
                     </div>
 
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    {/* Tags - Smaller */}
+                    <div className="flex flex-wrap gap-1 mb-3">
                       {post.tags.map((tag, index) => (
                         <Badge key={index} variant="outline" className="text-xs border-gray-600 text-gray-300">
                           #{tag}
@@ -338,40 +348,40 @@ const UserFeed = () => {
                       ))}
                     </div>
 
-                    {/* Post Metrics */}
-                    <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
-                      <div className="flex items-center space-x-4">
+                    {/* Post Metrics - Compact */}
+                    <div className="flex items-center justify-between text-gray-400 text-xs mb-3">
+                      <div className="flex items-center space-x-3">
                         <div className="flex items-center space-x-1">
-                          <Eye className="w-4 h-4" />
+                          <Eye className="w-3 h-3" />
                           <span>{post.metrics.views}</span>
                         </div>
                         <div className="flex items-center space-x-1">
-                          <Zap className="w-4 h-4 text-yellow-500" />
+                          <Zap className="w-3 h-3 text-yellow-500" />
                           <span className="text-yellow-500">{post.metrics.tips}</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
+                    {/* Action Buttons - Smaller */}
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-6">
-                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-red-400">
-                          <Heart className="w-4 h-4 mr-1" />
+                      <div className="flex items-center space-x-4">
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-red-400 text-xs p-1">
+                          <Heart className="w-3 h-3 mr-1" />
                           {post.metrics.likes}
                         </Button>
-                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-blue-400">
-                          <MessageCircle className="w-4 h-4 mr-1" />
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-blue-400 text-xs p-1">
+                          <MessageCircle className="w-3 h-3 mr-1" />
                           {post.metrics.comments}
                         </Button>
-                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-green-400">
-                          <Share2 className="w-4 h-4 mr-1" />
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-green-400 text-xs p-1">
+                          <Share2 className="w-3 h-3 mr-1" />
                           {post.metrics.shares}
                         </Button>
-                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-yellow-400">
-                          <Bookmark className="w-4 h-4" />
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-yellow-400 text-xs p-1">
+                          <Bookmark className="w-3 h-3" />
                         </Button>
                       </div>
-                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-sm px-4">
+                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1">
                         Tip Creator
                       </Button>
                     </div>
@@ -381,16 +391,40 @@ const UserFeed = () => {
             </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="col-span-4">
-            {/* Trending Topics */}
+          {/* Sidebar - More Compact and Dense */}
+          <div className="col-span-4 space-y-4">
+            {/* Quick Updates - New Dense Section */}
             <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <TrendingUp className="w-5 h-5 mr-2 text-yellow-500" />
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                  <Clock className="w-4 h-4 mr-2 text-yellow-500" />
+                  Live Updates
+                </h3>
+                <div className="space-y-2">
+                  {quickUpdates.map((update, index) => (
+                    <div key={index} className="border-b border-gray-800 last:border-b-0 pb-2 last:pb-0">
+                      <h4 className="text-white text-sm font-medium line-clamp-1">{update.title}</h4>
+                      <div className="flex justify-between items-center text-xs mt-1">
+                        <span className="text-gray-400">@{update.creator}</span>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-yellow-400">{update.tips}</span>
+                          <span className="text-gray-500">{update.timeAgo}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Trending Topics - Compact */}
+            <Card className="bg-gray-900 border-gray-800">
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                  <TrendingUp className="w-4 h-4 mr-2 text-yellow-500" />
                   Trending Topics
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {[
                     { name: "Bitcoin ETF", posts: 234, growth: "+15%" },
                     { name: "AI Stocks", posts: 189, growth: "+23%" },
@@ -398,12 +432,12 @@ const UserFeed = () => {
                     { name: "NFT Markets", posts: 134, growth: "+12%" },
                     { name: "Fed Policy", posts: 98, growth: "+34%" }
                   ].map((topic, index) => (
-                    <div key={index} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-b-0">
+                    <div key={index} className="flex items-center justify-between py-1 border-b border-gray-800 last:border-b-0">
                       <div>
-                        <div className="font-medium text-white">#{topic.name}</div>
-                        <div className="text-gray-400 text-sm">{topic.posts} posts</div>
+                        <div className="font-medium text-white text-sm">#{topic.name}</div>
+                        <div className="text-gray-400 text-xs">{topic.posts} posts</div>
                       </div>
-                      <div className="flex items-center text-green-400 text-sm">
+                      <div className="flex items-center text-green-400 text-xs">
                         <TrendingUp className="w-3 h-3 mr-1" />
                         {topic.growth}
                       </div>
@@ -413,32 +447,32 @@ const UserFeed = () => {
               </CardContent>
             </Card>
 
-            {/* Top Creators Leaderboard */}
+            {/* Top Creators Leaderboard - Compact */}
             <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Award className="w-5 h-5 mr-2 text-yellow-500" />
-                  Top Creators This Week
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                  <Award className="w-4 h-4 mr-2 text-yellow-500" />
+                  Top Creators
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {[
-                    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K", posts: 127 },
-                    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K", posts: 89 },
-                    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K", posts: 156 },
-                    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K", posts: 78 },
-                    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K", posts: 94 }
+                    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K" },
+                    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K" },
+                    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K" },
+                    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K" },
+                    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K" }
                   ].map((creator, index) => (
-                    <div key={index} className="flex items-center justify-between py-2">
-                      <div className="flex items-center space-x-3">
-                        <div className="text-lg font-bold text-yellow-500">#{index + 1}</div>
-                        <div className="w-8 h-8 bg-yellow-500 rounded-full"></div>
+                    <div key={index} className="flex items-center justify-between py-1">
+                      <div className="flex items-center space-x-2">
+                        <div className="text-sm font-bold text-yellow-500">#{index + 1}</div>
+                        <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
                         <div>
-                          <div className="font-semibold text-white text-sm">{creator.name}</div>
-                          <div className="text-gray-400 text-xs">{creator.followers} followers • {creator.posts} posts</div>
+                          <div className="font-semibold text-white text-xs">{creator.name}</div>
+                          <div className="text-gray-400 text-xs">{creator.followers}</div>
                         </div>
                       </div>
-                      <div>
-                        <div className="text-green-400 font-bold text-sm">{creator.earnings}</div>
+                      <div className="text-right">
+                        <div className="text-green-400 font-bold text-xs">{creator.earnings}</div>
                         <Badge className={`${creator.badge === 'Platinum' ? 'bg-purple-500' : creator.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
                           {creator.badge}
                         </Badge>

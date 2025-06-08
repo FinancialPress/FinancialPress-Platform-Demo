@@ -23,7 +23,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       timeAgo: "2h ago",
       category: "Crypto Analysis",
       hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=150&fit=crop"
     },
     {
       title: "DeFi Renaissance: Top 5 Protocols to Watch in 2024",
@@ -50,7 +50,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       timeAgo: "6h ago",
       category: "NFTs",
       hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=150&fit=crop"
     },
     {
       title: "AI Revolution in Finance: Which Stocks Will Soar?",
@@ -77,7 +77,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       timeAgo: "1d ago",
       category: "Macroeconomics",
       hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=150&fit=crop"
     },
     {
       title: "Solana vs Ethereum: The L1 Battle Intensifies",
@@ -91,7 +91,68 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       timeAgo: "1d ago",
       category: "Blockchain",
       hasImage: false
+    },
+    {
+      title: "Altcoin Season Alert: Top 10 Gems Under $1",
+      creator: "AltcoinHunter",
+      badge: "Silver Creator",
+      engagement: "1.5K tips",
+      earnings: "31.2 FPT",
+      views: "7.8K",
+      comments: 56,
+      shares: 98,
+      timeAgo: "2d ago",
+      category: "Altcoins",
+      hasImage: true,
+      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=150&fit=crop"
+    },
+    {
+      title: "Stablecoin Market Analysis: USDT vs USDC",
+      creator: "StableMaster",
+      badge: "Gold Creator",
+      engagement: "1.1K tips",
+      earnings: "24.6 FPT",
+      views: "5.2K",
+      comments: 34,
+      shares: 67,
+      timeAgo: "2d ago",
+      category: "Stablecoins",
+      hasImage: false
+    },
+    {
+      title: "Layer 2 Solutions: Arbitrum's Latest Upgrade",
+      creator: "L2Expert",
+      badge: "Platinum Creator",
+      engagement: "2.8K tips",
+      earnings: "52.3 FPT",
+      views: "13.6K",
+      comments: 101,
+      shares: 203,
+      timeAgo: "3d ago",
+      category: "Layer 2",
+      hasImage: true,
+      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=150&fit=crop"
     }
+  ];
+
+  const trendingStories = [
+    { title: "SEC Approves Bitcoin ETF Options Trading", views: "45.2K", timeAgo: "1h" },
+    { title: "Ethereum Merge Anniversary: 1 Year Later", views: "38.9K", timeAgo: "2h" },
+    { title: "Binance Launches New DeFi Product Suite", views: "32.1K", timeAgo: "3h" },
+    { title: "Tesla Adds Dogecoin Payment Option", views: "28.7K", timeAgo: "4h" },
+    { title: "Cardano Smart Contracts Hit New Milestone", views: "25.3K", timeAgo: "5h" },
+    { title: "Polygon zkEVM Goes Live on Mainnet", views: "22.8K", timeAgo: "6h" },
+    { title: "Chainlink Oracle Network Expansion", views: "19.4K", timeAgo: "7h" },
+    { title: "Uniswap V4 Beta Testing Begins", views: "17.2K", timeAgo: "8h" }
+  ];
+
+  const quickPosts = [
+    { title: "BTC Technical Analysis: Key Levels", creator: "ChartMaster", tips: "1.2K", timeAgo: "30m" },
+    { title: "Altseason Indicators Flashing Green", creator: "AltTrader", tips: "980", timeAgo: "45m" },
+    { title: "DeFi TVL Surpasses $200B Milestone", creator: "DeFiData", tips: "2.1K", timeAgo: "1h" },
+    { title: "NFT Volume Spikes 340% This Week", creator: "NFTStats", tips: "1.5K", timeAgo: "1h" },
+    { title: "Institutional Adoption Report Q4", creator: "InstitutionalPro", tips: "3.2K", timeAgo: "2h" },
+    { title: "Yield Farming Strategies Updated", creator: "YieldGuru", tips: "890", timeAgo: "2h" }
   ];
 
   const topCreators = [
@@ -119,114 +180,113 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
-      <section className="max-w-[1440px] mx-auto px-8 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+      {/* Hero Section - More Compact */}
+      <section className="max-w-[1440px] mx-auto px-8 py-12">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
             Earn crypto by sharing quality content
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
             Join the Web3 platform for creators, curators, and commentators. 
             Turn your influence into earnings with every share.
           </p>
-          <div className="flex gap-4 justify-center mb-8">
+          <div className="flex gap-4 justify-center mb-6">
             <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-4 text-lg"
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
               onClick={() => onNavigate?.(1)}
             >
               Start Earning
             </Button>
             <Button 
               variant="outline" 
-              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-8 py-4 text-lg"
+              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-6 py-3"
             >
               Learn More
             </Button>
           </div>
           
-          {/* Live Stats Bar */}
-          <div className="grid grid-cols-4 gap-4 mb-16">
+          {/* Live Stats Bar - Compact */}
+          <div className="grid grid-cols-4 gap-4 mb-8">
             {liveStats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-gray-400 text-sm">{stat.label}</div>
+                <div className={`text-xl font-bold ${stat.color}`}>{stat.value}</div>
+                <div className="text-gray-400 text-xs">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Main Stats */}
-        <div className="grid grid-cols-4 gap-6 mb-16">
+        {/* Main Stats - Smaller */}
+        <div className="grid grid-cols-4 gap-4 mb-8">
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-6 text-center">
-              <Users className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-              <div className="text-3xl font-bold text-white">25,000+</div>
-              <div className="text-gray-400">Active Users</div>
+            <CardContent className="p-4 text-center">
+              <Users className="w-6 h-6 text-yellow-500 mx-auto mb-1" />
+              <div className="text-2xl font-bold text-white">25,000+</div>
+              <div className="text-gray-400 text-sm">Active Users</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-6 text-center">
-              <DollarSign className="w-8 h-8 text-green-400 mx-auto mb-2" />
-              <div className="text-3xl font-bold text-white">$2.5M</div>
-              <div className="text-gray-400">Total Rewards Paid</div>
+            <CardContent className="p-4 text-center">
+              <DollarSign className="w-6 h-6 text-green-400 mx-auto mb-1" />
+              <div className="text-2xl font-bold text-white">$2.5M</div>
+              <div className="text-gray-400 text-sm">Total Rewards Paid</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-6 text-center">
-              <TrendingUp className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-              <div className="text-3xl font-bold text-white">99.9%</div>
-              <div className="text-gray-400">Platform Uptime</div>
+            <CardContent className="p-4 text-center">
+              <TrendingUp className="w-6 h-6 text-blue-400 mx-auto mb-1" />
+              <div className="text-2xl font-bold text-white">99.9%</div>
+              <div className="text-gray-400 text-sm">Platform Uptime</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-6 text-center">
-              <Award className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-              <div className="text-3xl font-bold text-white">500K+</div>
-              <div className="text-gray-400">Content Pieces</div>
+            <CardContent className="p-4 text-center">
+              <Award className="w-6 h-6 text-purple-400 mx-auto mb-1" />
+              <div className="text-2xl font-bold text-white">500K+</div>
+              <div className="text-gray-400 text-sm">Content Pieces</div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-12 gap-8">
+        <div className="grid grid-cols-12 gap-6">
           {/* Main Content Area */}
           <div className="col-span-8">
-            {/* Featured Content */}
-            <div className="mb-12">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-3xl font-bold">Featured Content</h2>
-                <Button variant="outline" className="border-gray-600 text-gray-300">
+            {/* Featured Content - Much Denser */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold">Featured Content</h2>
+                <Button variant="outline" className="border-gray-600 text-gray-300 text-sm">
                   View All
                 </Button>
               </div>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-3 gap-4">
                 {featuredContent.map((content, index) => (
                   <Card key={index} className="bg-gray-900 border-gray-800 hover:border-yellow-500 transition-colors">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-3">
+                    <CardContent className="p-3">
+                      <div className="flex items-start justify-between mb-2">
                         <Badge className="bg-blue-600 text-white text-xs">{content.category}</Badge>
-                        <span className="text-gray-400 text-sm">{content.timeAgo}</span>
+                        <span className="text-gray-400 text-xs">{content.timeAgo}</span>
                       </div>
                       
-                      {/* Conditional Image */}
+                      {/* Conditional Image - Smaller */}
                       {content.hasImage && (
-                        <div className="mb-4">
+                        <div className="mb-2">
                           <img 
                             src={content.thumbnail} 
                             alt={content.title}
-                            className="w-full h-32 rounded-lg object-cover"
+                            className="w-full h-20 rounded object-cover"
                           />
                         </div>
                       )}
                       
-                      <h3 className="text-lg font-semibold mb-3 text-white line-clamp-2">{content.title}</h3>
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
-                          <span className="text-gray-300 text-sm">{content.creator}</span>
-                          <Badge className="bg-yellow-500 text-black text-xs">{content.badge}</Badge>
+                      <h3 className="text-sm font-semibold mb-2 text-white line-clamp-2">{content.title}</h3>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-1">
+                          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                          <span className="text-gray-300 text-xs">{content.creator}</span>
                         </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-4 text-xs text-gray-400 mb-3">
+                      <div className="grid grid-cols-3 gap-2 text-xs text-gray-400 mb-2">
                         <div className="flex items-center space-x-1">
                           <Eye className="w-3 h-3" />
                           <span>{content.views}</span>
@@ -240,10 +300,50 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                           <span>{content.shares}</span>
                         </div>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-400 text-sm">{content.engagement}</span>
-                        <span className="text-green-400 font-semibold text-sm">Earned: {content.earnings}</span>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-400">{content.engagement}</span>
+                        <span className="text-green-400 font-semibold">{content.earnings}</span>
                       </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Trending Stories - New Dense Section */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">Trending Stories</h2>
+              <div className="grid grid-cols-2 gap-3">
+                {trendingStories.map((story, index) => (
+                  <Card key={index} className="bg-gray-900 border-gray-800 hover:border-yellow-500 transition-colors">
+                    <CardContent className="p-3">
+                      <h3 className="text-sm font-medium text-white mb-1 line-clamp-1">{story.title}</h3>
+                      <div className="flex justify-between items-center text-xs text-gray-400">
+                        <div className="flex items-center space-x-1">
+                          <Eye className="w-3 h-3" />
+                          <span>{story.views} views</span>
+                        </div>
+                        <span>{story.timeAgo}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Posts - New Dense Section */}
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Quick Posts</h2>
+              <div className="grid grid-cols-3 gap-3">
+                {quickPosts.map((post, index) => (
+                  <Card key={index} className="bg-gray-900 border-gray-800">
+                    <CardContent className="p-3">
+                      <h3 className="text-sm font-medium text-white mb-1 line-clamp-2">{post.title}</h3>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-400">@{post.creator}</span>
+                        <span className="text-yellow-400">{post.tips} tips</span>
+                      </div>
+                      <span className="text-gray-500 text-xs">{post.timeAgo}</span>
                     </CardContent>
                   </Card>
                 ))}
@@ -251,23 +351,23 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="col-span-4 space-y-6">
+          {/* Sidebar - More Compact */}
+          <div className="col-span-4 space-y-4">
             {/* Trending Topics */}
             <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <TrendingUp className="w-5 h-5 mr-2 text-yellow-500" />
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                  <TrendingUp className="w-4 h-4 mr-2 text-yellow-500" />
                   Trending Topics
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {trendingTopics.map((topic, index) => (
-                    <div key={index} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-b-0">
+                    <div key={index} className="flex items-center justify-between py-1 border-b border-gray-800 last:border-b-0">
                       <div>
-                        <div className="font-medium text-white">#{topic.name}</div>
-                        <div className="text-gray-400 text-sm">{topic.posts} posts</div>
+                        <div className="font-medium text-white text-sm">#{topic.name}</div>
+                        <div className="text-gray-400 text-xs">{topic.posts} posts</div>
                       </div>
-                      <div className="flex items-center text-green-400 text-sm">
+                      <div className="flex items-center text-green-400 text-xs">
                         <ArrowUp className="w-3 h-3 mr-1" />
                         {topic.growth}
                       </div>
@@ -279,24 +379,24 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
 
             {/* Top Creators Leaderboard */}
             <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Award className="w-5 h-5 mr-2 text-yellow-500" />
-                  Top Creators This Week
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                  <Award className="w-4 h-4 mr-2 text-yellow-500" />
+                  Top Creators
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {topCreators.map((creator, index) => (
-                    <div key={index} className="flex items-center justify-between py-2">
-                      <div className="flex items-center space-x-3">
-                        <div className="text-lg font-bold text-yellow-500">#{index + 1}</div>
-                        <div className="w-8 h-8 bg-yellow-500 rounded-full"></div>
+                    <div key={index} className="flex items-center justify-between py-1">
+                      <div className="flex items-center space-x-2">
+                        <div className="text-sm font-bold text-yellow-500">#{index + 1}</div>
+                        <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
                         <div>
-                          <div className="font-semibold text-white text-sm">{creator.name}</div>
-                          <div className="text-gray-400 text-xs">{creator.followers} followers • {creator.posts} posts</div>
+                          <div className="font-semibold text-white text-xs">{creator.name}</div>
+                          <div className="text-gray-400 text-xs">{creator.followers}</div>
                         </div>
                       </div>
-                      <div>
-                        <div className="text-green-400 font-bold text-sm">{creator.earnings}</div>
+                      <div className="text-right">
+                        <div className="text-green-400 font-bold text-xs">{creator.earnings}</div>
                         <Badge className={`${creator.badge === 'Platinum' ? 'bg-purple-500' : creator.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
                           {creator.badge}
                         </Badge>
@@ -309,19 +409,19 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
 
             {/* Quick Actions */}
             <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
-                <div className="space-y-3">
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3">Quick Actions</h3>
+                <div className="space-y-2">
                   <Button 
-                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold"
+                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-sm"
                     onClick={() => onNavigate?.(1)}
                   >
                     Create Content
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300">
+                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-sm">
                     Browse Categories
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300">
+                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-sm">
                     View Leaderboard
                   </Button>
                 </div>
