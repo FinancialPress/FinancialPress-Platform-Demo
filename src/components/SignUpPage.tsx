@@ -95,7 +95,7 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
                   <Checkbox 
                     id="create-content" 
                     checked={createContent}
-                    onCheckedChange={setCreateContent}
+                    onCheckedChange={(checked) => setCreateContent(checked === true)}
                   />
                   <Label htmlFor="create-content" className="text-gray-300 text-sm flex items-center">
                     <PenTool className="w-4 h-4 mr-2 text-yellow-500" />
@@ -107,7 +107,7 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
                   <Checkbox 
                     id="share-content" 
                     checked={shareContent}
-                    onCheckedChange={setShareContent}
+                    onCheckedChange={(checked) => setShareContent(checked === true)}
                   />
                   <Label htmlFor="share-content" className="text-gray-300 text-sm flex items-center">
                     <Share2 className="w-4 h-4 mr-2 text-blue-500" />
