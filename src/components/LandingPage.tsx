@@ -171,10 +171,10 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
   ];
 
   const liveStats = [
-    { label: "Creators Earning", value: "2,847", color: "text-green-400" },
-    { label: "Avg. Daily Earnings", value: "$156", color: "text-yellow-400" },
-    { label: "Total Rewards Paid", value: "$2.5M", color: "text-purple-400" },
-    { label: "Success Rate", value: "89%", color: "text-blue-400" }
+    { label: "Active Creators", value: "2,847", icon: Users, color: "text-green-400" },
+    { label: "Total Rewards Paid", value: "$2.5M", icon: DollarSign, color: "text-yellow-400" },
+    { label: "Content Pieces", value: "500K+", icon: Star, color: "text-purple-400" },
+    { label: "Success Rate", value: "89%", icon: Award, color: "text-blue-400" }
   ];
 
   return (
@@ -188,7 +188,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
           <p className="text-base text-gray-300 mb-4 max-w-2xl mx-auto">
             Join the Web3 platform for creators, curators, and commentators.
           </p>
-          <div className="flex gap-3 justify-center mb-4">
+          <div className="flex gap-3 justify-center mb-6">
             <Button 
               className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-5 py-2"
               onClick={() => onNavigate?.(1)}
@@ -203,47 +203,18 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             </Button>
           </div>
           
-          {/* Live Stats Bar - More Compact */}
-          <div className="grid grid-cols-4 gap-3 mb-4">
+          {/* Single Row of Important Stats */}
+          <div className="grid grid-cols-4 gap-6 mb-6">
             {liveStats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-gray-400 text-xs">{stat.label}</div>
-              </div>
+              <Card key={index} className="bg-gray-900 border-gray-800">
+                <CardContent className="p-4 text-center">
+                  <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
+                  <div className="text-xl font-bold text-white">{stat.value}</div>
+                  <div className="text-gray-400 text-sm">{stat.label}</div>
+                </CardContent>
+              </Card>
             ))}
           </div>
-        </div>
-
-        {/* Main Stats - Smaller and Compact */}
-        <div className="grid grid-cols-4 gap-3 mb-6">
-          <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-3 text-center">
-              <Users className="w-5 h-5 text-yellow-500 mx-auto mb-1" />
-              <div className="text-lg font-bold text-white">25K+</div>
-              <div className="text-gray-400 text-xs">Users</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-3 text-center">
-              <DollarSign className="w-5 h-5 text-green-400 mx-auto mb-1" />
-              <div className="text-lg font-bold text-white">$2.5M</div>
-              <div className="text-gray-400 text-xs">Rewards Paid</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-3 text-center">
-              <TrendingUp className="w-5 h-5 text-blue-400 mx-auto mb-1" />
-              <div className="text-lg font-bold text-white">99.9%</div>
-              <div className="text-gray-400 text-xs">Uptime</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-3 text-center">
-              <Award className="w-5 h-5 text-purple-400 mx-auto mb-1" />
-              <div className="text-lg font-bold text-white">500K+</div>
-              <div className="text-gray-400 text-xs">Content</div>
-            </CardContent>
-          </Card>
         </div>
 
         <div className="grid grid-cols-12 gap-6">
