@@ -119,7 +119,10 @@ const Index = () => {
       <div className="pt-16 relative z-10">
         {/* Header and Ticker - Fixed positioning below demo nav */}
         <div className="relative z-20">
-          <Header onNavigate={setCurrentScreen} />
+          <Header 
+            onNavigate={setCurrentScreen} 
+            isLoggedIn={currentScreen >= 3} 
+          />
           <TickerBar />
         </div>
         
