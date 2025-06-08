@@ -35,6 +35,7 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
   };
 
   const handleComplete = () => {
+    // Navigate to user feed (screen 3 in the main app)
     onComplete?.();
   };
 

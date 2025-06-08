@@ -11,6 +11,11 @@ interface OnboardingWelcomeProps {
 }
 
 const OnboardingWelcome = ({ userRole, onComplete }: OnboardingWelcomeProps) => {
+  const handleEnterFinancialPress = () => {
+    // Navigate to user feed (screen 3)
+    onComplete();
+  };
+
   return (
     <Card className="bg-gray-900 border-gray-800 max-w-2xl mx-auto text-center">
       <CardContent className="p-12">
@@ -28,7 +33,7 @@ const OnboardingWelcome = ({ userRole, onComplete }: OnboardingWelcomeProps) => 
         </p>
         <Button 
           className={`${userRole === 'creator' ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'bg-blue-500 hover:bg-blue-600 text-white'} font-bold px-8 py-3`}
-          onClick={onComplete}
+          onClick={handleEnterFinancialPress}
         >
           Enter FinancialPress
         </Button>

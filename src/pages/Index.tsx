@@ -40,6 +40,11 @@ const Index = () => {
     setShowEarningsTracker(true);
   };
 
+  const handleOnboardingComplete = () => {
+    // Navigate to user feed when onboarding is complete
+    setCurrentScreen(3);
+  };
+
   const renderCurrentScreen = () => {
     switch(currentScreen) {
       case 0:
@@ -47,7 +52,7 @@ const Index = () => {
       case 1:
         return <SignUpPage onNavigate={setCurrentScreen} />;
       case 2:
-        return <OnboardingFlow userRole={selectedRole} />;
+        return <OnboardingFlow userRole={selectedRole} onComplete={handleOnboardingComplete} />;
       case 3:
         return <UserFeed />;
       case 4:
