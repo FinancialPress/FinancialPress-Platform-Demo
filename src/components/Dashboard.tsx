@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +18,11 @@ import {
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
-const Dashboard = () => {
+interface DashboardProps {
+  onNavigate?: (screen: number) => void;
+}
+
+const Dashboard = ({ onNavigate }: DashboardProps) => {
   const earningsData = [
     { day: 'Mon', earnings: 5 },
     { day: 'Tue', earnings: 8 },
@@ -63,10 +66,17 @@ const Dashboard = () => {
             <p className="text-gray-400">Track your content performance and earnings</p>
           </div>
           <div className="flex gap-3">
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button 
+              className="bg-blue-600 hover:bg-blue-700"
+              onClick={() => onNavigate?.(4)}
+            >
               Create Content
             </Button>
-            <Button variant="outline" className="border-gray-600 text-gray-300">
+            <Button 
+              variant="outline" 
+              className="border-gray-600 text-gray-300"
+              onClick={() => onNavigate?.(3)}
+            >
               Find Content to Share
             </Button>
           </div>
@@ -242,12 +252,19 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-start">
+                  <Button 
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-start"
+                    onClick={() => onNavigate?.(4)}
+                  >
                     <PlusCircle className="w-4 h-4 mr-2" />
                     Upload Content
                     <span className="ml-auto text-xs">Add a new piece of content</span>
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 flex items-center justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-gray-600 text-gray-300 flex items-center justify-start"
+                    onClick={() => onNavigate?.(3)}
+                  >
                     <Share2 className="w-4 h-4 mr-2" />
                     Find Content to Share
                     <span className="ml-auto text-xs">Discover shareable content</span>
