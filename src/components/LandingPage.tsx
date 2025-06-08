@@ -179,7 +179,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero Section - Horizontal Layout */}
       <section className="max-w-[1440px] mx-auto px-8 py-6">
         <div className="grid grid-cols-12 gap-8 items-center mb-6">
@@ -188,30 +188,16 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
               Earn crypto by sharing quality content
             </h1>
-            <p className="text-sm text-gray-300 mb-3 max-w-xl">
+            <p className="text-sm text-muted-foreground mb-3 max-w-xl">
               Join the Web3 platform for creators, curators, and commentators.
             </p>
-            <div className="flex gap-3 mb-4">
-              <Button 
-                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 py-2 text-sm"
-                onClick={() => onNavigate?.(1)}
-              >
-                Start Earning
-              </Button>
-              <Button 
-                variant="outline" 
-                className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-4 py-2 text-sm"
-              >
-                Learn More
-              </Button>
-            </div>
             
             {/* Live Stats - Compact Row */}
             <div className="grid grid-cols-4 gap-2">
               {liveStats.map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className={`text-sm font-bold ${stat.color}`}>{stat.value}</div>
-                  <div className="text-gray-400 text-xs">{stat.label}</div>
+                  <div className="text-muted-foreground text-xs">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -220,32 +206,32 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
           {/* Right: Main Stats Cards */}
           <div className="col-span-5">
             <div className="grid grid-cols-2 gap-3">
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-card border-border">
                 <CardContent className="p-3 text-center">
                   <Users className="w-4 h-4 text-yellow-500 mx-auto mb-1" />
-                  <div className="text-lg font-bold text-white">25K+</div>
-                  <div className="text-gray-400 text-xs">Users</div>
+                  <div className="text-lg font-bold">25K+</div>
+                  <div className="text-muted-foreground text-xs">Users</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-card border-border">
                 <CardContent className="p-3 text-center">
                   <DollarSign className="w-4 h-4 text-green-400 mx-auto mb-1" />
-                  <div className="text-lg font-bold text-white">$2.5M</div>
-                  <div className="text-gray-400 text-xs">Rewards Paid</div>
+                  <div className="text-lg font-bold">$2.5M</div>
+                  <div className="text-muted-foreground text-xs">Rewards Paid</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-card border-border">
                 <CardContent className="p-3 text-center">
                   <TrendingUp className="w-4 h-4 text-blue-400 mx-auto mb-1" />
-                  <div className="text-lg font-bold text-white">99.9%</div>
-                  <div className="text-gray-400 text-xs">Uptime</div>
+                  <div className="text-lg font-bold">99.9%</div>
+                  <div className="text-muted-foreground text-xs">Uptime</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-card border-border">
                 <CardContent className="p-3 text-center">
                   <Award className="w-4 h-4 text-purple-400 mx-auto mb-1" />
-                  <div className="text-lg font-bold text-white">500K+</div>
-                  <div className="text-gray-400 text-xs">Content</div>
+                  <div className="text-lg font-bold">500K+</div>
+                  <div className="text-muted-foreground text-xs">Content</div>
                 </CardContent>
               </Card>
             </div>
@@ -259,17 +245,17 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-bold">Featured Content</h2>
-                <Button variant="outline" className="border-gray-600 text-gray-300 text-sm">
+                <Button variant="outline" className="border-border text-muted-foreground text-sm">
                   View All
                 </Button>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 {featuredContent.map((content, index) => (
-                  <Card key={index} className="bg-gray-900 border-gray-800 hover:border-yellow-500 transition-colors">
+                  <Card key={index} className="bg-card border-border hover:border-yellow-500 transition-colors">
                     <CardContent className="p-3">
                       <div className="flex items-start justify-between mb-2">
                         <Badge className="bg-blue-600 text-white text-xs">{content.category}</Badge>
-                        <span className="text-gray-400 text-xs">{content.timeAgo}</span>
+                        <span className="text-muted-foreground text-xs">{content.timeAgo}</span>
                       </div>
                       
                       {/* Conditional Image - Smaller */}
@@ -283,14 +269,14 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         </div>
                       )}
                       
-                      <h3 className="text-sm font-semibold mb-2 text-white line-clamp-2">{content.title}</h3>
+                      <h3 className="text-sm font-semibold mb-2 line-clamp-2">{content.title}</h3>
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-1">
                           <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                          <span className="text-gray-300 text-xs">{content.creator}</span>
+                          <span className="text-muted-foreground text-xs">{content.creator}</span>
                         </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-2 text-xs text-gray-400 mb-2">
+                      <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground mb-2">
                         <div className="flex items-center space-x-1">
                           <Eye className="w-3 h-3" />
                           <span>{content.views}</span>
@@ -305,7 +291,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         </div>
                       </div>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-400">{content.engagement}</span>
+                        <span className="text-muted-foreground">{content.engagement}</span>
                         <span className="text-green-400 font-semibold">{content.earnings}</span>
                       </div>
                     </CardContent>
@@ -319,10 +305,10 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
               <h2 className="text-2xl font-bold mb-4">Trending Stories</h2>
               <div className="grid grid-cols-2 gap-3">
                 {trendingStories.map((story, index) => (
-                  <Card key={index} className="bg-gray-900 border-gray-800 hover:border-yellow-500 transition-colors">
+                  <Card key={index} className="bg-card border-border hover:border-yellow-500 transition-colors">
                     <CardContent className="p-3">
-                      <h3 className="text-sm font-medium text-white mb-1 line-clamp-1">{story.title}</h3>
-                      <div className="flex justify-between items-center text-xs text-gray-400">
+                      <h3 className="text-sm font-medium mb-1 line-clamp-1">{story.title}</h3>
+                      <div className="flex justify-between items-center text-xs text-muted-foreground">
                         <div className="flex items-center space-x-1">
                           <Eye className="w-3 h-3" />
                           <span>{story.views} views</span>
@@ -340,14 +326,14 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
               <h2 className="text-2xl font-bold mb-4">Quick Posts</h2>
               <div className="grid grid-cols-3 gap-3">
                 {quickPosts.map((post, index) => (
-                  <Card key={index} className="bg-gray-900 border-gray-800">
+                  <Card key={index} className="bg-card border-border">
                     <CardContent className="p-3">
-                      <h3 className="text-sm font-medium text-white mb-1 line-clamp-2">{post.title}</h3>
+                      <h3 className="text-sm font-medium mb-1 line-clamp-2">{post.title}</h3>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-400">@{post.creator}</span>
+                        <span className="text-muted-foreground">@{post.creator}</span>
                         <span className="text-yellow-400">{post.tips} tips</span>
                       </div>
-                      <span className="text-gray-500 text-xs">{post.timeAgo}</span>
+                      <span className="text-muted-foreground text-xs">{post.timeAgo}</span>
                     </CardContent>
                   </Card>
                 ))}
@@ -357,19 +343,48 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
 
           {/* Sidebar - More Compact */}
           <div className="col-span-4 space-y-4">
-            {/* Trending Topics */}
-            <Card className="bg-gray-900 border-gray-800">
+            {/* CTA Section - Now in Sidebar with Accent Colors */}
+            <Card className="bg-accent border-accent-foreground/20">
               <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                <div className="text-center mb-3">
+                  <h3 className="text-lg font-bold text-accent-foreground mb-2">Ready to Start Earning?</h3>
+                  <p className="text-sm text-accent-foreground/80 mb-4">
+                    Join thousands earning crypto on FinancialPress
+                  </p>
+                  <div className="space-y-2">
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm"
+                      onClick={() => onNavigate?.(1)}
+                    >
+                      Start Earning
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm"
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                  <div className="mt-3 text-accent-foreground/60 text-xs">
+                    25K+ users • $2.5M+ distributed
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Trending Topics */}
+            <Card className="bg-card border-border">
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold mb-3 flex items-center">
                   <TrendingUp className="w-4 h-4 mr-2 text-yellow-500" />
                   Trending Topics
                 </h3>
                 <div className="space-y-2">
                   {trendingTopics.map((topic, index) => (
-                    <div key={index} className="flex items-center justify-between py-1 border-b border-gray-800 last:border-b-0">
+                    <div key={index} className="flex items-center justify-between py-1 border-b border-border last:border-b-0">
                       <div>
-                        <div className="font-medium text-white text-sm">#{topic.name}</div>
-                        <div className="text-gray-400 text-xs">{topic.posts} posts</div>
+                        <div className="font-medium text-sm">#{topic.name}</div>
+                        <div className="text-muted-foreground text-xs">{topic.posts} posts</div>
                       </div>
                       <div className="flex items-center text-green-400 text-xs">
                         <ArrowUp className="w-3 h-3 mr-1" />
@@ -382,9 +397,9 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             </Card>
 
             {/* Top Creators Leaderboard */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                <h3 className="text-lg font-semibold mb-3 flex items-center">
                   <Award className="w-4 h-4 mr-2 text-yellow-500" />
                   Top Creators
                 </h3>
@@ -395,8 +410,8 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         <div className="text-sm font-bold text-yellow-500">#{index + 1}</div>
                         <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
                         <div>
-                          <div className="font-semibold text-white text-xs">{creator.name}</div>
-                          <div className="text-gray-400 text-xs">{creator.followers}</div>
+                          <div className="font-semibold text-xs">{creator.name}</div>
+                          <div className="text-muted-foreground text-xs">{creator.followers}</div>
                         </div>
                       </div>
                       <div className="text-right">
@@ -412,9 +427,9 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             </Card>
 
             {/* Quick Actions */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3">Quick Actions</h3>
+                <h3 className="text-lg font-semibold mb-3">Quick Actions</h3>
                 <div className="space-y-2">
                   <Button 
                     className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-sm"
@@ -422,10 +437,10 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                   >
                     Create Content
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-sm">
+                  <Button variant="outline" className="w-full border-border text-muted-foreground text-sm">
                     Browse Categories
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-sm">
+                  <Button variant="outline" className="w-full border-border text-muted-foreground text-sm">
                     View Leaderboard
                   </Button>
                 </div>
