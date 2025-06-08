@@ -9,9 +9,15 @@ interface EarningsTrackerProps {
   isVisible: boolean;
   onClose: () => void;
   onNavigate?: (screen: number) => void;
+  isEmbedded?: boolean;
 }
 
-const EarningsTracker: React.FC<EarningsTrackerProps> = ({ isVisible, onClose, onNavigate }) => {
+const EarningsTracker: React.FC<EarningsTrackerProps> = ({ 
+  isVisible, 
+  onClose, 
+  onNavigate, 
+  isEmbedded = false 
+}) => {
   const [balance, setBalance] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -41,6 +47,85 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({ isVisible, onClose, o
 
   if (!isVisible) return null;
 
+  // Embedded version for sidebar
+  if (isEmbedded) {
+    return (
+      <Card className="bg-gray-900 border-yellow-500 border-2 shadow-lg">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center space-x-2">
+              <DollarSign className="w-5 h-5 text-yellow-500" />
+              <span className="font-bold text-white text-sm">Live Earnings</span>
+            </div>
+          </div>
+
+          {/* Real-time Balance */}
+          <div className="text-center mb-4">
+            <div className="text-2xl font-bold text-yellow-500 mb-1">
+              {balance.toFixed(1)} FPT
+            </div>
+            {isAnimating && (
+              <div className="text-green-400 text-xs animate-pulse">
+                ⚡ Earning in real-time...
+              </div>
+            )}
+            {!isAnimating && (
+              <Badge className="bg-green-500 text-black text-xs">
+                ✅ You just earned 0.88 FPT!
+              </Badge>
+            )}
+          </div>
+
+          {/* Quick Stats */}
+          <div className="space-y-2 mb-3">
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-300">Total Shares Today</span>
+              <span className="text-white font-semibold">6</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-300">Total Engagement</span>
+              <span className="text-white font-semibold">2.47K views</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-300">Avg. per Share</span>
+              <span className="text-green-400 font-semibold">0.85 FPT</span>
+            </div>
+          </div>
+
+          {/* Platform Breakdown */}
+          <div className="space-y-1 mb-3">
+            <div className="text-xs text-gray-300 font-medium">Platform Breakdown:</div>
+            {earningsData.map((data, index) => (
+              <div key={index} className="flex items-center justify-between text-xs bg-gray-800 rounded p-1.5">
+                <span className="text-gray-300">{data.platform}</span>
+                <div className="text-right">
+                  <div className="text-green-400 font-semibold">{data.earnings}</div>
+                  <div className="text-gray-400 text-xs">{data.engagement}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="space-y-2">
+            <Button 
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-xs py-2"
+              onClick={() => onNavigate?.(5)}
+            >
+              <BarChart3 className="w-3 h-3 mr-1" />
+              View Dashboard
+            </Button>
+            <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-xs py-2">
+              <TrendingUp className="w-3 h-3 mr-1" />
+              Optimize Earnings
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Original floating version (kept for backwards compatibility)
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {/* Floating Wallet Widget */}

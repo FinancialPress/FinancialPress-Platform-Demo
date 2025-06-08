@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -166,7 +165,6 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
 
   const handleShareComplete = () => {
     setShowShareModal(false);
-    setShowEarningsTracker(true);
   };
 
   return (
@@ -214,6 +212,13 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
 
           {/* Sidebar */}
           <div className="col-span-4 space-y-4">
+            {/* Embedded Earnings Tracker */}
+            <EarningsTracker 
+              isVisible={true}
+              onClose={() => {}}
+              onNavigate={onNavigate}
+              isEmbedded={true}
+            />
             <UserInterests />
             <TrendingTopics />
             <TopCreators />
@@ -230,13 +235,6 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
           onShare={handleShareComplete}
         />
       )}
-
-      {/* Earnings Tracker Panel */}
-      <EarningsTracker 
-        isVisible={showEarningsTracker}
-        onClose={() => setShowEarningsTracker(false)}
-        onNavigate={onNavigate}
-      />
     </div>
   );
 };
