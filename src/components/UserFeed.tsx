@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -20,7 +21,7 @@ interface UserFeedProps {
 
 const UserFeed = ({ onNavigate }: UserFeedProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showEarningsTracker, setShowEarningsTracker] = useState(false);
+  const [showEarningsTracker, setShowEarningsTracker] = useState(true); // Show by default
   const [selectedContent, setSelectedContent] = useState<any>(null);
 
   // Personalized featured content based on user interests
