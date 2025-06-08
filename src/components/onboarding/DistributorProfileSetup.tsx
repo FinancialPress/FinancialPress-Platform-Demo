@@ -20,8 +20,11 @@ const DistributorProfileSetup = ({ onContinue }: DistributorProfileSetupProps) =
             <Share2 className="w-8 h-8 text-white" />
           </div>
         </div>
-        <CardTitle className="text-3xl text-center text-white">Complete Your Distributor Profile</CardTitle>
+        <CardTitle className="text-3xl text-center text-white">Complete Your Profile</CardTitle>
         <p className="text-center text-gray-300">Set up your profile to start earning from sharing content</p>
+        <div className="text-center text-sm text-gray-400">
+          Step 4 of 4
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
@@ -66,7 +69,7 @@ const DistributorProfileSetup = ({ onContinue }: DistributorProfileSetupProps) =
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3"
           onClick={onContinue}
         >
-          Complete Distributor Setup
+          Complete Setup
         </Button>
       </CardContent>
     </Card>

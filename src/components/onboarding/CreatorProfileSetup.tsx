@@ -20,8 +20,11 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
             <PenTool className="w-8 h-8 text-black" />
           </div>
         </div>
-        <CardTitle className="text-3xl text-center text-white">Complete Your Creator Profile</CardTitle>
+        <CardTitle className="text-3xl text-center text-white">Complete Your Profile</CardTitle>
         <p className="text-center text-gray-300">Set up your profile to start earning from your content</p>
+        <div className="text-center text-sm text-gray-400">
+          Step 4 of 4
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
@@ -62,7 +65,7 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
           className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
           onClick={onContinue}
         >
-          Complete Creator Setup
+          Complete Setup
         </Button>
       </CardContent>
     </Card>

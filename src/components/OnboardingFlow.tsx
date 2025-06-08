@@ -1,9 +1,11 @@
 
 import React, { useState } from 'react';
 import { Check, PenTool, Share2 } from 'lucide-react';
+import SocialChannelConnection from './onboarding/SocialChannelConnection';
 import TopicSelection from './onboarding/TopicSelection';
 import CreatorSelection from './onboarding/CreatorSelection';
 import CreatorProfileSetup from './onboarding/CreatorProfileSetup';
+import DistributorProfileSetup from './onboarding/DistributorProfileSetup';
 import OnboardingWelcome from './onboarding/OnboardingWelcome';
 
 interface OnboardingFlowProps {
@@ -40,25 +42,24 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
     switch(currentStep) {
       case 1:
         return (
-          <TopicSelection
-            userRole={userRole}
-            selectedTopics={selectedTopics}
-            onTopicToggle={toggleTopic}
+          <SocialChannelConnection
             onContinue={() => setCurrentStep(2)}
           />
         );
       case 2:
         return (
-          <CreatorSelection
+          <TopicSelection
             userRole={userRole}
-            selectedCreators={selectedCreators}
-            onCreatorToggle={toggleCreator}
+            selectedTopics={selectedTopics}
+            onTopicToggle={toggleTopic}
             onContinue={() => setCurrentStep(3)}
           />
         );
       case 3:
-        return (
+        return userRole === 'creator' ? (
           <CreatorProfileSetup onContinue={() => setCurrentStep(4)} />
+        ) : (
+          <DistributorProfileSetup onContinue={() => setCurrentStep(4)} />
         );
       case 4:
         return (
@@ -69,10 +70,7 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
         );
       default:
         return (
-          <TopicSelection
-            userRole={userRole}
-            selectedTopics={selectedTopics}
-            onTopicToggle={toggleTopic}
+          <SocialChannelConnection
             onContinue={() => setCurrentStep(2)}
           />
         );
@@ -95,7 +93,7 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
         {/* Progress Steps */}
         <div className="flex justify-center mb-12">
           <div className="flex items-center space-x-4">
-            {[1, 2, 3].map((step) => (
+            {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
                   currentStep >= step 
@@ -104,7 +102,7 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
                 }`}>
                   {currentStep > step ? <Check className="w-6 h-6" /> : step}
                 </div>
-                {step < 3 && (
+                {step < 4 && (
                   <div className={`w-16 h-1 mx-2 ${
                     currentStep > step 
                       ? 'bg-yellow-500'

@@ -20,15 +20,22 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   return (
     <Card className="bg-gray-900 border-gray-800 max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-3xl text-center text-white">What interests you?</CardTitle>
+        <CardTitle className="text-3xl text-center text-white">Set Your Topics & Interests</CardTitle>
         <p className="text-center text-gray-300 text-lg">
-          {userRole === 'creator' 
-            ? 'Select topics you want to create content about'
-            : 'Select topics you want to share and discover content about'
-          }
+          Choose what content you're interested in for better discovery and earnings opportunities
         </p>
+        <div className="text-center text-sm text-gray-400">
+          Step 3 of 4
+        </div>
       </CardHeader>
       <CardContent className="p-8">
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-white mb-2">Content Categories</h3>
+          <p className="text-sm text-gray-400">
+            We'll suggest content based on your interests and connect you with relevant audiences
+          </p>
+        </div>
+        
         <div className="grid grid-cols-4 gap-4 mb-8">
           {topics.map((topic) => (
             <Button
