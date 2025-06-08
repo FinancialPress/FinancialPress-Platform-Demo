@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -343,31 +342,21 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
 
           {/* Sidebar - More Compact */}
           <div className="col-span-4 space-y-4">
-            {/* CTA Section - Now in Sidebar with Accent Colors */}
-            <Card className="bg-accent border-accent-foreground/20">
-              <CardContent className="p-4">
-                <div className="text-center mb-3">
-                  <h3 className="text-lg font-bold text-accent-foreground mb-2">Ready to Start Earning?</h3>
-                  <p className="text-sm text-accent-foreground/80 mb-4">
-                    Join thousands earning crypto on FinancialPress
-                  </p>
-                  <div className="space-y-2">
-                    <Button 
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm"
-                      onClick={() => onNavigate?.(1)}
-                    >
-                      Start Earning
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm"
-                    >
-                      Learn More
-                    </Button>
-                  </div>
-                  <div className="mt-3 text-accent-foreground/60 text-xs">
-                    25K+ users • $2.5M+ distributed
-                  </div>
+            {/* CTA Section - Simplified */}
+            <Card className="bg-primary/10 border-primary/20">
+              <CardContent className="p-4 text-center">
+                <h3 className="text-lg font-bold mb-2">Start Earning Today</h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Join 25K+ creators earning crypto
+                </p>
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold mb-2"
+                  onClick={() => onNavigate?.(1)}
+                >
+                  Get Started
+                </Button>
+                <div className="text-muted-foreground text-xs">
+                  $2.5M+ distributed to creators
                 </div>
               </CardContent>
             </Card>
