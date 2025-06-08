@@ -2,334 +2,410 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Heart, MessageCircle, Share2, DollarSign, TrendingUp, Clock, Filter, Eye, Bookmark, MoreHorizontal, ArrowUp, Star, Users, Award } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { 
+  Heart, 
+  MessageCircle, 
+  Share2, 
+  Bookmark, 
+  MoreHorizontal,
+  TrendingUp,
+  Eye,
+  Clock,
+  Play,
+  Volume2,
+  FileText,
+  ExternalLink,
+  Award,
+  Zap
+} from 'lucide-react';
 
 const UserFeed = () => {
-  const [selectedFilter, setSelectedFilter] = useState('trending');
-
-  // Live stats similar to landing page but for logged in user
-  const liveStats = [
-    { label: "Your Earnings", value: "24.8 FPT", color: "text-yellow-400" },
-    { label: "Posts Shared", value: "156", color: "text-blue-400" },
-    { label: "Total Views", value: "12.4K", color: "text-green-400" },
-    { label: "Your Rank", value: "#47", color: "text-purple-400" }
-  ];
-
-  const feedPosts = [
+  const [posts] = useState([
     {
       id: 1,
-      title: "Bitcoin Breaks $95K: Technical Analysis and What's Next",
-      summary: "In-depth analysis of Bitcoin's recent breakout past $95,000, key resistance levels, and potential targets for the next leg up. Looking at volume, RSI, and key support zones...",
-      creator: "CryptoWhale",
-      badge: "Platinum",
-      avatar: "CW",
-      timeAgo: "2h ago",
-      likes: 234,
-      comments: 45,
-      shares: 67,
-      views: "12.5K",
-      estimatedEarnings: "2.4 FPT",
-      topics: ["Bitcoin", "Technical Analysis"],
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      category: "Crypto Analysis",
-      readTime: "5 min read",
-      engagement: 89,
-      hasImage: true
+      type: 'video',
+      title: "Live: Bitcoin Technical Analysis - $95K Breakout Confirmed",
+      creator: {
+        name: "CryptoWhale",
+        username: "@cryptowhale",
+        avatar: "/api/placeholder/40/40",
+        badge: "Platinum",
+        verified: true
+      },
+      content: "Breaking down the key resistance levels and what this means for the next leg up. Watch for these critical support zones.",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop",
+      duration: "12:34",
+      metrics: {
+        views: "24.5K",
+        likes: 892,
+        comments: 156,
+        shares: 234,
+        tips: "45.8 FPT",
+        timeAgo: "2h ago"
+      },
+      tags: ["Bitcoin", "Technical Analysis", "Live"]
     },
     {
       id: 2,
-      title: "DeFi 2.0: The Next Generation of Decentralized Finance",
-      summary: "Exploring the evolution of DeFi protocols, new innovations in yield farming, and the protocols leading the charge in the next wave of decentralized finance. This comprehensive analysis covers emerging trends, protocol improvements, and what investors should watch for in the coming months...",
-      creator: "DeFiGuru",
-      badge: "Gold",
-      avatar: "DG",
-      timeAgo: "4h ago",
-      likes: 189,
-      comments: 32,
-      shares: 54,
-      views: "8.9K",
-      estimatedEarnings: "1.8 FPT",
-      topics: ["DeFi", "Protocols"],
-      category: "DeFi",
-      readTime: "7 min read",
-      engagement: 76,
-      hasImage: false
+      type: 'text',
+      title: "Why I'm Bullish on Solana's 2024 Roadmap",
+      creator: {
+        name: "DeFiGuru",
+        username: "@defiguru",
+        avatar: "/api/placeholder/40/40",
+        badge: "Gold",
+        verified: true
+      },
+      content: "The upcoming Firedancer upgrade could be a game-changer for SOL. Here's my detailed analysis of why Solana is positioned to outperform in 2024:\n\n1. Network improvements with Firedancer\n2. Growing ecosystem adoption\n3. Institutional interest picking up\n4. Developer activity at all-time highs\n\nThe technical fundamentals are stronger than ever, and the market is starting to recognize this value proposition.",
+      metrics: {
+        views: "18.2K",
+        likes: 654,
+        comments: 89,
+        shares: 167,
+        tips: "32.4 FPT",
+        timeAgo: "4h ago"
+      },
+      tags: ["Solana", "DeFi", "Analysis"]
     },
     {
       id: 3,
-      title: "AI Stocks Surge: Which Companies Are Leading the Revolution",
-      summary: "Market analysis of AI-focused companies, their Q4 earnings, and investment opportunities in the artificial intelligence sector. NVIDIA, Microsoft, and emerging players...",
-      creator: "TechAnalyst",
-      badge: "Platinum", 
-      avatar: "TA",
-      timeAgo: "6h ago",
-      likes: 156,
-      comments: 28,
-      shares: 41,
-      views: "11.2K",
-      estimatedEarnings: "1.5 FPT",
-      topics: ["AI", "Stocks"],
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      category: "Tech Stocks",
-      readTime: "6 min read",
-      engagement: 67,
-      hasImage: true
+      type: 'image',
+      title: "DeFi TVL Reaches New All-Time High: $180B",
+      creator: {
+        name: "DeFiTracker",
+        username: "@defitracker",
+        avatar: "/api/placeholder/40/40",
+        badge: "Silver",
+        verified: false
+      },
+      content: "Total Value Locked across all DeFi protocols just hit a new milestone. This chart shows the incredible growth we've seen this year.",
+      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop",
+      metrics: {
+        views: "12.8K",
+        likes: 445,
+        comments: 67,
+        shares: 123,
+        tips: "28.9 FPT",
+        timeAgo: "6h ago"
+      },
+      tags: ["DeFi", "TVL", "Data"]
     },
     {
       id: 4,
-      title: "Solana's Comeback: Why SOL Could Hit $500",
-      summary: "Deep dive into Solana's network improvements, growing ecosystem, and why analysts are bullish on SOL reaching new all-time highs. The blockchain has seen significant upgrades to its infrastructure, reducing downtime and improving transaction throughput. With major partnerships and a thriving NFT ecosystem, Solana is positioned for substantial growth in the next bull cycle...",
-      creator: "BlockchainBull",
-      badge: "Gold",
-      avatar: "BB",
-      timeAgo: "8h ago",
-      likes: 298,
-      comments: 67,
-      shares: 89,
-      views: "15.7K",
-      estimatedEarnings: "3.2 FPT",
-      topics: ["Solana", "Altcoins"],
-      category: "Crypto Analysis",
-      readTime: "4 min read",
-      engagement: 92,
-      hasImage: false
+      type: 'link',
+      title: "Federal Reserve Signals Potential Rate Cuts",
+      creator: {
+        name: "MacroMind",
+        username: "@macromind",
+        avatar: "/api/placeholder/40/40",
+        badge: "Platinum",
+        verified: true
+      },
+      content: "This could be the catalyst crypto markets have been waiting for. My analysis of what this means for digital assets and traditional markets.",
+      linkPreview: {
+        title: "Fed Chair Powell Hints at Rate Cuts in 2024",
+        description: "Federal Reserve Chairman Jerome Powell suggested the central bank may cut interest rates multiple times this year...",
+        image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=300&fit=crop",
+        domain: "reuters.com"
+      },
+      metrics: {
+        views: "31.5K",
+        likes: 1203,
+        comments: 234,
+        shares: 456,
+        tips: "68.7 FPT",
+        timeAgo: "8h ago"
+      },
+      tags: ["Fed", "Macro", "Analysis"]
     },
     {
       id: 5,
-      title: "Fed Policy Shift: Impact on Crypto and Traditional Markets",
-      summary: "Analysis of the Federal Reserve's latest policy decisions and their ripple effects across cryptocurrency and traditional financial markets...",
-      creator: "MacroMind",
-      badge: "Platinum",
-      avatar: "MM",
-      timeAgo: "12h ago",
-      likes: 167,
-      comments: 43,
-      shares: 76,
-      views: "9.8K",
-      estimatedEarnings: "2.1 FPT",
-      topics: ["Fed", "Macro"],
-      thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      category: "Macroeconomics",
-      readTime: "8 min read",
-      engagement: 78,
-      hasImage: true
+      type: 'document',
+      title: "Q4 2024 Crypto Market Report - 50 Pages of Analysis",
+      creator: {
+        name: "ResearchPro",
+        username: "@researchpro",
+        avatar: "/api/placeholder/40/40",
+        badge: "Gold",
+        verified: true
+      },
+      content: "Comprehensive breakdown of market trends, institutional adoption, and 2025 predictions. Free download for FP members.",
+      document: {
+        title: "Q4-2024-Crypto-Market-Report.pdf",
+        pages: 50,
+        size: "2.3 MB"
+      },
+      metrics: {
+        views: "9.2K",
+        likes: 234,
+        comments: 45,
+        shares: 189,
+        tips: "41.2 FPT",
+        timeAgo: "12h ago"
+      },
+      tags: ["Research", "Report", "Q4"]
+    },
+    {
+      id: 6,
+      type: 'text',
+      title: "Thread: Why NFTs Aren't Dead (10 Part Series)",
+      creator: {
+        name: "NFTAnalyst",
+        username: "@nftanalyst",
+        avatar: "/api/placeholder/40/40",
+        badge: "Silver",
+        verified: false
+      },
+      content: "1/10 🧵 Despite what you might hear, NFTs are evolving rapidly. Here's what most people are missing about the space:\n\nUtility-first projects are gaining traction, blue chips are consolidating, and institutional interest is quietly building...",
+      threadCount: 10,
+      metrics: {
+        views: "15.6K",
+        likes: 567,
+        comments: 123,
+        shares: 234,
+        tips: "35.8 FPT",
+        timeAgo: "1d ago"
+      },
+      tags: ["NFTs", "Thread", "Analysis"]
     }
-  ];
+  ]);
 
-  const suggestedFollows = [
-    { name: "BlockchainBull", followers: "180K", topic: "Market Analysis", posts: 234, badge: "Platinum" },
-    { name: "NFTSeer", followers: "120K", topic: "NFT Trends", posts: 156, badge: "Gold" },
-    { name: "MacroMind", followers: "250K", topic: "Economics", posts: 189, badge: "Platinum" },
-    { name: "DeFiDegen", followers: "95K", topic: "DeFi Protocols", posts: 167, badge: "Silver" }
-  ];
-
-  const trendingNow = [
-    { topic: "Bitcoin ETF", posts: 234, change: "+15%" },
-    { topic: "AI Regulation", posts: 189, change: "+23%" },
-    { topic: "DeFi Yields", posts: 156, change: "+8%" },
-    { topic: "NFT Gaming", posts: 134, change: "+12%" },
-    { topic: "Stablecoin News", posts: 98, change: "+6%" }
-  ];
-
-  const topCreators = [
-    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K", posts: 127 },
-    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K", posts: 89 },
-    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K", posts: 156 },
-    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K", posts: 78 },
-    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K", posts: 94 }
-  ];
-
-  const categories = [
-    { name: "Crypto", count: 1234, active: true },
-    { name: "Stocks", count: 890, active: false },
-    { name: "Tech", count: 567, active: false },
-    { name: "AI", count: 445, active: false },
-    { name: "DeFi", count: 334, active: false },
-    { name: "NFTs", count: 223, active: false },
-    { name: "Macro", count: 178, active: false }
-  ];
+  const renderPostContent = (post: any) => {
+    switch (post.type) {
+      case 'video':
+        return (
+          <div className="relative mb-4">
+            <img 
+              src={post.thumbnail} 
+              alt={post.title}
+              className="w-full h-64 rounded-lg object-cover"
+            />
+            <div className="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center">
+              <Button className="bg-white/90 hover:bg-white text-black rounded-full p-4">
+                <Play className="w-6 h-6" />
+              </Button>
+            </div>
+            <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+              {post.duration}
+            </div>
+          </div>
+        );
+      
+      case 'image':
+        return (
+          <div className="mb-4">
+            <img 
+              src={post.image} 
+              alt={post.title}
+              className="w-full h-64 rounded-lg object-cover"
+            />
+          </div>
+        );
+      
+      case 'link':
+        return (
+          <div className="mb-4">
+            <Card className="bg-gray-800 border-gray-700 overflow-hidden">
+              <div className="flex">
+                <img 
+                  src={post.linkPreview.image} 
+                  alt=""
+                  className="w-32 h-24 object-cover"
+                />
+                <div className="p-3 flex-1">
+                  <h4 className="text-white text-sm font-medium line-clamp-2">{post.linkPreview.title}</h4>
+                  <p className="text-gray-400 text-xs mt-1 line-clamp-2">{post.linkPreview.description}</p>
+                  <div className="flex items-center mt-2">
+                    <ExternalLink className="w-3 h-3 text-gray-400 mr-1" />
+                    <span className="text-gray-400 text-xs">{post.linkPreview.domain}</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        );
+      
+      case 'document':
+        return (
+          <div className="mb-4">
+            <Card className="bg-gray-800 border-gray-700 p-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-white text-sm font-medium">{post.document.title}</h4>
+                  <p className="text-gray-400 text-xs">{post.document.pages} pages • {post.document.size}</p>
+                </div>
+                <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1">
+                  Download
+                </Button>
+              </div>
+            </Card>
+          </div>
+        );
+      
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="max-w-[1440px] mx-auto px-8 py-8">
-        {/* Live Stats Bar - Similar to landing page */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          {liveStats.map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-              <div className="text-gray-400 text-sm">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-
+    <div className="min-h-screen bg-black text-white pt-32">
+      <div className="max-w-[1440px] mx-auto px-8">
         <div className="grid grid-cols-12 gap-8">
           {/* Main Feed */}
           <div className="col-span-8">
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="text-3xl font-bold text-white">Your Feed</h1>
-                <div className="flex items-center space-x-4">
-                  <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                    <Filter className="w-4 h-4 mr-2" />
-                    Filters
+            {/* Create Post Button */}
+            <Card className="bg-gray-900 border-gray-800 mb-6">
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-3">
+                  <Avatar>
+                    <AvatarFallback>YOU</AvatarFallback>
+                  </Avatar>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 justify-start bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700"
+                  >
+                    Share your financial insights...
                   </Button>
-                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold">
-                    Create Post
+                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6">
+                    Create
                   </Button>
                 </div>
-              </div>
-              
-              <Tabs value={selectedFilter} onValueChange={setSelectedFilter} className="w-full">
-                <TabsList className="bg-gray-900 border-gray-800 mb-6">
-                  <TabsTrigger value="trending" className="data-[state=active]:bg-yellow-500 data-[state=active]:text-black">
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    Trending
-                  </TabsTrigger>
-                  <TabsTrigger value="tipped" className="data-[state=active]:bg-yellow-500 data-[state=active]:text-black">
-                    <DollarSign className="w-4 h-4 mr-2" />
-                    Most Tipped
-                  </TabsTrigger>
-                  <TabsTrigger value="newest" className="data-[state=active]:bg-yellow-500 data-[state=active]:text-black">
-                    <Clock className="w-4 h-4 mr-2" />
-                    Newest
-                  </TabsTrigger>
-                  <TabsTrigger value="following" className="data-[state=active]:bg-yellow-500 data-[state=active]:text-black">
-                    Following
-                  </TabsTrigger>
-                </TabsList>
+              </CardContent>
+            </Card>
 
-                <TabsContent value={selectedFilter} className="mt-6">
-                  <div className="space-y-6">
-                    {feedPosts.map((post) => (
-                      <Card key={post.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
-                        <CardContent className="p-6">
-                          <div className={`flex gap-4 ${post.hasImage ? '' : 'flex-col'}`}>
-                            {/* Conditional Thumbnail */}
-                            {post.hasImage && (
-                              <div className="flex-shrink-0">
-                                <img 
-                                  src={post.thumbnail} 
-                                  alt={post.title}
-                                  className="w-32 h-24 rounded-lg object-cover"
-                                />
-                              </div>
-                            )}
-                            
-                            {/* Content */}
-                            <div className="flex-1">
-                              <div className="flex items-start justify-between mb-3">
-                                <div className="flex items-center space-x-3">
-                                  <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center font-bold text-black">
-                                    {post.avatar}
-                                  </div>
-                                  <div>
-                                    <div className="flex items-center space-x-2">
-                                      <span className="font-semibold text-white">{post.creator}</span>
-                                      <Badge className={`${
-                                        post.badge === 'Platinum' ? 'bg-purple-500' : 'bg-yellow-500'
-                                      } text-black text-xs`}>
-                                        {post.badge}
-                                      </Badge>
-                                    </div>
-                                    <div className="flex items-center space-x-2 text-gray-400 text-sm">
-                                      <span>{post.timeAgo}</span>
-                                      <span>•</span>
-                                      <span>{post.readTime}</span>
-                                      <span>•</span>
-                                      <Badge variant="outline" className="border-blue-600 text-blue-400 text-xs">
-                                        {post.category}
-                                      </Badge>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-                                    <Bookmark className="w-4 h-4" />
-                                  </Button>
-                                  <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-                                    <MoreHorizontal className="w-4 h-4" />
-                                  </Button>
-                                </div>
-                              </div>
-
-                              <h2 className="text-xl font-semibold text-white mb-2">{post.title}</h2>
-                              <p className={`text-gray-300 mb-4 ${post.hasImage ? 'line-clamp-2' : 'line-clamp-3'}`}>{post.summary}</p>
-
-                              <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center space-x-6">
-                                  <div className="flex items-center space-x-2 text-gray-400">
-                                    <Eye className="w-4 h-4" />
-                                    <span className="text-sm">{post.views}</span>
-                                  </div>
-                                  <div className="flex items-center space-x-2 text-gray-400 hover:text-red-400 cursor-pointer">
-                                    <Heart className="w-4 h-4" />
-                                    <span className="text-sm">{post.likes}</span>
-                                  </div>
-                                  <div className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 cursor-pointer">
-                                    <MessageCircle className="w-4 h-4" />
-                                    <span className="text-sm">{post.comments}</span>
-                                  </div>
-                                  <div className="flex items-center space-x-2 text-gray-400">
-                                    <Share2 className="w-4 h-4" />
-                                    <span className="text-sm">{post.shares}</span>
-                                  </div>
-                                  <div className="flex items-center space-x-1 text-yellow-400">
-                                    <Star className="w-4 h-4 fill-current" />
-                                    <span className="text-sm">{post.engagement}</span>
-                                  </div>
-                                </div>
-
-                                <div className="flex items-center space-x-3">
-                                  <div className="text-right">
-                                    <div className="text-green-400 font-semibold text-sm">
-                                      Est: {post.estimatedEarnings}
-                                    </div>
-                                  </div>
-                                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold">
-                                    <Share2 className="w-4 h-4 mr-2" />
-                                    Share & Earn
-                                  </Button>
-                                </div>
-                              </div>
-
-                              <div className="flex gap-2">
-                                {post.topics.map((topic) => (
-                                  <Badge key={topic} variant="outline" className="border-gray-600 text-gray-300 text-xs">
-                                    #{topic}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
+            {/* Posts Feed */}
+            <div className="space-y-6">
+              {posts.map((post) => (
+                <Card key={post.id} className="bg-gray-900 border-gray-800">
+                  <CardContent className="p-6">
+                    {/* Post Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <Avatar>
+                          <AvatarImage src={post.creator.avatar} />
+                          <AvatarFallback>{post.creator.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <span className="font-semibold text-white">{post.creator.name}</span>
+                            {post.creator.verified && <Award className="w-4 h-4 text-yellow-500" />}
+                            <Badge className={`text-xs ${
+                              post.creator.badge === 'Platinum' ? 'bg-purple-600' :
+                              post.creator.badge === 'Gold' ? 'bg-yellow-600' : 'bg-gray-600'
+                            }`}>
+                              {post.creator.badge}
+                            </Badge>
                           </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-              </Tabs>
+                          <div className="flex items-center space-x-2 text-gray-400 text-sm">
+                            <span>{post.creator.username}</span>
+                            <span>•</span>
+                            <span>{post.metrics.timeAgo}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="w-4 h-4" />
+                      </Button>
+                    </div>
+
+                    {/* Post Title */}
+                    <h3 className="text-xl font-bold text-white mb-3">{post.title}</h3>
+
+                    {/* Post Content */}
+                    {renderPostContent(post)}
+
+                    {/* Post Text Content */}
+                    <div className="mb-4">
+                      <p className="text-gray-300 whitespace-pre-line">{post.content}</p>
+                      {post.threadCount && (
+                        <Button variant="link" className="text-blue-400 text-sm p-0 mt-2">
+                          Show this thread ({post.threadCount} parts)
+                        </Button>
+                      )}
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {post.tags.map((tag, index) => (
+                        <Badge key={index} variant="outline" className="text-xs border-gray-600 text-gray-300">
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    {/* Post Metrics */}
+                    <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-1">
+                          <Eye className="w-4 h-4" />
+                          <span>{post.metrics.views}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Zap className="w-4 h-4 text-yellow-500" />
+                          <span className="text-yellow-500">{post.metrics.tips}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-6">
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-red-400">
+                          <Heart className="w-4 h-4 mr-1" />
+                          {post.metrics.likes}
+                        </Button>
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-blue-400">
+                          <MessageCircle className="w-4 h-4 mr-1" />
+                          {post.metrics.comments}
+                        </Button>
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-green-400">
+                          <Share2 className="w-4 h-4 mr-1" />
+                          {post.metrics.shares}
+                        </Button>
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-yellow-400">
+                          <Bookmark className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-sm px-4">
+                        Tip Creator
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
 
           {/* Sidebar */}
-          <div className="col-span-4 space-y-6">
-            {/* Trending Now - More prominent like landing page */}
+          <div className="col-span-4">
+            {/* Trending Topics */}
             <Card className="bg-gray-900 border-gray-800">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
                   <TrendingUp className="w-5 h-5 mr-2 text-yellow-500" />
-                  Trending Now
+                  Trending Topics
                 </h3>
                 <div className="space-y-3">
-                  {trendingNow.map((trend, index) => (
+                  {[
+                    { name: "Bitcoin ETF", posts: 234, growth: "+15%" },
+                    { name: "AI Stocks", posts: 189, growth: "+23%" },
+                    { name: "DeFi Yield", posts: 156, growth: "+8%" },
+                    { name: "NFT Markets", posts: 134, growth: "+12%" },
+                    { name: "Fed Policy", posts: 98, growth: "+34%" }
+                  ].map((topic, index) => (
                     <div key={index} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-b-0">
                       <div>
-                        <div className="font-medium text-white">#{trend.topic}</div>
-                        <div className="text-gray-400 text-sm">{trend.posts} posts</div>
+                        <div className="font-medium text-white">#{topic.name}</div>
+                        <div className="text-gray-400 text-sm">{topic.posts} posts</div>
                       </div>
                       <div className="flex items-center text-green-400 text-sm">
-                        <ArrowUp className="w-3 h-3 mr-1" />
-                        {trend.change}
+                        <TrendingUp className="w-3 h-3 mr-1" />
+                        {topic.growth}
                       </div>
                     </div>
                   ))}
@@ -337,7 +413,7 @@ const UserFeed = () => {
               </CardContent>
             </Card>
 
-            {/* Top Creators Leaderboard - From landing page */}
+            {/* Top Creators Leaderboard */}
             <Card className="bg-gray-900 border-gray-800">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
@@ -345,7 +421,13 @@ const UserFeed = () => {
                   Top Creators This Week
                 </h3>
                 <div className="space-y-3">
-                  {topCreators.map((creator, index) => (
+                  {[
+                    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K", posts: 127 },
+                    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K", posts: 89 },
+                    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K", posts: 156 },
+                    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K", posts: 78 },
+                    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K", posts: 94 }
+                  ].map((creator, index) => (
                     <div key={index} className="flex items-center justify-between py-2">
                       <div className="flex items-center space-x-3">
                         <div className="text-lg font-bold text-yellow-500">#{index + 1}</div>
@@ -361,65 +443,6 @@ const UserFeed = () => {
                           {creator.badge}
                         </Badge>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Categories */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Filter className="w-5 h-5 mr-2 text-yellow-500" />
-                  Categories
-                </h3>
-                <div className="space-y-2">
-                  {categories.map((category) => (
-                    <Button
-                      key={category.name}
-                      variant={category.active ? "default" : "outline"}
-                      size="sm"
-                      className={`w-full justify-between ${
-                        category.active 
-                          ? "bg-yellow-500 text-black" 
-                          : "border-gray-600 text-gray-300 hover:border-yellow-500 hover:text-yellow-500"
-                      }`}
-                    >
-                      <span>{category.name}</span>
-                      <span className="text-xs">{category.count}</span>
-                    </Button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Suggested Follows */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Users className="w-5 h-5 mr-2 text-yellow-500" />
-                  Suggested for You
-                </h3>
-                <div className="space-y-4">
-                  {suggestedFollows.map((creator) => (
-                    <div key={creator.name} className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-yellow-500 rounded-full"></div>
-                        <div>
-                          <div className="flex items-center space-x-2">
-                            <span className="font-semibold text-white text-sm">{creator.name}</span>
-                            <Badge className={`${creator.badge === 'Platinum' ? 'bg-purple-500' : creator.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
-                              {creator.badge}
-                            </Badge>
-                          </div>
-                          <div className="text-sm text-gray-400">{creator.followers} • {creator.posts} posts</div>
-                          <div className="text-xs text-gray-500">{creator.topic}</div>
-                        </div>
-                      </div>
-                      <Button size="sm" className="bg-yellow-500 hover:bg-yellow-600 text-black">
-                        Follow
-                      </Button>
                     </div>
                   ))}
                 </div>

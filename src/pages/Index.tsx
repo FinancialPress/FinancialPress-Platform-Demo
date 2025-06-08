@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import TickerBar from '@/components/TickerBar';
@@ -6,6 +5,7 @@ import LandingPage from '@/components/LandingPage';
 import SignUpPage from '@/components/SignUpPage';
 import OnboardingFlow from '@/components/OnboardingFlow';
 import UserFeed from '@/components/UserFeed';
+import ContentCreator from '@/components/ContentCreator';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
 import EarningsTracker from '@/components/EarningsTracker';
 import FinalCTA from '@/components/FinalCTA';
@@ -22,6 +22,7 @@ const Index = () => {
     'Sign Up',
     'Onboarding',
     'User Feed',
+    'Content Creator',
     'Share & Earn',
     'Earnings Tracker',
     'Final CTA'
@@ -43,16 +44,14 @@ const Index = () => {
       case 0:
         return <LandingPage onNavigate={setCurrentScreen} />;
       case 1:
-        return <SignUpPage onRoleSelect={setSelectedRole} onNavigate={setCurrentScreen} />;
+        return <SignUpPage onNavigate={setCurrentScreen} />;
       case 2:
         return <OnboardingFlow userRole={selectedRole} />;
       case 3:
-        return (
-          <div onClick={() => setShowShareModal(true)}>
-            <UserFeed />
-          </div>
-        );
+        return <UserFeed />;
       case 4:
+        return <ContentCreator onNavigate={setCurrentScreen} />;
+      case 5:
         return (
           <div>
             <UserFeed />
@@ -63,7 +62,7 @@ const Index = () => {
             />
           </div>
         );
-      case 5:
+      case 6:
         return (
           <div>
             <UserFeed />
@@ -73,7 +72,7 @@ const Index = () => {
             />
           </div>
         );
-      case 6:
+      case 7:
         return <FinalCTA />;
       default:
         return <LandingPage onNavigate={setCurrentScreen} />;
@@ -124,7 +123,7 @@ const Index = () => {
         </div>
         
         {/* Modal Overlays - Highest z-index */}
-        {currentScreen === 4 && showShareModal && (
+        {currentScreen === 5 && showShareModal && (
           <div className="relative z-50">
             <ShareEarnFlow 
               post={samplePost}
@@ -134,7 +133,7 @@ const Index = () => {
           </div>
         )}
         
-        {currentScreen === 5 && (
+        {currentScreen === 6 && (
           <div className="relative z-50">
             <EarningsTracker 
               isVisible={showEarningsTracker}
