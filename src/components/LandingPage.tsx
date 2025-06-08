@@ -171,10 +171,10 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
   ];
 
   const liveStats = [
-    { label: "Active Now", value: "2,847", color: "text-green-400" },
-    { label: "Posts Today", value: "1,234", color: "text-blue-400" },
-    { label: "FPT Earned (24h)", value: "12,450", color: "text-yellow-400" },
-    { label: "Tips Given", value: "8,967", color: "text-purple-400" }
+    { label: "Creators Earning", value: "2,847", color: "text-green-400" },
+    { label: "Avg. Daily Earnings", value: "$156", color: "text-yellow-400" },
+    { label: "Total Rewards Paid", value: "$2.5M", color: "text-purple-400" },
+    { label: "Success Rate", value: "89%", color: "text-blue-400" }
   ];
 
   return (
