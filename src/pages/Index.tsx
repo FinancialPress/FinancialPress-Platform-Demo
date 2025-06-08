@@ -102,7 +102,7 @@ const Index = () => {
                     className={`text-xs px-2 py-1 h-auto ${
                       currentScreen === index 
                         ? "bg-yellow-500 text-black hover:bg-yellow-600" 
-                        : "border-gray-600 text-gray-300 hover:border-gray-500"
+                        : "border-gray-500 text-white hover:bg-gray-700 hover:text-white hover:border-gray-400"
                     }`}
                     onClick={() => setCurrentScreen(index)}
                   >

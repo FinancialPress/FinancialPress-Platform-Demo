@@ -253,7 +253,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-bold">Featured Content</h2>
-                <Button variant="outline" className="border-gray-600 text-gray-300 text-sm">
+                <Button variant="outline" className="border-gray-500 text-white hover:bg-gray-700 hover:text-white text-sm">
                   View All
                 </Button>
               </div>
@@ -416,10 +416,10 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                   >
                     Create Content
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-sm">
+                  <Button variant="outline" className="w-full border-gray-500 text-white hover:bg-gray-700 hover:text-white text-sm">
                     Browse Categories
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-sm">
+                  <Button variant="outline" className="w-full border-gray-500 text-white hover:bg-gray-700 hover:text-white text-sm">
                     View Leaderboard
                   </Button>
                 </div>
