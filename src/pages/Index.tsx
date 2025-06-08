@@ -8,14 +8,11 @@ import OnboardingFlow from '@/components/OnboardingFlow';
 import UserFeed from '@/components/UserFeed';
 import ContentCreator from '@/components/ContentCreator';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
-import EarningsTracker from '@/components/EarningsTracker';
 import Dashboard from '@/components/Dashboard';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [showEarningsTracker, setShowEarningsTracker] = useState(false);
   const [selectedRole, setSelectedRole] = useState<'creator' | 'distributor'>('creator');
 
   const screens = [
@@ -25,20 +22,8 @@ const Index = () => {
     'User Feed',
     'Content Creator',
     'Share & Earn',
-    'Earnings Tracker',
     'Dashboard'
   ];
-
-  const samplePost = {
-    title: "Bitcoin Breaks $95K: Technical Analysis and What's Next",
-    creator: "CryptoWhale",
-    estimatedEarnings: "2.4 FPT"
-  };
-
-  const handleShare = () => {
-    setShowShareModal(false);
-    setShowEarningsTracker(true);
-  };
 
   const handleOnboardingComplete = () => {
     // Navigate to user feed when onboarding is complete
@@ -54,31 +39,13 @@ const Index = () => {
       case 2:
         return <OnboardingFlow userRole={selectedRole} onComplete={handleOnboardingComplete} />;
       case 3:
-        return <UserFeed />;
+        return <UserFeed onNavigate={setCurrentScreen} />;
       case 4:
         return <ContentCreator onNavigate={setCurrentScreen} />;
       case 5:
-        return (
-          <div>
-            <UserFeed />
-            <ShareEarnFlow 
-              post={samplePost}
-              onClose={() => setShowShareModal(false)}
-              onShare={handleShare}
-            />
-          </div>
-        );
+        // Removed standalone Share & Earn screen - now integrated into User Feed
+        return <UserFeed onNavigate={setCurrentScreen} />;
       case 6:
-        return (
-          <div>
-            <UserFeed />
-            <EarningsTracker 
-              isVisible={true}
-              onClose={() => setShowEarningsTracker(false)}
-            />
-          </div>
-        );
-      case 7:
         return <Dashboard />;
       default:
         return <LandingPage onNavigate={setCurrentScreen} />;
@@ -130,26 +97,6 @@ const Index = () => {
         <div className="relative z-10">
           {renderCurrentScreen()}
         </div>
-        
-        {/* Modal Overlays - Highest z-index */}
-        {currentScreen === 5 && showShareModal && (
-          <div className="relative z-50">
-            <ShareEarnFlow 
-              post={samplePost}
-              onClose={() => setShowShareModal(false)}
-              onShare={handleShare}
-            />
-          </div>
-        )}
-        
-        {currentScreen === 6 && (
-          <div className="relative z-50">
-            <EarningsTracker 
-              isVisible={showEarningsTracker}
-              onClose={() => setShowEarningsTracker(false)}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

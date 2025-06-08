@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Filter } from 'lucide-react';
@@ -12,8 +11,18 @@ import UserInterests from './feed/UserInterests';
 import TrendingTopics from './feed/TrendingTopics';
 import TopCreators from './feed/TopCreators';
 import QuickActions from './feed/QuickActions';
+import ShareEarnFlow from './ShareEarnFlow';
+import EarningsTracker from './EarningsTracker';
 
-const UserFeed = () => {
+interface UserFeedProps {
+  onNavigate?: (screen: number) => void;
+}
+
+const UserFeed = ({ onNavigate }: UserFeedProps) => {
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showEarningsTracker, setShowEarningsTracker] = useState(false);
+  const [selectedContent, setSelectedContent] = useState<any>(null);
+
   // Personalized featured content based on user interests
   const personalizedContent = [
     {
@@ -145,10 +154,24 @@ const UserFeed = () => {
     }
   ];
 
+  const handleShare = (content: any) => {
+    setSelectedContent({
+      title: content.title,
+      creator: content.creator,
+      estimatedEarnings: "2.4 FPT"
+    });
+    setShowShareModal(true);
+  };
+
+  const handleShareComplete = () => {
+    setShowShareModal(false);
+    setShowEarningsTracker(true);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       <section className="max-w-[1440px] mx-auto px-8 py-8">
-        <PersonalizedHero />
+        <PersonalizedHero onNavigate={onNavigate} />
         <UserStats />
 
         <div className="grid grid-cols-12 gap-6">
@@ -175,7 +198,11 @@ const UserFeed = () => {
             <div className="mb-8">
               <div className="grid grid-cols-3 gap-4">
                 {personalizedContent.map((content, index) => (
-                  <ContentCard key={index} content={content} />
+                  <ContentCard 
+                    key={index} 
+                    content={content} 
+                    onShare={handleShare}
+                  />
                 ))}
               </div>
             </div>
@@ -193,6 +220,22 @@ const UserFeed = () => {
           </div>
         </div>
       </section>
+
+      {/* Share Modal */}
+      {showShareModal && selectedContent && (
+        <ShareEarnFlow 
+          post={selectedContent}
+          onClose={() => setShowShareModal(false)}
+          onShare={handleShareComplete}
+        />
+      )}
+
+      {/* Earnings Tracker Panel */}
+      <EarningsTracker 
+        isVisible={showEarningsTracker}
+        onClose={() => setShowEarningsTracker(false)}
+        onNavigate={onNavigate}
+      />
     </div>
   );
 };

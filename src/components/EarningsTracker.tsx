@@ -8,9 +8,10 @@ import { DollarSign, TrendingUp, Eye, BarChart3, X } from 'lucide-react';
 interface EarningsTrackerProps {
   isVisible: boolean;
   onClose: () => void;
+  onNavigate?: (screen: number) => void;
 }
 
-const EarningsTracker: React.FC<EarningsTrackerProps> = ({ isVisible, onClose }) => {
+const EarningsTracker: React.FC<EarningsTrackerProps> = ({ isVisible, onClose, onNavigate }) => {
   const [balance, setBalance] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -104,7 +105,10 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({ isVisible, onClose })
 
           {/* CTA Buttons */}
           <div className="space-y-2">
-            <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-sm">
+            <Button 
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-sm"
+              onClick={() => onNavigate?.(7)}
+            >
               <BarChart3 className="w-4 h-4 mr-2" />
               View Full Dashboard
             </Button>

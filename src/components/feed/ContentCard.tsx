@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Eye, MessageCircle, Share2 } from 'lucide-react';
 
 interface ContentCardProps {
@@ -21,9 +22,10 @@ interface ContentCardProps {
     isRecommended?: boolean;
     isFollowing?: boolean;
   };
+  onShare?: (content: any) => void;
 }
 
-const ContentCard = ({ content }: ContentCardProps) => {
+const ContentCard = ({ content, onShare }: ContentCardProps) => {
   return (
     <Card className="bg-gray-900 border-gray-800 hover:border-yellow-500 transition-colors">
       <CardContent className="p-3">
@@ -66,10 +68,15 @@ const ContentCard = ({ content }: ContentCardProps) => {
             <MessageCircle className="w-3 h-3 flex-shrink-0" />
             <span className="truncate">{content.comments}</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center space-x-1 p-0 h-auto text-xs text-gray-400 hover:text-yellow-500"
+            onClick={() => onShare?.(content)}
+          >
             <Share2 className="w-3 h-3 flex-shrink-0" />
             <span className="truncate">{content.shares}</span>
-          </div>
+          </Button>
         </div>
         <div className="flex justify-between items-center text-xs">
           <span className="text-gray-400 truncate">{content.engagement}</span>
