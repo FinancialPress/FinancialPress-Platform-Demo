@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -180,70 +179,69 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section - More Compact */}
-      <section className="max-w-[1440px] mx-auto px-8 py-12">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+      {/* Hero Section - Much More Compact */}
+      <section className="max-w-[1440px] mx-auto px-8 py-8">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
             Earn crypto by sharing quality content
           </h1>
-          <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
-            Join the Web3 platform for creators, curators, and commentators. 
-            Turn your influence into earnings with every share.
+          <p className="text-base text-gray-300 mb-4 max-w-2xl mx-auto">
+            Join the Web3 platform for creators, curators, and commentators.
           </p>
-          <div className="flex gap-4 justify-center mb-6">
+          <div className="flex gap-3 justify-center mb-4">
             <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-5 py-2"
               onClick={() => onNavigate?.(1)}
             >
               Start Earning
             </Button>
             <Button 
               variant="outline" 
-              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-6 py-3"
+              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-5 py-2"
             >
               Learn More
             </Button>
           </div>
           
-          {/* Live Stats Bar - Compact */}
-          <div className="grid grid-cols-4 gap-4 mb-8">
+          {/* Live Stats Bar - More Compact */}
+          <div className="grid grid-cols-4 gap-3 mb-4">
             {liveStats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className={`text-xl font-bold ${stat.color}`}>{stat.value}</div>
+                <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
                 <div className="text-gray-400 text-xs">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Main Stats - Smaller */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        {/* Main Stats - Smaller and Compact */}
+        <div className="grid grid-cols-4 gap-3 mb-6">
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-4 text-center">
-              <Users className="w-6 h-6 text-yellow-500 mx-auto mb-1" />
-              <div className="text-2xl font-bold text-white">25,000+</div>
-              <div className="text-gray-400 text-sm">Active Users</div>
+            <CardContent className="p-3 text-center">
+              <Users className="w-5 h-5 text-yellow-500 mx-auto mb-1" />
+              <div className="text-lg font-bold text-white">25K+</div>
+              <div className="text-gray-400 text-xs">Users</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-4 text-center">
-              <DollarSign className="w-6 h-6 text-green-400 mx-auto mb-1" />
-              <div className="text-2xl font-bold text-white">$2.5M</div>
-              <div className="text-gray-400 text-sm">Total Rewards Paid</div>
+            <CardContent className="p-3 text-center">
+              <DollarSign className="w-5 h-5 text-green-400 mx-auto mb-1" />
+              <div className="text-lg font-bold text-white">$2.5M</div>
+              <div className="text-gray-400 text-xs">Rewards Paid</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="w-6 h-6 text-blue-400 mx-auto mb-1" />
-              <div className="text-2xl font-bold text-white">99.9%</div>
-              <div className="text-gray-400 text-sm">Platform Uptime</div>
+            <CardContent className="p-3 text-center">
+              <TrendingUp className="w-5 h-5 text-blue-400 mx-auto mb-1" />
+              <div className="text-lg font-bold text-white">99.9%</div>
+              <div className="text-gray-400 text-xs">Uptime</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-900 border-gray-800">
-            <CardContent className="p-4 text-center">
-              <Award className="w-6 h-6 text-purple-400 mx-auto mb-1" />
-              <div className="text-2xl font-bold text-white">500K+</div>
-              <div className="text-gray-400 text-sm">Content Pieces</div>
+            <CardContent className="p-3 text-center">
+              <Award className="w-5 h-5 text-purple-400 mx-auto mb-1" />
+              <div className="text-lg font-bold text-white">500K+</div>
+              <div className="text-gray-400 text-xs">Content</div>
             </CardContent>
           </Card>
         </div>
