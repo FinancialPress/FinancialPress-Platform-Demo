@@ -32,7 +32,7 @@ const Header = ({ onNavigate }: HeaderProps) => {
             </div>
             <Button 
               variant="outline" 
-              className="border-gray-600 text-gray-300 hover:bg-gray-700 font-semibold px-6"
+              className="border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground font-semibold px-6"
               onClick={() => onNavigate?.(1)}
             >
               Sign In
