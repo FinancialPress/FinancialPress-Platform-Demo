@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -171,7 +170,7 @@ const UserFeed = () => {
       },
       tags: ["NFTs", "Thread", "Analysis"]
     }
-  ];
+  ]);
 
   const quickUpdates = [
     { title: "BTC breaks $95K resistance", creator: "CryptoNews", tips: "1.2K", timeAgo: "5m" },
