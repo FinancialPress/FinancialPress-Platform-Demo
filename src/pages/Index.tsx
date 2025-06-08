@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import TickerBar from '@/components/TickerBar';
@@ -20,8 +19,7 @@ const Index = () => {
     'Sign Up',
     'Onboarding',
     'User Feed',
-    'Content Creator',
-    'Share & Earn',
+    'Create Content',
     'Dashboard'
   ];
 
