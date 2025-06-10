@@ -4,6 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2 } from 'lucide-react';
+import TrendingTopics from '@/components/feed/TrendingTopics';
+import TopCreators from '@/components/feed/TopCreators';
+import UserStats from '@/components/feed/UserStats';
+import QuickActions from '@/components/feed/QuickActions';
+import UserInterests from '@/components/feed/UserInterests';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
@@ -142,8 +147,8 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                 <div className="flex items-center space-x-2">
                   <span className="text-white font-semibold">{item.creator}</span>
                   <Badge className={`text-xs ${
-                    item.badge === 'Platinum' ? 'bg-purple-500 text-white' : 
-                    item.badge === 'Gold' ? 'bg-yellow-500 text-black' : 
+                    item.badge === 'Platinum Creator' ? 'bg-purple-500 text-white' : 
+                    item.badge === 'Gold Creator' ? 'bg-yellow-500 text-black' : 
                     'bg-gray-500 text-white'
                   }`}>
                     {item.badge}
@@ -251,33 +256,44 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
           </div>
         </div>
 
-        {/* Single Column Feed */}
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">Live Feed</h2>
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
-                Latest
-              </Button>
-              <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
-                Trending
+        {/* Two Column Layout: Feed + Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Feed Column */}
+          <div className="lg:col-span-2">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">Live Feed</h2>
+              <div className="flex items-center space-x-2">
+                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
+                  Latest
+                </Button>
+                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
+                  Trending
+                </Button>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              {feedContent.map(renderFeedItem)}
+            </div>
+
+            {/* Load More */}
+            <div className="text-center mt-8">
+              <Button 
+                variant="outline" 
+                className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                onClick={() => onNavigate?.(1)}
+              >
+                Sign Up to See More Content
               </Button>
             </div>
           </div>
-          
-          <div className="space-y-4">
-            {feedContent.map(renderFeedItem)}
-          </div>
 
-          {/* Load More */}
-          <div className="text-center mt-8">
-            <Button 
-              variant="outline" 
-              className="border-gray-600 text-gray-300 hover:bg-gray-700"
-              onClick={() => onNavigate?.(1)}
-            >
-              Sign Up to See More Content
-            </Button>
+          {/* Right Sidebar */}
+          <div className="space-y-6">
+            <QuickActions />
+            <UserInterests />
+            <TrendingTopics />
+            <TopCreators />
           </div>
         </div>
       </section>
