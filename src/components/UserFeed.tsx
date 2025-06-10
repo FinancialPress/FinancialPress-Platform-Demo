@@ -1,16 +1,11 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Filter } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, Bookmark } from 'lucide-react';
 import PersonalizedHero from './feed/PersonalizedHero';
 import UserStats from './feed/UserStats';
-import ContentCard from './feed/ContentCard';
-import TrendingStories from './feed/TrendingStories';
-import QuickPosts from './feed/QuickPosts';
-import UserInterests from './feed/UserInterests';
-import TrendingTopics from './feed/TrendingTopics';
-import TopCreators from './feed/TopCreators';
-import QuickActions from './feed/QuickActions';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
 
@@ -20,143 +15,108 @@ interface UserFeedProps {
 
 const UserFeed = ({ onNavigate }: UserFeedProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showEarningsTracker, setShowEarningsTracker] = useState(true); // Show by default
   const [selectedContent, setSelectedContent] = useState<any>(null);
 
-  // Personalized featured content based on user interests
-  const personalizedContent = [
+  // Single column feed content
+  const feedPosts = [
     {
-      title: "Bitcoin Bull Run: What's Driving the $94K Rally?",
+      id: 1,
       creator: "CryptoAnalyst",
+      handle: "@cryptoanalyst",
       badge: "Gold Creator",
-      engagement: "2.4K tips",
+      timeAgo: "2h",
+      content: "Bitcoin Bull Run: What's Driving the $94K Rally?",
+      description: "The recent surge past $94K represents a significant psychological barrier. Key factors include increased institutional adoption, favorable regulatory news, and strong on-chain metrics. The momentum appears sustainable with support levels holding firm.",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop",
+      engagement: {
+        likes: 2400,
+        shares: 156,
+        comments: 89,
+        views: 12500
+      },
       earnings: "45.8 FPT",
-      views: "12.5K",
-      comments: 89,
-      shares: 156,
-      timeAgo: "2h ago",
       category: "Crypto Analysis",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=150&fit=crop",
-      isRecommended: true
+      isRecommended: true,
+      isFollowing: false
     },
     {
-      title: "DeFi Renaissance: Top 5 Protocols to Watch in 2024",
+      id: 2,
       creator: "DeFiGuru",
+      handle: "@defiguru",
       badge: "Platinum Creator",
-      engagement: "1.8K tips",
+      timeAgo: "4h",
+      content: "DeFi Renaissance: Top 5 Protocols to Watch in 2024",
+      description: "The DeFi landscape is evolving rapidly. Here are the protocols showing the most promise: 1) Uniswap V4 with hooks, 2) Aave's GHO stablecoin expansion, 3) Compound III growth, 4) Curve's new tokenomics, 5) Lido's staking dominance. Each represents a unique opportunity in the evolving ecosystem.",
+      engagement: {
+        likes: 1800,
+        shares: 134,
+        comments: 67,
+        views: 8900
+      },
       earnings: "38.2 FPT",
-      views: "8.9K",
-      comments: 67,
-      shares: 134,
-      timeAgo: "4h ago",
       category: "DeFi",
-      hasImage: false,
       isFollowing: true
     },
     {
-      title: "NFT Market Recovery: Blue Chips Lead the Way",
+      id: 3,
       creator: "NFTTracker",
+      handle: "@nfttracker",
       badge: "Silver Creator",
-      engagement: "1.2K tips",
+      timeAgo: "6h",
+      content: "NFT Market Recovery: Blue Chips Lead the Way",
+      description: "Floor prices for top collections are showing signs of recovery. BAYC, CryptoPunks, and Azuki are leading the charge with increased trading volume and whale accumulation patterns. The market sentiment is shifting positive.",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop",
+      engagement: {
+        likes: 1200,
+        shares: 89,
+        comments: 45,
+        views: 6700
+      },
       earnings: "28.5 FPT",
-      views: "6.7K",
-      comments: 45,
-      shares: 89,
-      timeAgo: "6h ago",
-      category: "NFTs",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=150&fit=crop"
+      category: "NFTs"
     },
     {
-      title: "AI Revolution in Finance: Which Stocks Will Soar?",
+      id: 4,
       creator: "TechAnalyst",
+      handle: "@techanalyst",
       badge: "Gold Creator",
-      engagement: "2.1K tips",
+      timeAgo: "8h",
+      content: "AI Revolution in Finance: Which Stocks Will Soar?",
+      description: "AI integration in financial services is accelerating. Companies like NVDA, MSFT, and emerging fintech players are positioning themselves for massive growth. The convergence of AI and finance presents unprecedented opportunities for investors.",
+      engagement: {
+        likes: 2100,
+        shares: 167,
+        comments: 78,
+        views: 11200
+      },
       earnings: "42.3 FPT",
-      views: "11.2K",
-      comments: 78,
-      shares: 167,
-      timeAgo: "8h ago",
       category: "AI & Tech",
-      hasImage: false,
       isRecommended: true
     },
     {
-      title: "Macro Outlook: Fed Policy Impact on Crypto Markets",
+      id: 5,
       creator: "MacroMind",
+      handle: "@macromind",
       badge: "Platinum Creator",
-      engagement: "3.2K tips",
+      timeAgo: "1d",
+      content: "Macro Outlook: Fed Policy Impact on Crypto Markets",
+      description: "The Federal Reserve's monetary policy decisions continue to significantly impact cryptocurrency markets. Current signals suggest a dovish stance may benefit risk assets including crypto. Key levels to watch and timing considerations for the next quarter.",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=300&fit=crop",
+      engagement: {
+        likes: 3200,
+        shares: 289,
+        comments: 123,
+        views: 15800
+      },
       earnings: "58.7 FPT",
-      views: "15.8K",
-      comments: 123,
-      shares: 289,
-      timeAgo: "1d ago",
       category: "Macroeconomics",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=150&fit=crop",
       isFollowing: true
-    },
-    {
-      title: "Solana vs Ethereum: The L1 Battle Intensifies",
-      creator: "BlockchainBull",
-      badge: "Gold Creator",
-      engagement: "1.9K tips",
-      earnings: "36.4 FPT",
-      views: "9.3K",
-      comments: 92,
-      shares: 178,
-      timeAgo: "1d ago",
-      category: "Blockchain",
-      hasImage: false
-    },
-    {
-      title: "Altcoin Season Alert: Top 10 Gems Under $1",
-      creator: "AltcoinHunter",
-      badge: "Silver Creator",
-      engagement: "1.5K tips",
-      earnings: "31.2 FPT",
-      views: "7.8K",
-      comments: 56,
-      shares: 98,
-      timeAgo: "2d ago",
-      category: "Altcoins",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=150&fit=crop",
-      isRecommended: true
-    },
-    {
-      title: "Stablecoin Market Analysis: USDT vs USDC",
-      creator: "StableMaster",
-      badge: "Gold Creator",
-      engagement: "1.1K tips",
-      earnings: "24.6 FPT",
-      views: "5.2K",
-      comments: 34,
-      shares: 67,
-      timeAgo: "2d ago",
-      category: "Stablecoins",
-      hasImage: false
-    },
-    {
-      title: "Layer 2 Solutions: Arbitrum's Latest Upgrade",
-      creator: "L2Expert",
-      badge: "Platinum Creator",
-      engagement: "2.8K tips",
-      earnings: "52.3 FPT",
-      views: "13.6K",
-      comments: 101,
-      shares: 203,
-      timeAgo: "3d ago",
-      category: "Layer 2",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=150&fit=crop"
     }
   ];
 
   const handleShare = (content: any) => {
     setSelectedContent({
-      title: content.title,
+      title: content.content,
       creator: content.creator,
       estimatedEarnings: "2.4 FPT"
     });
@@ -167,6 +127,106 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
     setShowShareModal(false);
   };
 
+  const renderFeedPost = (post: any) => (
+    <Card key={post.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
+      <CardContent className="p-6">
+        {/* User Header */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+              <span className="text-black font-bold">{post.creator.charAt(0)}</span>
+            </div>
+            <div>
+              <div className="flex items-center space-x-2 mb-1">
+                <span className="text-white font-semibold">{post.creator}</span>
+                <Badge className={`text-xs ${
+                  post.badge === 'Platinum' ? 'bg-purple-500 text-white' : 
+                  post.badge === 'Gold' ? 'bg-yellow-500 text-black' : 
+                  'bg-gray-500 text-white'
+                }`}>
+                  {post.badge}
+                </Badge>
+                {post.isFollowing && (
+                  <Badge className="bg-blue-600 text-white text-xs">Following</Badge>
+                )}
+                {post.isRecommended && (
+                  <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>
+                )}
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400 text-sm">
+                <span>{post.handle}</span>
+                <span>•</span>
+                <span>{post.timeAgo}</span>
+                <span>•</span>
+                <Badge className="bg-blue-600 text-white text-xs">{post.category}</Badge>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+              <MoreHorizontal className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="mb-4">
+          <h3 className="text-white font-semibold text-xl mb-3">{post.content}</h3>
+          <p className="text-gray-300 leading-relaxed">{post.description}</p>
+        </div>
+
+        {/* Image */}
+        {post.image && (
+          <div className="mb-4">
+            <img 
+              src={post.image} 
+              alt={post.content}
+              className="w-full h-80 rounded-lg object-cover"
+            />
+          </div>
+        )}
+
+        {/* Engagement Stats */}
+        <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
+          <div className="flex items-center space-x-4">
+            <span>{post.engagement.views.toLocaleString()} views</span>
+            <span>{post.engagement.comments} comments</span>
+            <span>{post.engagement.shares} shares</span>
+          </div>
+          <span className="text-green-400 font-semibold">Earned: {post.earnings}</span>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between pt-4 border-t border-gray-800">
+          <div className="flex items-center space-x-8">
+            <button className="flex items-center space-x-2 text-gray-400 hover:text-red-400 transition-colors">
+              <Heart className="w-5 h-5" />
+              <span>{post.engagement.likes}</span>
+            </button>
+            <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors">
+              <MessageCircle className="w-5 h-5" />
+              <span>{post.engagement.comments}</span>
+            </button>
+            <button className="flex items-center space-x-2 text-gray-400 hover:text-green-400 transition-colors">
+              <Repeat2 className="w-5 h-5" />
+              <span>{post.engagement.shares}</span>
+            </button>
+            <button 
+              className="flex items-center space-x-2 text-gray-400 hover:text-yellow-400 transition-colors"
+              onClick={() => handleShare(post)}
+            >
+              <Share2 className="w-5 h-5" />
+              <span>Share & Earn</span>
+            </button>
+          </div>
+          <button className="text-gray-400 hover:text-yellow-400 transition-colors">
+            <Bookmark className="w-5 h-5" />
+          </button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div className="min-h-screen bg-black text-white">
       <section className="max-w-[1440px] mx-auto px-8 py-8">
@@ -174,44 +234,42 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
         <UserStats />
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Main Content Area */}
+          {/* Main Feed - Single Column */}
           <div className="col-span-8">
-            {/* Filter Options */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-3">
-                <h2 className="text-2xl font-bold">For You</h2>
-                <Badge className="bg-yellow-600 text-black text-xs">Personalized</Badge>
+            {/* Feed Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-4">
+                <h2 className="text-2xl font-bold">Your Feed</h2>
+                <Badge className="bg-yellow-600 text-black text-sm">Personalized</Badge>
               </div>
               <div className="flex items-center space-x-2">
-                <Button variant="outline" className="text-sm">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filter
+                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
+                  Latest
                 </Button>
-                <Button variant="outline" className="text-sm">
-                  View All
+                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
+                  Following
+                </Button>
+                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
+                  Trending
                 </Button>
               </div>
             </div>
 
-            {/* Personalized Featured Content */}
-            <div className="mb-8">
-              <div className="grid grid-cols-3 gap-4">
-                {personalizedContent.map((content, index) => (
-                  <ContentCard 
-                    key={index} 
-                    content={content} 
-                    onShare={handleShare}
-                  />
-                ))}
-              </div>
+            {/* Feed Posts */}
+            <div className="space-y-6">
+              {feedPosts.map(renderFeedPost)}
             </div>
 
-            <TrendingStories />
-            <QuickPosts />
+            {/* Load More */}
+            <div className="text-center mt-8">
+              <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700">
+                Load More Posts
+              </Button>
+            </div>
           </div>
 
           {/* Sidebar */}
-          <div className="col-span-4 space-y-4">
+          <div className="col-span-4 space-y-6">
             {/* Embedded Earnings Tracker */}
             <EarningsTracker 
               isVisible={true}
@@ -219,10 +277,51 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
               onNavigate={onNavigate}
               isEmbedded={true}
             />
-            <UserInterests />
-            <TrendingTopics />
-            <TopCreators />
-            <QuickActions />
+
+            {/* Trending Now */}
+            <Card className="bg-gray-900 border-gray-800">
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3">Trending Now</h3>
+                <div className="space-y-3">
+                  {[
+                    { topic: "Bitcoin ETF", posts: "2.4K posts", trend: "+15%" },
+                    { topic: "AI Stocks", posts: "1.8K posts", trend: "+23%" },
+                    { topic: "DeFi Yield", posts: "1.2K posts", trend: "+8%" },
+                    { topic: "NFT Markets", posts: "980 posts", trend: "+12%" }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-b-0">
+                      <div>
+                        <div className="text-white font-medium">#{item.topic}</div>
+                        <div className="text-gray-400 text-sm">{item.posts}</div>
+                      </div>
+                      <div className="text-green-400 text-sm">{item.trend}</div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Actions */}
+            <Card className="bg-gray-900 border-gray-800">
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-3">Quick Actions</h3>
+                <div className="space-y-2">
+                  <Button 
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    onClick={() => onNavigate?.(4)}
+                  >
+                    Create Content
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-gray-600 text-gray-300"
+                    onClick={() => onNavigate?.(5)}
+                  >
+                    View Dashboard
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

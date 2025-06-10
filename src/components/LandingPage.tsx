@@ -1,173 +1,106 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp } from 'lucide-react';
+import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2 } from 'lucide-react';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
 }
 
 const LandingPage = ({ onNavigate }: LandingPageProps) => {
-  const featuredContent = [
+  const feedContent = [
     {
-      title: "Bitcoin Bull Run: What's Driving the $94K Rally?",
+      id: 1,
+      type: 'post',
       creator: "CryptoAnalyst",
+      handle: "@cryptoanalyst",
       badge: "Gold Creator",
-      engagement: "2.4K tips",
+      timeAgo: "2h",
+      content: "Bitcoin Bull Run: What's Driving the $94K Rally?",
+      description: "The recent surge past $94K represents a significant psychological barrier. Key factors include increased institutional adoption, favorable regulatory news, and strong on-chain metrics. The momentum appears sustainable with support levels holding firm.",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=250&fit=crop",
+      engagement: {
+        likes: 2400,
+        shares: 156,
+        comments: 89,
+        views: 12500
+      },
       earnings: "45.8 FPT",
-      views: "12.5K",
-      comments: 89,
-      shares: 156,
-      timeAgo: "2h ago",
-      category: "Crypto Analysis",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=150&fit=crop"
+      category: "Crypto Analysis"
     },
     {
-      title: "DeFi Renaissance: Top 5 Protocols to Watch in 2024",
+      id: 2,
+      type: 'post',
       creator: "DeFiGuru",
+      handle: "@defiguru",
       badge: "Platinum Creator",
-      engagement: "1.8K tips",
+      timeAgo: "4h",
+      content: "DeFi Renaissance: Top 5 Protocols to Watch in 2024",
+      description: "The DeFi landscape is evolving rapidly. Here are the protocols showing the most promise: 1) Uniswap V4 with hooks, 2) Aave's GHO stablecoin expansion, 3) Compound III growth, 4) Curve's new tokenomics, 5) Lido's staking dominance.",
+      engagement: {
+        likes: 1800,
+        shares: 134,
+        comments: 67,
+        views: 8900
+      },
       earnings: "38.2 FPT",
-      views: "8.9K",
-      comments: 67,
-      shares: 134,
-      timeAgo: "4h ago",
-      category: "DeFi",
-      hasImage: false
+      category: "DeFi"
     },
     {
-      title: "NFT Market Recovery: Blue Chips Lead the Way",
+      id: 3,
+      type: 'trending',
+      title: "SEC Approves Bitcoin ETF Options Trading",
+      views: "45.2K",
+      timeAgo: "1h",
+      category: "Breaking News"
+    },
+    {
+      id: 4,
+      type: 'post',
       creator: "NFTTracker",
+      handle: "@nfttracker",
       badge: "Silver Creator",
-      engagement: "1.2K tips",
+      timeAgo: "6h",
+      content: "NFT Market Recovery: Blue Chips Lead the Way",
+      description: "Floor prices for top collections are showing signs of recovery. BAYC, CryptoPunks, and Azuki are leading the charge with increased trading volume and whale accumulation patterns.",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=250&fit=crop",
+      engagement: {
+        likes: 1200,
+        shares: 89,
+        comments: 45,
+        views: 6700
+      },
       earnings: "28.5 FPT",
-      views: "6.7K",
-      comments: 45,
-      shares: 89,
-      timeAgo: "6h ago",
-      category: "NFTs",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=150&fit=crop"
+      category: "NFTs"
     },
     {
-      title: "AI Revolution in Finance: Which Stocks Will Soar?",
+      id: 5,
+      type: 'post',
       creator: "TechAnalyst",
+      handle: "@techanalyst",
       badge: "Gold Creator",
-      engagement: "2.1K tips",
+      timeAgo: "8h",
+      content: "AI Revolution in Finance: Which Stocks Will Soar?",
+      description: "AI integration in financial services is accelerating. Companies like NVDA, MSFT, and emerging fintech players are positioning themselves for massive growth. The convergence of AI and finance presents unprecedented opportunities.",
+      engagement: {
+        likes: 2100,
+        shares: 167,
+        comments: 78,
+        views: 11200
+      },
       earnings: "42.3 FPT",
-      views: "11.2K",
-      comments: 78,
-      shares: 167,
-      timeAgo: "8h ago",
-      category: "AI & Tech",
-      hasImage: false
+      category: "AI & Tech"
     },
     {
-      title: "Macro Outlook: Fed Policy Impact on Crypto Markets",
-      creator: "MacroMind",
-      badge: "Platinum Creator",
-      engagement: "3.2K tips",
-      earnings: "58.7 FPT",
-      views: "15.8K",
-      comments: 123,
-      shares: 289,
-      timeAgo: "1d ago",
-      category: "Macroeconomics",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=150&fit=crop"
-    },
-    {
-      title: "Solana vs Ethereum: The L1 Battle Intensifies",
-      creator: "BlockchainBull",
-      badge: "Gold Creator",
-      engagement: "1.9K tips",
-      earnings: "36.4 FPT",
-      views: "9.3K",
-      comments: 92,
-      shares: 178,
-      timeAgo: "1d ago",
-      category: "Blockchain",
-      hasImage: false
-    },
-    {
-      title: "Altcoin Season Alert: Top 10 Gems Under $1",
-      creator: "AltcoinHunter",
-      badge: "Silver Creator",
-      engagement: "1.5K tips",
-      earnings: "31.2 FPT",
-      views: "7.8K",
-      comments: 56,
-      shares: 98,
-      timeAgo: "2d ago",
-      category: "Altcoins",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=150&fit=crop"
-    },
-    {
-      title: "Stablecoin Market Analysis: USDT vs USDC",
-      creator: "StableMaster",
-      badge: "Gold Creator",
-      engagement: "1.1K tips",
-      earnings: "24.6 FPT",
-      views: "5.2K",
-      comments: 34,
-      shares: 67,
-      timeAgo: "2d ago",
-      category: "Stablecoins",
-      hasImage: false
-    },
-    {
-      title: "Layer 2 Solutions: Arbitrum's Latest Upgrade",
-      creator: "L2Expert",
-      badge: "Platinum Creator",
-      engagement: "2.8K tips",
-      earnings: "52.3 FPT",
-      views: "13.6K",
-      comments: 101,
-      shares: 203,
-      timeAgo: "3d ago",
-      category: "Layer 2",
-      hasImage: true,
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=150&fit=crop"
+      id: 6,
+      type: 'trending',
+      title: "Ethereum Merge Anniversary: 1 Year Later",
+      views: "38.9K",
+      timeAgo: "2h",
+      category: "Analysis"
     }
-  ];
-
-  const trendingStories = [
-    { title: "SEC Approves Bitcoin ETF Options Trading", views: "45.2K", timeAgo: "1h" },
-    { title: "Ethereum Merge Anniversary: 1 Year Later", views: "38.9K", timeAgo: "2h" },
-    { title: "Binance Launches New DeFi Product Suite", views: "32.1K", timeAgo: "3h" },
-    { title: "Tesla Adds Dogecoin Payment Option", views: "28.7K", timeAgo: "4h" },
-    { title: "Cardano Smart Contracts Hit New Milestone", views: "25.3K", timeAgo: "5h" },
-    { title: "Polygon zkEVM Goes Live on Mainnet", views: "22.8K", timeAgo: "6h" },
-    { title: "Chainlink Oracle Network Expansion", views: "19.4K", timeAgo: "7h" },
-    { title: "Uniswap V4 Beta Testing Begins", views: "17.2K", timeAgo: "8h" }
-  ];
-
-  const quickPosts = [
-    { title: "BTC Technical Analysis: Key Levels", creator: "ChartMaster", tips: "1.2K", timeAgo: "30m" },
-    { title: "Altseason Indicators Flashing Green", creator: "AltTrader", tips: "980", timeAgo: "45m" },
-    { title: "DeFi TVL Surpasses $200B Milestone", creator: "DeFiData", tips: "2.1K", timeAgo: "1h" },
-    { title: "NFT Volume Spikes 340% This Week", creator: "NFTStats", tips: "1.5K", timeAgo: "1h" },
-    { title: "Institutional Adoption Report Q4", creator: "InstitutionalPro", tips: "3.2K", timeAgo: "2h" },
-    { title: "Yield Farming Strategies Updated", creator: "YieldGuru", tips: "890", timeAgo: "2h" }
-  ];
-
-  const topCreators = [
-    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K", posts: 127 },
-    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K", posts: 89 },
-    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K", posts: 156 },
-    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K", posts: 78 },
-    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K", posts: 94 }
-  ];
-
-  const trendingTopics = [
-    { name: "Bitcoin ETF", posts: 234, growth: "+15%" },
-    { name: "AI Stocks", posts: 189, growth: "+23%" },
-    { name: "DeFi Yield", posts: 156, growth: "+8%" },
-    { name: "NFT Markets", posts: 134, growth: "+12%" },
-    { name: "Fed Policy", posts: 98, growth: "+34%" }
   ];
 
   const liveStats = [
@@ -177,34 +110,135 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
     { label: "Success Rate", value: "89%", icon: Award, color: "text-blue-400" }
   ];
 
+  const renderFeedItem = (item: any) => {
+    if (item.type === 'trending') {
+      return (
+        <Card key={item.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <Badge className="bg-red-600 text-white text-xs">Trending</Badge>
+              <span className="text-gray-500 text-sm">{item.timeAgo}</span>
+            </div>
+            <h3 className="text-white font-semibold mb-1">{item.title}</h3>
+            <div className="flex items-center text-gray-400 text-sm">
+              <Eye className="w-4 h-4 mr-1" />
+              <span>{item.views} views</span>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return (
+      <Card key={item.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
+        <CardContent className="p-4">
+          {/* User Header */}
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
+                <span className="text-black font-bold text-sm">{item.creator.charAt(0)}</span>
+              </div>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-white font-semibold">{item.creator}</span>
+                  <Badge className={`text-xs ${
+                    item.badge === 'Platinum' ? 'bg-purple-500 text-white' : 
+                    item.badge === 'Gold' ? 'bg-yellow-500 text-black' : 
+                    'bg-gray-500 text-white'
+                  }`}>
+                    {item.badge}
+                  </Badge>
+                </div>
+                <div className="flex items-center space-x-2 text-gray-400 text-sm">
+                  <span>{item.handle}</span>
+                  <span>•</span>
+                  <span>{item.timeAgo}</span>
+                </div>
+              </div>
+            </div>
+            <Badge className="bg-blue-600 text-white text-xs">{item.category}</Badge>
+          </div>
+
+          {/* Content */}
+          <div className="mb-3">
+            <h3 className="text-white font-semibold text-lg mb-2">{item.content}</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">{item.description}</p>
+          </div>
+
+          {/* Image */}
+          {item.image && (
+            <div className="mb-3">
+              <img 
+                src={item.image} 
+                alt={item.content}
+                className="w-full h-64 rounded-lg object-cover"
+              />
+            </div>
+          )}
+
+          {/* Engagement Stats */}
+          <div className="flex items-center justify-between text-gray-400 text-sm mb-3">
+            <div className="flex items-center space-x-4">
+              <span>{item.engagement.views.toLocaleString()} views</span>
+              <span>{item.engagement.comments} comments</span>
+            </div>
+            <span className="text-green-400 font-semibold">{item.earnings}</span>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+            <div className="flex items-center space-x-6">
+              <button className="flex items-center space-x-2 text-gray-400 hover:text-red-400 transition-colors">
+                <Heart className="w-5 h-5" />
+                <span>{item.engagement.likes}</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors">
+                <MessageCircle className="w-5 h-5" />
+                <span>{item.engagement.comments}</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-400 hover:text-green-400 transition-colors">
+                <Repeat2 className="w-5 h-5" />
+                <span>{item.engagement.shares}</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-400 hover:text-yellow-400 transition-colors">
+                <Share2 className="w-5 h-5" />
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section - Much More Compact */}
+      {/* Hero Section - Compact */}
       <section className="max-w-[1440px] mx-auto px-8 py-8">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-            Earn crypto by sharing quality content
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+            Earn Crypto for Contributing Content or Sharing Value
           </h1>
-          <p className="text-base text-gray-300 mb-4 max-w-2xl mx-auto">
-            Join the Web3 platform for creators, curators, and commentators.
+          <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
+            Join the Web3 platform for creators, publishers, curators, and commentators.
           </p>
-          <div className="flex gap-3 justify-center mb-6">
+          <div className="flex gap-4 justify-center mb-8">
             <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-5 py-2"
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
               onClick={() => onNavigate?.(1)}
             >
               Start Earning
             </Button>
             <Button 
               variant="outline" 
-              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-5 py-2"
+              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-6 py-3"
             >
               Learn More
             </Button>
           </div>
           
-          {/* Single Row of Important Stats */}
-          <div className="grid grid-cols-4 gap-6 mb-6">
+          {/* Stats Row */}
+          <div className="grid grid-cols-4 gap-6 mb-8">
             {liveStats.map((stat, index) => (
               <Card key={index} className="bg-gray-900 border-gray-800">
                 <CardContent className="p-4 text-center">
@@ -217,185 +251,33 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-6">
-          {/* Main Content Area */}
-          <div className="col-span-8">
-            {/* Featured Content - Much Denser */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold">Featured Content</h2>
-                <Button variant="outline" className="border-gray-500 text-white hover:bg-gray-700 hover:text-white text-sm">
-                  View All
-                </Button>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                {featuredContent.map((content, index) => (
-                  <Card key={index} className="bg-gray-900 border-gray-800 hover:border-yellow-500 transition-colors">
-                    <CardContent className="p-3">
-                      <div className="flex items-start justify-between mb-2">
-                        <Badge className="bg-blue-600 text-white text-xs">{content.category}</Badge>
-                        <span className="text-gray-400 text-xs">{content.timeAgo}</span>
-                      </div>
-                      
-                      {/* Conditional Image - Smaller */}
-                      {content.hasImage && (
-                        <div className="mb-2">
-                          <img 
-                            src={content.thumbnail} 
-                            alt={content.title}
-                            className="w-full h-20 rounded object-cover"
-                          />
-                        </div>
-                      )}
-                      
-                      <h3 className="text-sm font-semibold mb-2 text-white line-clamp-2">{content.title}</h3>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-1">
-                          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                          <span className="text-gray-300 text-xs">{content.creator}</span>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-3 gap-2 text-xs text-gray-400 mb-2">
-                        <div className="flex items-center space-x-1">
-                          <Eye className="w-3 h-3" />
-                          <span>{content.views}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <MessageCircle className="w-3 h-3" />
-                          <span>{content.comments}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Share2 className="w-3 h-3" />
-                          <span>{content.shares}</span>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-400">{content.engagement}</span>
-                        <span className="text-green-400 font-semibold">{content.earnings}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Trending Stories - New Dense Section */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">Trending Stories</h2>
-              <div className="grid grid-cols-2 gap-3">
-                {trendingStories.map((story, index) => (
-                  <Card key={index} className="bg-gray-900 border-gray-800 hover:border-yellow-500 transition-colors">
-                    <CardContent className="p-3">
-                      <h3 className="text-sm font-medium text-white mb-1 line-clamp-1">{story.title}</h3>
-                      <div className="flex justify-between items-center text-xs text-gray-400">
-                        <div className="flex items-center space-x-1">
-                          <Eye className="w-3 h-3" />
-                          <span>{story.views} views</span>
-                        </div>
-                        <span>{story.timeAgo}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Posts - New Dense Section */}
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Quick Posts</h2>
-              <div className="grid grid-cols-3 gap-3">
-                {quickPosts.map((post, index) => (
-                  <Card key={index} className="bg-gray-900 border-gray-800">
-                    <CardContent className="p-3">
-                      <h3 className="text-sm font-medium text-white mb-1 line-clamp-2">{post.title}</h3>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-400">@{post.creator}</span>
-                        <span className="text-yellow-400">{post.tips} tips</span>
-                      </div>
-                      <span className="text-gray-500 text-xs">{post.timeAgo}</span>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+        {/* Single Column Feed */}
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold">Live Feed</h2>
+            <div className="flex items-center space-x-2">
+              <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
+                Latest
+              </Button>
+              <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
+                Trending
+              </Button>
             </div>
           </div>
+          
+          <div className="space-y-4">
+            {feedContent.map(renderFeedItem)}
+          </div>
 
-          {/* Sidebar - More Compact */}
-          <div className="col-span-4 space-y-4">
-            {/* Trending Topics */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-                  <TrendingUp className="w-4 h-4 mr-2 text-yellow-500" />
-                  Trending Topics
-                </h3>
-                <div className="space-y-2">
-                  {trendingTopics.map((topic, index) => (
-                    <div key={index} className="flex items-center justify-between py-1 border-b border-gray-800 last:border-b-0">
-                      <div>
-                        <div className="font-medium text-white text-sm">#{topic.name}</div>
-                        <div className="text-gray-400 text-xs">{topic.posts} posts</div>
-                      </div>
-                      <div className="flex items-center text-green-400 text-xs">
-                        <ArrowUp className="w-3 h-3 mr-1" />
-                        {topic.growth}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Top Creators Leaderboard */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-                  <Award className="w-4 h-4 mr-2 text-yellow-500" />
-                  Top Creators
-                </h3>
-                <div className="space-y-2">
-                  {topCreators.map((creator, index) => (
-                    <div key={index} className="flex items-center justify-between py-1">
-                      <div className="flex items-center space-x-2">
-                        <div className="text-sm font-bold text-yellow-500">#{index + 1}</div>
-                        <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
-                        <div>
-                          <div className="font-semibold text-white text-xs">{creator.name}</div>
-                          <div className="text-gray-400 text-xs">{creator.followers}</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-green-400 font-bold text-xs">{creator.earnings}</div>
-                        <Badge className={`${creator.badge === 'Platinum' ? 'bg-purple-500' : creator.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
-                          {creator.badge}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Actions */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3">Quick Actions</h3>
-                <div className="space-y-2">
-                  <Button 
-                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-sm"
-                    onClick={() => onNavigate?.(1)}
-                  >
-                    Create Content
-                  </Button>
-                  <Button variant="outline" className="w-full border-gray-500 text-white hover:bg-gray-700 hover:text-white text-sm">
-                    Browse Categories
-                  </Button>
-                  <Button variant="outline" className="w-full border-gray-500 text-white hover:bg-gray-700 hover:text-white text-sm">
-                    View Leaderboard
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Load More */}
+          <div className="text-center mt-8">
+            <Button 
+              variant="outline" 
+              className="border-gray-600 text-gray-300 hover:bg-gray-700"
+              onClick={() => onNavigate?.(1)}
+            >
+              Sign Up to See More Content
+            </Button>
           </div>
         </div>
       </section>
