@@ -29,8 +29,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       engagement: {
         views: 45200,
         comments: 89,
-        shares: 156,
-        likes: 2400
+        shares: 156
       },
       earnings: "45.8 FPT"
     }
@@ -78,8 +77,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       engagement: {
         views: 12500,
         comments: 34,
-        shares: 67,
-        likes: 890
+        shares: 67
       },
       earnings: "32.4 FPT"
     },
@@ -94,8 +92,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       engagement: {
         views: 18900,
         comments: 56,
-        shares: 89,
-        likes: 1200
+        shares: 89
       },
       earnings: "48.7 FPT"
     },
@@ -110,8 +107,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       engagement: {
         views: 8700,
         comments: 23,
-        shares: 45,
-        likes: 670
+        shares: 45
       },
       earnings: "28.9 FPT"
     },
@@ -126,8 +122,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       engagement: {
         views: 15600,
         comments: 67,
-        shares: 78,
-        likes: 1100
+        shares: 78
       },
       earnings: "41.2 FPT"
     },
@@ -142,8 +137,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       engagement: {
         views: 9800,
         comments: 29,
-        shares: 52,
-        likes: 580
+        shares: 52
       },
       earnings: "26.7 FPT"
     },
@@ -158,8 +152,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       engagement: {
         views: 22100,
         comments: 78,
-        shares: 134,
-        likes: 1800
+        shares: 134
       },
       earnings: "58.3 FPT"
     }
@@ -264,13 +257,12 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                       />
                     </div>
                     <div className="md:w-1/3 p-6">
-                      <div className="flex items-center flex-wrap gap-2 mb-3">
+                      <div className="flex items-center space-x-2 mb-3">
                         <Badge className="bg-red-600 text-white text-sm">{story.badge}</Badge>
                         <Badge className="bg-blue-600 text-white text-sm">{story.category}</Badge>
                       </div>
                       <h2 className="text-2xl font-bold text-white mb-3">{story.title}</h2>
                       <p className="text-gray-300 text-sm mb-4">{story.description}</p>
-                      
                       <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
                         <span>by {story.author}</span>
                         <div className="flex items-center space-x-4">
@@ -279,29 +271,14 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         </div>
                       </div>
                       
-                      {/* Engagement Stats - Horizontal Layout */}
-                      <div className="flex items-center justify-between text-sm mb-4 py-3 px-4 bg-gray-800 rounded">
-                        <div className="flex items-center space-x-6">
-                          <div className="flex items-center space-x-1">
-                            <Eye className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-300">{story.engagement.views.toLocaleString()}</span>
-                            <span className="text-gray-500 text-xs">views</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <MessageCircle className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-300">{story.engagement.comments}</span>
-                            <span className="text-gray-500 text-xs">comments</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Repeat2 className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-300">{story.engagement.shares}</span>
-                            <span className="text-gray-500 text-xs">shares</span>
-                          </div>
+                      {/* Engagement Stats */}
+                      <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
+                        <div className="flex items-center space-x-4">
+                          <span>{story.engagement.views.toLocaleString()} views</span>
+                          <span>{story.engagement.comments} comments</span>
+                          <span>{story.engagement.shares} shares</span>
                         </div>
-                        <div className="text-right">
-                          <div className="text-green-400 font-semibold text-lg">{story.earnings}</div>
-                          <div className="text-gray-500 text-xs">Earned</div>
-                        </div>
+                        <span className="text-green-400 font-semibold">Earned: {story.earnings}</span>
                       </div>
 
                       {/* Action Buttons */}
@@ -309,7 +286,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         <div className="flex items-center space-x-6">
                           <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
                             <Heart className="w-4 h-4" />
-                            <span>{story.engagement.likes}</span>
+                            <span>2400</span>
                           </button>
                           <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
                             <MessageCircle className="w-4 h-4" />
@@ -396,25 +373,17 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         <span>{item.timeAgo}</span>
                       </div>
                       
-                      {/* Engagement Stats - Compact Horizontal */}
-                      <div className="flex items-center justify-between text-xs mb-3 py-2 px-3 bg-gray-800 rounded">
+                      {/* Engagement Stats */}
+                      <div className="flex items-center justify-between text-gray-400 text-xs mb-3">
                         <div className="flex items-center space-x-3">
-                          <span className="flex items-center space-x-1">
-                            <Eye className="w-3 h-3 text-gray-400" />
-                            <span className="text-gray-300">{item.engagement.views.toLocaleString()}</span>
-                          </span>
-                          <span className="flex items-center space-x-1">
-                            <MessageCircle className="w-3 h-3 text-gray-400" />
-                            <span className="text-gray-300">{item.engagement.comments}</span>
-                          </span>
-                          <span className="flex items-center space-x-1">
-                            <Repeat2 className="w-3 h-3 text-gray-400" />
-                            <span className="text-gray-300">{item.engagement.shares}</span>
-                          </span>
+                          <span>{item.engagement.views.toLocaleString()} views</span>
+                          <span>{item.engagement.comments} comments</span>
+                          <span>{item.engagement.shares} shares</span>
                         </div>
-                        <div className="text-right">
-                          <div className="text-green-400 font-semibold">{item.earnings}</div>
-                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-green-400 font-semibold">Earned: {item.earnings}</span>
                       </div>
 
                       {/* Action Buttons */}
@@ -422,7 +391,6 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         <div className="flex items-center space-x-4">
                           <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
                             <Heart className="w-3 h-3" />
-                            <span className="text-xs">{item.engagement.likes}</span>
                           </button>
                           <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
                             <MessageCircle className="w-3 h-3" />
