@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, Bookmark } from 'lucide-react';
+import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2 } from 'lucide-react';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import UserStats from '@/components/feed/UserStats';
@@ -25,13 +25,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       author: "Arthur Hayes",
       timeAgo: "2h",
       views: "45.2K",
-      badge: "Editor's Choice",
-      engagement: {
-        views: 45200,
-        comments: 89,
-        shares: 156
-      },
-      earnings: "45.8 FPT"
+      badge: "Editor's Choice"
     }
   ];
 
@@ -73,13 +67,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       category: "NEWS",
       author: "Sam Bourgi",
       timeAgo: "42 minutes ago",
-      type: "news",
-      engagement: {
-        views: 12500,
-        comments: 34,
-        shares: 67
-      },
-      earnings: "32.4 FPT"
+      type: "news"
     },
     {
       id: 2,
@@ -88,13 +76,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       category: "MARKET UPDATE",
       author: "William Suberg",
       timeAgo: "1 hour ago",
-      type: "market",
-      engagement: {
-        views: 18900,
-        comments: 56,
-        shares: 89
-      },
-      earnings: "48.7 FPT"
+      type: "market"
     },
     {
       id: 3,
@@ -103,13 +85,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       category: "OPINION",
       author: "Charu Sethi",
       timeAgo: "1 hour ago",
-      type: "opinion",
-      engagement: {
-        views: 8700,
-        comments: 23,
-        shares: 45
-      },
-      earnings: "28.9 FPT"
+      type: "opinion"
     },
     {
       id: 4,
@@ -118,13 +94,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       category: "EXPLAINED",
       author: "Omkar Singh",
       timeAgo: "1 hour ago",
-      type: "educational",
-      engagement: {
-        views: 15600,
-        comments: 67,
-        shares: 78
-      },
-      earnings: "41.2 FPT"
+      type: "educational"
     },
     {
       id: 5,
@@ -133,13 +103,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       category: "REGULATION",
       author: "Regulatory Desk",
       timeAgo: "2 hours ago",
-      type: "regulation",
-      engagement: {
-        views: 9800,
-        comments: 29,
-        shares: 52
-      },
-      earnings: "26.7 FPT"
+      type: "regulation"
     },
     {
       id: 6,
@@ -148,13 +112,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       category: "MAGAZINE",
       author: "Trade Secrets",
       timeAgo: "3 hours ago",
-      type: "analysis",
-      engagement: {
-        views: 22100,
-        comments: 78,
-        shares: 134
-      },
-      earnings: "58.3 FPT"
+      type: "analysis"
     }
   ];
 
@@ -206,7 +164,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-            Get monetized for contributing or sharing content
+            Get Monetized for Contributing or Sharing Content
           </h1>
           <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
             Join the Web3 platform for creators, publishers, curators, and commentators.
@@ -263,47 +221,12 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                       </div>
                       <h2 className="text-2xl font-bold text-white mb-3">{story.title}</h2>
                       <p className="text-gray-300 text-sm mb-4">{story.description}</p>
-                      <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
+                      <div className="flex items-center justify-between text-gray-400 text-sm">
                         <span>by {story.author}</span>
                         <div className="flex items-center space-x-4">
                           <span>{story.timeAgo}</span>
                           <span>{story.views} views</span>
                         </div>
-                      </div>
-                      
-                      {/* Engagement Stats */}
-                      <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
-                        <div className="flex items-center space-x-4">
-                          <span>{story.engagement.views.toLocaleString()} views</span>
-                          <span>{story.engagement.comments} comments</span>
-                          <span>{story.engagement.shares} shares</span>
-                        </div>
-                        <span className="text-green-400 font-semibold">Earned: {story.earnings}</span>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-800">
-                        <div className="flex items-center space-x-6">
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
-                            <Heart className="w-4 h-4" />
-                            <span>2400</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                            <MessageCircle className="w-4 h-4" />
-                            <span>{story.engagement.comments}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
-                            <Repeat2 className="w-4 h-4" />
-                            <span>{story.engagement.shares}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-yellow-400 transition-colors">
-                            <Share2 className="w-4 h-4" />
-                            <span>Share & Earn</span>
-                          </button>
-                        </div>
-                        <button className="text-gray-400 hover:text-yellow-400 transition-colors">
-                          <Bookmark className="w-4 h-4" />
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -367,44 +290,10 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                     </div>
                     <div className="p-4">
                       <h3 className="text-white font-semibold text-sm mb-3 line-clamp-2">{item.title}</h3>
-                      <div className="text-gray-400 text-xs mb-3">
+                      <div className="text-gray-400 text-xs">
                         <span>by {item.author}</span>
                         <span className="mx-2">•</span>
                         <span>{item.timeAgo}</span>
-                      </div>
-                      
-                      {/* Engagement Stats */}
-                      <div className="flex items-center justify-between text-gray-400 text-xs mb-3">
-                        <div className="flex items-center space-x-3">
-                          <span>{item.engagement.views.toLocaleString()} views</span>
-                          <span>{item.engagement.comments} comments</span>
-                          <span>{item.engagement.shares} shares</span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-green-400 font-semibold">Earned: {item.earnings}</span>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex items-center justify-between pt-3 mt-3 border-t border-gray-800">
-                        <div className="flex items-center space-x-4">
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
-                            <Heart className="w-3 h-3" />
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                            <MessageCircle className="w-3 h-3" />
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
-                            <Repeat2 className="w-3 h-3" />
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-yellow-400 transition-colors">
-                            <Share2 className="w-3 h-3" />
-                          </button>
-                        </div>
-                        <button className="text-gray-400 hover:text-yellow-400 transition-colors">
-                          <Bookmark className="w-3 h-3" />
-                        </button>
                       </div>
                     </div>
                   </CardContent>
