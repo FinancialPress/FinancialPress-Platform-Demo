@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,7 +7,6 @@ import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import UserStats from '@/components/feed/UserStats';
 import QuickActions from '@/components/feed/QuickActions';
-import UserInterests from '@/components/feed/UserInterests';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
@@ -291,7 +289,6 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
           {/* Right Sidebar */}
           <div className="space-y-6">
             <QuickActions />
-            <UserInterests />
             <TrendingTopics />
             <TopCreators />
           </div>
