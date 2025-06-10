@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +7,10 @@ import PersonalizedHero from './feed/PersonalizedHero';
 import UserStats from './feed/UserStats';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
+import TrendingTopics from '@/components/feed/TrendingTopics';
+import TopCreators from '@/components/feed/TopCreators';
+import QuickActions from '@/components/feed/QuickActions';
+import UserInterests from '@/components/feed/UserInterests';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
@@ -233,9 +236,9 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
         <PersonalizedHero onNavigate={onNavigate} />
         <UserStats />
 
-        <div className="grid grid-cols-12 gap-6">
-          {/* Main Feed - Single Column */}
-          <div className="col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Feed - 2/3 width */}
+          <div className="lg:col-span-2">
             {/* Feed Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-4">
@@ -268,8 +271,8 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="col-span-4 space-y-6">
+          {/* Sidebar - 1/3 width */}
+          <div className="space-y-6">
             {/* Embedded Earnings Tracker */}
             <EarningsTracker 
               isVisible={true}
@@ -278,50 +281,10 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
               isEmbedded={true}
             />
 
-            {/* Trending Now */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3">Trending Now</h3>
-                <div className="space-y-3">
-                  {[
-                    { topic: "Bitcoin ETF", posts: "2.4K posts", trend: "+15%" },
-                    { topic: "AI Stocks", posts: "1.8K posts", trend: "+23%" },
-                    { topic: "DeFi Yield", posts: "1.2K posts", trend: "+8%" },
-                    { topic: "NFT Markets", posts: "980 posts", trend: "+12%" }
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-b-0">
-                      <div>
-                        <div className="text-white font-medium">#{item.topic}</div>
-                        <div className="text-gray-400 text-sm">{item.posts}</div>
-                      </div>
-                      <div className="text-green-400 text-sm">{item.trend}</div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Actions */}
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-3">Quick Actions</h3>
-                <div className="space-y-2">
-                  <Button 
-                    className="w-full bg-blue-600 hover:bg-blue-700"
-                    onClick={() => onNavigate?.(4)}
-                  >
-                    Create Content
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-gray-600 text-gray-300"
-                    onClick={() => onNavigate?.(5)}
-                  >
-                    View Dashboard
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <QuickActions />
+            <UserInterests />
+            <TrendingTopics />
+            <TopCreators />
           </div>
         </div>
       </section>
