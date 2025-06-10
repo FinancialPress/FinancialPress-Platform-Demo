@@ -255,78 +255,85 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             <div className="mb-8">
               {featuredNews.map((story) => (
                 <Card key={story.id} className="bg-gray-900 border-gray-800 overflow-hidden">
-                  <div className="md:flex">
-                    <div className="md:w-2/3">
-                      <img 
-                        src={story.image} 
-                        alt={story.title}
-                        className="w-full h-64 md:h-full object-cover"
-                      />
+                  <div className="flex flex-col lg:flex-row">
+                    {/* Image Section */}
+                    <div className="lg:w-3/5">
+                      <div className="relative">
+                        <img 
+                          src={story.image} 
+                          alt={story.title}
+                          className="w-full h-64 lg:h-80 object-cover"
+                        />
+                        <div className="absolute top-4 left-4 flex gap-2">
+                          <Badge className="bg-red-600 text-white">{story.badge}</Badge>
+                          <Badge className="bg-blue-600 text-white">{story.category}</Badge>
+                        </div>
+                      </div>
                     </div>
-                    <div className="md:w-1/3 p-6">
-                      <div className="flex items-center flex-wrap gap-2 mb-3">
-                        <Badge className="bg-red-600 text-white text-sm">{story.badge}</Badge>
-                        <Badge className="bg-blue-600 text-white text-sm">{story.category}</Badge>
+                    
+                    {/* Content Section */}
+                    <div className="lg:w-2/5 p-6 flex flex-col justify-between">
+                      <div>
+                        <h2 className="text-2xl font-bold text-white mb-4 leading-tight">{story.title}</h2>
+                        <p className="text-gray-300 mb-6 line-height-relaxed">{story.description}</p>
+                        
+                        <div className="flex items-center justify-between text-gray-400 text-sm mb-6">
+                          <span className="font-medium">by {story.author}</span>
+                          <div className="flex items-center space-x-4">
+                            <span>{story.timeAgo}</span>
+                            <span>{story.views} views</span>
+                          </div>
+                        </div>
                       </div>
-                      <h2 className="text-2xl font-bold text-white mb-3">{story.title}</h2>
-                      <p className="text-gray-300 text-sm mb-4">{story.description}</p>
                       
-                      <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
-                        <span>by {story.author}</span>
-                        <div className="flex items-center space-x-4">
-                          <span>{story.timeAgo}</span>
-                          <span>{story.views} views</span>
-                        </div>
-                      </div>
-                      
-                      {/* Engagement Stats - Horizontal Layout */}
-                      <div className="flex items-center justify-between text-sm mb-4 py-3 px-4 bg-gray-800 rounded">
-                        <div className="flex items-center space-x-6">
-                          <div className="flex items-center space-x-1">
-                            <Eye className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-300">{story.engagement.views.toLocaleString()}</span>
-                            <span className="text-gray-500 text-xs">views</span>
+                      {/* Bottom Section */}
+                      <div className="space-y-4">
+                        {/* Engagement Stats */}
+                        <div className="flex items-center justify-between text-sm py-3 px-4 bg-gray-800 rounded-lg">
+                          <div className="flex items-center space-x-6">
+                            <div className="flex items-center space-x-2">
+                              <Eye className="w-4 h-4 text-gray-400" />
+                              <span className="text-white font-medium">{story.engagement.views.toLocaleString()}</span>
+                              <span className="text-gray-400">views</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <MessageCircle className="w-4 h-4 text-gray-400" />
+                              <span className="text-white font-medium">{story.engagement.comments}</span>
+                              <span className="text-gray-400">comments</span>
+                            </div>
                           </div>
-                          <div className="flex items-center space-x-1">
-                            <MessageCircle className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-300">{story.engagement.comments}</span>
-                            <span className="text-gray-500 text-xs">comments</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Repeat2 className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-300">{story.engagement.shares}</span>
-                            <span className="text-gray-500 text-xs">shares</span>
+                          <div className="text-right">
+                            <div className="text-green-400 font-bold text-lg">{story.earnings}</div>
+                            <div className="text-gray-400 text-xs">Earned</div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-green-400 font-semibold text-lg">{story.earnings}</div>
-                          <div className="text-gray-500 text-xs">Earned</div>
-                        </div>
-                      </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-800">
-                        <div className="flex items-center space-x-6">
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
-                            <Heart className="w-4 h-4" />
-                            <span>{story.engagement.likes}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                            <MessageCircle className="w-4 h-4" />
-                            <span>{story.engagement.comments}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
-                            <Repeat2 className="w-4 h-4" />
-                            <span>{story.engagement.shares}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-yellow-400 transition-colors">
-                            <Share2 className="w-4 h-4" />
-                            <span>Share & Earn</span>
-                          </button>
+                        {/* Action Buttons */}
+                        <div className="flex items-center justify-between pt-2">
+                          <div className="flex items-center space-x-6">
+                            <button className="flex items-center space-x-2 text-gray-400 hover:text-red-400 transition-colors">
+                              <Heart className="w-5 h-5" />
+                              <span className="font-medium">{story.engagement.likes}</span>
+                            </button>
+                            <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors">
+                              <MessageCircle className="w-5 h-5" />
+                              <span>{story.engagement.comments}</span>
+                            </button>
+                            <button className="flex items-center space-x-2 text-gray-400 hover:text-green-400 transition-colors">
+                              <Repeat2 className="w-5 h-5" />
+                              <span>{story.engagement.shares}</span>
+                            </button>
+                          </div>
+                          <div className="flex items-center space-x-4">
+                            <button className="flex items-center space-x-2 text-gray-400 hover:text-yellow-400 transition-colors">
+                              <Share2 className="w-5 h-5" />
+                              <span className="font-medium">Share & Earn</span>
+                            </button>
+                            <button className="text-gray-400 hover:text-yellow-400 transition-colors">
+                              <Bookmark className="w-5 h-5" />
+                            </button>
+                          </div>
                         </div>
-                        <button className="text-gray-400 hover:text-yellow-400 transition-colors">
-                          <Bookmark className="w-4 h-4" />
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -396,7 +403,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         <span>{item.timeAgo}</span>
                       </div>
                       
-                      {/* Engagement Stats - Compact Horizontal */}
+                      {/* Engagement Stats */}
                       <div className="flex items-center justify-between text-xs mb-3 py-2 px-3 bg-gray-800 rounded">
                         <div className="flex items-center space-x-3">
                           <span className="flex items-center space-x-1">
@@ -407,36 +414,32 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                             <MessageCircle className="w-3 h-3 text-gray-400" />
                             <span className="text-gray-300">{item.engagement.comments}</span>
                           </span>
-                          <span className="flex items-center space-x-1">
-                            <Repeat2 className="w-3 h-3 text-gray-400" />
-                            <span className="text-gray-300">{item.engagement.shares}</span>
-                          </span>
                         </div>
-                        <div className="text-right">
-                          <div className="text-green-400 font-semibold">{item.earnings}</div>
-                        </div>
+                        <div className="text-green-400 font-semibold">{item.earnings}</div>
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex items-center justify-between pt-3 mt-3 border-t border-gray-800">
+                      <div className="flex items-center justify-between pt-3 border-t border-gray-800">
                         <div className="flex items-center space-x-4">
                           <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
                             <Heart className="w-3 h-3" />
                             <span className="text-xs">{item.engagement.likes}</span>
                           </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
+                          <button className="text-gray-400 hover:text-blue-400 transition-colors">
                             <MessageCircle className="w-3 h-3" />
                           </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
+                          <button className="text-gray-400 hover:text-green-400 transition-colors">
                             <Repeat2 className="w-3 h-3" />
                           </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-yellow-400 transition-colors">
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <button className="text-gray-400 hover:text-yellow-400 transition-colors">
                             <Share2 className="w-3 h-3" />
                           </button>
+                          <button className="text-gray-400 hover:text-yellow-400 transition-colors">
+                            <Bookmark className="w-3 h-3" />
+                          </button>
                         </div>
-                        <button className="text-gray-400 hover:text-yellow-400 transition-colors">
-                          <Bookmark className="w-3 h-3" />
-                        </button>
                       </div>
                     </div>
                   </CardContent>
