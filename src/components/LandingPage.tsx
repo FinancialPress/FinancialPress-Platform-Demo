@@ -220,7 +220,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-            Earn Crypto for Contributing Content or Sharing Value
+            Get Monetized for Contributing or Sharing Content
           </h1>
           <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
             Join the Web3 platform for creators, publishers, curators, and commentators.
