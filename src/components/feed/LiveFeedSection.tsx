@@ -117,8 +117,8 @@ const LiveFeedSection = () => {
                 {/* Featured Video Preview */}
                 <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=600&h=400&fit=crop"
-                    alt="Live stream presenter"
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop&crop=face"
+                    alt="Live stream presenter - head and shoulders shot"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
@@ -147,57 +147,41 @@ const LiveFeedSection = () => {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="text-gray-400 text-sm">2h</span>
                         <MoreHorizontal className="w-4 h-4 text-gray-400" />
                       </div>
                     </div>
 
-                    {/* Labels */}
-                    <div className="flex items-center space-x-2 mb-3">
-                      <Badge className="bg-blue-600 text-white text-xs">Latest News</Badge>
-                      <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>
-                    </div>
-
                     {/* Content */}
                     <h3 className="text-white font-semibold text-lg mb-2">
-                      Bank of Japan Pivot to QE May Fuel Bitcoin Rally
+                      How Japan's Central Bank Could Spark the Next Bitcoin Surge
                     </h3>
-                    <p className="text-gray-300 text-sm mb-4 line-clamp-2">
-                      Central bank's monetary policy shift could trigger significant cryptocurrency market movement as institutional adoption accelerates globally.
+                    <p className="text-gray-300 text-sm mb-4 line-clamp-4">
+                      Trusted FinTech vlogger Arthur Hayes takes you inside the latest central bank policy shift in Japan, unpacking the key opportunities for investors and the potential risks that could impact global crypto markets. In this live session, he explores how institutional sentiment is shifting and what it means for Bitcoin's next rally. Tune in for sharp insights, real-time reactions, and actionable takeaways...
                     </p>
 
                     {/* Stats */}
-                    <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
+                    <div className="flex items-center text-sm text-gray-400 mb-4">
                       <div className="flex items-center space-x-4">
                         <span>45.2K views</span>
                         <span>89 comments</span>
                         <span>156 shares</span>
                       </div>
-                      <div className="text-green-400 font-semibold text-center">
-                        <div className="text-base">52.8</div>
-                        <div className="text-xs">FPT Earned</div>
-                      </div>
                     </div>
 
                     {/* Footer Actions */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
-                          <Heart className="w-4 h-4" />
-                          <span className="text-sm">2400</span>
-                        </button>
-                        <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                          <MessageCircle className="w-4 h-4" />
-                          <span className="text-sm">89</span>
-                        </button>
-                        <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
-                          <Share2 className="w-4 h-4" />
-                          <span className="text-sm">156</span>
-                        </button>
-                      </div>
-                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-semibold px-3 py-1">
-                        Share & Earn
-                      </Button>
+                    <div className="flex items-center space-x-4">
+                      <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
+                        <Heart className="w-4 h-4" />
+                        <span className="text-sm">2400</span>
+                      </button>
+                      <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
+                        <MessageCircle className="w-4 h-4" />
+                        <span className="text-sm">89</span>
+                      </button>
+                      <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
+                        <Share2 className="w-4 h-4" />
+                        <span className="text-sm">156</span>
+                      </button>
                     </div>
                   </CardContent>
                 </Card>
