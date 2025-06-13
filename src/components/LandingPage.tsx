@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -140,7 +139,6 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       earnings: "58.7",
       type: "analysis"
     },
-    // Additional articles to fill dead space
     {
       id: 7,
       title: "DeFi Protocol Launches Revolutionary Staking Mechanism",
@@ -188,6 +186,54 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       likes: 2340,
       earnings: "45.2",
       type: "gaming"
+    },
+    {
+      id: 10,
+      title: "Ethereum Layer 2 Solutions Drive Record TVL Growth",
+      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=200&fit=crop",
+      category: "LAYER 2",
+      author: "L2 Analytics",
+      handle: "@l2analytics",
+      badge: "Gold Creator",
+      timeAgo: "5h",
+      views: "16.4K",
+      comments: 73,
+      shares: 145,
+      likes: 1890,
+      earnings: "41.3",
+      type: "layer2"
+    },
+    {
+      id: 11,
+      title: "Institutional Bitcoin Holdings Reach All-Time High",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop",
+      category: "INSTITUTIONAL",
+      author: "Corporate Watch",
+      handle: "@corpwatch",
+      badge: "Platinum Creator",
+      timeAgo: "6h",
+      views: "21.7K",
+      comments: 95,
+      shares: 178,
+      likes: 2450,
+      earnings: "48.9",
+      type: "institutional"
+    },
+    {
+      id: 12,
+      title: "NFT Marketplace Revenues Surge 340% This Quarter",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=200&fit=crop",
+      category: "NFT",
+      author: "NFT Tracker",
+      handle: "@nfttracker",
+      badge: "Silver Creator",
+      timeAgo: "7h",
+      views: "13.8K",
+      comments: 58,
+      shares: 119,
+      likes: 1567,
+      earnings: "35.7",
+      type: "nft"
     }
   ];
 
@@ -209,6 +255,9 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       case 'defi': return 'bg-indigo-600';
       case 'cbdc': return 'bg-teal-600';
       case 'gaming': return 'bg-violet-600';
+      case 'layer2': return 'bg-gray-600';
+      case 'institutional': return 'bg-gray-600';
+      case 'nft': return 'bg-gray-600';
       default: return 'bg-gray-600';
     }
   };
@@ -281,7 +330,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
               {activeTab === 'live' ? (
                 <LiveFeedSection />
               ) : (
-                // Breaking News - Featured Article
+                // Breaking News - Full Featured Article Layout
                 <Card className={`${cardClasses} mb-8`}>
                   <CardContent className="p-0">
                     <div className="grid md:grid-cols-2 gap-0">
@@ -390,7 +439,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                 </div>
               </div>
 
-              {/* Content Grid */}
+              {/* Content Grid - Extended with more articles */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {contentGrid.map((item) => (
                   <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors`}>
@@ -486,7 +535,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             <TopComments />
             <TrendingTopics />
             
-            {/* Stats Section - Moved to Right Sidebar Bottom */}
+            {/* Stats Section - Moved to Bottom and Stacked */}
             <div className="space-y-4">
               <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>Platform Stats</h3>
               {liveStats.map((stat, index) => (

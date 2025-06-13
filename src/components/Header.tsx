@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -51,7 +50,7 @@ const Header = ({
         <div className="max-w-[1440px] mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              {/* Demo Toggle Button - Just '<' when minimized */}
+              {/* Demo Toggle Button - Just '<' */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -59,7 +58,6 @@ const Header = ({
                 onClick={onToggleDemo}
               >
                 <ChevronLeft className="w-4 h-4" />
-                {!isDemoMinimized && <span className="ml-1">Demo</span>}
               </Button>
               
               <img 
