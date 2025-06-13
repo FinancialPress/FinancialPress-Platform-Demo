@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,7 @@ import { Input } from '@/components/ui/input';
 
 interface HeaderProps {
   onNavigate?: (screen: number) => void;
+  currentScreen?: number;
   isLoggedIn?: boolean;
   isDemoMinimized?: boolean;
   onToggleDemo?: () => void;
@@ -14,6 +16,7 @@ interface HeaderProps {
 
 const Header = ({ 
   onNavigate, 
+  currentScreen = 0,
   isLoggedIn = false, 
   isDemoMinimized = false, 
   onToggleDemo,
@@ -22,6 +25,69 @@ const Header = ({
 }: HeaderProps) => {
   return (
     <>
+      {/* Demo Navigation Strip */}
+      <div className="w-full bg-yellow-500 border-b border-yellow-600">
+        <div className="max-w-[1440px] mx-auto px-8 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-6 text-sm">
+              <span className="text-black font-semibold">DEMO MODE:</span>
+              <button 
+                onClick={() => onNavigate?.(0)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 0 ? 'font-bold underline' : ''}`}
+              >
+                Landing Page
+              </button>
+              <button 
+                onClick={() => onNavigate?.(1)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 1 ? 'font-bold underline' : ''}`}
+              >
+                Sign Up Flow
+              </button>
+              <button 
+                onClick={() => onNavigate?.(2)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 2 ? 'font-bold underline' : ''}`}
+              >
+                Onboarding
+              </button>
+              <button 
+                onClick={() => onNavigate?.(3)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 3 ? 'font-bold underline' : ''}`}
+              >
+                User Feed
+              </button>
+              <button 
+                onClick={() => onNavigate?.(4)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 4 ? 'font-bold underline' : ''}`}
+              >
+                Dashboard
+              </button>
+              <button 
+                onClick={() => onNavigate?.(5)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 5 ? 'font-bold underline' : ''}`}
+              >
+                Content Creator
+              </button>
+              <button 
+                onClick={() => onNavigate?.(6)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 6 ? 'font-bold underline' : ''}`}
+              >
+                Share & Earn
+              </button>
+            </div>
+            
+            {/* Light/Dark Mode Toggle in Demo Strip */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-black hover:text-gray-700"
+              onClick={onToggleDarkMode}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Top Navigation Strip */}
       <div className="w-full bg-gray-800 border-b border-gray-700">
         <div className="max-w-[1440px] mx-auto px-8 py-2">
@@ -32,15 +98,9 @@ const Header = ({
               <a href="#" className="text-gray-300 hover:text-white transition-colors">Community</a>
             </div>
             
-            {/* Light/Dark Mode Toggle in Navigation Strip */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-400 hover:text-white"
-              onClick={onToggleDarkMode}
-            >
-              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
+            <div className="flex items-center space-x-4 text-sm text-gray-300">
+              <span>Live Demo</span>
+            </div>
           </div>
         </div>
       </div>
