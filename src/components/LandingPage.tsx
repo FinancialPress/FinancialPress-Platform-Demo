@@ -233,6 +233,198 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       likes: 1567,
       earnings: "35.7",
       type: "nft"
+    },
+    {
+      id: 13,
+      title: "Crypto Lending Platforms Report 45% Growth in Q4",
+      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=200&fit=crop",
+      category: "LENDING",
+      author: "FinTech Digest",
+      handle: "@fintechdigest",
+      badge: "Gold Creator",
+      timeAgo: "8h",
+      views: "12.3K",
+      comments: 41,
+      shares: 93,
+      likes: 1234,
+      earnings: "27.8",
+      type: "lending"
+    },
+    {
+      id: 14,
+      title: "Blockchain Adoption in Healthcare Reaches New Milestone",
+      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=200&fit=crop",
+      category: "HEALTHCARE",
+      author: "MedTech News",
+      handle: "@medtechnews",
+      badge: "Silver Creator",
+      timeAgo: "9h",
+      views: "8.7K",
+      comments: 28,
+      shares: 67,
+      likes: 987,
+      earnings: "21.4",
+      type: "healthcare"
+    },
+    {
+      id: 15,
+      title: "Cross-Chain Bridge Security Gets Major Upgrade",
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop",
+      category: "SECURITY",
+      author: "Security Watch",
+      handle: "@securitywatch",
+      badge: "Platinum Creator",
+      timeAgo: "10h",
+      views: "15.6K",
+      comments: 62,
+      shares: 134,
+      likes: 1678,
+      earnings: "39.2",
+      type: "security"
+    },
+    {
+      id: 16,
+      title: "Metaverse Land Sales Hit Record High This Month",
+      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop",
+      category: "METAVERSE",
+      author: "Virtual World",
+      handle: "@virtualworld",
+      badge: "Gold Creator",
+      timeAgo: "11h",
+      views: "18.9K",
+      comments: 76,
+      shares: 167,
+      likes: 2123,
+      earnings: "43.6",
+      type: "metaverse"
+    },
+    {
+      id: 17,
+      title: "Green Bitcoin Mining Initiative Gains Traction",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop",
+      category: "SUSTAINABILITY",
+      author: "Green Crypto",
+      handle: "@greencrypto",
+      badge: "Silver Creator",
+      timeAgo: "12h",
+      views: "10.4K",
+      comments: 35,
+      shares: 78,
+      likes: 1156,
+      earnings: "26.3",
+      type: "sustainability"
+    },
+    {
+      id: 18,
+      title: "AI-Powered Trading Bots Show 67% Success Rate",
+      image: "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=300&h=200&fit=crop",
+      category: "AI TRADING",
+      author: "AI Finance",
+      handle: "@aifinance",
+      badge: "Platinum Creator",
+      timeAgo: "13h",
+      views: "20.1K",
+      comments: 88,
+      shares: 189,
+      likes: 2567,
+      earnings: "47.8",
+      type: "ai"
+    },
+    {
+      id: 19,
+      title: "Stablecoin Market Cap Reaches $180 Billion Milestone",
+      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=200&fit=crop",
+      category: "STABLECOINS",
+      author: "Stable Watch",
+      handle: "@stablewatch",
+      badge: "Gold Creator",
+      timeAgo: "14h",
+      views: "14.7K",
+      comments: 51,
+      shares: 98,
+      likes: 1445,
+      earnings: "31.2",
+      type: "stablecoins"
+    },
+    {
+      id: 20,
+      title: "Decentralized Exchanges See 180% Volume Increase",
+      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=200&fit=crop",
+      category: "DEX",
+      author: "DEX Analytics",
+      handle: "@dexanalytics",
+      badge: "Platinum Creator",
+      timeAgo: "15h",
+      views: "17.3K",
+      comments: 69,
+      shares: 143,
+      likes: 1887,
+      earnings: "40.1",
+      type: "dex"
+    },
+    {
+      id: 21,
+      title: "Central Bank Digital Currency Pilots Expand Globally",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop",
+      category: "CBDC",
+      author: "Digital Currency",
+      handle: "@digitalcurrency",
+      badge: "Silver Creator",
+      timeAgo: "16h",
+      views: "11.8K",
+      comments: 39,
+      shares: 81,
+      likes: 1267,
+      earnings: "28.9",
+      type: "cbdc"
+    },
+    {
+      id: 22,
+      title: "Privacy Coins Gain Traction Amid Regulatory Clarity",
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop",
+      category: "PRIVACY",
+      author: "Privacy Crypto",
+      handle: "@privacycrypto",
+      badge: "Gold Creator",
+      timeAgo: "17h",
+      views: "13.4K",
+      comments: 47,
+      shares: 89,
+      likes: 1356,
+      earnings: "29.7",
+      type: "privacy"
+    },
+    {
+      id: 23,
+      title: "Tokenized Real Estate Market Surpasses $50B",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop",
+      category: "REAL ESTATE",
+      author: "PropTech News",
+      handle: "@proptechnews",
+      badge: "Platinum Creator",
+      timeAgo: "18h",
+      views: "19.2K",
+      comments: 82,
+      shares: 167,
+      likes: 2234,
+      earnings: "44.8",
+      type: "realestate"
+    },
+    {
+      id: 24,
+      title: "Crypto Payment Adoption Hits All-Time High in Retail",
+      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop",
+      category: "PAYMENTS",
+      author: "Payment Systems",
+      handle: "@paymentsystems",
+      badge: "Gold Creator",
+      timeAgo: "19h",
+      views: "16.1K",
+      comments: 63,
+      shares: 124,
+      likes: 1723,
+      earnings: "37.4",
+      type: "payments"
     }
   ];
 
@@ -254,9 +446,20 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       case 'defi': return 'bg-indigo-600';
       case 'cbdc': return 'bg-teal-600';
       case 'gaming': return 'bg-violet-600';
-      case 'layer2': return 'bg-gray-600';
+      case 'layer 2': return 'bg-gray-600';
       case 'institutional': return 'bg-gray-600';
       case 'nft': return 'bg-gray-600';
+      case 'lending': return 'bg-blue-700';
+      case 'healthcare': return 'bg-green-700';
+      case 'security': return 'bg-red-700';
+      case 'metaverse': return 'bg-purple-700';
+      case 'sustainability': return 'bg-green-800';
+      case 'ai trading': return 'bg-indigo-700';
+      case 'stablecoins': return 'bg-blue-800';
+      case 'dex': return 'bg-purple-800';
+      case 'privacy': return 'bg-gray-700';
+      case 'real estate': return 'bg-amber-700';
+      case 'payments': return 'bg-emerald-700';
       default: return 'bg-gray-600';
     }
   };
@@ -419,15 +622,15 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                 className="border-gray-600 text-gray-300 hover:bg-gray-700"
                 onClick={() => onNavigate?.(1)}
               >
-                Sign Up to See More Content
+                Load More Content
               </Button>
             </div>
           </div>
 
           {/* Right Sidebar - 1/4 width */}
           <div className="space-y-6">
-            <QuickActions />
             <TopCreators />
+            <QuickActions />
             <TopSharers />
             <TopComments />
             <TrendingTopics />
