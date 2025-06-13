@@ -131,11 +131,10 @@ const Header = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <img 
-                src="/lovable-uploads/1a2b168c-aa7f-4ee5-8180-f1bdc8ecd1db.png" 
+                src="/lovable-uploads/d543102e-fd40-4029-9b85-6e72ddd2e86b.png" 
                 alt="FinancialPress Logo" 
-                className="w-12 h-12"
+                className="h-8"
               />
-              <span className={`${logoTextClasses} text-2xl font-bold`}>FinancialPress</span>
             </div>
             
             <div className="flex items-center space-x-6">

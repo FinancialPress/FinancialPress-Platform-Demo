@@ -4,7 +4,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MessageCircle } from 'lucide-react';
 
-const TopComments = () => {
+interface TopCommentsProps {
+  isDarkMode?: boolean;
+}
+
+const TopComments = ({ isDarkMode = true }: TopCommentsProps) => {
   const topCommenters = [
     { name: "InsightfulMind", comments: "3,240", badge: "Platinum", followers: "76.3K", earnings: "980 FPT" },
     { name: "DeepThoughts", comments: "2,890", badge: "Gold", followers: "62.1K", earnings: "820 FPT" },
@@ -22,10 +26,34 @@ const TopComments = () => {
     }
   };
 
+  const cardClasses = isDarkMode 
+    ? "bg-gray-900 border-gray-800"
+    : "bg-white border-gray-200";
+
+  const titleClasses = isDarkMode
+    ? "text-white"
+    : "text-black";
+
+  const nameClasses = isDarkMode
+    ? "text-white"
+    : "text-black";
+
+  const commentsClasses = isDarkMode
+    ? "text-gray-400"
+    : "text-gray-600";
+
+  const rankClasses = isDarkMode
+    ? "text-yellow-500"
+    : "text-yellow-600";
+
+  const earningsClasses = isDarkMode
+    ? "text-green-400"
+    : "text-green-600";
+
   return (
-    <Card className="bg-gray-900 border-gray-800">
+    <Card className={cardClasses}>
       <CardContent className="p-4">
-        <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+        <h3 className={`text-lg font-semibold ${titleClasses} mb-3 flex items-center`}>
           <MessageCircle className="w-4 h-4 mr-2 text-yellow-500" />
           Top Comments
         </h3>
@@ -33,15 +61,15 @@ const TopComments = () => {
           {topCommenters.map((commenter, index) => (
             <div key={index} className="flex items-center justify-between py-1">
               <div className="flex items-center space-x-2">
-                <div className="text-sm font-bold text-yellow-500">#{index + 1}</div>
+                <div className={`text-sm font-bold ${rankClasses}`}>#{index + 1}</div>
                 <div className="w-6 h-6 bg-green-500 rounded-full"></div>
                 <div>
-                  <div className="font-semibold text-white text-xs">{commenter.name}</div>
-                  <div className="text-gray-400 text-xs">{commenter.comments} comments</div>
+                  <div className={`font-semibold ${nameClasses} text-xs`}>{commenter.name}</div>
+                  <div className={`${commentsClasses} text-xs`}>{commenter.comments} comments</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-green-400 font-bold text-xs">{commenter.earnings}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{commenter.earnings}</div>
                 <Badge className={`${getBadgeColor(commenter.badge)} text-xs`}>
                   {commenter.badge}
                 </Badge>
