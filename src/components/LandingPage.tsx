@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -37,8 +36,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       shares: 156,
       likes: 2400,
       earnings: "52.8",
-      isFollowing: false,
-      isRecommended: true
+      isFollowing: false
     }
   ];
 
@@ -46,7 +44,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 1,
       title: "Investment Giant Guggenheim Taps Ripple to Expand Digital Debt Offering",
-      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop",
       category: "NEWS",
       author: "Sam Bourgi",
       handle: "@sambourgi",
@@ -62,7 +60,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 2,
       title: "Bitcoin Traders Now See $107K Retest Before New All-Time Highs",
-      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&h=200&fit=crop",
       category: "MARKET UPDATE",
       author: "William Suberg",
       handle: "@williamsuberg",
@@ -78,7 +76,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 3,
       title: "The NFT Market is Silently Becoming Infrastructure",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1634704784915-aacf363b021f?w=300&h=200&fit=crop",
       category: "OPINION",
       author: "Charu Sethi",
       handle: "@charusethi",
@@ -94,7 +92,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 4,
       title: "How Hackers Use Fake X Links to Steal Crypto, and How to Spot Them",
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=300&h=200&fit=crop",
       category: "EXPLAINED",
       author: "Omkar Singh",
       handle: "@omkarsingh",
@@ -110,7 +108,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 5,
       title: "Swift Legislation Turns Kyrgyzstan into Central Asia's Primary Crypto Hub",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=300&h=200&fit=crop",
       category: "REGULATION",
       author: "Regulatory Desk",
       handle: "@regulatorydesk",
@@ -126,7 +124,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 6,
       title: "Elon Musk Dogecoin Pump Incoming? SOL Tipped to Hit $300 in 2025",
-      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=300&h=200&fit=crop",
       category: "MAGAZINE",
       author: "Trade Secrets",
       handle: "@tradesecrets",
@@ -142,7 +140,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 7,
       title: "DeFi Protocol Launches Revolutionary Staking Mechanism",
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=300&h=200&fit=crop",
       category: "DEFI",
       author: "DeFi Weekly",
       handle: "@defiweekly",
@@ -158,7 +156,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 8,
       title: "Central Bank Digital Currencies: The Race Heats Up",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1624996379697-f01d168b1a52?w=300&h=200&fit=crop",
       category: "CBDC",
       author: "Policy Watch",
       handle: "@policywatch",
@@ -174,7 +172,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 9,
       title: "Web3 Gaming Tokens See Massive Surge in Trading Volume",
-      image: "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&h=200&fit=crop",
       category: "GAMING",
       author: "GameFi Report",
       handle: "@gamefireport",
@@ -190,7 +188,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 10,
       title: "Ethereum Layer 2 Solutions Drive Record TVL Growth",
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=300&h=200&fit=crop",
       category: "LAYER 2",
       author: "L2 Analytics",
       handle: "@l2analytics",
@@ -206,7 +204,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 11,
       title: "Institutional Bitcoin Holdings Reach All-Time High",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1621981386829-9b458a2cddde?w=300&h=200&fit=crop",
       category: "INSTITUTIONAL",
       author: "Corporate Watch",
       handle: "@corpwatch",
@@ -222,7 +220,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 12,
       title: "NFT Marketplace Revenues Surge 340% This Quarter",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1576089073624-e1c45dcf2734?w=300&h=200&fit=crop",
       category: "NFT",
       author: "NFT Tracker",
       handle: "@nfttracker",
@@ -238,7 +236,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 13,
       title: "Crypto Lending Platforms Report 45% Growth in Q4",
-      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1617791160536-598cf32026fb?w=300&h=200&fit=crop",
       category: "LENDING",
       author: "FinTech Digest",
       handle: "@fintechdigest",
@@ -254,7 +252,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 14,
       title: "Blockchain Adoption in Healthcare Reaches New Milestone",
-      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=300&h=200&fit=crop",
       category: "HEALTHCARE",
       author: "MedTech News",
       handle: "@medtechnews",
@@ -270,7 +268,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 15,
       title: "Cross-Chain Bridge Security Gets Major Upgrade",
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1639815188546-c43c240ff4df?w=300&h=200&fit=crop",
       category: "SECURITY",
       author: "Security Watch",
       handle: "@securitywatch",
@@ -286,7 +284,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 16,
       title: "Metaverse Land Sales Hit Record High This Month",
-      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1633621183124-4a57c60c46b4?w=300&h=200&fit=crop",
       category: "METAVERSE",
       author: "Virtual World",
       handle: "@virtualworld",
@@ -302,7 +300,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 17,
       title: "Green Bitcoin Mining Initiative Gains Traction",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1569025743543-2269864394ad?w=300&h=200&fit=crop",
       category: "SUSTAINABILITY",
       author: "Green Crypto",
       handle: "@greencrypto",
@@ -318,7 +316,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 18,
       title: "AI-Powered Trading Bots Show 67% Success Rate",
-      image: "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=300&h=200&fit=crop",
       category: "AI TRADING",
       author: "AI Finance",
       handle: "@aifinance",
@@ -334,7 +332,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 19,
       title: "Stablecoin Market Cap Reaches $180 Billion Milestone",
-      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=300&h=200&fit=crop",
       category: "STABLECOINS",
       author: "Stable Watch",
       handle: "@stablewatch",
@@ -350,7 +348,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 20,
       title: "Decentralized Exchanges See 180% Volume Increase",
-      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=300&h=200&fit=crop",
       category: "DEX",
       author: "DEX Analytics",
       handle: "@dexanalytics",
@@ -366,7 +364,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 21,
       title: "Central Bank Digital Currency Pilots Expand Globally",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=300&h=200&fit=crop",
       category: "CBDC",
       author: "Digital Currency",
       handle: "@digitalcurrency",
@@ -382,7 +380,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 22,
       title: "Privacy Coins Gain Traction Amid Regulatory Clarity",
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1634908923813-9c9100ab4f13?w=300&h=200&fit=crop",
       category: "PRIVACY",
       author: "Privacy Crypto",
       handle: "@privacycrypto",
@@ -398,7 +396,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 23,
       title: "Tokenized Real Estate Market Surpasses $50B",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300&h=200&fit=crop",
       category: "REAL ESTATE",
       author: "PropTech News",
       handle: "@proptechnews",
@@ -414,7 +412,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 24,
       title: "Crypto Payment Adoption Hits All-Time High in Retail",
-      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop",
       category: "PAYMENTS",
       author: "Payment Systems",
       handle: "@paymentsystems",
@@ -505,7 +503,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
 
   const loadMoreButtonClasses = isDarkMode
     ? "border-gray-600 text-gray-300 hover:bg-gray-700"
-    : "border-gray-300 text-gray-700 hover:bg-gray-100";
+    : "border-gray-300 text-gray-700 hover:bg-gray-100 bg-white";
 
   const sidebarHeaderClasses = isDarkMode
     ? "text-lg font-semibold text-white"
@@ -520,7 +518,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       {/* Hero Section */}
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bol bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
             Join the financial community
           </h1>
           <p className={heroTextClasses}>
@@ -659,11 +657,11 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
 
           {/* Right Sidebar - 1/4 width */}
           <div className="space-y-6">
-            <TopCreators />
-            <QuickActions />
-            <TopSharers />
-            <TopComments />
-            <TrendingTopics />
+            <TopCreators isDarkMode={isDarkMode} />
+            <QuickActions isDarkMode={isDarkMode} />
+            <TopSharers isDarkMode={isDarkMode} />
+            <TopComments isDarkMode={isDarkMode} />
+            <TrendingTopics isDarkMode={isDarkMode} />
             
             {/* Stats Section - Moved to Bottom and Stacked */}
             <div className="space-y-4">

@@ -98,16 +98,6 @@ const Header = ({
                 Share & Earn
               </button>
             </div>
-            
-            {/* Light/Dark Mode Toggle in Demo Strip */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-black hover:text-gray-700"
-              onClick={onToggleDarkMode}
-            >
-              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
           </div>
         </div>
       </div>
@@ -121,6 +111,16 @@ const Header = ({
               <a href="#" className={`${topNavTextClasses} transition-colors`}>Your Feed</a>
               <a href="#" className={`${topNavTextClasses} transition-colors`}>Community</a>
             </div>
+            
+            {/* Light/Dark Mode Toggle moved to right side */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}
+              onClick={onToggleDarkMode}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
           </div>
         </div>
       </div>

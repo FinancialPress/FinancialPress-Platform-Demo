@@ -6,15 +6,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Chrome, Mail, ArrowLeft, PenTool, Share2 } from 'lucide-react';
+import { Chrome, Mail, ArrowLeft } from 'lucide-react';
 
 interface SignUpPageProps {
   onNavigate?: (screen: number) => void;
 }
 
 const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
-  const [createContent, setCreateContent] = useState(false);
-  const [shareContent, setShareContent] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const handleAccountCreation = () => {
     // Navigate to onboarding after account creation
@@ -56,6 +55,15 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
               </svg>
               Connect with X
             </Button>
+            <Button 
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
+              onClick={handleAccountCreation}
+            >
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 9.95 9 11 5.16-1.05 9-5.45 9-11V7l-10-5z"/>
+              </svg>
+              Connect with Reown
+            </Button>
             
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -87,39 +95,22 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
                 />
               </div>
 
-              {/* Content Preferences */}
-              <div className="space-y-4 pt-4 border-t border-gray-700">
-                <Label className="text-gray-300 text-sm font-medium">What do you want to do on FinancialPress?</Label>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="create-content" 
-                    checked={createContent}
-                    onCheckedChange={(checked) => setCreateContent(checked === true)}
-                  />
-                  <Label htmlFor="create-content" className="text-gray-300 text-sm flex items-center">
-                    <PenTool className="w-4 h-4 mr-2 text-yellow-500" />
-                    Create my own editorial content and analysis
-                  </Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="share-content" 
-                    checked={shareContent}
-                    onCheckedChange={(checked) => setShareContent(checked === true)}
-                  />
-                  <Label htmlFor="share-content" className="text-gray-300 text-sm flex items-center">
-                    <Share2 className="w-4 h-4 mr-2 text-blue-500" />
-                    Share and distribute other people's content
-                  </Label>
-                </div>
+              {/* Terms and Conditions Checkbox */}
+              <div className="flex items-center space-x-2 pt-4">
+                <Checkbox 
+                  id="agree-terms" 
+                  checked={agreeToTerms}
+                  onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
+                />
+                <Label htmlFor="agree-terms" className="text-gray-300 text-sm">
+                  I agree to the Terms and Conditions
+                </Label>
               </div>
 
               <Button 
                 className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
                 onClick={handleAccountCreation}
-                disabled={!createContent && !shareContent}
+                disabled={!agreeToTerms}
               >
                 <Mail className="w-5 h-5 mr-2" />
                 Create Account
