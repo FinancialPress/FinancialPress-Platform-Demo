@@ -22,6 +22,23 @@ const Index = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  // Mock data for ShareEarnFlow
+  const mockPost = {
+    title: "Bitcoin Analysis: Market Trends and Future Predictions",
+    creator: "CryptoExpert",
+    estimatedEarnings: "15.2 FPT"
+  };
+
+  const handleShareClose = () => {
+    // Handle close logic
+    console.log("Share modal closed");
+  };
+
+  const handleShare = () => {
+    // Handle share logic
+    console.log("Content shared");
+  };
+
   const screens = [
     <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <SignUpPage key="signup" onNavigate={handleNavigate} />,
@@ -29,7 +46,12 @@ const Index = () => {
     <UserFeed key="feed" onNavigate={handleNavigate} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} />,
     <ContentCreator key="creator" onNavigate={handleNavigate} />,
-    <ShareEarnFlow key="share" />,
+    <ShareEarnFlow 
+      key="share" 
+      post={mockPost}
+      onClose={handleShareClose}
+      onShare={handleShare}
+    />,
     <FinalCTA key="cta" />
   ];
 
