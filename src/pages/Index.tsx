@@ -45,7 +45,7 @@ const Index = () => {
   };
 
   const screens = [
-    <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
+    <LandingPage key="landing" />,
     <SignUpPage key="signup" onNavigate={handleNavigate} />,
     <OnboardingFlow key="onboarding" onComplete={handleOnboardingComplete} />,
     <UserFeed key="feed" onNavigate={handleNavigate} />,
