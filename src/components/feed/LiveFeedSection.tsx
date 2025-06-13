@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -256,7 +255,6 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                       </div>
                       <div className="flex items-center space-x-3">
                         <Badge className="bg-red-600 text-white">Breaking News</Badge>
-                        <Badge className="bg-green-600 text-white">Recommended</Badge>
                         <MoreHorizontal className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
                       </div>
                     </div>
