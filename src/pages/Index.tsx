@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Header from '../components/Header';
 import { Button } from '@/components/ui/button';
@@ -112,6 +111,198 @@ const Index = () => {
       likes: 3200,
       earnings: "58.7",
       type: "analysis"
+    },
+    {
+      id: 7,
+      title: "DeFi Protocol Launches Revolutionary Staking Mechanism",
+      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=200&fit=crop",
+      category: "DEFI",
+      author: "DeFi Weekly",
+      handle: "@defiweekly",
+      badge: "Gold Creator",
+      timeAgo: "3h",
+      views: "14.2K",
+      comments: 56,
+      shares: 112,
+      likes: 1650,
+      earnings: "34.8",
+      type: "defi"
+    },
+    {
+      id: 8,
+      title: "Central Bank Digital Currencies: The Race Heats Up",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop",
+      category: "CBDC",
+      author: "Policy Watch",
+      handle: "@policywatch",
+      badge: "Silver Creator",
+      timeAgo: "4h",
+      views: "11.7K",
+      comments: 43,
+      shares: 87,
+      likes: 1320,
+      earnings: "29.6",
+      type: "policy"
+    },
+    {
+      id: 9,
+      title: "Web3 Gaming Tokens See Massive Surge in Trading Volume",
+      image: "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=300&h=200&fit=crop",
+      category: "GAMING",
+      author: "GameFi Report",
+      handle: "@gamefireport",
+      badge: "Platinum Creator",
+      timeAgo: "4h",
+      views: "19.8K",
+      comments: 89,
+      shares: 156,
+      likes: 2340,
+      earnings: "45.2",
+      type: "gaming"
+    },
+    {
+      id: 10,
+      title: "Ethereum Layer 2 Solutions Drive Record TVL Growth",
+      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=200&fit=crop",
+      category: "LAYER 2",
+      author: "L2 Analytics",
+      handle: "@l2analytics",
+      badge: "Gold Creator",
+      timeAgo: "5h",
+      views: "16.4K",
+      comments: 73,
+      shares: 145,
+      likes: 1890,
+      earnings: "41.3",
+      type: "layer2"
+    },
+    {
+      id: 11,
+      title: "Institutional Bitcoin Holdings Reach All-Time High",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop",
+      category: "INSTITUTIONAL",
+      author: "Corporate Watch",
+      handle: "@corpwatch",
+      badge: "Platinum Creator",
+      timeAgo: "6h",
+      views: "21.7K",
+      comments: 95,
+      shares: 178,
+      likes: 2450,
+      earnings: "48.9",
+      type: "institutional"
+    },
+    {
+      id: 12,
+      title: "NFT Marketplace Revenues Surge 340% This Quarter",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=200&fit=crop",
+      category: "NFT",
+      author: "NFT Tracker",
+      handle: "@nfttracker",
+      badge: "Silver Creator",
+      timeAgo: "7h",
+      views: "13.8K",
+      comments: 58,
+      shares: 119,
+      likes: 1567,
+      earnings: "35.7",
+      type: "nft"
+    },
+    {
+      id: 13,
+      title: "Crypto Lending Platforms Report 45% Growth in Q4",
+      image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=200&fit=crop",
+      category: "LENDING",
+      author: "FinTech Digest",
+      handle: "@fintechdigest",
+      badge: "Gold Creator",
+      timeAgo: "8h",
+      views: "12.3K",
+      comments: 41,
+      shares: 93,
+      likes: 1234,
+      earnings: "27.8",
+      type: "lending"
+    },
+    {
+      id: 14,
+      title: "Blockchain Adoption in Healthcare Reaches New Milestone",
+      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=200&fit=crop",
+      category: "HEALTHCARE",
+      author: "MedTech News",
+      handle: "@medtechnews",
+      badge: "Silver Creator",
+      timeAgo: "9h",
+      views: "8.7K",
+      comments: 28,
+      shares: 67,
+      likes: 987,
+      earnings: "21.4",
+      type: "healthcare"
+    },
+    {
+      id: 15,
+      title: "Cross-Chain Bridge Security Gets Major Upgrade",
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop",
+      category: "SECURITY",
+      author: "Security Watch",
+      handle: "@securitywatch",
+      badge: "Platinum Creator",
+      timeAgo: "10h",
+      views: "15.6K",
+      comments: 62,
+      shares: 134,
+      likes: 1678,
+      earnings: "39.2",
+      type: "security"
+    },
+    {
+      id: 16,
+      title: "Metaverse Land Sales Hit Record High This Month",
+      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop",
+      category: "METAVERSE",
+      author: "Virtual World",
+      handle: "@virtualworld",
+      badge: "Gold Creator",
+      timeAgo: "11h",
+      views: "18.9K",
+      comments: 76,
+      shares: 167,
+      likes: 2123,
+      earnings: "43.6",
+      type: "metaverse"
+    },
+    {
+      id: 17,
+      title: "Green Bitcoin Mining Initiative Gains Traction",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop",
+      category: "SUSTAINABILITY",
+      author: "Green Crypto",
+      handle: "@greencrypto",
+      badge: "Silver Creator",
+      timeAgo: "12h",
+      views: "10.4K",
+      comments: 35,
+      shares: 78,
+      likes: 1156,
+      earnings: "26.3",
+      type: "sustainability"
+    },
+    {
+      id: 18,
+      title: "AI-Powered Trading Bots Show 67% Success Rate",
+      image: "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=300&h=200&fit=crop",
+      category: "AI TRADING",
+      author: "AI Finance",
+      handle: "@aifinance",
+      badge: "Platinum Creator",
+      timeAgo: "13h",
+      views: "20.1K",
+      comments: 88,
+      shares: 189,
+      likes: 2567,
+      earnings: "47.8",
+      type: "ai"
     }
   ];
 
@@ -130,6 +321,18 @@ const Index = () => {
       case 'explained': return 'bg-orange-600';
       case 'regulation': return 'bg-red-600';
       case 'magazine': return 'bg-pink-600';
+      case 'defi': return 'bg-indigo-600';
+      case 'cbdc': return 'bg-teal-600';
+      case 'gaming': return 'bg-violet-600';
+      case 'layer 2': return 'bg-gray-600';
+      case 'institutional': return 'bg-gray-600';
+      case 'nft': return 'bg-gray-600';
+      case 'lending': return 'bg-blue-700';
+      case 'healthcare': return 'bg-green-700';
+      case 'security': return 'bg-red-700';
+      case 'metaverse': return 'bg-purple-700';
+      case 'sustainability': return 'bg-green-800';
+      case 'ai trading': return 'bg-indigo-700';
       default: return 'bg-gray-600';
     }
   };
@@ -252,9 +455,9 @@ const Index = () => {
           
           {/* Right Sidebar - Takes up 1 column */}
           <div className="lg:col-span-1 space-y-6">
+            <TopCreators />
             <TopSharers />
             <QuickActions />
-            <TopCreators />
             <TopComments />
             <TrendingTopics />
             

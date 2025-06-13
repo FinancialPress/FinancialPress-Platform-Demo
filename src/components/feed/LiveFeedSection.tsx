@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Users, Play, Heart, MessageCircle, Share2, Eye, MoreHorizontal } from 'lucide-react';
+import { Users, Play, Heart, MessageCircle, Share2, Eye, MoreHorizontal, Bookmark } from 'lucide-react';
 
 const LiveFeedSection = () => {
   const [activeTab, setActiveTab] = useState<'live' | 'breaking'>('live');
@@ -54,24 +53,40 @@ const LiveFeedSection = () => {
   const breakingNews = [
     {
       id: 1,
+      title: "Bank of Japan Pivot to QE May Fuel Bitcoin Rally",
+      description: "Central bank's monetary policy shift could trigger significant cryptocurrency market movement as institutional adoption accelerates globally.",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop",
+      author: "Arthur Hayes",
+      handle: "@arthurhayes",
+      badge: "Gold Creator",
+      timeAgo: "2h",
+      views: "45.2K",
+      comments: 89,
+      shares: 156,
+      likes: 2400,
+      earnings: "52.8",
+      isFeatured: true
+    },
+    {
+      id: 2,
       title: "VERSE token launch surpasses $18 market cap within minutes of going live on Pump.fun",
       timeAgo: "15m",
       source: "WaveHQ"
     },
     {
-      id: 2,
+      id: 3,
       title: "Serenity and Zenlqx accelerate US-GCC efforts to lead trillion-dollar tokenization market",
       timeAgo: "32m",
       source: "CryptoNews"
     },
     {
-      id: 3,
+      id: 4,
       title: "TRX set to presale rises to account amid market rebound",
       timeAgo: "18m",
       source: "MarketWatch"
     },
     {
-      id: 4,
+      id: 5,
       title: "SOL jumps 12% as ecosystem growth accelerates",
       timeAgo: "45m",
       source: "DeFiPulse"
@@ -218,17 +233,103 @@ const LiveFeedSection = () => {
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
-              {breakingNews.map((news) => (
-                <div key={news.id} className="border-b border-gray-800 pb-3 last:border-b-0">
-                  <h4 className="text-white font-medium text-sm mb-2">{news.title}</h4>
-                  <div className="flex items-center text-gray-400 text-xs">
-                    <span>{news.source}</span>
-                    <span className="mx-2">•</span>
-                    <span>{news.timeAgo}</span>
-                  </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Left Column - Featured Breaking News Article */}
+              <div className="space-y-4">
+                <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
+                  <img 
+                    src={breakingNews[0].image}
+                    alt={breakingNews[0].title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-              ))}
+
+                {/* Featured Article Card */}
+                <Card className="bg-gray-800 border-gray-700">
+                  <CardContent className="p-4">
+                    {/* Author Header */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                          <span className="text-black font-bold text-sm">A</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-white font-medium">{breakingNews[0].author}</span>
+                          <Badge className="bg-yellow-500 text-black text-xs">{breakingNews[0].badge}</Badge>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Badge className="bg-blue-600 text-white text-xs">Latest News</Badge>
+                        <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>
+                        <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="text-white font-semibold text-lg mb-2">
+                      {breakingNews[0].title}
+                    </h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      {breakingNews[0].description}
+                    </p>
+
+                    {/* Stats */}
+                    <div className="flex items-center text-sm text-gray-400 mb-4">
+                      <div className="flex items-center space-x-4">
+                        <span>{breakingNews[0].views} views</span>
+                        <span>{breakingNews[0].comments} comments</span>
+                        <span>{breakingNews[0].shares} shares</span>
+                      </div>
+                      <div className="ml-auto text-green-400 font-semibold text-center">
+                        <div className="text-sm">{breakingNews[0].earnings}</div>
+                        <div className="text-xs">FPT Earned</div>
+                      </div>
+                    </div>
+
+                    {/* Footer Actions */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
+                          <Heart className="w-4 h-4" />
+                          <span className="text-sm">{breakingNews[0].likes}</span>
+                        </button>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
+                          <MessageCircle className="w-4 h-4" />
+                          <span className="text-sm">{breakingNews[0].comments}</span>
+                        </button>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
+                          <Share2 className="w-4 h-4" />
+                          <span className="text-sm">{breakingNews[0].shares}</span>
+                        </button>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-yellow-400 transition-colors">
+                          <Share2 className="w-4 h-4" />
+                          <span className="text-sm">Share & Earn</span>
+                        </button>
+                      </div>
+                      <button className="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <Bookmark className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Right Column - Other Breaking News */}
+              <div className="space-y-4">
+                <h3 className="text-white font-semibold text-lg">More Breaking News</h3>
+                <div className="space-y-3">
+                  {breakingNews.slice(1).map((news) => (
+                    <div key={news.id} className="border-b border-gray-800 pb-3 last:border-b-0">
+                      <h4 className="text-white font-medium text-sm mb-2">{news.title}</h4>
+                      <div className="flex items-center text-gray-400 text-xs">
+                        <span>{news.source}</span>
+                        <span className="mx-2">•</span>
+                        <span>{news.timeAgo}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>
