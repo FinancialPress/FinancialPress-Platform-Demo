@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Users, Play } from 'lucide-react';
+import { Users, Play, Heart, MessageCircle, Share2, Eye, MoreHorizontal } from 'lucide-react';
 
 const LiveFeedSection = () => {
   const [activeTab, setActiveTab] = useState<'live' | 'breaking'>('live');
@@ -112,15 +112,98 @@ const LiveFeedSection = () => {
         <div className="p-6">
           {activeTab === 'live' ? (
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Video Window */}
-              <div className="aspect-video bg-gray-800 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <Play className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                  <p className="text-gray-400">Live Stream Window</p>
+              {/* Left Column - Video and Article Card */}
+              <div className="space-y-4">
+                {/* Featured Video Preview */}
+                <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=600&h=400&fit=crop"
+                    alt="Live stream presenter"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors cursor-pointer">
+                      <Play className="w-8 h-8 text-black ml-1" />
+                    </div>
+                  </div>
+                  {/* Live indicator */}
+                  <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold">
+                    LIVE
+                  </div>
                 </div>
+
+                {/* Article Card */}
+                <Card className="bg-gray-800 border-gray-700">
+                  <CardContent className="p-4">
+                    {/* Author Header */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                          <span className="text-black font-bold text-sm">A</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-white font-medium">Arthur Hayes</span>
+                          <Badge className="bg-yellow-500 text-black text-xs">Gold Creator</Badge>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-gray-400 text-sm">2h</span>
+                        <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+
+                    {/* Labels */}
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Badge className="bg-blue-600 text-white text-xs">Latest News</Badge>
+                      <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="text-white font-semibold text-lg mb-2">
+                      Bank of Japan Pivot to QE May Fuel Bitcoin Rally
+                    </h3>
+                    <p className="text-gray-300 text-sm mb-4 line-clamp-2">
+                      Central bank's monetary policy shift could trigger significant cryptocurrency market movement as institutional adoption accelerates globally.
+                    </p>
+
+                    {/* Stats */}
+                    <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
+                      <div className="flex items-center space-x-4">
+                        <span>45.2K views</span>
+                        <span>89 comments</span>
+                        <span>156 shares</span>
+                      </div>
+                      <div className="text-green-400 font-semibold text-center">
+                        <div className="text-base">52.8</div>
+                        <div className="text-xs">FPT Earned</div>
+                      </div>
+                    </div>
+
+                    {/* Footer Actions */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
+                          <Heart className="w-4 h-4" />
+                          <span className="text-sm">2400</span>
+                        </button>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
+                          <MessageCircle className="w-4 h-4" />
+                          <span className="text-sm">89</span>
+                        </button>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
+                          <Share2 className="w-4 h-4" />
+                          <span className="text-sm">156</span>
+                        </button>
+                      </div>
+                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-semibold px-3 py-1">
+                        Share & Earn
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
 
-              {/* Live Feeds Menu */}
+              {/* Right Column - Live Feeds Menu */}
               <div className="space-y-4">
                 <h3 className="text-white font-semibold text-lg">Trending Live Feeds</h3>
                 <div className="space-y-3">
