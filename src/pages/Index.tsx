@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import { Button } from '@/components/ui/button';
-import UserFeed from '../components/UserFeed';
 import { Card, CardContent } from '@/components/ui/card';
 import LiveFeedSection from '../components/feed/LiveFeedSection';
 import TopSharers from '../components/feed/TopSharers';
@@ -22,7 +21,6 @@ const Index = () => {
           {/* Main Content Area - Takes up 3 columns */}
           <div className="lg:col-span-3">
             <LiveFeedSection />
-            <UserFeed />
           </div>
           
           {/* Right Sidebar - Takes up 1 column */}
