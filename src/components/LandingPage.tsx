@@ -1,19 +1,24 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, Bookmark, MoreHorizontal } from 'lucide-react';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
+import TopSharers from '@/components/feed/TopSharers';
+import TopComments from '@/components/feed/TopComments';
 import UserStats from '@/components/feed/UserStats';
 import QuickActions from '@/components/feed/QuickActions';
+import LiveFeedSection from '@/components/feed/LiveFeedSection';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
+  isDarkMode?: boolean;
 }
 
-const LandingPage = ({ onNavigate }: LandingPageProps) => {
+const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
+  const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
+
   const featuredNews = [
     {
       id: 1,
@@ -80,7 +85,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 45,
       shares: 89,
       likes: 1200,
-      earnings: "28.5 FPT",
+      earnings: "28.5",
       type: "news"
     },
     {
@@ -96,7 +101,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 67,
       shares: 134,
       likes: 1800,
-      earnings: "38.2 FPT",
+      earnings: "38.2",
       type: "market"
     },
     {
@@ -112,7 +117,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 78,
       shares: 167,
       likes: 2100,
-      earnings: "42.3 FPT",
+      earnings: "42.3",
       type: "opinion"
     },
     {
@@ -128,7 +133,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 52,
       shares: 98,
       likes: 1500,
-      earnings: "32.1 FPT",
+      earnings: "32.1",
       type: "educational"
     },
     {
@@ -144,7 +149,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 34,
       shares: 67,
       likes: 980,
-      earnings: "24.7 FPT",
+      earnings: "24.7",
       type: "regulation"
     },
     {
@@ -160,7 +165,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
       comments: 123,
       shares: 289,
       likes: 3200,
-      earnings: "58.7 FPT",
+      earnings: "58.7",
       type: "analysis"
     }
   ];
@@ -216,43 +221,36 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
     }
   };
 
+  const themeClasses = isDarkMode 
+    ? "min-h-screen bg-black text-white"
+    : "min-h-screen bg-white text-black";
+
+  const cardClasses = isDarkMode 
+    ? "bg-gray-900 border-gray-800"
+    : "bg-white border-gray-200";
+
+  const textClasses = isDarkMode 
+    ? "text-gray-300"
+    : "text-gray-600";
+
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Hero Section - Compact */}
+    <div className={themeClasses}>
+      {/* Hero Section - Updated */}
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-            Get Monetized for Contributing or Sharing Content
+            Join the financial community
           </h1>
-          <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
-            Join the Web3 platform for creators, publishers, curators, and commentators.
+          <p className={`text-lg ${textClasses} mb-6 max-w-3xl mx-auto`}>
+            Monetise your content and engagement
           </p>
           <div className="flex gap-4 justify-center mb-8">
             <Button 
               className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
               onClick={() => onNavigate?.(1)}
             >
-              Start Earning
+              Get Started
             </Button>
-            <Button 
-              variant="outline" 
-              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold px-6 py-3"
-            >
-              Learn More
-            </Button>
-          </div>
-          
-          {/* Stats Row */}
-          <div className="grid grid-cols-4 gap-6 mb-8">
-            {liveStats.map((stat, index) => (
-              <Card key={index} className="bg-gray-900 border-gray-800">
-                <CardContent className="p-4 text-center">
-                  <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                  <div className="text-xl font-bold text-white">{stat.value}</div>
-                  <div className="text-gray-400 text-sm">{stat.label}</div>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
 
@@ -260,236 +258,111 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Content Area - 3/4 width */}
           <div className="lg:col-span-3">
-            {/* Featured Story */}
+            {/* Live Feed Section */}
+            <LiveFeedSection />
+
+            {/* News Section with Filters */}
             <div className="mb-8">
-              {featuredNews.map((story) => (
-                <Card key={story.id} className="bg-gray-900 border-gray-800 overflow-hidden hover:border-gray-700 transition-colors">
-                  <div className="md:flex">
-                    <div className="md:w-2/3">
-                      <img 
-                        src={story.image} 
-                        alt={story.title}
-                        className="w-full h-64 md:h-full object-cover"
-                      />
-                    </div>
-                    <div className="md:w-1/3 p-6">
-                      {/* Author Header */}
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                            <span className="text-black font-bold text-sm">{story.author.charAt(0)}</span>
-                          </div>
-                          <div>
-                            <div className="flex items-center space-x-1 mb-1">
-                              <span className="text-white font-medium text-sm">{story.author}</span>
-                              <Badge className={`text-xs ${getBadgeColor(story.badge)}`}>
-                                {story.badge}
-                              </Badge>
-                            </div>
-                            <div className="flex items-center space-x-1 text-gray-400 text-xs">
-                              <span>{story.handle}</span>
-                              <span>•</span>
-                              <span>{story.timeAgo}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-1">
-                          <MoreHorizontal className="w-3 h-3" />
-                        </Button>
-                      </div>
-
-                      {/* Tags */}
-                      <div className="flex items-center space-x-1 mb-3">
-                        <Badge className="bg-blue-600 text-white text-xs">{story.category}</Badge>
-                        {story.isRecommended && (
-                          <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>
-                        )}
-                        {story.isFollowing && (
-                          <Badge className="bg-purple-600 text-white text-xs">Following</Badge>
-                        )}
-                      </div>
-
-                      <h2 className="text-xl font-bold text-white mb-3">{story.title}</h2>
-                      <p className="text-gray-300 text-sm mb-4">{story.description}</p>
-
-                      {/* Engagement Stats */}
-                      <div className="flex items-center justify-between text-gray-400 text-xs mb-4">
-                        <div className="flex items-center space-x-3">
-                          <span>{story.views} views</span>
-                          <span>{story.comments} comments</span>
-                          <span>{story.shares} shares</span>
-                        </div>
-                        <span className="text-green-400 font-semibold">Earned: {story.earnings}</span>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
-                            <Heart className="w-4 h-4" />
-                            <span className="text-xs">{story.likes}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                            <MessageCircle className="w-4 h-4" />
-                            <span className="text-xs">{story.comments}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
-                            <Repeat2 className="w-4 h-4" />
-                            <span className="text-xs">{story.shares}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-yellow-400 transition-colors">
-                            <Share2 className="w-4 h-4" />
-                            <span className="text-xs">Share & Earn</span>
-                          </button>
-                        </div>
-                        <button className="text-gray-400 hover:text-yellow-400 transition-colors">
-                          <Bookmark className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-
-            {/* Press Releases and Market Releases */}
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <Card className="bg-gray-900 border-gray-800">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-4">Press Releases</h3>
-                  <div className="space-y-4">
-                    {pressReleases.map((release) => (
-                      <div key={release.id} className="border-b border-gray-800 pb-3 last:border-b-0">
-                        <h4 className="text-white font-medium text-sm mb-2">{release.title}</h4>
-                        <div className="flex items-center text-gray-400 text-xs">
-                          <span>{release.source}</span>
-                          <span className="mx-2">•</span>
-                          <span>{release.timeAgo}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gray-900 border-gray-800">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-4">Market Releases</h3>
-                  <div className="space-y-4">
-                    {marketReleases.map((release) => (
-                      <div key={release.id} className="border-b border-gray-800 pb-3 last:border-b-0">
-                        <h4 className="text-white font-medium text-sm mb-2">{release.title}</h4>
-                        <div className="flex items-center text-gray-400 text-xs">
-                          <span>{release.source}</span>
-                          <span className="mx-2">•</span>
-                          <span>{release.timeAgo}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Content Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {contentGrid.map((item) => (
-                <Card key={item.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
-                  <CardContent className="p-0">
-                    <div className="relative">
-                      <img 
-                        src={item.image} 
-                        alt={item.title}
-                        className="w-full h-32 object-cover"
-                      />
-                      <Badge className={`absolute top-2 left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
-                        {item.category}
-                      </Badge>
-                    </div>
-                    <div className="p-3">
-                      {/* Author Header - Compact */}
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-1">
-                          <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
-                            <span className="text-black font-bold text-xs">{item.author.charAt(0)}</span>
-                          </div>
-                          <span className="text-white font-medium text-xs">{item.author}</span>
-                          <Badge className={`text-xs ${getBadgeColor(item.badge)}`}>
-                            {item.badge.split(' ')[0]}
-                          </Badge>
-                        </div>
-                        <span className="text-gray-400 text-xs">{item.timeAgo}</span>
-                      </div>
-
-                      <h3 className="text-white font-semibold text-sm mb-2 line-clamp-2">{item.title}</h3>
-                      
-                      {/* Engagement Stats - Compact */}
-                      <div className="flex items-center justify-between text-gray-400 text-xs mb-2">
-                        <div className="flex items-center space-x-2">
-                          <span>{item.views}</span>
-                          <span>•</span>
-                          <span>{item.comments} comments</span>
-                        </div>
-                        <span className="text-green-400 font-semibold">{item.earnings}</span>
-                      </div>
-
-                      {/* Action Buttons - Compact */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
-                            <Heart className="w-3 h-3" />
-                            <span className="text-xs">{item.likes}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                            <MessageCircle className="w-3 h-3" />
-                            <span className="text-xs">{item.comments}</span>
-                          </button>
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-yellow-400 transition-colors">
-                            <Share2 className="w-3 h-3" />
-                            <span className="text-xs">{item.shares}</span>
-                          </button>
-                        </div>
-                        <button className="text-gray-400 hover:text-yellow-400 transition-colors">
-                          <Bookmark className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Crypto In-Depth Section */}
-            <Card className="bg-gray-900 border-gray-800 mb-8">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-white">Crypto In-Depth</h3>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" className="text-gray-400">
-                      <ArrowUp className="w-4 h-4 rotate-180" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-gray-400">
-                      <ArrowUp className="w-4 h-4" />
-                    </Button>
-                  </div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>News</h2>
+                <div className="flex space-x-2">
+                  <Button
+                    variant={newsFilter === 'latest' ? 'default' : 'outline'}
+                    size="sm"
+                    className={newsFilter === 'latest' ? 'bg-yellow-500 text-black' : ''}
+                    onClick={() => setNewsFilter('latest')}
+                  >
+                    Latest
+                  </Button>
+                  <Button
+                    variant={newsFilter === 'trending' ? 'default' : 'outline'}
+                    size="sm"
+                    className={newsFilter === 'trending' ? 'bg-yellow-500 text-black' : ''}
+                    onClick={() => setNewsFilter('trending')}
+                  >
+                    Trending
+                  </Button>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {cryptoInDepth.map((article) => (
-                    <div key={article.id} className="space-y-2">
-                      <img 
-                        src={article.image} 
-                        alt={article.title}
-                        className="w-full h-32 object-cover rounded"
-                      />
-                      <h4 className="text-white text-sm font-medium line-clamp-3">{article.title}</h4>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+
+              {/* Content Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {contentGrid.map((item) => (
+                  <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors`}>
+                    <CardContent className="p-0">
+                      <div className="relative">
+                        <img 
+                          src={item.image} 
+                          alt={item.title}
+                          className="w-full h-32 object-cover"
+                        />
+                        <Badge className={`absolute top-2 left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
+                          {item.category}
+                        </Badge>
+                      </div>
+                      <div className="p-3">
+                        {/* Author Header - Compact */}
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center space-x-1">
+                            <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
+                              <span className="text-black font-bold text-xs">{item.author.charAt(0)}</span>
+                            </div>
+                            <span className={`font-medium text-xs ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.author}</span>
+                            <Badge className={`text-xs ${getBadgeColor(item.badge)}`}>
+                              {item.badge.split(' ')[0]}
+                            </Badge>
+                          </div>
+                          <span className={`text-xs ${textClasses}`}>{item.timeAgo}</span>
+                        </div>
+
+                        <h3 className={`font-semibold text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
+                        
+                        {/* Engagement Stats - Updated Format */}
+                        <div className={`flex items-center justify-between text-xs mb-2 ${textClasses}`}>
+                          <div className="flex items-center space-x-2">
+                            <span>{item.views}</span>
+                            <span>•</span>
+                            <span>{item.comments} comments</span>
+                          </div>
+                          <div className="text-green-400 font-semibold text-center">
+                            <div className="text-sm">{item.earnings}</div>
+                            <div className="text-xs">FPT Earned</div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons - Compact */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors`}>
+                              <Heart className="w-3 h-3" />
+                              <span className="text-xs">{item.likes}</span>
+                            </button>
+                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors`}>
+                              <MessageCircle className="w-3 h-3" />
+                              <span className="text-xs">{item.comments}</span>
+                            </button>
+                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors`}>
+                              <Repeat2 className="w-3 h-3" />
+                              <span className="text-xs">{item.shares}</span>
+                            </button>
+                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}>
+                              <Share2 className="w-3 h-3" />
+                              <span className="text-xs">Share & Earn</span>
+                            </button>
+                          </div>
+                          <button className={`${textClasses} hover:text-yellow-400 transition-colors`}>
+                            <Bookmark className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
 
             {/* Load More */}
-            <div className="text-center">
+            <div className="text-center mb-8">
               <Button 
                 variant="outline" 
                 className="border-gray-600 text-gray-300 hover:bg-gray-700"
@@ -500,12 +373,27 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
             </div>
           </div>
 
-          {/* Right Sidebar - 1/4 width */}
+          {/* Right Sidebar - 1/4 width - Reordered */}
           <div className="space-y-6">
             <QuickActions />
-            <TrendingTopics />
             <TopCreators />
+            <TopSharers />
+            <TopComments />
+            <TrendingTopics />
           </div>
+        </div>
+
+        {/* Stats Section - Moved to Bottom */}
+        <div className="grid grid-cols-4 gap-6 mt-16">
+          {liveStats.map((stat, index) => (
+            <Card key={index} className={cardClasses}>
+              <CardContent className="p-4 text-center">
+                <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
+                <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{stat.value}</div>
+                <div className={`text-sm ${textClasses}`}>{stat.label}</div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
     </div>

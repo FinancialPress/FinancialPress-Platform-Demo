@@ -1,0 +1,57 @@
+
+import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Share2 } from 'lucide-react';
+
+const TopSharers = () => {
+  const topSharers = [
+    { name: "ShareMaster", shares: "2,340", badge: "Platinum", followers: "89.2K", earnings: "1,150 FPT" },
+    { name: "ViralTrader", shares: "1,890", badge: "Gold", followers: "67.5K", earnings: "890 FPT" },
+    { name: "ContentCurator", shares: "1,560", badge: "Gold", followers: "54.3K", earnings: "720 FPT" },
+    { name: "NewsHawk", shares: "1,340", badge: "Silver", followers: "45.7K", earnings: "650 FPT" },
+    { name: "InfoStream", shares: "1,120", badge: "Silver", followers: "38.9K", earnings: "580 FPT" }
+  ];
+
+  const getBadgeColor = (badge: string) => {
+    switch (badge) {
+      case 'Platinum': return 'bg-purple-500 text-white';
+      case 'Gold': return 'bg-yellow-500 text-black';
+      case 'Silver': return 'bg-gray-500 text-white';
+      default: return 'bg-gray-500 text-white';
+    }
+  };
+
+  return (
+    <Card className="bg-gray-900 border-gray-800">
+      <CardContent className="p-4">
+        <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+          <Share2 className="w-4 h-4 mr-2 text-yellow-500" />
+          Top Sharers
+        </h3>
+        <div className="space-y-2">
+          {topSharers.map((sharer, index) => (
+            <div key={index} className="flex items-center justify-between py-1">
+              <div className="flex items-center space-x-2">
+                <div className="text-sm font-bold text-yellow-500">#{index + 1}</div>
+                <div className="w-6 h-6 bg-blue-500 rounded-full"></div>
+                <div>
+                  <div className="font-semibold text-white text-xs">{sharer.name}</div>
+                  <div className="text-gray-400 text-xs">{sharer.shares} shares</div>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-green-400 font-bold text-xs">{sharer.earnings}</div>
+                <Badge className={`${getBadgeColor(sharer.badge)} text-xs`}>
+                  {sharer.badge}
+                </Badge>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default TopSharers;
