@@ -53,7 +53,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
             </Button>
           ))}
         </div>
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-4">
           <Button 
             className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3"
             onClick={onContinue}

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -156,7 +157,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 8,
       title: "Central Bank Digital Currencies: The Race Heats Up",
-      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop&auto=format",
       category: "CBDC",
       author: "Policy Watch",
       handle: "@policywatch",
@@ -220,7 +221,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 12,
       title: "NFT Marketplace Revenues Surge 340% This Quarter",
-      image: "https://images.unsplash.com/photo-1634704784915-aacf363b021f?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300&h=200&fit=crop&auto=format",
       category: "NFT",
       author: "NFT Tracker",
       handle: "@nfttracker",
@@ -236,7 +237,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 13,
       title: "Crypto Lending Platforms Report 45% Growth in Q4",
-      image: "https://images.unsplash.com/photo-1617791160536-598cf32026fb?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop&auto=format",
       category: "LENDING",
       author: "FinTech Digest",
       handle: "@fintechdigest",
@@ -252,7 +253,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 14,
       title: "Blockchain Adoption in Healthcare Reaches New Milestone",
-      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=200&fit=crop&auto=format",
       category: "HEALTHCARE",
       author: "MedTech News",
       handle: "@medtechnews",
@@ -268,7 +269,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 15,
       title: "Cross-Chain Bridge Security Gets Major Upgrade",
-      image: "https://images.unsplash.com/photo-1639815188546-c43c240ff4df?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop&auto=format",
       category: "SECURITY",
       author: "Security Watch",
       handle: "@securitywatch",
@@ -284,7 +285,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 16,
       title: "Metaverse Land Sales Hit Record High This Month",
-      image: "https://images.unsplash.com/photo-1633621183124-4a57c60c46b4?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=300&h=200&fit=crop&auto=format",
       category: "METAVERSE",
       author: "Virtual World",
       handle: "@virtualworld",
@@ -300,7 +301,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 17,
       title: "Green Bitcoin Mining Initiative Gains Traction",
-      image: "https://images.unsplash.com/photo-1569025743543-2269864394ad?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=300&h=200&fit=crop&auto=format",
       category: "SUSTAINABILITY",
       author: "Green Crypto",
       handle: "@greencrypto",
@@ -316,7 +317,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 18,
       title: "AI-Powered Trading Bots Show 67% Success Rate",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=300&h=200&fit=crop&auto=format",
       category: "AI TRADING",
       author: "AI Finance",
       handle: "@aifinance",
@@ -328,102 +329,6 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       likes: 2567,
       earnings: "47.8",
       type: "ai"
-    },
-    {
-      id: 19,
-      title: "Stablecoin Market Cap Reaches $180 Billion Milestone",
-      image: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=300&h=200&fit=crop&auto=format",
-      category: "STABLECOINS",
-      author: "Stable Watch",
-      handle: "@stablewatch",
-      badge: "Gold Creator",
-      timeAgo: "14h",
-      views: "14.7K",
-      comments: 51,
-      shares: 98,
-      likes: 1445,
-      earnings: "31.2",
-      type: "stablecoins"
-    },
-    {
-      id: 20,
-      title: "Decentralized Exchanges See 180% Volume Increase",
-      image: "https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=300&h=200&fit=crop&auto=format",
-      category: "DEX",
-      author: "DEX Analytics",
-      handle: "@dexanalytics",
-      badge: "Platinum Creator",
-      timeAgo: "15h",
-      views: "17.3K",
-      comments: 69,
-      shares: 143,
-      likes: 1887,
-      earnings: "40.1",
-      type: "dex"
-    },
-    {
-      id: 21,
-      title: "Central Bank Digital Currency Pilots Expand Globally",
-      image: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=300&h=200&fit=crop&auto=format",
-      category: "CBDC",
-      author: "Digital Currency",
-      handle: "@digitalcurrency",
-      badge: "Silver Creator",
-      timeAgo: "16h",
-      views: "11.8K",
-      comments: 39,
-      shares: 81,
-      likes: 1267,
-      earnings: "28.9",
-      type: "cbdc"
-    },
-    {
-      id: 22,
-      title: "Privacy Coins Gain Traction Amid Regulatory Clarity",
-      image: "https://images.unsplash.com/photo-1634908923813-9c9100ab4f13?w=300&h=200&fit=crop&auto=format",
-      category: "PRIVACY",
-      author: "Privacy Crypto",
-      handle: "@privacycrypto",
-      badge: "Gold Creator",
-      timeAgo: "17h",
-      views: "13.4K",
-      comments: 47,
-      shares: 89,
-      likes: 1356,
-      earnings: "29.7",
-      type: "privacy"
-    },
-    {
-      id: 23,
-      title: "Tokenized Real Estate Market Surpasses $50B",
-      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300&h=200&fit=crop&auto=format",
-      category: "REAL ESTATE",
-      author: "PropTech News",
-      handle: "@proptechnews",
-      badge: "Platinum Creator",
-      timeAgo: "18h",
-      views: "19.2K",
-      comments: 82,
-      shares: 167,
-      likes: 2234,
-      earnings: "44.8",
-      type: "realestate"
-    },
-    {
-      id: 24,
-      title: "Crypto Payment Adoption Hits All-Time High in Retail",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop&auto=format",
-      category: "PAYMENTS",
-      author: "Payment Systems",
-      handle: "@paymentsystems",
-      badge: "Gold Creator",
-      timeAgo: "19h",
-      views: "16.1K",
-      comments: 63,
-      shares: 124,
-      likes: 1723,
-      earnings: "37.4",
-      type: "payments"
     }
   ];
 
@@ -454,11 +359,6 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       case 'metaverse': return 'bg-purple-700';
       case 'sustainability': return 'bg-green-800';
       case 'ai trading': return 'bg-indigo-700';
-      case 'stablecoins': return 'bg-blue-800';
-      case 'dex': return 'bg-purple-800';
-      case 'privacy': return 'bg-gray-700';
-      case 'real estate': return 'bg-amber-700';
-      case 'payments': return 'bg-emerald-700';
       default: return 'bg-gray-600';
     }
   };
@@ -494,16 +394,16 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
 
   const newsButtonClasses = (isActive: boolean) => {
     if (isActive) {
-      return "bg-yellow-500 text-black";
+      return "bg-yellow-500 text-black hover:bg-yellow-600";
     }
     return isDarkMode 
-      ? "border-gray-600 text-gray-300 hover:bg-gray-700"
-      : "border-gray-300 text-gray-700 hover:bg-gray-100";
+      ? "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+      : "border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-900";
   };
 
   const loadMoreButtonClasses = isDarkMode
-    ? "border-gray-600 text-gray-300 hover:bg-gray-700 bg-transparent"
-    : "border-gray-300 text-gray-700 hover:bg-gray-100 bg-white";
+    ? "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white bg-transparent"
+    : "border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-900 bg-white";
 
   const sidebarHeaderClasses = isDarkMode
     ? "text-lg font-semibold text-white"
