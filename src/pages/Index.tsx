@@ -39,15 +39,10 @@ const Index = () => {
     console.log("Content shared");
   };
 
-  const handleOnboardingComplete = () => {
-    // Navigate to user feed (screen 3)
-    setCurrentScreen(3);
-  };
-
   const screens = [
-    <LandingPage key="landing" />,
+    <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <SignUpPage key="signup" onNavigate={handleNavigate} />,
-    <OnboardingFlow key="onboarding" onComplete={handleOnboardingComplete} />,
+    <OnboardingFlow key="onboarding" />,
     <UserFeed key="feed" onNavigate={handleNavigate} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} />,
     <ContentCreator key="creator" onNavigate={handleNavigate} />,
