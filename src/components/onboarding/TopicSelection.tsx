@@ -53,7 +53,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
             </Button>
           ))}
         </div>
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-4">
           <Button 
             className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3"
             onClick={onContinue}
@@ -61,13 +61,15 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
           >
             Continue <ChevronRight className="w-5 h-5 ml-2" />
           </Button>
-          <Button 
-            variant="outline"
-            className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white px-8 py-2"
-            onClick={onContinue}
-          >
-            Do this later
-          </Button>
+          <div>
+            <Button 
+              variant="outline"
+              className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white px-8 py-2"
+              onClick={onContinue}
+            >
+              Do this later
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
