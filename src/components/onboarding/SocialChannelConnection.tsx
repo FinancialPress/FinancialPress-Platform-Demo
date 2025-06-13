@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -224,7 +223,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
           </ul>
         </div>
 
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-4">
           <Button 
             className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3"
             onClick={onContinue}

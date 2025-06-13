@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -474,7 +473,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                     <CardContent className="p-0">
                       <div className="relative">
                         <img 
-                          src={item.image} 
+                          src={`https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop&auto=format&q=80`}
                           alt={item.title}
                           className="w-full h-32 object-cover"
                         />

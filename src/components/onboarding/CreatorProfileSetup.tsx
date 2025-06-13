@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PenTool, Upload, Camera } from 'lucide-react';
+import { PenTool, Upload, Camera, CheckCircle, XCircle, Plus, Trash2 } from 'lucide-react';
 
 interface CreatorProfileSetupProps {
   onContinue: () => void;
@@ -13,6 +13,15 @@ interface CreatorProfileSetupProps {
 
 const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [newPlatformUrl, setNewPlatformUrl] = useState('');
+  const [platforms, setPlatforms] = useState([
+    { id: 'twitter', name: 'X (Twitter)', icon: '𝕏', connected: true },
+    { id: 'facebook', name: 'Facebook', icon: '📘', connected: false },
+    { id: 'youtube', name: 'YouTube', icon: '📺', connected: true },
+    { id: 'linkedin', name: 'LinkedIn', icon: '💼', connected: false },
+    { id: 'telegram', name: 'Telegram', icon: '✈️', connected: true },
+    { id: 'instagram', name: 'Instagram', icon: '📷', connected: false }
+  ]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -23,6 +32,29 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const togglePlatformConnection = (platformId: string) => {
+    setPlatforms(prev => prev.map(p => 
+      p.id === platformId ? { ...p, connected: !p.connected } : p
+    ));
+  };
+
+  const addNewPlatform = () => {
+    if (newPlatformUrl.trim()) {
+      const newPlatform = {
+        id: `custom-${Date.now()}`,
+        name: 'Custom Platform',
+        icon: '🔗',
+        connected: true
+      };
+      setPlatforms(prev => [...prev, newPlatform]);
+      setNewPlatformUrl('');
+    }
+  };
+
+  const removePlatform = (platformId: string) => {
+    setPlatforms(prev => prev.filter(p => p.id !== platformId));
   };
 
   return (
@@ -87,19 +119,93 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
           />
         </div>
 
+        {/* Enhanced Social Links Section */}
         <div>
-          <Label className="text-gray-300">Social Links</Label>
-          <div className="space-y-2">
-            <Input 
-              placeholder="Twitter/X URL"
-              className="bg-gray-800 border-gray-700 text-white"
-            />
-            <Input 
-              placeholder="YouTube URL (optional)"
-              className="bg-gray-800 border-gray-700 text-white"
-            />
+          <Label className="text-gray-300 mb-3 block">Social Links</Label>
+          <div className="space-y-3">
+            {platforms.map((platform) => (
+              <div key={platform.id} className="flex items-center justify-between bg-gray-800 p-3 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <span className="text-xl">{platform.icon}</span>
+                  <span className="text-white font-medium">{platform.name}</span>
+                  <span className={`text-xs px-2 py-1 rounded ${
+                    platform.connected 
+                      ? 'bg-green-600 text-white' 
+                      : 'bg-gray-600 text-gray-300'
+                  }`}>
+                    {platform.connected ? 'Connected' : 'Disconnected'}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className={`border-gray-600 ${
+                      platform.connected 
+                        ? 'text-red-400 hover:bg-red-400 hover:text-white' 
+                        : 'text-green-400 hover:bg-green-400 hover:text-white'
+                    }`}
+                    onClick={() => togglePlatformConnection(platform.id)}
+                  >
+                    {platform.connected ? (
+                      <XCircle className="w-4 h-4" />
+                    ) : (
+                      <CheckCircle className="w-4 h-4" />
+                    )}
+                  </Button>
+                  {platform.id.startsWith('custom-') && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-gray-600 text-red-400 hover:bg-red-400 hover:text-white"
+                      onClick={() => removePlatform(platform.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+            
+            {/* Add new platform */}
+            <div className="flex space-x-2">
+              <Input
+                placeholder="Paste platform URL"
+                value={newPlatformUrl}
+                onChange={(e) => setNewPlatformUrl(e.target.value)}
+                className="bg-gray-800 border-gray-700 text-white flex-1"
+              />
+              <Button
+                onClick={addNewPlatform}
+                className="bg-yellow-500 hover:bg-yellow-600 text-black"
+                disabled={!newPlatformUrl.trim()}
+              >
+                <Plus className="w-4 h-4 mr-1" />
+                Add Platform
+              </Button>
+            </div>
           </div>
         </div>
+
+        {/* What do you want to do section */}
+        <div className="bg-gray-800 p-4 rounded-lg">
+          <Label className="text-gray-300 mb-3 block">What do you want to do on FinancialPress?</Label>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+              <div className="w-6 h-6 bg-yellow-500 rounded flex items-center justify-center">
+                <PenTool className="w-4 h-4 text-black" />
+              </div>
+              <span className="text-white">Create my own editorial content and analysis</span>
+            </div>
+            <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+              <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
+                <share className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-white">Share and distribute other people's content</span>
+            </div>
+          </div>
+        </div>
+
         <Button 
           className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
           onClick={onContinue}
