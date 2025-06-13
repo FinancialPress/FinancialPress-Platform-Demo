@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PenTool, Upload, Camera, CheckCircle, XCircle, Plus, Trash2 } from 'lucide-react';
+import { PenTool, Upload, Camera, CheckCircle, XCircle, Plus, Trash2, Share2 } from 'lucide-react';
 
 interface CreatorProfileSetupProps {
   onContinue: () => void;
@@ -199,7 +198,7 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
             </div>
             <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
               <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                <share className="w-4 h-4 text-white" />
+                <Share2 className="w-4 h-4 text-white" />
               </div>
               <span className="text-white">Share and distribute other people's content</span>
             </div>
