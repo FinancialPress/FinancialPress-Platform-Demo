@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PenTool, Upload, Camera, Check, X, Plus, Share2 } from 'lucide-react';
+import { PenTool, Upload, Camera } from 'lucide-react';
 
 interface CreatorProfileSetupProps {
   onContinue: () => void;
@@ -13,19 +13,6 @@ interface CreatorProfileSetupProps {
 
 const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [selectedRole, setSelectedRole] = useState<'creator' | 'distributor' | null>(null);
-  const [newPlatformUrl, setNewPlatformUrl] = useState('');
-
-  const [connectedPlatforms, setConnectedPlatforms] = useState([
-    { name: 'X (Twitter)', icon: '𝕏', connected: true },
-    { name: 'YouTube', icon: '📺', connected: false },
-    { name: 'LinkedIn', icon: '💼', connected: true },
-    { name: 'Instagram', icon: '📷', connected: false },
-    { name: 'TikTok', icon: '🎵', connected: false },
-    { name: 'Telegram', icon: '✈️', connected: true },
-    { name: 'Discord', icon: '🎮', connected: false },
-    { name: 'Reddit', icon: '🤖', connected: false }
-  ]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -35,26 +22,6 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
         setProfileImage(e.target?.result as string);
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const togglePlatformConnection = (platformName: string) => {
-    setConnectedPlatforms(prev => 
-      prev.map(platform => 
-        platform.name === platformName 
-          ? { ...platform, connected: !platform.connected }
-          : platform
-      )
-    );
-  };
-
-  const addCustomPlatform = () => {
-    if (newPlatformUrl.trim()) {
-      setConnectedPlatforms(prev => [
-        ...prev,
-        { name: 'Custom Platform', icon: '🔗', connected: true }
-      ]);
-      setNewPlatformUrl('');
     }
   };
 
@@ -120,96 +87,19 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
           />
         </div>
 
-        {/* What do you want to do on FinancialPress */}
         <div>
-          <Label className="text-gray-300 block mb-4">What do you want to do on FinancialPress?</Label>
-          <div className="space-y-3">
-            <Card 
-              className={`cursor-pointer transition-colors p-4 ${
-                selectedRole === 'creator'
-                  ? 'bg-yellow-500/20 border-yellow-500'
-                  : 'bg-gray-800 border-gray-700 hover:border-gray-600'
-              }`}
-              onClick={() => setSelectedRole('creator')}
-            >
-              <div className="flex items-center space-x-3">
-                <PenTool className="w-6 h-6 text-yellow-500" />
-                <div className="flex-1">
-                  <h3 className="text-white font-semibold">Create my own editorial content and analysis</h3>
-                  <p className="text-gray-400 text-sm">Build your audience with original insights and earn from your expertise</p>
-                </div>
-                {selectedRole === 'creator' && <Check className="w-6 h-6 text-yellow-500" />}
-              </div>
-            </Card>
-            
-            <Card 
-              className={`cursor-pointer transition-colors p-4 ${
-                selectedRole === 'distributor'
-                  ? 'bg-blue-500/20 border-blue-500'
-                  : 'bg-gray-800 border-gray-700 hover:border-gray-600'
-              }`}
-              onClick={() => setSelectedRole('distributor')}
-            >
-              <div className="flex items-center space-x-3">
-                <Share2 className="w-6 h-6 text-blue-500" />
-                <div className="flex-1">
-                  <h3 className="text-white font-semibold">Share and distribute other people's content</h3>
-                  <p className="text-gray-400 text-sm">Curate and share the best content to earn tokens and grow your network</p>
-                </div>
-                {selectedRole === 'distributor' && <Check className="w-6 h-6 text-blue-500" />}
-              </div>
-            </Card>
+          <Label className="text-gray-300">Social Links</Label>
+          <div className="space-y-2">
+            <Input 
+              placeholder="Twitter/X URL"
+              className="bg-gray-800 border-gray-700 text-white"
+            />
+            <Input 
+              placeholder="YouTube URL (optional)"
+              className="bg-gray-800 border-gray-700 text-white"
+            />
           </div>
         </div>
-
-        {/* Social Links */}
-        <div>
-          <Label className="text-gray-300 block mb-4">Social Links</Label>
-          <div className="space-y-3">
-            {connectedPlatforms.map((platform, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border border-gray-700">
-                <div className="flex items-center space-x-3">
-                  <span className="text-xl">{platform.icon}</span>
-                  <span className="text-white">{platform.name}</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <span className={`text-sm px-2 py-1 rounded ${
-                    platform.connected 
-                      ? 'bg-green-500/20 text-green-400' 
-                      : 'bg-gray-600/20 text-gray-400'
-                  }`}>
-                    {platform.connected ? 'Connected' : 'Disconnected'}
-                  </span>
-                  <Button
-                    size="sm"
-                    variant={platform.connected ? "destructive" : "default"}
-                    onClick={() => togglePlatformConnection(platform.name)}
-                    className={platform.connected ? '' : 'bg-yellow-500 hover:bg-yellow-600 text-black'}
-                  >
-                    {platform.connected ? <X className="w-4 h-4" /> : 'Connect'}
-                  </Button>
-                </div>
-              </div>
-            ))}
-            
-            <div className="flex space-x-2">
-              <Input 
-                placeholder="Paste platform URL here"
-                value={newPlatformUrl}
-                onChange={(e) => setNewPlatformUrl(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white flex-1"
-              />
-              <Button 
-                onClick={addCustomPlatform}
-                className="bg-yellow-500 hover:bg-yellow-600 text-black"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Platform
-              </Button>
-            </div>
-          </div>
-        </div>
-
         <Button 
           className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
           onClick={onContinue}
