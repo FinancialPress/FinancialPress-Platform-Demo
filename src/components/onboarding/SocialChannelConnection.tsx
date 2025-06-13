@@ -224,12 +224,19 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
           </ul>
         </div>
 
-        <div className="text-center">
+        <div className="text-center space-y-3">
           <Button 
             className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3"
             onClick={onContinue}
           >
             Continue <ChevronRight className="w-5 h-5 ml-2" />
+          </Button>
+          <Button 
+            variant="outline"
+            className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white px-8 py-2"
+            onClick={onContinue}
+          >
+            Do this later
           </Button>
           <p className="text-xs text-gray-500 mt-2">
             You can connect more platforms later from your settings

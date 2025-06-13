@@ -25,7 +25,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
           Choose what content you're interested in for better discovery and earnings opportunities
         </p>
         <div className="text-center text-sm text-gray-400">
-          Step 3 of 4
+          Step 2 of 3
         </div>
       </CardHeader>
       <CardContent className="p-8">
@@ -53,13 +53,20 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
             </Button>
           ))}
         </div>
-        <div className="text-center">
+        <div className="text-center space-y-3">
           <Button 
             className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3"
             onClick={onContinue}
             disabled={selectedTopics.length === 0}
           >
             Continue <ChevronRight className="w-5 h-5 ml-2" />
+          </Button>
+          <Button 
+            variant="outline"
+            className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white px-8 py-2"
+            onClick={onContinue}
+          >
+            Do this later
           </Button>
         </div>
       </CardContent>

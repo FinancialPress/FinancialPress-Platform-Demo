@@ -110,7 +110,6 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
               <Button 
                 className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
                 onClick={handleAccountCreation}
-                disabled={!agreeToTerms}
               >
                 <Mail className="w-5 h-5 mr-2" />
                 Create Account

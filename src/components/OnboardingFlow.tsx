@@ -81,16 +81,6 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-[1440px] mx-auto px-8 py-20">
-        {/* Role Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-500/20 border border-yellow-500 mb-4">
-            <PenTool className="w-5 h-5 text-yellow-500 mr-2" />
-            <span className="font-semibold text-yellow-500">
-              FinancialPress Member Onboarding
-            </span>
-          </div>
-        </div>
-
         {/* Progress Steps */}
         <div className="flex justify-center mb-12">
           <div className="flex items-center space-x-4">
