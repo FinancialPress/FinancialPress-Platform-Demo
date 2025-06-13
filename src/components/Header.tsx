@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -51,16 +50,6 @@ const Header = ({
         <div className="max-w-[1440px] mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              {/* Demo Toggle Button - Only '<' icon */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-gray-400 hover:text-white p-2"
-                onClick={onToggleDemo}
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              
               <img 
                 src="/lovable-uploads/1a2b168c-aa7f-4ee5-8180-f1bdc8ecd1db.png" 
                 alt="FinancialPress Logo" 
