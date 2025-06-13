@@ -26,10 +26,22 @@ const Header = ({
       {/* Top Navigation Strip */}
       <div className="w-full bg-gray-800 border-b border-gray-700">
         <div className="max-w-[1440px] mx-auto px-8 py-2">
-          <div className="flex items-center space-x-8 text-sm">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">News</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Your Feed</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Community</a>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-8 text-sm">
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">News</a>
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">Your Feed</a>
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">Community</a>
+            </div>
+            
+            {/* Light/Dark Mode Toggle in Navigation Strip */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-400 hover:text-white"
+              onClick={onToggleDarkMode}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
           </div>
         </div>
       </div>
@@ -39,7 +51,7 @@ const Header = ({
         <div className="max-w-[1440px] mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              {/* Demo Toggle Button */}
+              {/* Demo Toggle Button - Just '<' when minimized */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -66,16 +78,6 @@ const Header = ({
                   className="pl-10 w-80 bg-gray-900 border-gray-700 text-white placeholder-gray-400"
                 />
               </div>
-              
-              {/* Light/Dark Mode Toggle */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-gray-400 hover:text-white"
-                onClick={onToggleDarkMode}
-              >
-                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </Button>
               
               {isLoggedIn ? (
                 <div className="flex items-center space-x-4">

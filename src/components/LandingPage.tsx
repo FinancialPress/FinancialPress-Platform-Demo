@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -18,6 +19,7 @@ interface LandingPageProps {
 
 const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
+  const [activeTab, setActiveTab] = useState<'live' | 'breaking'>('live');
 
   const featuredNews = [
     {
@@ -35,39 +37,9 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       comments: 89,
       shares: 156,
       likes: 2400,
-      earnings: "52.8 FPT",
+      earnings: "52.8",
       isFollowing: false,
       isRecommended: true
-    }
-  ];
-
-  const pressReleases = [
-    {
-      id: 1,
-      title: "VERSE token launch surpasses $18 market cap within minutes of going live on Pump.fun",
-      timeAgo: "15m",
-      source: "WaveHQ"
-    },
-    {
-      id: 2,
-      title: "Serenity and Zenlqx accelerate US-GCC efforts to lead trillion-dollar tokenization market",
-      timeAgo: "32m",
-      source: "CryptoNews"
-    }
-  ];
-
-  const marketReleases = [
-    {
-      id: 1,
-      title: "TRX set to presale rises to account amid market rebound",
-      timeAgo: "18m",
-      source: "MarketWatch"
-    },
-    {
-      id: 2,
-      title: "SOL jumps 12% as ecosystem growth accelerates",
-      timeAgo: "45m",
-      source: "DeFiPulse"
     }
   ];
 
@@ -167,29 +139,55 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       likes: 3200,
       earnings: "58.7",
       type: "analysis"
-    }
-  ];
-
-  const cryptoInDepth = [
+    },
+    // Additional articles to fill dead space
     {
-      id: 1,
-      title: "Meta's Bitcoin Rejection Means Big Tech is Still Skeptical",
-      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=250&h=150&fit=crop"
+      id: 7,
+      title: "DeFi Protocol Launches Revolutionary Staking Mechanism",
+      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=200&fit=crop",
+      category: "DEFI",
+      author: "DeFi Weekly",
+      handle: "@defiweekly",
+      badge: "Gold Creator",
+      timeAgo: "3h",
+      views: "14.2K",
+      comments: 56,
+      shares: 112,
+      likes: 1650,
+      earnings: "34.8",
+      type: "defi"
     },
     {
-      id: 2,
-      title: "Empty Seats Could Hamper CFTC's Ability to Regulate Crypto",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=250&h=150&fit=crop"
+      id: 8,
+      title: "Central Bank Digital Currencies: The Race Heats Up",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop",
+      category: "CBDC",
+      author: "Policy Watch",
+      handle: "@policywatch",
+      badge: "Silver Creator",
+      timeAgo: "4h",
+      views: "11.7K",
+      comments: 43,
+      shares: 87,
+      likes: 1320,
+      earnings: "29.6",
+      type: "policy"
     },
     {
-      id: 3,
-      title: "Singapore's Ousted Crypto Firms May Not Find Shelter Elsewhere",
-      image: "https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?w=250&h=150&fit=crop"
-    },
-    {
-      id: 4,
-      title: "South Korea's New President Will Bolster Crypto, But Scandals Prevail",
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=250&h=150&fit=crop"
+      id: 9,
+      title: "Web3 Gaming Tokens See Massive Surge in Trading Volume",
+      image: "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=300&h=200&fit=crop",
+      category: "GAMING",
+      author: "GameFi Report",
+      handle: "@gamefireport",
+      badge: "Platinum Creator",
+      timeAgo: "4h",
+      views: "19.8K",
+      comments: 89,
+      shares: 156,
+      likes: 2340,
+      earnings: "45.2",
+      type: "gaming"
     }
   ];
 
@@ -208,6 +206,9 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
       case 'explained': return 'bg-orange-600';
       case 'regulation': return 'bg-red-600';
       case 'magazine': return 'bg-pink-600';
+      case 'defi': return 'bg-indigo-600';
+      case 'cbdc': return 'bg-teal-600';
+      case 'gaming': return 'bg-violet-600';
       default: return 'bg-gray-600';
     }
   };
@@ -235,7 +236,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
 
   return (
     <div className={themeClasses}>
-      {/* Hero Section - Updated */}
+      {/* Hero Section */}
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
@@ -258,8 +259,112 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Content Area - 3/4 width */}
           <div className="lg:col-span-3">
-            {/* Live Feed Section */}
-            <LiveFeedSection />
+            {/* Live Feed / Breaking News Tabs */}
+            <div className="mb-8">
+              <div className="flex space-x-4 mb-6">
+                <Button
+                  variant={activeTab === 'live' ? 'default' : 'outline'}
+                  className={activeTab === 'live' ? 'bg-yellow-500 text-black' : ''}
+                  onClick={() => setActiveTab('live')}
+                >
+                  Live Feed
+                </Button>
+                <Button
+                  variant={activeTab === 'breaking' ? 'default' : 'outline'}
+                  className={activeTab === 'breaking' ? 'bg-yellow-500 text-black' : ''}
+                  onClick={() => setActiveTab('breaking')}
+                >
+                  Breaking News
+                </Button>
+              </div>
+
+              {activeTab === 'live' ? (
+                <LiveFeedSection />
+              ) : (
+                // Breaking News - Featured Article
+                <Card className={`${cardClasses} mb-8`}>
+                  <CardContent className="p-0">
+                    <div className="grid md:grid-cols-2 gap-0">
+                      <div className="relative">
+                        <img 
+                          src={featuredNews[0].image} 
+                          alt={featuredNews[0].title}
+                          className="w-full h-64 md:h-full object-cover"
+                        />
+                        <Badge className={`absolute top-4 left-4 ${getCategoryColor(featuredNews[0].category)} text-white`}>
+                          {featuredNews[0].category}
+                        </Badge>
+                      </div>
+                      <div className="p-6 flex flex-col justify-between">
+                        {/* Author Header */}
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                              <span className="text-black font-bold text-sm">{featuredNews[0].author.charAt(0)}</span>
+                            </div>
+                            <div>
+                              <div className={`font-medium text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>{featuredNews[0].author}</div>
+                              <div className="flex items-center space-x-2">
+                                <Badge className={`text-xs ${getBadgeColor(featuredNews[0].badge)}`}>
+                                  {featuredNews[0].badge.split(' ')[0]}
+                                </Badge>
+                                <span className={`text-xs ${textClasses}`}>{featuredNews[0].timeAgo}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-green-400 font-bold text-lg">{featuredNews[0].earnings}</div>
+                            <div className="text-green-400 text-xs">FPT Earned</div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h2 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-black'}`}>{featuredNews[0].title}</h2>
+                          <p className={`${textClasses} mb-4 text-sm`}>{featuredNews[0].description}</p>
+                          
+                          {/* Engagement Stats */}
+                          <div className={`flex items-center space-x-4 text-sm mb-4 ${textClasses}`}>
+                            <div className="flex items-center space-x-1">
+                              <Eye className="w-4 h-4" />
+                              <span>{featuredNews[0].views}</span>
+                            </div>
+                            <span>•</span>
+                            <span>{featuredNews[0].comments} comments</span>
+                            <span>•</span>
+                            <span>{featuredNews[0].shares} shares</span>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors`}>
+                                <Heart className="w-4 h-4" />
+                                <span className="text-sm">{featuredNews[0].likes}</span>
+                              </button>
+                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors`}>
+                                <MessageCircle className="w-4 h-4" />
+                                <span className="text-sm">{featuredNews[0].comments}</span>
+                              </button>
+                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors`}>
+                                <Repeat2 className="w-4 h-4" />
+                                <span className="text-sm">{featuredNews[0].shares}</span>
+                              </button>
+                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}>
+                                <Share2 className="w-4 h-4" />
+                                <span className="text-sm">Share & Earn</span>
+                              </button>
+                            </div>
+                            <button className={`${textClasses} hover:text-yellow-400 transition-colors`}>
+                              <Bookmark className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
 
             {/* News Section with Filters */}
             <div className="mb-8">
@@ -373,27 +478,28 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             </div>
           </div>
 
-          {/* Right Sidebar - 1/4 width - Reordered */}
+          {/* Right Sidebar - 1/4 width */}
           <div className="space-y-6">
             <QuickActions />
             <TopCreators />
             <TopSharers />
             <TopComments />
             <TrendingTopics />
+            
+            {/* Stats Section - Moved to Right Sidebar Bottom */}
+            <div className="space-y-4">
+              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>Platform Stats</h3>
+              {liveStats.map((stat, index) => (
+                <Card key={index} className={cardClasses}>
+                  <CardContent className="p-4 text-center">
+                    <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
+                    <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{stat.value}</div>
+                    <div className={`text-sm ${textClasses}`}>{stat.label}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
-
-        {/* Stats Section - Moved to Bottom */}
-        <div className="grid grid-cols-4 gap-6 mt-16">
-          {liveStats.map((stat, index) => (
-            <Card key={index} className={cardClasses}>
-              <CardContent className="p-4 text-center">
-                <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{stat.value}</div>
-                <div className={`text-sm ${textClasses}`}>{stat.label}</div>
-              </CardContent>
-            </Card>
-          ))}
         </div>
       </section>
     </div>
