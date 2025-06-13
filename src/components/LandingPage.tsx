@@ -18,7 +18,6 @@ interface LandingPageProps {
 
 const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
-  const [activeTab, setActiveTab] = useState<'live' | 'breaking'>('live');
 
   const featuredNews = [
     {
@@ -308,111 +307,9 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Content Area - 3/4 width */}
           <div className="lg:col-span-3">
-            {/* Live Feed / Breaking News Tabs */}
+            {/* Live Feed Section - Direct display without tabs */}
             <div className="mb-8">
-              <div className="flex space-x-4 mb-6">
-                <Button
-                  variant={activeTab === 'live' ? 'default' : 'outline'}
-                  className={activeTab === 'live' ? 'bg-yellow-500 text-black' : ''}
-                  onClick={() => setActiveTab('live')}
-                >
-                  Live Feed
-                </Button>
-                <Button
-                  variant={activeTab === 'breaking' ? 'default' : 'outline'}
-                  className={activeTab === 'breaking' ? 'bg-yellow-500 text-black' : ''}
-                  onClick={() => setActiveTab('breaking')}
-                >
-                  Breaking News
-                </Button>
-              </div>
-
-              {activeTab === 'live' ? (
-                <LiveFeedSection />
-              ) : (
-                // Breaking News - Full Featured Article Layout
-                <Card className={`${cardClasses} mb-8`}>
-                  <CardContent className="p-0">
-                    <div className="grid md:grid-cols-2 gap-0">
-                      <div className="relative">
-                        <img 
-                          src={featuredNews[0].image} 
-                          alt={featuredNews[0].title}
-                          className="w-full h-64 md:h-full object-cover"
-                        />
-                        <Badge className={`absolute top-4 left-4 ${getCategoryColor(featuredNews[0].category)} text-white`}>
-                          {featuredNews[0].category}
-                        </Badge>
-                      </div>
-                      <div className="p-6 flex flex-col justify-between">
-                        {/* Author Header */}
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                              <span className="text-black font-bold text-sm">{featuredNews[0].author.charAt(0)}</span>
-                            </div>
-                            <div>
-                              <div className={`font-medium text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>{featuredNews[0].author}</div>
-                              <div className="flex items-center space-x-2">
-                                <Badge className={`text-xs ${getBadgeColor(featuredNews[0].badge)}`}>
-                                  {featuredNews[0].badge.split(' ')[0]}
-                                </Badge>
-                                <span className={`text-xs ${textClasses}`}>{featuredNews[0].timeAgo}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-green-400 font-bold text-lg">{featuredNews[0].earnings}</div>
-                            <div className="text-green-400 text-xs">FPT Earned</div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h2 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-black'}`}>{featuredNews[0].title}</h2>
-                          <p className={`${textClasses} mb-4 text-sm`}>{featuredNews[0].description}</p>
-                          
-                          {/* Engagement Stats */}
-                          <div className={`flex items-center space-x-4 text-sm mb-4 ${textClasses}`}>
-                            <div className="flex items-center space-x-1">
-                              <Eye className="w-4 h-4" />
-                              <span>{featuredNews[0].views}</span>
-                            </div>
-                            <span>•</span>
-                            <span>{featuredNews[0].comments} comments</span>
-                            <span>•</span>
-                            <span>{featuredNews[0].shares} shares</span>
-                          </div>
-
-                          {/* Action Buttons */}
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors`}>
-                                <Heart className="w-4 h-4" />
-                                <span className="text-sm">{featuredNews[0].likes}</span>
-                              </button>
-                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors`}>
-                                <MessageCircle className="w-4 h-4" />
-                                <span className="text-sm">{featuredNews[0].comments}</span>
-                              </button>
-                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors`}>
-                                <Repeat2 className="w-4 h-4" />
-                                <span className="text-sm">{featuredNews[0].shares}</span>
-                              </button>
-                              <button className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}>
-                                <Share2 className="w-4 h-4" />
-                                <span className="text-sm">Share & Earn</span>
-                              </button>
-                            </div>
-                            <button className={`${textClasses} hover:text-yellow-400 transition-colors`}>
-                              <Bookmark className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+              <LiveFeedSection />
             </div>
 
             {/* News Section with Filters */}
