@@ -205,7 +205,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 11,
       title: "Institutional Bitcoin Holdings Reach All-Time High",
-      image: "https://images.unsplash.com/premium_photo-1681400592810-f5e452af17c5?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1640161704729-cbe966a08476?w=300&h=200&fit=crop&auto=format",
       category: "INSTITUTIONAL",
       author: "Corporate Watch",
       handle: "@corpwatch",
