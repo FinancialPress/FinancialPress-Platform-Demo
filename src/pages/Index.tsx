@@ -25,16 +25,20 @@ const Index = () => {
   const screens = [
     <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <SignUpPage key="signup" onNavigate={handleNavigate} />,
-    <OnboardingFlow key="onboarding" onNavigate={handleNavigate} />,
+    <OnboardingFlow key="onboarding" />,
     <UserFeed key="feed" onNavigate={handleNavigate} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} />,
     <ContentCreator key="creator" onNavigate={handleNavigate} />,
-    <ShareEarnFlow key="share" onNavigate={handleNavigate} />,
+    <ShareEarnFlow key="share" />,
     <FinalCTA key="cta" />
   ];
 
+  const themeClasses = isDarkMode 
+    ? "min-h-screen bg-black"
+    : "min-h-screen bg-gray-50";
+
   return (
-    <div className="min-h-screen bg-black">
+    <div className={themeClasses}>
       <Header 
         onNavigate={handleNavigate} 
         currentScreen={currentScreen}

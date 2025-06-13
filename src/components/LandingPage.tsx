@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -475,7 +476,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
 
   const themeClasses = isDarkMode 
     ? "min-h-screen bg-black text-white"
-    : "min-h-screen bg-white text-black";
+    : "min-h-screen bg-gray-50 text-black";
 
   const cardClasses = isDarkMode 
     ? "bg-gray-900 border-gray-800"
@@ -485,6 +486,35 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     ? "text-gray-300"
     : "text-gray-600";
 
+  const heroTextClasses = isDarkMode
+    ? "text-lg text-gray-300 mb-6 max-w-3xl mx-auto"
+    : "text-lg text-gray-600 mb-6 max-w-3xl mx-auto";
+
+  const newsHeaderClasses = isDarkMode
+    ? "text-2xl font-bold text-white"
+    : "text-2xl font-bold text-black";
+
+  const newsButtonClasses = (isActive: boolean) => {
+    if (isActive) {
+      return "bg-yellow-500 text-black";
+    }
+    return isDarkMode 
+      ? "border-gray-600 text-gray-300 hover:bg-gray-700"
+      : "border-gray-300 text-gray-700 hover:bg-gray-100";
+  };
+
+  const loadMoreButtonClasses = isDarkMode
+    ? "border-gray-600 text-gray-300 hover:bg-gray-700"
+    : "border-gray-300 text-gray-700 hover:bg-gray-100";
+
+  const sidebarHeaderClasses = isDarkMode
+    ? "text-lg font-semibold text-white"
+    : "text-lg font-semibold text-black";
+
+  const statCardTextClasses = isDarkMode
+    ? "text-xl font-bold text-white"
+    : "text-xl font-bold text-black";
+
   return (
     <div className={themeClasses}>
       {/* Hero Section */}
@@ -493,7 +523,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
             Join the financial community
           </h1>
-          <p className={`text-lg ${textClasses} mb-6 max-w-3xl mx-auto`}>
+          <p className={heroTextClasses}>
             Monetise your content and engagement
           </p>
           <div className="flex gap-4 justify-center mb-8">
@@ -512,18 +542,18 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           <div className="lg:col-span-3">
             {/* Live Feed Section - Direct display without tabs */}
             <div className="mb-8">
-              <LiveFeedSection />
+              <LiveFeedSection isDarkMode={isDarkMode} />
             </div>
 
             {/* News Section with Filters */}
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>News</h2>
+                <h2 className={newsHeaderClasses}>News</h2>
                 <div className="flex space-x-2">
                   <Button
                     variant={newsFilter === 'latest' ? 'default' : 'outline'}
                     size="sm"
-                    className={newsFilter === 'latest' ? 'bg-yellow-500 text-black' : ''}
+                    className={newsButtonClasses(newsFilter === 'latest')}
                     onClick={() => setNewsFilter('latest')}
                   >
                     Latest
@@ -531,7 +561,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                   <Button
                     variant={newsFilter === 'trending' ? 'default' : 'outline'}
                     size="sm"
-                    className={newsFilter === 'trending' ? 'bg-yellow-500 text-black' : ''}
+                    className={newsButtonClasses(newsFilter === 'trending')}
                     onClick={() => setNewsFilter('trending')}
                   >
                     Trending
@@ -619,7 +649,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             <div className="text-center mb-8">
               <Button 
                 variant="outline" 
-                className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                className={loadMoreButtonClasses}
                 onClick={() => onNavigate?.(1)}
               >
                 Load More Content
@@ -637,12 +667,12 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             
             {/* Stats Section - Moved to Bottom and Stacked */}
             <div className="space-y-4">
-              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>Platform Stats</h3>
+              <h3 className={sidebarHeaderClasses}>Platform Stats</h3>
               {liveStats.map((stat, index) => (
                 <Card key={index} className={cardClasses}>
                   <CardContent className="p-4 text-center">
                     <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                    <div className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{stat.value}</div>
+                    <div className={statCardTextClasses}>{stat.value}</div>
                     <div className={`text-sm ${textClasses}`}>{stat.label}</div>
                   </CardContent>
                 </Card>

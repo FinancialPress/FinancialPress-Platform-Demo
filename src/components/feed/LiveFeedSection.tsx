@@ -1,10 +1,15 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Users, Play, Heart, MessageCircle, Share2, Eye, MoreHorizontal, Bookmark } from 'lucide-react';
 
-const LiveFeedSection = () => {
+interface LiveFeedSectionProps {
+  isDarkMode?: boolean;
+}
+
+const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
   const [activeTab, setActiveTab] = useState<'live' | 'breaking'>('live');
 
   const liveFeeds = [
@@ -67,18 +72,36 @@ const LiveFeedSection = () => {
     isFeatured: true
   };
 
+  const cardClasses = isDarkMode 
+    ? "bg-gray-900 border-gray-800"
+    : "bg-white border-gray-200";
+
+  const tabButtonClasses = (isActive: boolean) => {
+    if (isDarkMode) {
+      return `flex-1 rounded-none py-4 ${
+        isActive 
+          ? 'bg-gray-800 text-white border-b-2 border-yellow-500' 
+          : 'text-gray-400 hover:text-white'
+      }`;
+    } else {
+      return `flex-1 rounded-none py-4 ${
+        isActive 
+          ? 'bg-gray-100 text-black border-b-2 border-yellow-500' 
+          : 'text-gray-600 hover:text-black'
+      }`;
+    }
+  };
+
+  const contentAreaClasses = isDarkMode ? "p-6" : "p-6 bg-gray-50";
+
   return (
-    <Card className="bg-gray-900 border-gray-800 mb-8">
+    <Card className={`${cardClasses} mb-8`}>
       <CardContent className="p-0">
         {/* Tab Headers */}
-        <div className="flex border-b border-gray-800">
+        <div className={`flex ${isDarkMode ? 'border-b border-gray-800' : 'border-b border-gray-200'}`}>
           <Button
             variant="ghost"
-            className={`flex-1 rounded-none py-4 ${
-              activeTab === 'live' 
-                ? 'bg-gray-800 text-white border-b-2 border-yellow-500' 
-                : 'text-gray-400 hover:text-white'
-            }`}
+            className={tabButtonClasses(activeTab === 'live')}
             onClick={() => setActiveTab('live')}
           >
             <Play className="w-4 h-4 mr-2" />
@@ -86,11 +109,7 @@ const LiveFeedSection = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`flex-1 rounded-none py-4 ${
-              activeTab === 'breaking' 
-                ? 'bg-gray-800 text-white border-b-2 border-yellow-500' 
-                : 'text-gray-400 hover:text-white'
-            }`}
+            className={tabButtonClasses(activeTab === 'breaking')}
             onClick={() => setActiveTab('breaking')}
           >
             Breaking News
@@ -98,7 +117,7 @@ const LiveFeedSection = () => {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className={contentAreaClasses}>
           {activeTab === 'live' ? (
             <div className="grid md:grid-cols-2 gap-6">
               {/* Left Column - Video and Article Card */}
@@ -122,7 +141,7 @@ const LiveFeedSection = () => {
                 </div>
 
                 {/* Article Card */}
-                <Card className="bg-gray-800 border-gray-700">
+                <Card className={isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-300"}>
                   <CardContent className="p-4">
                     {/* Author Header */}
                     <div className="flex items-center justify-between mb-3">
@@ -131,43 +150,46 @@ const LiveFeedSection = () => {
                           <span className="text-black font-bold text-sm">A</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className="text-white font-medium">Arthur Hayes</span>
+                          <span className={`${isDarkMode ? 'text-white' : 'text-black'} font-medium`}>Arthur Hayes</span>
                           <Badge className="bg-yellow-500 text-black text-xs">Gold Creator</Badge>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                        <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-white font-semibold text-lg mb-2">
+                    <h3 className={`${isDarkMode ? 'text-white' : 'text-black'} font-semibold text-lg mb-2`}>
                       How Japan's Central Bank Could Spark the Next Bitcoin Surge
                     </h3>
-                    <p className="text-gray-300 text-sm mb-4 line-clamp-4">
+                    <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-sm mb-4 line-clamp-4`}>
                       Trusted FinTech vlogger Arthur Hayes takes you inside the latest central bank policy shift in Japan, unpacking the key opportunities for investors and the potential risks that could impact global crypto markets. In this live session, he explores how institutional sentiment is shifting and what it means for Bitcoin's next rally. Tune in for sharp insights, real-time reactions, and actionable takeaways...
                     </p>
 
                     {/* Stats */}
-                    <div className="flex items-center text-sm text-gray-400 mb-4">
+                    <div className={`flex items-center text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
                       <div className="flex items-center space-x-4">
                         <span>45.2K views</span>
                         <span>89 comments</span>
                         <span>156 shares</span>
                       </div>
+                      <div className="ml-auto text-green-400 font-semibold">
+                        <span className="text-sm">52.8 FPT Earned</span>
+                      </div>
                     </div>
 
                     {/* Footer Actions */}
                     <div className="flex items-center space-x-4">
-                      <button className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors">
+                      <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-600 hover:text-red-500'} transition-colors`}>
                         <Heart className="w-4 h-4" />
                         <span className="text-sm">2400</span>
                       </button>
-                      <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
+                      <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-blue-400' : 'text-gray-600 hover:text-blue-500'} transition-colors`}>
                         <MessageCircle className="w-4 h-4" />
                         <span className="text-sm">89</span>
                       </button>
-                      <button className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors">
+                      <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-green-400' : 'text-gray-600 hover:text-green-500'} transition-colors`}>
                         <Share2 className="w-4 h-4" />
                         <span className="text-sm">156</span>
                       </button>
@@ -178,22 +200,22 @@ const LiveFeedSection = () => {
 
               {/* Right Column - Live Feeds Menu */}
               <div className="space-y-4">
-                <h3 className="text-white font-semibold text-lg">Trending Live Feeds</h3>
+                <h3 className={`${isDarkMode ? 'text-white' : 'text-black'} font-semibold text-lg`}>Trending Live Feeds</h3>
                 <div className="space-y-3">
                   {liveFeeds.map((feed, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors cursor-pointer">
+                    <div key={index} className={`flex items-start space-x-3 p-3 ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'} rounded-lg transition-colors cursor-pointer`}>
                       <div className="flex items-center space-x-2 flex-1">
                         <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
                           <span className="text-black font-bold text-xs">{feed.avatar}</span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center space-x-1 mb-1">
-                            <span className="text-white font-medium text-sm truncate">{feed.host}</span>
+                            <span className={`${isDarkMode ? 'text-white' : 'text-black'} font-medium text-sm truncate`}>{feed.host}</span>
                             {feed.isVerified && (
                               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                             )}
                           </div>
-                          <p className="text-gray-300 text-xs line-clamp-2">{feed.title}</p>
+                          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-xs line-clamp-2`}>{feed.title}</p>
                           <Badge className="bg-purple-600 text-white text-xs mt-1">{feed.category}</Badge>
                         </div>
                       </div>
@@ -219,7 +241,7 @@ const LiveFeedSection = () => {
                 </div>
 
                 {/* Featured Article Card */}
-                <Card className="bg-gray-800 border-gray-700">
+                <Card className={isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-300"}>
                   <CardContent className="p-6">
                     {/* Author Header */}
                     <div className="flex items-center justify-between mb-4">
@@ -228,27 +250,27 @@ const LiveFeedSection = () => {
                           <span className="text-black font-bold text-lg">A</span>
                         </div>
                         <div className="flex items-center space-x-3">
-                          <span className="text-white font-medium text-lg">{featuredBreakingNews.author}</span>
+                          <span className={`${isDarkMode ? 'text-white' : 'text-black'} font-medium text-lg`}>{featuredBreakingNews.author}</span>
                           <Badge className="bg-yellow-500 text-black">{featuredBreakingNews.badge}</Badge>
                         </div>
                       </div>
                       <div className="flex items-center space-x-3">
                         <Badge className="bg-red-600 text-white">Breaking News</Badge>
                         <Badge className="bg-green-600 text-white">Recommended</Badge>
-                        <MoreHorizontal className="w-5 h-5 text-gray-400" />
+                        <MoreHorizontal className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <h1 className="text-white font-bold text-2xl mb-4">
+                    <h1 className={`${isDarkMode ? 'text-white' : 'text-black'} font-bold text-2xl mb-4`}>
                       {featuredBreakingNews.title}
                     </h1>
-                    <p className="text-gray-300 text-lg mb-6 leading-relaxed">
+                    <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-lg mb-6 leading-relaxed`}>
                       {featuredBreakingNews.description}
                     </p>
 
                     {/* Stats */}
-                    <div className="flex items-center text-gray-400 mb-6">
+                    <div className={`flex items-center ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-6`}>
                       <div className="flex items-center space-x-6 text-base">
                         <span>{featuredBreakingNews.views} views</span>
                         <span>{featuredBreakingNews.comments} comments</span>
@@ -256,33 +278,32 @@ const LiveFeedSection = () => {
                         <span className="text-gray-500">•</span>
                         <span>{featuredBreakingNews.timeAgo}</span>
                       </div>
-                      <div className="ml-auto text-green-400 font-semibold text-center">
-                        <div className="text-lg">{featuredBreakingNews.earnings}</div>
-                        <div className="text-sm">FPT Earned</div>
+                      <div className="ml-auto text-green-400 font-semibold">
+                        <span className="text-lg">{featuredBreakingNews.earnings} FPT Earned</span>
                       </div>
                     </div>
 
                     {/* Footer Actions */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-6">
-                        <button className="flex items-center space-x-2 text-gray-400 hover:text-red-400 transition-colors">
+                        <button className={`flex items-center space-x-2 ${isDarkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-600 hover:text-red-500'} transition-colors`}>
                           <Heart className="w-5 h-5" />
                           <span className="text-base">{featuredBreakingNews.likes}</span>
                         </button>
-                        <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors">
+                        <button className={`flex items-center space-x-2 ${isDarkMode ? 'text-gray-400 hover:text-blue-400' : 'text-gray-600 hover:text-blue-500'} transition-colors`}>
                           <MessageCircle className="w-5 h-5" />
                           <span className="text-base">{featuredBreakingNews.comments}</span>
                         </button>
-                        <button className="flex items-center space-x-2 text-gray-400 hover:text-green-400 transition-colors">
+                        <button className={`flex items-center space-x-2 ${isDarkMode ? 'text-gray-400 hover:text-green-400' : 'text-gray-600 hover:text-green-500'} transition-colors`}>
                           <Share2 className="w-5 h-5" />
                           <span className="text-base">{featuredBreakingNews.shares}</span>
                         </button>
-                        <button className="flex items-center space-x-2 text-gray-400 hover:text-yellow-400 transition-colors">
+                        <button className={`flex items-center space-x-2 ${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
                           <Share2 className="w-5 h-5" />
                           <span className="text-base">Share & Earn</span>
                         </button>
                       </div>
-                      <button className="text-gray-400 hover:text-yellow-400 transition-colors">
+                      <button className={`${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
                         <Bookmark className="w-5 h-5" />
                       </button>
                     </div>
