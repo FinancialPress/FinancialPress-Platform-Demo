@@ -18,7 +18,7 @@ const QuickActions = ({ isDarkMode = true }: QuickActionsProps) => {
 
   const outlineButtonClasses = isDarkMode
     ? "border-gray-600 text-gray-300 hover:bg-gray-700"
-    : "border-gray-300 text-gray-700 hover:bg-gray-100";
+    : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50 font-semibold px-6";
 
   return (
     <Card className={cardClasses}>
