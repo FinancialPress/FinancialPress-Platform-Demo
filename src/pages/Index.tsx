@@ -42,7 +42,7 @@ const Index = () => {
   const screens = [
     <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <SignUpPage key="signup" onNavigate={handleNavigate} />,
-    <OnboardingFlow key="onboarding" />,
+    <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} />,
     <UserFeed key="feed" onNavigate={handleNavigate} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} />,
     <ContentCreator key="creator" onNavigate={handleNavigate} />,
@@ -59,17 +59,23 @@ const Index = () => {
     ? "min-h-screen bg-black"
     : "min-h-screen bg-gray-50";
 
+  // Don't show Header on Onboarding (screen 2)
+  const showHeader = currentScreen !== 2;
+
   return (
     <div className={themeClasses}>
-      <Header 
-        onNavigate={handleNavigate} 
-        currentScreen={currentScreen}
-        isDarkMode={isDarkMode}
-        onToggleDarkMode={handleToggleDarkMode}
-      />
+      {showHeader && (
+        <Header 
+          onNavigate={handleNavigate} 
+          currentScreen={currentScreen}
+          isDarkMode={isDarkMode}
+          onToggleDarkMode={handleToggleDarkMode}
+        />
+      )}
       {screens[currentScreen]}
     </div>
   );
 };
 
 export default Index;
+

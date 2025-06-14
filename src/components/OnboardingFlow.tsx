@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Check, PenTool, Share2 } from 'lucide-react';
+import { Check, PenTool, Share2, X } from 'lucide-react';
 import SocialChannelConnection from './onboarding/SocialChannelConnection';
 import TopicSelection from './onboarding/TopicSelection';
 import CreatorSelection from './onboarding/CreatorSelection';
@@ -11,9 +11,10 @@ import OnboardingWelcome from './onboarding/OnboardingWelcome';
 interface OnboardingFlowProps {
   userRole?: 'creator' | 'distributor';
   onComplete?: () => void;
+  onLandingPage?: () => void; // Add prop to navigate home
 }
 
-const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProps) => {
+const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: OnboardingFlowProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedCreators, setSelectedCreators] = useState<string[]>([]);
@@ -79,7 +80,16 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white relative">
+      {/* X icon (Close Onboarding, go to landing page) */}
+      <button
+        className="absolute top-6 right-8 z-20 bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition-colors"
+        title="Return to landing page"
+        onClick={onLandingPage}
+        aria-label="Close"
+      >
+        <X className="w-6 h-6 text-gray-300" />
+      </button>
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         {/* Progress Steps */}
         <div className="flex justify-center mb-12">
@@ -112,3 +122,4 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete }: OnboardingFlowProp
 };
 
 export default OnboardingFlow;
+
