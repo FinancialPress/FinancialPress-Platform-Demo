@@ -55,6 +55,17 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
               </svg>
               Connect with X
             </Button>
+
+            <button>
+  <img
+    src="https://cdn.brandfetch.io/id11-wfgsq/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B"
+    alt="Reown"
+    width={32}
+    height={32}
+    style={{ borderRadius: "8px" }} // optional: for rounded corners
+  />
+  Connect with Reown
+</button>
             <Button 
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
               onClick={handleAccountCreation}
