@@ -54,7 +54,6 @@ const Header = ({
         <div className="max-w-[1440px] mx-auto px-8 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6 text-sm">
-              <span className="text-black font-semibold">DEMO MODE:</span>
               <button 
                 onClick={() => onNavigate?.(0)}
                 className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 0 ? 'font-bold underline' : ''}`}
