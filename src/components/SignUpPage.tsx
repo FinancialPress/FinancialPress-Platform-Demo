@@ -68,15 +68,6 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
   />
   Connect with Reown
 </Button>
-            <Button 
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
-              onClick={handleAccountCreation}
-            >
-              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7v10c0 5.55 3.84 9.95 9 11 5.16-1.05 9-5.45 9-11V7l-10-5z"/>
-              </svg>
-              Connect with Reown
-            </Button>
             
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
