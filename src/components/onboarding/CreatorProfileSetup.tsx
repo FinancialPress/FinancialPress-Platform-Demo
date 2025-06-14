@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,12 +11,11 @@ interface CreatorProfileSetupProps {
   onContinue: () => void;
 }
 
-const [wantsToCreate, setWantsToCreate] = useState(false);
-const [wantsToShare, setWantsToShare] = useState(false);
-
 const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [newPlatformUrl, setNewPlatformUrl] = useState('');
+  const [wantsToCreate, setWantsToCreate] = useState(false);
+  const [wantsToShare, setWantsToShare] = useState(false);
   const [platforms, setPlatforms] = useState([
     { id: 'twitter', name: 'X (Twitter)', icon: '𝕏', connected: true },
     { id: 'facebook', name: 'Facebook', icon: '📘', connected: false },
@@ -190,36 +190,39 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
         </div>
 
         {/* What do you want to do section */}
-<div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
-  <input
-    type="checkbox"
-    checked={wantsToCreate}
-    onChange={() => setWantsToCreate(v => !v)}
-    className="form-checkbox h-5 w-5 text-yellow-500"
-    id="create"
-  />
-  <label htmlFor="create" className="flex items-center space-x-2 cursor-pointer">
-    <div className="w-6 h-6 bg-yellow-500 rounded flex items-center justify-center">
-      <PenTool className="w-4 h-4 text-black" />
-    </div>
-    <span className="text-white">Create my own editorial content and analysis</span>
-  </label>
-</div>
-<div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
-  <input
-    type="checkbox"
-    checked={wantsToShare}
-    onChange={() => setWantsToShare(v => !v)}
-    className="form-checkbox h-5 w-5 text-blue-500"
-    id="share"
-  />
-  <label htmlFor="share" className="flex items-center space-x-2 cursor-pointer">
-    <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-      <Share2 className="w-4 h-4 text-white" />
-    </div>
-    <span className="text-white">Share and distribute other people's content</span>
-  </label>
-</div>
+        <div className="space-y-3">
+          <Label className="text-gray-300 block">What do you want to do?</Label>
+          <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
+            <input
+              type="checkbox"
+              checked={wantsToCreate}
+              onChange={() => setWantsToCreate(v => !v)}
+              className="form-checkbox h-5 w-5 text-yellow-500"
+              id="create"
+            />
+            <label htmlFor="create" className="flex items-center space-x-2 cursor-pointer">
+              <div className="w-6 h-6 bg-yellow-500 rounded flex items-center justify-center">
+                <PenTool className="w-4 h-4 text-black" />
+              </div>
+              <span className="text-white">Create my own editorial content and analysis</span>
+            </label>
+          </div>
+          <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
+            <input
+              type="checkbox"
+              checked={wantsToShare}
+              onChange={() => setWantsToShare(v => !v)}
+              className="form-checkbox h-5 w-5 text-blue-500"
+              id="share"
+            />
+            <label htmlFor="share" className="flex items-center space-x-2 cursor-pointer">
+              <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
+                <Share2 className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-white">Share and distribute other people's content</span>
+            </label>
+          </div>
+        </div>
 
         <Button 
           className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"

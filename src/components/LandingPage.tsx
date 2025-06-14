@@ -44,7 +44,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 1,
       title: "Investment Giant Guggenheim Taps Ripple to Expand Digital Debt Offering",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop",
       category: "NEWS",
       author: "Sam Bourgi",
       handle: "@sambourgi",
@@ -60,7 +60,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     {
       id: 2,
       title: "Bitcoin Traders Now See $107K Retest Before New All-Time Highs",
-      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop&auto=format",
+      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300&h=200&fit=crop",
       category: "MARKET UPDATE",
       author: "William Suberg",
       handle: "@williamsuberg",
@@ -466,14 +466,14 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                 </div>
               </div>
 
-              {/* Content Grid - Extended with more articles */}
+              {/* Content Grid */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {contentGrid.map((item) => (
                   <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors`}>
                     <CardContent className="p-0">
                       <div className="relative">
                         <img 
-                          src={`https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop&auto=format&q=80`}
+                          src={item.image}
                           alt={item.title}
                           className="w-full h-32 object-cover"
                         />
