@@ -10,7 +10,9 @@ interface CreatorProfileSetupProps {
   onContinue: () => void;
 }
 
-const [wantsToCreate, setWantsToCreate] = useState(false);
+
+
+  const [wantsToCreate, setWantsToCreate] = useState(false);
 const [wantsToShare, setWantsToShare] = useState(false);
 
 const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
