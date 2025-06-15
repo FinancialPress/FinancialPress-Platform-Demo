@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -115,10 +114,6 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
               <BarChart3 className="w-3 h-3 mr-1" />
               View Dashboard
             </Button>
-            <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-xs py-2">
-              <TrendingUp className="w-3 h-3 mr-1" />
-              Optimize Earnings
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -196,10 +191,6 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
             >
               <BarChart3 className="w-4 h-4 mr-2" />
               View Full Dashboard
-            </Button>
-            <Button variant="outline" className="w-full border-gray-600 text-gray-300 text-sm">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Optimize Earnings
             </Button>
           </div>
         </CardContent>

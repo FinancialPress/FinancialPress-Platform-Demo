@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -29,7 +28,7 @@ const QuickActions = ({ isDarkMode = true }: QuickActionsProps) => {
             Create Content
           </Button>
           <Button variant="outline" className={`w-full text-sm ${outlineButtonClasses}`}>
-            Manage Interests
+            Manage profile
           </Button>
           <Button variant="outline" className={`w-full text-sm ${outlineButtonClasses}`}>
             View Analytics

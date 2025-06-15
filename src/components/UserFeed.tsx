@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, Bookmark } from 'lucide-react';
-import PersonalizedHero from './feed/PersonalizedHero';
-import UserStats from './feed/UserStats';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
+import TopSharers from '@/components/feed/TopSharers';
+import TopComments from '@/components/feed/TopComments';
 import QuickActions from '@/components/feed/QuickActions';
 import UserInterests from '@/components/feed/UserInterests';
 
@@ -233,9 +233,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
   return (
     <div className="min-h-screen bg-black text-white">
       <section className="max-w-[1440px] mx-auto px-8 py-8">
-        <PersonalizedHero onNavigate={onNavigate} />
-        <UserStats />
-
+        {/* Main grid split */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Feed - 2/3 width */}
           <div className="lg:col-span-2">
@@ -281,10 +279,17 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
               isEmbedded={true}
             />
 
+            {/* Show filtered UserStats (stats except "Earnings") */}
+            <UserStats showStats={["Following", "Content Shared", "Tips Received"]} />
+
             <QuickActions />
             <UserInterests />
-            <TrendingTopics />
+
+            {/* Panels below interests: Top Creators, Top Sharers, Top Comments, Top Trends */}
             <TopCreators />
+            <TopSharers />
+            <TopComments />
+            <TrendingTopics />
           </div>
         </div>
       </section>
