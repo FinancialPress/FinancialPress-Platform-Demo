@@ -59,6 +59,14 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
     setPlatforms(prev => prev.filter(p => p.id !== platformId));
   };
 
+  const handleCreateCheckedChange = (checked: boolean | "indeterminate") => {
+    setWantsToCreate(checked === true);
+  };
+
+  const handleShareCheckedChange = (checked: boolean | "indeterminate") => {
+    setWantsToShare(checked === true);
+  };
+
   return (
     <Card className="bg-gray-900 border-gray-800 max-w-2xl mx-auto">
       <CardHeader>
@@ -204,7 +212,7 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
             <Checkbox 
               id="create"
               checked={wantsToCreate}
-              onCheckedChange={setWantsToCreate}
+              onCheckedChange={handleCreateCheckedChange}
               className="data-[state=checked]:bg-yellow-500 data-[state=checked]:border-yellow-500"
             />
             <div className="flex items-center space-x-3">
@@ -230,7 +238,7 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
             <Checkbox 
               id="share"
               checked={wantsToShare}
-              onCheckedChange={setWantsToShare}
+              onCheckedChange={handleShareCheckedChange}
               className="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
             />
             <div className="flex items-center space-x-3">
