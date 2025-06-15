@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Users, Play, Heart, MessageCircle, Share2, Eye, MoreHorizontal, Bookmark } from 'lucide-react';
+import { Users, Play, Heart, MessageCircle, Share2, Eye, MoreHorizontal, Bookmark, HandCoins } from 'lucide-react';
 
 interface LiveFeedSectionProps {
   isDarkMode?: boolean;
@@ -267,21 +267,18 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                       {featuredBreakingNews.description}
                     </p>
 
-                    {/* Stats */}
+                    {/* Stats -- MODIFIED: removed '156 shares . 2h' */}
                     <div className={`flex items-center ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-6`}>
                       <div className="flex items-center space-x-6 text-base">
                         <span>{featuredBreakingNews.views} views</span>
                         <span>{featuredBreakingNews.comments} comments</span>
-                        <span>{featuredBreakingNews.shares} shares</span>
-                        <span className="text-gray-500">•</span>
-                        <span>{featuredBreakingNews.timeAgo}</span>
                       </div>
                       <div className="ml-auto text-green-400 font-semibold">
                         <span className="text-lg">{featuredBreakingNews.earnings} FPT Earned</span>
                       </div>
                     </div>
 
-                    {/* Footer Actions */}
+                    {/* Footer Actions -- MODIFIED last button */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-6">
                         <button className={`flex items-center space-x-2 ${isDarkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-600 hover:text-red-500'} transition-colors`}>
@@ -301,8 +298,10 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                           <span className="text-base">Share & Earn</span>
                         </button>
                       </div>
-                      <button className={`${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
-                        <Bookmark className="w-5 h-5" />
+                      {/* REPLACED: Bookmark icon with HandCoins and "Tips" label */}
+                      <button className={`flex items-center space-x-2 ${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
+                        <HandCoins className="w-5 h-5" />
+                        <span className="text-base">Tips</span>
                       </button>
                     </div>
                   </CardContent>
