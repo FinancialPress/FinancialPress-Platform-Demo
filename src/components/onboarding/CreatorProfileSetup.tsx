@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 import { PenTool, Upload, Camera, CheckCircle, XCircle, Plus, Trash2, Share2 } from 'lucide-react';
 
 interface CreatorProfileSetupProps {
@@ -192,35 +192,57 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
         {/* What do you want to do section */}
         <div className="space-y-3">
           <Label className="text-gray-300 block">What do you want to do?</Label>
-          <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
-            <input
-              type="checkbox"
-              checked={wantsToCreate}
-              onChange={() => setWantsToCreate(v => !v)}
-              className="form-checkbox h-5 w-5 text-yellow-500"
+          
+          <div 
+            className={`flex items-center space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+              wantsToCreate 
+                ? 'bg-yellow-500/10 border-yellow-500' 
+                : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+            }`}
+            onClick={() => setWantsToCreate(!wantsToCreate)}
+          >
+            <Checkbox 
               id="create"
+              checked={wantsToCreate}
+              onCheckedChange={setWantsToCreate}
+              className="data-[state=checked]:bg-yellow-500 data-[state=checked]:border-yellow-500"
             />
-            <label htmlFor="create" className="flex items-center space-x-2 cursor-pointer">
-              <div className="w-6 h-6 bg-yellow-500 rounded flex items-center justify-center">
-                <PenTool className="w-4 h-4 text-black" />
+            <div className="flex items-center space-x-3">
+              <div className={`w-8 h-8 rounded flex items-center justify-center ${
+                wantsToCreate ? 'bg-yellow-500' : 'bg-gray-600'
+              }`}>
+                <PenTool className={`w-5 h-5 ${wantsToCreate ? 'text-black' : 'text-gray-400'}`} />
               </div>
-              <span className="text-white">Create my own editorial content and analysis</span>
-            </label>
+              <span className={`font-medium ${wantsToCreate ? 'text-white' : 'text-gray-400'}`}>
+                Create my own editorial content and analysis
+              </span>
+            </div>
           </div>
-          <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
-            <input
-              type="checkbox"
-              checked={wantsToShare}
-              onChange={() => setWantsToShare(v => !v)}
-              className="form-checkbox h-5 w-5 text-blue-500"
+
+          <div 
+            className={`flex items-center space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+              wantsToShare 
+                ? 'bg-blue-500/10 border-blue-500' 
+                : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+            }`}
+            onClick={() => setWantsToShare(!wantsToShare)}
+          >
+            <Checkbox 
               id="share"
+              checked={wantsToShare}
+              onCheckedChange={setWantsToShare}
+              className="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
             />
-            <label htmlFor="share" className="flex items-center space-x-2 cursor-pointer">
-              <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                <Share2 className="w-4 h-4 text-white" />
+            <div className="flex items-center space-x-3">
+              <div className={`w-8 h-8 rounded flex items-center justify-center ${
+                wantsToShare ? 'bg-blue-500' : 'bg-gray-600'
+              }`}>
+                <Share2 className={`w-5 h-5 ${wantsToShare ? 'text-white' : 'text-gray-400'}`} />
               </div>
-              <span className="text-white">Share and distribute other people's content</span>
-            </label>
+              <span className={`font-medium ${wantsToShare ? 'text-white' : 'text-gray-400'}`}>
+                Share and distribute other people's content
+              </span>
+            </div>
           </div>
         </div>
 
