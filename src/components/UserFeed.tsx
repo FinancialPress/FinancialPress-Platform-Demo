@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, Tip } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, HandCoins } from 'lucide-react';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
 import TrendingTopics from '@/components/feed/TrendingTopics';
@@ -228,7 +228,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             title="Tip"
             aria-label="Tip"
           >
-            <Tip className="w-5 h-5" />
+            <HandCoins className="w-5 h-5" />
           </button>
         </div>
       </CardContent>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, Tip, MoreHorizontal } from 'lucide-react';
+import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, HandCoins, MoreHorizontal } from 'lucide-react';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
@@ -536,7 +536,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                             title="Tip"
                             aria-label="Tip"
                           >
-                            <Tip className="w-3 h-3" />
+                            <HandCoins className="w-3 h-3" />
                           </button>
                         </div>
                       </div>
