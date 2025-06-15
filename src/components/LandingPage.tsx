@@ -498,7 +498,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
 
                         <h3 className={`font-semibold text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
                         
-                        {/* Engagement Stats - Updated Format */}
+                        {/* Engagement Stats - Unified earnings text */}
                         <div className={`flex items-center justify-between text-xs mb-2 ${textClasses}`}>
                           <div className="flex items-center space-x-2">
                             <span>{item.views}</span>
@@ -506,8 +506,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                             <span>{item.comments} comments</span>
                           </div>
                           <div className="text-green-400 font-semibold text-center">
-                            <div className="text-sm">{item.earnings}</div>
-                            <div className="text-xs">FPT Earned</div>
+                            <span className="text-sm">{item.earnings} FPT Earned</span>
                           </div>
                         </div>
 
