@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, Bookmark } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, Tip } from 'lucide-react';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
 import TrendingTopics from '@/components/feed/TrendingTopics';
@@ -223,8 +223,12 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
               <span>Share & Earn</span>
             </button>
           </div>
-          <button className="text-gray-400 hover:text-yellow-400 transition-colors">
-            <Bookmark className="w-5 h-5" />
+          <button 
+            className="text-gray-400 hover:text-yellow-400 transition-colors"
+            title="Tip"
+            aria-label="Tip"
+          >
+            <Tip className="w-5 h-5" />
           </button>
         </div>
       </CardContent>
