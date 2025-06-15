@@ -224,11 +224,12 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             </button>
           </div>
           <button 
-            className="text-gray-400 hover:text-yellow-400 transition-colors"
+            className="text-gray-400 hover:text-yellow-400 transition-colors flex items-center space-x-2"
             title="Tip"
             aria-label="Tip"
           >
             <HandCoins className="w-5 h-5" />
+            <span className="text-base">Tip</span>
           </button>
         </div>
       </CardContent>

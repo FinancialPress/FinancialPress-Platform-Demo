@@ -532,12 +532,13 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                             </button>
                           </div>
                           <button 
-                            className={`${textClasses} hover:text-yellow-400 transition-colors`}
-                            title="Tip"
-                            aria-label="Tip"
-                          >
-                            <HandCoins className="w-3 h-3" />
-                          </button>
+                              className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
+                              title="Tip"
+                              aria-label="Tip"
+                            >
+                              <HandCoins className="w-3 h-3" />
+                              <span className="text-xs">Tip</span>
+                            </button>
                         </div>
                       </div>
                     </CardContent>
