@@ -11,6 +11,7 @@ import TopSharers from '@/components/feed/TopSharers';
 import TopComments from '@/components/feed/TopComments';
 import QuickActions from '@/components/feed/QuickActions';
 import UserInterests from '@/components/feed/UserInterests';
+import UserStats from '@/components/feed/UserStats';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
