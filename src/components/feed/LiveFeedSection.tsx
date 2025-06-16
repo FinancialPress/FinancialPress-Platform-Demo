@@ -267,11 +267,10 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                       {featuredBreakingNews.description}
                     </p>
 
-                    {/* Stats -- MODIFIED: removed '156 shares . 2h' */}
+                    {/* Stats -- MODIFIED: removed comments count, added 'views' */}
                     <div className={`flex items-center ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-6`}>
                       <div className="flex items-center space-x-6 text-base">
                         <span>{featuredBreakingNews.views} views</span>
-                        <span>{featuredBreakingNews.comments} comments</span>
                       </div>
                       <div className="ml-auto text-green-400 font-semibold">
                         <span className="text-lg">{featuredBreakingNews.earnings} FPT Earned</span>
