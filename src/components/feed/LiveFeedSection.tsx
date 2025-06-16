@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -166,11 +167,10 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                       Trusted FinTech vlogger Arthur Hayes takes you inside the latest central bank policy shift in Japan, unpacking the key opportunities for investors and the potential risks that could impact global crypto markets. In this live session, he explores how institutional sentiment is shifting and what it means for Bitcoin's next rally. Tune in for sharp insights, real-time reactions, and actionable takeaways...
                     </p>
 
-                    {/* Stats */}
+                    {/* Stats - MODIFIED: removed comments count, added 'views' */}
                     <div className={`flex items-center text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
                       <div className="flex items-center space-x-4">
                         <span>45.2K views</span>
-                        <span>89 comments</span>
                         <span>156 shares</span>
                       </div>
                       <div className="ml-auto text-green-400 font-semibold">
