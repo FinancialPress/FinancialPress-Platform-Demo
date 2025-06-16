@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -167,30 +168,39 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                       Trusted FinTech vlogger Arthur Hayes takes you inside the latest central bank policy shift in Japan, unpacking the key opportunities for investors and the potential risks that could impact global crypto markets. In this live session, he explores how institutional sentiment is shifting and what it means for Bitcoin's next rally. Tune in for sharp insights, real-time reactions, and actionable takeaways...
                     </p>
 
-                    {/* Stats - MODIFIED: removed comments count, added 'views' */}
+                    {/* Stats - MODIFIED: removed comments count and shares, added 'views' */}
                     <div className={`flex items-center text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
                       <div className="flex items-center space-x-4">
                         <span>45.2K views</span>
-                        <span>156 shares</span>
                       </div>
                       <div className="ml-auto text-green-400 font-semibold">
                         <span className="text-sm">52.8 FPT Earned</span>
                       </div>
                     </div>
 
-                    {/* Footer Actions */}
-                    <div className="flex items-center space-x-4">
-                      <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-600 hover:text-red-500'} transition-colors`}>
-                        <Heart className="w-4 h-4" />
-                        <span className="text-sm">2400</span>
-                      </button>
-                      <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-blue-400' : 'text-gray-600 hover:text-blue-500'} transition-colors`}>
-                        <MessageCircle className="w-4 h-4" />
-                        <span className="text-sm">89</span>
-                      </button>
-                      <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-green-400' : 'text-gray-600 hover:text-green-500'} transition-colors`}>
-                        <Share2 className="w-4 h-4" />
-                        <span className="text-sm">156</span>
+                    {/* Footer Actions - MODIFIED: added Share & Earn and Tips buttons */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-600 hover:text-red-500'} transition-colors`}>
+                          <Heart className="w-4 h-4" />
+                          <span className="text-sm">2400</span>
+                        </button>
+                        <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-blue-400' : 'text-gray-600 hover:text-blue-500'} transition-colors`}>
+                          <MessageCircle className="w-4 h-4" />
+                          <span className="text-sm">89</span>
+                        </button>
+                        <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-green-400' : 'text-gray-600 hover:text-green-500'} transition-colors`}>
+                          <Share2 className="w-4 h-4" />
+                          <span className="text-sm">156</span>
+                        </button>
+                        <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
+                          <Share2 className="w-4 h-4" />
+                          <span className="text-sm">Share & Earn</span>
+                        </button>
+                      </div>
+                      <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
+                        <HandCoins className="w-4 h-4" />
+                        <span className="text-sm">Tips</span>
                       </button>
                     </div>
                   </CardContent>
@@ -315,3 +325,4 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
 };
 
 export default LiveFeedSection;
+
