@@ -64,13 +64,7 @@ const Header = ({
                 onClick={() => onNavigate?.(1)}
                 className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 1 ? 'font-bold underline' : ''}`}
               >
-                Sign Up Flow
-              </button>
-              <button 
-                onClick={() => onNavigate?.(2)}
-                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 2 ? 'font-bold underline' : ''}`}
-              >
-                Onboarding
+                Sign Up
               </button>
               <button 
                 onClick={() => onNavigate?.(3)}
