@@ -4,7 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { X, Share2, Check, DollarSign, Users } from 'lucide-react';
+import { X, Share2, Check } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface ShareEarnFlowProps {
   post: {
@@ -22,9 +23,10 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     `🚀 Just discovered this insightful analysis: "${post.title}" by @${post.creator}. Worth a read! #Crypto #Finance`
   );
   const [distributeToAll, setDistributeToAll] = useState(false);
+  const { toast } = useToast();
 
   const platforms = [
-    { id: 'financialpress', name: 'FinancialPress', icon: <span className="font-bold"><span className="text-white">F</span><span className="text-yellow-500">P</span></span>, color: 'bg-black' },
+    { id: 'fp', name: 'FinancialPress', icon: 'FP', color: 'bg-black text-yellow-400 font-bold' },
     { id: 'twitter', name: 'Twitter/X', icon: '𝕏', color: 'bg-gray-800' },
     { id: 'telegram', name: 'Telegram', icon: '✈️', color: 'bg-blue-600' },
     { id: 'reddit', name: 'Reddit', icon: '🤖', color: 'bg-orange-600' },
@@ -55,10 +57,17 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     return (baseEarnings * multiplier).toFixed(1);
   };
 
+  const handleFollow = () => {
+    toast({
+      title: `Followed ${post.creator}`,
+      description: `You are now following @${post.creator}`,
+    });
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
       <Card className="bg-gray-900 border-gray-800 w-full max-w-xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
+        {/* Title */}
         <div className="bg-gray-800 p-4 border-b border-gray-700">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
@@ -69,25 +78,28 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
         </div>
 
         <CardContent className="space-y-4 p-4">
-          {/* Creator Section */}
-          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 flex items-center justify-between">
+          {/* Creator Profile */}
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center font-bold text-black">
-                {post.creator.charAt(0).toUpperCase()}
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">{post.creator.charAt(0)}</span>
               </div>
               <div>
-                <div className="flex items-center space-x-2 mb-1">
-                  <h3 className="text-white font-semibold text-base">{post.creator}</h3>
-                  <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
-                </div>
+                <h3 className="text-white font-semibold text-lg">{post.creator}</h3>
+                <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
               </div>
             </div>
-            <Button className="text-xs px-3 py-1 rounded-full bg-yellow-500 text-black hover:bg-yellow-600">
+            <Button 
+              size="sm"
+              variant="ghost"
+              onClick={handleFollow}
+              className="bg-yellow-500 text-black px-3 py-1 text-xs font-semibold hover:bg-yellow-600 rounded-full"
+            >
               Follow
             </Button>
           </div>
 
-          {/* Post Title */}
+          {/* Post title */}
           <div>
             <label className="block text-gray-300 mb-1 font-medium text-sm">Post title</label>
             <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
@@ -95,7 +107,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             </div>
           </div>
 
-          {/* Message */}
+          {/* Custom Message */}
           <div>
             <label className="block text-gray-300 mb-1 font-medium text-sm">Customize your message</label>
             <Textarea
@@ -109,7 +121,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             </div>
           </div>
 
-          {/* Platforms */}
+          {/* Platform Selection */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <label className="block text-gray-300 font-medium text-sm">Select platforms to share</label>
@@ -134,7 +146,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   }`}
                   onClick={() => handlePlatformToggle(platform.id)}
                 >
-                  <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-white text-xs`}>
+                  <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-xs`}>
                     {platform.icon}
                   </div>
                   <span className="text-white font-medium text-sm">{platform.name}</span>
@@ -146,7 +158,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             </div>
           </div>
 
-          {/* Earnings */}
+          {/* Earnings Summary */}
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
             <div className="flex items-center justify-between">
               <div>
@@ -161,7 +173,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             </div>
           </div>
 
-          {/* Buttons */}
+          {/* Action Buttons */}
           <div className="flex gap-3 pt-2">
             <Button variant="outline" onClick={onClose} className="flex-1 border-gray-600 text-gray-300">
               Cancel
