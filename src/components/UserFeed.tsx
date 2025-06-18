@@ -13,6 +13,7 @@ import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
 import FeedSidebar from '@/components/feed/FeedSidebar';
+import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
@@ -21,6 +22,8 @@ interface UserFeedProps {
 const UserFeed = ({ onNavigate }: UserFeedProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedContent, setSelectedContent] = useState<any>(null);
+  const [showSupportModal, setShowSupportModal] = useState(false);
+  const [selectedCreator, setSelectedCreator] = useState<any>(null);
 
   // Single column feed content
   const feedPosts = [
@@ -132,6 +135,25 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
     setShowShareModal(false);
   };
 
+  const handleTip = (post: any) => {
+    setSelectedCreator({
+      handle: post.handle,
+      name: post.creator,
+      postTitle: post.content,
+      postId: `post-${post.id}`,
+      isVerified: post.badge === 'Platinum Creator'
+    });
+    setShowSupportModal(true);
+  };
+
+  const handleTipSubmit = (amount: number, message?: string, postId?: string) => {
+    console.log(`Tip: ${amount} FPT to ${selectedCreator?.handle}`, { message, postId });
+  };
+
+  const handleSubscribe = (postId?: string) => {
+    console.log(`Subscribed to ${selectedCreator?.handle}`, { postId });
+  };
+
   const renderFeedPost = (post: any) => (
     <Card key={post.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
       <CardContent className="p-6">
@@ -228,6 +250,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             className="text-gray-400 hover:text-yellow-400 transition-colors flex items-center space-x-2"
             title="Tip"
             aria-label="Tip"
+            onClick={() => handleTip(post)}
           >
             <HandCoins className="w-5 h-5" />
             <span className="text-base">Tip</span>
@@ -301,6 +324,23 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
           post={selectedContent}
           onClose={() => setShowShareModal(false)}
           onShare={handleShareComplete}
+        />
+      )}
+
+      {/* Support Modal */}
+      {showSupportModal && selectedCreator && (
+        <SupportCreatorModal
+          isOpen={showSupportModal}
+          onClose={() => setShowSupportModal(false)}
+          creatorHandle={selectedCreator.handle}
+          creatorName={selectedCreator.name}
+          postTitle={selectedCreator.postTitle}
+          postId={selectedCreator.postId}
+          onTip={handleTipSubmit}
+          onSubscribe={handleSubscribe}
+          isDarkMode={true}
+          isVerified={selectedCreator.isVerified}
+          followerCount="1.2K"
         />
       )}
     </div>

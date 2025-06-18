@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,6 +10,7 @@ import TopComments from '@/components/feed/TopComments';
 import UserStats from '@/components/feed/UserStats';
 import QuickActions from '@/components/feed/QuickActions';
 import LiveFeedSection from '@/components/feed/LiveFeedSection';
+import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
@@ -19,6 +19,8 @@ interface LandingPageProps {
 
 const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
+  const [showSupportModal, setShowSupportModal] = useState(false);
+  const [selectedCreator, setSelectedCreator] = useState<any>(null);
 
   const featuredNews = [
     {
@@ -372,6 +374,25 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     }
   };
 
+  const handleTip = (creatorData: any, postTitle: string) => {
+    setSelectedCreator({
+      handle: creatorData.handle,
+      name: creatorData.author,
+      postTitle: postTitle,
+      postId: `post-${Date.now()}`,
+      isVerified: creatorData.badge === 'Platinum Creator'
+    });
+    setShowSupportModal(true);
+  };
+
+  const handleTipSubmit = (amount: number, message?: string, postId?: string) => {
+    console.log(`Tip: ${amount} FPT to ${selectedCreator?.handle}`, { message, postId });
+  };
+
+  const handleSubscribe = (postId?: string) => {
+    console.log(`Subscribed to ${selectedCreator?.handle}`, { postId });
+  };
+
   const themeClasses = isDarkMode 
     ? "min-h-screen bg-black text-white"
     : "min-h-screen bg-gray-50 text-black";
@@ -530,13 +551,14 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                             </button>
                           </div>
                           <button 
-                              className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
-                              title="Tip"
-                              aria-label="Tip"
-                            >
-                              <HandCoins className="w-3 h-3" />
-                              <span className="text-xs">Tip</span>
-                            </button>
+                            className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
+                            title="Tip"
+                            aria-label="Tip"
+                            onClick={() => handleTip(item, item.title)}
+                          >
+                            <HandCoins className="w-3 h-3" />
+                            <span className="text-xs">Tip</span>
+                          </button>
                         </div>
                       </div>
                     </CardContent>
@@ -581,6 +603,23 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           </div>
         </div>
       </section>
+
+      {/* Support Modal */}
+      {showSupportModal && selectedCreator && (
+        <SupportCreatorModal
+          isOpen={showSupportModal}
+          onClose={() => setShowSupportModal(false)}
+          creatorHandle={selectedCreator.handle}
+          creatorName={selectedCreator.name}
+          postTitle={selectedCreator.postTitle}
+          postId={selectedCreator.postId}
+          onTip={handleTipSubmit}
+          onSubscribe={handleSubscribe}
+          isDarkMode={isDarkMode}
+          isVerified={selectedCreator.isVerified}
+          followerCount="1.2K"
+        />
+      )}
     </div>
   );
 };
