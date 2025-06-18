@@ -458,13 +458,10 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-2">
       Join FinancialPress
     </h1>
-    <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-1">
+    <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-4">
       Real-time insights. Verified contributors. Tokenized rewards.
     </p>
-    <p className="text-sm sm:text-base font-medium text-gray-400">
-      Create. Stream. Share. Earn.
-    </p>
-    <div className="flex justify-center mt-6 mb-4">
+    <div className="flex justify-center mb-2">
       <Button 
         className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
         onClick={() => onNavigate?.(1)}
@@ -472,8 +469,12 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
         Get Started
       </Button>
     </div>
+    <p className="text-sm sm:text-base font-medium text-gray-400">
+      Create. Stream. Share. Earn.
+    </p>
   </div>
 </section>
+
 
 
       {/* Content Layout */}
