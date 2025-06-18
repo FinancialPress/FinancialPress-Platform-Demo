@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -48,5 +49,24 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
           {suggestedUsers.map((user, index) => (
             <div key={index} className="flex items-center justify-between py-1">
               <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg](#)
-
+                <div className="w-6 h-6 bg-blue-500 rounded-full"></div>
+                <div>
+                  <div className={`font-semibold ${nameClasses} text-xs`}>{user.name}</div>
+                  <div className={`${followersClasses} text-xs`}>{user.followers}</div>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className={`${earningsClasses} font-bold text-xs`}>{user.earnings}</div>
+                <Badge className={`${user.badge === 'Platinum' ? 'bg-purple-500' : user.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
+                  {user.badge}
+                </Badge>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default WhoToFollow;
