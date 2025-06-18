@@ -70,6 +70,12 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
         </div>
 
         <CardContent className="space-y-4 p-4">
+
+          {/* Post Preview */}
+          <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+            <h2 className="text-white font-semibold mb-1 text-sm">{post.title}</h2>
+          </div>
+          
           {/* Creator Profile Section */}
           <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <div className="flex items-center space-x-3">
@@ -95,15 +101,6 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Post Preview */}
-          <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-            <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
-            <Badge className="bg-green-500 text-black text-xs">
-              <DollarSign className="w-3 h-3 mr-1" />
-              Est. {post.estimatedEarnings} per platform
-            </Badge>
           </div>
 
           {/* Custom Message */}
