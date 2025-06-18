@@ -11,11 +11,11 @@ interface WhoToFollowProps {
 const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
   // Updated usernames and added earnings
   const suggestedUsers = [
-    { name: "QuantumInvestor", followers: "21.1K", earnings: "890 FPT", badge: "Gold" },
-    { name: "YieldFarmer", followers: "19.8K", earnings: "760 FPT", badge: "Platinum" },
-    { name: "NFTVisionary", followers: "16.4K", earnings: "650 FPT", badge: "Silver" },
-    { name: "AltcoinExpert", followers: "12.7K", earnings: "580 FPT", badge: "Gold" },
-    { name: "Web3Wizard", followers: "11.2K", earnings: "520 FPT", badge: "Silver" }
+    { name: "QuantumInvestor", followers: "21.1K followers", earnings: "890 FPT", badge: "Gold" },
+    { name: "YieldFarmer", followers: "19.8K followers", earnings: "760 FPT", badge: "Platinum" },
+    { name: "NFTVisionary", followers: "16.4K followers", earnings: "650 FPT", badge: "Silver" },
+    { name: "AltcoinExpert", followers: "12.7K followers", earnings: "580 FPT", badge: "Gold" },
+    { name: "Web3Wizard", followers: "11.2K followers", earnings: "520 FPT", badge: "Silver" }
   ];
 
   const cardClasses = isDarkMode 
