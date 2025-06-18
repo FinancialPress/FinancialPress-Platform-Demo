@@ -91,11 +91,9 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                 </div>
                 <div className="flex items-center space-x-4 text-sm">
                   <div className="flex items-center space-x-1 text-gray-300">
-                    <Users className="w-3 h-3" />
                     <span>24.5K followers</span>
                   </div>
                   <div className="flex items-center space-x-1 text-green-400">
-                    <DollarSign className="w-3 h-3" />
                     <span>2,340 FPT earned</span>
                   </div>
                 </div>
