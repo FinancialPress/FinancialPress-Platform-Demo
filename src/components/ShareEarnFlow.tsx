@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -87,7 +86,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
                   <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
                 </div>
-                <div className="flex items-center space-x-4 text-xs text-gray-400">
+                <div className="flex items-center space-x-6 text-xs text-gray-400 mt-1">
                   <span>24.5K followers</span>
                   <span className="text-green-400">2,340 FPT earned</span>
                 </div>
