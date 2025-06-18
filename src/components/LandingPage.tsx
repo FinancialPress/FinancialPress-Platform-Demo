@@ -453,15 +453,15 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   return (
     <div className={themeClasses}>
       {/* Hero Section */}
-<section className="max-w-[1440px] mx-auto px-8 pt-12 pb-6">
-  <div className="text-center mb-4">
-    <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-2">
+<section className="max-w-[1440px] mx-auto px-8 pt-6 pb-4">
+  <div className="text-center mb-2">
+    <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4">
       Join FinancialPress
     </h1>
-    <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-4">
+    <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-6">
       Real-time insights. Verified contributors. Tokenized rewards.
     </p>
-    <div className="flex justify-center mb-2">
+    <div className="flex justify-center mb-4">
       <Button 
         className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
         onClick={() => onNavigate?.(1)}
@@ -469,11 +469,12 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
         Get Started
       </Button>
     </div>
-    <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-4">
+    <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2">
       Create. Stream. Share. Earn.
     </p>
   </div>
 </section>
+
 
 
 
