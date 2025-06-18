@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, TrendingDown, Clock, ExternalLink } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { TrendingUp, TrendingDown, Clock, ExternalLink, Star, Plus, ChevronDown, Play } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
 import TopComments from '@/components/feed/TopComments';
@@ -18,13 +21,20 @@ interface StockChartDataProps {
 const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: StockChartDataProps) => {
   const [timeFrame, setTimeFrame] = useState('1D');
   const [isLoading, setIsLoading] = useState(true);
+  const [isWatchlisted, setIsWatchlisted] = useState(false);
+  const [isOverviewOpen, setIsOverviewOpen] = useState(true);
+  const [newsTab, setNewsTab] = useState('All');
+  const { toast } = useToast();
 
   // Mock chart data
   const chartData = {
     '1D': [323.24, 325.50, 320.15, 328.90, 331.45, 329.80, 335.20],
-    '1W': [310.50, 315.20, 323.24, 335.20, 328.90, 342.10, 338.75],
+    '5D': [310.50, 315.20, 323.24, 335.20, 328.90, 342.10, 338.75],
     '1M': [285.30, 295.60, 310.50, 335.20, 345.80, 350.20, 338.75],
-    '1Y': [180.20, 220.50, 285.30, 335.20, 380.40, 420.15, 338.75]
+    '6M': [240.20, 280.50, 285.30, 335.20, 380.40, 350.15, 338.75],
+    'YTD': [200.20, 250.50, 285.30, 335.20, 380.40, 420.15, 338.75],
+    '1Y': [180.20, 220.50, 285.30, 335.20, 380.40, 420.15, 338.75],
+    '5Y': [50.20, 120.50, 185.30, 335.20, 380.40, 420.15, 338.75]
   };
 
   const currentPrice = chartData[timeFrame as keyof typeof chartData].slice(-1)[0];
@@ -32,46 +42,105 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
   const priceChange = currentPrice - previousPrice;
   const percentChange = ((priceChange / previousPrice) * 100);
 
-  // Mock news data
+  // Mock financial data
+  const financialMetrics = [
+    { label: 'Previous Close', value: '331.45' },
+    { label: 'Open', value: '335.20' },
+    { label: 'Bid', value: '338.50 x 1000' },
+    { label: 'Ask', value: '338.75 x 800' },
+    { label: "Day's Range", value: '330.15 - 340.20' },
+    { label: '52 Week Range', value: '138.80 - 414.50' },
+    { label: 'Volume', value: '24,567,890' },
+    { label: 'Avg. Volume', value: '28,456,234' },
+    { label: 'Market Cap', value: '1.08T' },
+    { label: 'Beta (5Y Monthly)', value: '2.31' },
+    { label: 'PE Ratio (TTM)', value: '65.34' },
+    { label: 'EPS (TTM)', value: '5.19' },
+    { label: 'Earnings Date', value: 'Jan 25, 2024' },
+    { label: 'Forward Dividend & Yield', value: 'N/A (N/A)' },
+    { label: 'Ex-Dividend Date', value: 'N/A' },
+    { label: '1y Target Est', value: '290.00' }
+  ];
+
+  // Mock news data with videos
   const newsData = [
     {
       id: 1,
       title: "Tesla Stock Plummets as Aussie Factory Shuts Down",
       image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop",
       timestamp: "9 hours ago",
-      source: "Financial Times"
+      source: "Financial Times",
+      type: "news"
     },
     {
       id: 2,
       title: "Tesla (TSLA) to Halt Gigafactory Texas Output Again",
       image: "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=300&h=200&fit=crop",
       timestamp: "10 hours ago",
-      source: "Reuters"
+      source: "Reuters",
+      type: "news"
     },
     {
       id: 3,
       title: "Elon Musk Announces New Tesla Model Pricing Strategy",
       image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=300&h=200&fit=crop",
       timestamp: "12 hours ago",
-      source: "Bloomberg"
+      source: "Bloomberg",
+      type: "news"
     },
     {
       id: 4,
       title: "Tesla's Q4 Delivery Numbers Beat Analyst Expectations",
       image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop",
       timestamp: "1 day ago",
-      source: "CNBC"
+      source: "CNBC",
+      type: "video"
+    }
+  ];
+
+  const relatedVideos = [
+    {
+      id: 1,
+      title: "Tesla Stock Analysis: What's Next for TSLA?",
+      thumbnail: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=300&h=200&fit=crop",
+      duration: "12:45",
+      source: "Yahoo Finance",
+      timestamp: "2 hours ago"
+    },
+    {
+      id: 2,
+      title: "Elon Musk's Latest Tesla Announcement Explained",
+      thumbnail: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop",
+      duration: "8:32",
+      source: "CNBC",
+      timestamp: "5 hours ago"
+    },
+    {
+      id: 3,
+      title: "Tesla Gigafactory Tour: Inside the Future of Manufacturing",
+      thumbnail: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=200&fit=crop",
+      duration: "15:23",
+      source: "Bloomberg Technology",
+      timestamp: "1 day ago"
     }
   ];
 
   useEffect(() => {
-    // Simulate loading
     setIsLoading(true);
     const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
   }, [symbol, timeFrame]);
 
-  const timeFrames = ['1D', '1W', '1M', '1Y'];
+  const handleWatchlistToggle = () => {
+    setIsWatchlisted(!isWatchlisted);
+    toast({
+      title: isWatchlisted ? `${symbol} removed from Watchlist` : `${symbol} added to your Watchlist!`,
+      description: isWatchlisted ? "Stock removed successfully" : "You can track this stock in your portfolio",
+    });
+  };
+
+  const timeFrames = ['1D', '5D', '1M', '6M', 'YTD', '1Y', '5Y', 'All'];
+  const newsTabs = ['All', 'News', 'Press Releases', 'SEC Filings'];
 
   const cardClasses = isDarkMode 
     ? "bg-gray-900 border-gray-800"
@@ -85,10 +154,6 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
     ? "text-gray-400"
     : "text-gray-600";
 
-  const sidebarClasses = isDarkMode 
-    ? "bg-gray-900 border-gray-800"
-    : "bg-gray-100 border-gray-200";
-
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
       <section className="max-w-[1440px] mx-auto px-8 py-8">
@@ -96,20 +161,43 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
           {/* Left Sidebar */}
           <div className="lg:col-span-1">
             <div className="space-y-6 sticky top-8">
-              {/* Stock Info Card */}
+              {/* Enhanced Stock Info Card */}
               <Card className={cardClasses}>
                 <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h2 className={`${textClasses} text-2xl font-bold`}>{symbol}</h2>
-                      <p className={`${secondaryTextClasses} text-sm`}>Tesla Inc.</p>
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-3 mb-2">
+                        <h2 className={`${textClasses} text-2xl font-bold`}>{symbol}</h2>
+                        <Badge className="bg-green-600 text-white text-xs">
+                          NASDAQ
+                        </Badge>
+                      </div>
+                      <p className={`${secondaryTextClasses} text-sm mb-4`}>Tesla Inc. - Common Stock</p>
+                      
+                      <div className="flex items-center space-x-3 mb-3">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} flex items-center space-x-1`}
+                        >
+                          <Plus className="w-3 h-3" />
+                          <span>Follow</span>
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={handleWatchlistToggle}
+                          className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} flex items-center space-x-1`}
+                        >
+                          <Star className={`w-3 h-3 ${isWatchlisted ? 'fill-yellow-500 text-yellow-500' : ''}`} />
+                          <span>{isWatchlisted ? 'Watching' : 'Watchlist'}</span>
+                        </Button>
+                      </div>
                     </div>
-                    <Badge className="bg-green-600 text-white">
-                      NASDAQ
-                    </Badge>
                   </div>
-                  <div className="space-y-2">
-                    <div className={`${textClasses} text-3xl font-bold`}>
+                  
+                  <div className="space-y-2 mb-4">
+                    <div className={`${textClasses} text-4xl font-bold`}>
                       ${currentPrice.toFixed(2)}
                     </div>
                     <div className="flex items-center space-x-2">
@@ -118,35 +206,50 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                       ) : (
                         <TrendingDown className="w-4 h-4 text-red-400" />
                       )}
-                      <span className={priceChange >= 0 ? 'text-green-400' : 'text-red-400'}>
+                      <span className={`${priceChange >= 0 ? 'text-green-400' : 'text-red-400'} font-medium`}>
                         {priceChange >= 0 ? '+' : ''}{priceChange.toFixed(2)} ({percentChange >= 0 ? '+' : ''}{percentChange.toFixed(2)}%)
                       </span>
+                    </div>
+                    <div className={`${secondaryTextClasses} text-sm flex items-center space-x-1`}>
+                      <span>At close: 4:00 PM EST</span>
+                    </div>
+                  </div>
+
+                  {/* Analyst Rating */}
+                  <div className="mb-4 p-3 rounded-lg border border-gray-700">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`${textClasses} text-sm font-medium`}>Analyst Rating</span>
+                      <span className="text-green-400 text-sm font-bold">BUY</span>
+                    </div>
+                    <div className="flex space-x-1 mb-2">
+                      <div className="flex-1 h-2 bg-green-500 rounded-l"></div>
+                      <div className="flex-1 h-2 bg-green-500"></div>
+                      <div className="flex-1 h-2 bg-gray-600"></div>
+                      <div className="flex-1 h-2 bg-gray-600 rounded-r"></div>
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-400">
+                      <span>Strong Buy</span>
+                      <span>Hold</span>
+                      <span>Strong Sell</span>
+                    </div>
+                    <div className="mt-2 text-yellow-400 text-sm font-medium">
+                      1Y Target: $290.00
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Quick Stats */}
+              {/* Comprehensive Financial Metrics */}
               <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <h3 className={`${textClasses} font-semibold mb-4`}>Key Stats</h3>
+                  <h3 className={`${textClasses} font-semibold mb-4`}>Statistics</h3>
                   <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className={secondaryTextClasses}>Volume</span>
-                      <span className={textClasses}>2.4M</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className={secondaryTextClasses}>Market Cap</span>
-                      <span className={textClasses}>$1.08T</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className={secondaryTextClasses}>52W High</span>
-                      <span className={textClasses}>$414.50</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className={secondaryTextClasses}>52W Low</span>
-                      <span className={textClasses}>$138.80</span>
-                    </div>
+                    {financialMetrics.map((metric, index) => (
+                      <div key={index} className="flex justify-between text-sm">
+                        <span className={secondaryTextClasses}>{metric.label}</span>
+                        <span className={textClasses}>{metric.value}</span>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
@@ -155,21 +258,26 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
 
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Chart Section */}
+            {/* Enhanced Chart Section */}
             <Card className={cardClasses}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h1 className={`${textClasses} text-2xl font-bold`}>
-                    {symbol} Price Chart
+                    {symbol} Interactive Chart
                   </h1>
-                  <div className="flex items-center space-x-2">
-                    <Clock className={`w-4 h-4 ${secondaryTextClasses}`} />
-                    <span className={`${secondaryTextClasses} text-sm`}>Real-time</span>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <Clock className={`w-4 h-4 ${secondaryTextClasses}`} />
+                      <span className={`${secondaryTextClasses} text-sm`}>Real-time</span>
+                    </div>
+                    <Button variant="outline" size="sm" className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}>
+                      Fullscreen
+                    </Button>
                   </div>
                 </div>
 
-                {/* Mock Chart Area */}
-                <div className="h-80 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center mb-6 relative overflow-hidden">
+                {/* Professional Chart Area */}
+                <div className="h-96 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center mb-6 relative overflow-hidden">
                   {isLoading ? (
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-yellow-500 rounded-full animate-bounce"></div>
@@ -178,35 +286,50 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                     </div>
                   ) : (
                     <div className="w-full h-full relative">
+                      {/* Grid Pattern */}
+                      <div className="absolute inset-0 opacity-20">
+                        <svg className="w-full h-full">
+                          <defs>
+                            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#374151" strokeWidth="1"/>
+                            </pattern>
+                          </defs>
+                          <rect width="100%" height="100%" fill="url(#grid)" />
+                        </svg>
+                      </div>
+                      
                       {/* Mock Chart Line */}
-                      <svg className="w-full h-full" viewBox="0 0 400 200">
+                      <svg className="w-full h-full relative z-10" viewBox="0 0 400 200">
                         <defs>
                           <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#EAB308', stopOpacity: 0.3 }} />
-                            <stop offset="100%" style={{ stopColor: '#EAB308', stopOpacity: 0 }} />
+                            <stop offset="0%" style={{ stopColor: '#10B981', stopOpacity: 0.3 }} />
+                            <stop offset="100%" style={{ stopColor: '#10B981', stopOpacity: 0 }} />
                           </linearGradient>
                         </defs>
                         <path
-                          d="M 0 150 Q 100 120 200 100 T 400 80"
-                          stroke="#EAB308"
-                          strokeWidth="3"
+                          d="M 0 150 Q 100 120 200 80 T 400 60"
+                          stroke="#10B981"
+                          strokeWidth="2"
                           fill="none"
-                          className="animate-pulse"
                         />
                         <path
-                          d="M 0 150 Q 100 120 200 100 T 400 80 L 400 200 L 0 200 Z"
+                          d="M 0 150 Q 100 120 200 80 T 400 60 L 400 200 L 0 200 Z"
                           fill="url(#chartGradient)"
                         />
                       </svg>
-                      <div className="absolute top-4 left-4 text-yellow-400 text-sm font-medium">
+                      
+                      <div className="absolute top-4 left-4 text-green-400 text-sm font-medium">
                         {timeFrame} Chart for {symbol}
+                      </div>
+                      <div className="absolute bottom-4 right-4 text-gray-400 text-xs">
+                        Volume: 24.5M
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Time Frame Selector */}
-                <div className="flex space-x-2">
+                {/* Enhanced Time Frame Selector */}
+                <div className="flex space-x-1 mb-4">
                   {timeFrames.map((tf) => (
                     <Button
                       key={tf}
@@ -215,7 +338,7 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                       onClick={() => setTimeFrame(tf)}
                       className={
                         timeFrame === tf
-                          ? "bg-yellow-500 text-black hover:bg-yellow-600"
+                          ? "bg-yellow-500 text-black hover:bg-yellow-600 font-medium"
                           : isDarkMode
                           ? "border-gray-600 text-gray-300 hover:bg-gray-700"
                           : "border-gray-300 text-gray-700 hover:bg-gray-50"
@@ -225,36 +348,63 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                     </Button>
                   ))}
                 </div>
+
+                {/* Chart Options */}
+                <div className="flex items-center space-x-4 text-sm">
+                  <Button variant="ghost" size="sm" className={`${secondaryTextClasses} hover:${textClasses}`}>
+                    Key Events
+                  </Button>
+                  <Button variant="ghost" size="sm" className={`${secondaryTextClasses} hover:${textClasses}`}>
+                    Mountain View
+                  </Button>
+                  <Button variant="ghost" size="sm" className={`${secondaryTextClasses} hover:${textClasses}`}>
+                    Advanced Chart
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
-            {/* News Feed */}
+            {/* Enhanced News Feed */}
             <Card className={`${cardClasses} mt-6`}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className={`${textClasses} text-xl font-bold`}>Latest {symbol} News</h2>
-                  <Button variant="ghost" size="sm" className={secondaryTextClasses}>
-                    View All
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </Button>
                 </div>
+
+                {/* News Tabs */}
+                <Tabs value={newsTab} onValueChange={setNewsTab} className="mb-6">
+                  <TabsList className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                    {newsTabs.map((tab) => (
+                      <TabsTrigger key={tab} value={tab} className="text-sm">
+                        {tab}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
 
                 <div className="space-y-4">
                   {newsData.map((news) => (
                     <div
                       key={news.id}
-                      className={`flex space-x-4 p-4 rounded-lg border ${isDarkMode ? 'border-gray-800 hover:border-gray-700' : 'border-gray-200 hover:border-gray-300'} transition-colors cursor-pointer`}
+                      className={`flex space-x-4 p-4 rounded-lg border ${isDarkMode ? 'border-gray-800 hover:border-gray-700 bg-gray-800/50' : 'border-gray-200 hover:border-gray-300 bg-gray-50'} transition-all cursor-pointer`}
                     >
-                      <img
-                        src={news.image}
-                        alt={news.title}
-                        className="w-20 h-16 rounded-lg object-cover flex-shrink-0"
-                      />
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={news.image}
+                          alt={news.title}
+                          className="w-24 h-16 rounded-lg object-cover"
+                        />
+                        {news.type === 'video' && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Play className="w-6 h-6 text-white" fill="white" />
+                          </div>
+                        )}
+                      </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className={`${textClasses} font-medium mb-2 line-clamp-2`}>
+                        <h3 className={`${textClasses} font-semibold mb-2 line-clamp-2 text-sm`}>
                           {news.title}
                         </h3>
-                        <div className="flex items-center space-x-2 text-sm">
+                        <div className="flex items-center space-x-2 text-xs">
                           <span className={secondaryTextClasses}>{news.source}</span>
                           <span className={secondaryTextClasses}>•</span>
                           <span className={secondaryTextClasses}>{news.timestamp}</span>
@@ -263,6 +413,87 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Related Videos Section */}
+            <Card className={`${cardClasses} mt-6`}>
+              <CardContent className="p-6">
+                <h3 className={`${textClasses} text-lg font-bold mb-4`}>Related Videos: {symbol}</h3>
+                <div className="grid grid-cols-1 gap-4">
+                  {relatedVideos.map((video) => (
+                    <div
+                      key={video.id}
+                      className={`flex space-x-4 p-3 rounded-lg border ${isDarkMode ? 'border-gray-800 hover:border-gray-700 bg-gray-800/30' : 'border-gray-200 hover:border-gray-300 bg-gray-50'} transition-all cursor-pointer`}
+                    >
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={video.thumbnail}
+                          alt={video.title}
+                          className="w-32 h-20 rounded-lg object-cover"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Play className="w-8 h-8 text-white drop-shadow-lg" fill="white" />
+                        </div>
+                        <div className="absolute bottom-1 right-1 bg-black bg-opacity-75 text-white text-xs px-1 rounded">
+                          {video.duration}
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className={`${textClasses} font-medium mb-2 line-clamp-2 text-sm`}>
+                          {video.title}
+                        </h4>
+                        <div className="flex items-center space-x-2 text-xs">
+                          <span className={secondaryTextClasses}>{video.source}</span>
+                          <span className={secondaryTextClasses}>•</span>
+                          <span className={secondaryTextClasses}>{video.timestamp}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Company Overview */}
+            <Card className={`${cardClasses} mt-6`}>
+              <CardContent className="p-6">
+                <Collapsible open={isOverviewOpen} onOpenChange={setIsOverviewOpen}>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full">
+                    <h3 className={`${textClasses} text-lg font-bold`}>Company Overview</h3>
+                    <ChevronDown className={`w-5 h-5 ${textClasses} transition-transform ${isOverviewOpen ? 'rotate-180' : ''}`} />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="mt-4">
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <span className={`${secondaryTextClasses} text-sm`}>Sector</span>
+                        <p className={`${textClasses} font-medium`}>Consumer Cyclical</p>
+                      </div>
+                      <div>
+                        <span className={`${secondaryTextClasses} text-sm`}>Industry</span>
+                        <p className={`${textClasses} font-medium`}>Auto Manufacturers</p>
+                      </div>
+                      <div>
+                        <span className={`${secondaryTextClasses} text-sm`}>CEO</span>
+                        <p className={`${textClasses} font-medium`}>Elon Musk</p>
+                      </div>
+                      <div>
+                        <span className={`${secondaryTextClasses} text-sm`}>Employees</span>
+                        <p className={`${textClasses} font-medium`}>140,473</p>
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <span className={`${secondaryTextClasses} text-sm`}>Headquarters</span>
+                      <p className={`${textClasses} font-medium`}>Austin, Texas, United States</p>
+                    </div>
+                    <div>
+                      <span className={`${secondaryTextClasses} text-sm`}>Description</span>
+                      <p className={`${textClasses} text-sm mt-1 leading-relaxed`}>
+                        Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally. The company operates in two segments, Automotive, and Energy Generation and Storage.
+                      </p>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               </CardContent>
             </Card>
           </div>
