@@ -11,6 +11,7 @@ import TopSharers from '@/components/feed/TopSharers';
 import TopComments from '@/components/feed/TopComments';
 import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
+import WhoToFollow from '@/components/feed/WhoToFollow';
 import FeedSidebar from '@/components/feed/FeedSidebar';
 
 interface UserFeedProps {
@@ -277,16 +278,19 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
               isEmbedded={true}
             />
 
-            {/* Vertical Stats - Below Earnings */}
-            <UserStats showStats={["Following", "Content Shared", "Tips Received"]} />
-
             <UserInterests />
 
-            {/* Panels below interests: Top Creators, Top Sharers, Top Comments, Top Trends */}
+            {/* New Who to Follow panel */}
+            <WhoToFollow />
+
+            {/* Panels below Who to Follow: Top Creators, Top Sharers, Top Comments */}
             <TopCreators />
             <TopSharers />
             <TopComments />
             <TrendingTopics />
+
+            {/* UserStats moved to bottom */}
+            <UserStats showStats={["Following", "Content Shared", "Tips Received"]} />
           </div>
         </div>
       </section>
