@@ -1,21 +1,20 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { UserPlus, Users } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Users } from 'lucide-react';
 
 interface WhoToFollowProps {
   isDarkMode?: boolean;
 }
 
 const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
+  // Use different user names as requested
   const suggestedUsers = [
-    { name: "AITrader", specialty: "AI Trading", followers: "12.3K", badge: "Gold", isVerified: true },
-    { name: "MarketMaven", specialty: "Market Analysis", followers: "8.9K", badge: "Silver", isVerified: true },
-    { name: "CryptoInsider", specialty: "Crypto News", followers: "15.7K", badge: "Platinum", isVerified: true },
-    { name: "TechFuturist", specialty: "Tech Trends", followers: "6.2K", badge: "Silver", isVerified: false },
-    { name: "FinanceGuru", specialty: "Personal Finance", followers: "9.8K", badge: "Gold", isVerified: true }
+    { name: "QuantumInvestor", followers: "21.1K", badge: "Gold" },
+    { name: "YieldFarmer", followers: "19.8K", badge: "Platinum" },
+    { name: "NFTVisionary", followers: "16.4K", badge: "Silver" },
+    { name: "AltcoinExpert", followers: "12.7K", badge: "Gold" },
+    { name: "Web3Wizard", followers: "11.2K", badge: "Silver" }
   ];
 
   const cardClasses = isDarkMode 
@@ -30,13 +29,9 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
     ? "text-white"
     : "text-black";
 
-  const specialtyClasses = isDarkMode
+  const followersClasses = isDarkMode
     ? "text-gray-400"
     : "text-gray-600";
-
-  const followersClasses = isDarkMode
-    ? "text-gray-500"
-    : "text-gray-500";
 
   return (
     <Card className={cardClasses}>
@@ -45,33 +40,24 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
           <Users className="w-4 h-4 mr-2 text-blue-500" />
           Who to follow
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {suggestedUsers.map((user, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                  <span className="text-black font-bold text-sm">{user.name.charAt(0)}</span>
+            <div key={index} className="flex items-center justify-between py-1">
+              <div className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center">
+                  {/* Avatar initials */}
+                  <span className="text-black font-bold text-xs">{user.name.charAt(0)}</span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2">
-                    <div className={`font-semibold ${nameClasses} text-sm`}>{user.name}</div>
-                    {user.isVerified && (
-                      <Badge className={`${user.badge === 'Platinum' ? 'bg-purple-500' : user.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
-                        {user.badge}
-                      </Badge>
-                    )}
-                  </div>
-                  <div className={`${specialtyClasses} text-xs`}>{user.specialty}</div>
+                <div>
+                  <div className={`font-semibold ${nameClasses} text-xs`}>{user.name}</div>
                   <div className={`${followersClasses} text-xs`}>{user.followers} followers</div>
                 </div>
               </div>
+              <Badge className={`${user.badge === 'Platinum' ? 'bg-purple-500' : user.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
+                {user.badge}
+              </Badge>
             </div>
           ))}
-        </div>
-        <div className="mt-4 pt-3 border-t border-gray-800">
-          <Button variant="ghost" className="w-full text-blue-400 hover:text-blue-300 text-sm">
-            Show more suggestions
-          </Button>
         </div>
       </CardContent>
     </Card>
