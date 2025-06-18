@@ -20,6 +20,7 @@ interface SupportCreatorModalProps {
   onClose: () => void;
   onTip: (amount: number, message?: string, postId?: string) => void;
   onSubscribe: (postId?: string) => void;
+  isDarkMode?: boolean;
 }
 
 const SupportCreatorModal = ({
@@ -32,7 +33,8 @@ const SupportCreatorModal = ({
   isOpen,
   onClose,
   onTip,
-  onSubscribe
+  onSubscribe,
+  isDarkMode = true
 }: SupportCreatorModalProps) => {
   const [activeTab, setActiveTab] = useState<'tip' | 'subscribe'>('tip');
   const [tipAmount, setTipAmount] = useState('');
