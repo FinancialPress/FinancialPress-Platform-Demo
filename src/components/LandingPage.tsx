@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -559,7 +560,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           {/* Right Sidebar - 1/4 width */}
           <div className="space-y-6">
             <TopCreators isDarkMode={isDarkMode} />
-            <QuickActions isDarkMode={isDarkMode} />
+            <QuickActions isDarkMode={isDarkMode} onNavigate={onNavigate} />
             <TopSharers isDarkMode={isDarkMode} />
             <TopComments isDarkMode={isDarkMode} />
             <TrendingTopics isDarkMode={isDarkMode} />
