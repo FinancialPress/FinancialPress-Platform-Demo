@@ -8,14 +8,19 @@ import UserFeed from '../components/UserFeed';
 import Dashboard from '../components/Dashboard';
 import ContentCreator from '../components/ContentCreator';
 import ShareEarnFlow from '../components/ShareEarnFlow';
+import StockChartData from '../components/StockChartData';
 import FinalCTA from '../components/FinalCTA';
 
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [searchSymbol, setSearchSymbol] = useState('');
 
-  const handleNavigate = (screen: number) => {
+  const handleNavigate = (screen: number, symbol?: string) => {
     setCurrentScreen(screen);
+    if (symbol) {
+      setSearchSymbol(symbol);
+    }
   };
 
   const handleToggleDarkMode = () => {
@@ -46,6 +51,7 @@ const Index = () => {
     <UserFeed key="feed" onNavigate={handleNavigate} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} />,
     <ContentCreator key="creator" onNavigate={handleNavigate} />,
+    <StockChartData key="stockchart" symbol={searchSymbol} onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <ShareEarnFlow 
       key="share" 
       post={mockPost}
@@ -78,4 +84,3 @@ const Index = () => {
 };
 
 export default Index;
-

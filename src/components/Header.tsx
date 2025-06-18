@@ -1,11 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 interface HeaderProps {
-  onNavigate?: (screen: number) => void;
+  onNavigate?: (screen: number, symbol?: string) => void;
   currentScreen?: number;
   isLoggedIn?: boolean;
   isDemoMinimized?: boolean;
@@ -23,6 +23,22 @@ const Header = ({
   isDarkMode = true,
   onToggleDarkMode
 }: HeaderProps) => {
+  const [searchValue, setSearchValue] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchValue.trim()) return;
+    
+    setIsSearching(true);
+    
+    // Navigate to stockchartdata page with symbol
+    setTimeout(() => {
+      onNavigate?.(6, searchValue.trim().toUpperCase());
+      setIsSearching(false);
+    }, 300);
+  };
+
   const topNavClasses = isDarkMode 
     ? "w-full bg-gray-800 border-b border-gray-700"
     : "w-full bg-gray-100 border-b border-gray-300";
@@ -40,12 +56,16 @@ const Header = ({
     : "text-black";
 
   const searchClasses = isDarkMode
-    ? "pl-10 w-80 bg-gray-900 border-gray-700 text-white placeholder-gray-400"
-    : "pl-10 w-80 bg-gray-50 border-gray-300 text-black placeholder-gray-500";
+    ? "pl-10 pr-12 bg-gray-900 border-gray-700 text-white placeholder-gray-400"
+    : "pl-10 pr-12 bg-gray-50 border-gray-300 text-black placeholder-gray-500";
 
   const searchIconClasses = isDarkMode
     ? "text-gray-400"
     : "text-gray-500";
+
+  const searchButtonClasses = isDarkMode
+    ? "bg-yellow-500 hover:bg-yellow-600 text-black border-yellow-500"
+    : "bg-yellow-500 hover:bg-yellow-600 text-black border-yellow-500";
 
   return (
     <>
@@ -83,6 +103,12 @@ const Header = ({
                 className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 5 ? 'font-bold underline' : ''}`}
               >
                 Content Creator
+              </button>
+              <button 
+                onClick={() => onNavigate?.(6)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 6 ? 'font-bold underline' : ''}`}
+              >
+                Stock Chart
               </button>
             </div>
           </div>
@@ -125,13 +151,30 @@ const Header = ({
             </div>
             
             <div className="flex items-center space-x-6">
-              <div className="relative">
+              {/* Enhanced Search Form */}
+              <form onSubmit={handleSearch} className="relative">
                 <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${searchIconClasses} w-5 h-5`} />
                 <Input 
                   placeholder="Search $XRP, $FPT, Tesla..."
-                  className={searchClasses}
+                  className={`w-80 ${searchClasses}`}
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  aria-label="Search stocks and cryptocurrencies"
                 />
-              </div>
+                <Button
+                  type="submit"
+                  size="icon"
+                  className={`absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 ${searchButtonClasses} ${
+                    isSearching || !searchValue.trim() 
+                      ? 'opacity-50 cursor-not-allowed' 
+                      : ''
+                  }`}
+                  disabled={isSearching || !searchValue.trim()}
+                  aria-label="Execute search"
+                >
+                  <Search className="w-4 h-4" />
+                </Button>
+              </form>
               
               {isLoggedIn ? (
                 <div className="flex items-center space-x-4">
