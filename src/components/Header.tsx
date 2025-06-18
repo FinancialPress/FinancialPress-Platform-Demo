@@ -90,12 +90,6 @@ const Header = ({
               >
                 Content Creator
               </button>
-              <button 
-                onClick={() => onNavigate?.(6)}
-                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 6 ? 'font-bold underline' : ''}`}
-              >
-                Share & Earn
-              </button>
             </div>
           </div>
         </div>
