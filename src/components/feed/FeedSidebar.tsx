@@ -60,6 +60,20 @@ const FeedSidebar = ({ isDarkMode = true, onNavigate }: FeedSidebarProps) => {
 
   return (
     <div className="w-64 space-y-6 sticky top-8">
+      {/* Create Content CTA - Moved to top */}
+      <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 border-0">
+        <CardContent className="p-4 text-center">
+          <h4 className="text-black font-bold mb-2">Start Creating</h4>
+          <p className="text-black/80 text-sm mb-3">Share your insights and earn FPT tokens</p>
+          <button 
+            onClick={() => onNavigate?.(5)}
+            className="w-full bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+          >
+            Create Content
+          </button>
+        </CardContent>
+      </Card>
+
       {/* Main Navigation */}
       <Card className={cardClasses}>
         <CardContent className="p-4">
@@ -121,20 +135,6 @@ const FeedSidebar = ({ isDarkMode = true, onNavigate }: FeedSidebarProps) => {
               </button>
             ))}
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Create Content CTA */}
-      <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 border-0">
-        <CardContent className="p-4 text-center">
-          <h4 className="text-black font-bold mb-2">Start Creating</h4>
-          <p className="text-black/80 text-sm mb-3">Share your insights and earn FPT tokens</p>
-          <button 
-            onClick={() => onNavigate?.(5)}
-            className="w-full bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
-          >
-            Create Content
-          </button>
         </CardContent>
       </Card>
     </div>
