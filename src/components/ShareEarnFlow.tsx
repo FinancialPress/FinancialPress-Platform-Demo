@@ -1,272 +1,176 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { X, Users, CheckCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { X, Share2, Check } from 'lucide-react';
 
-interface SupportCreatorModalProps {
-  creatorHandle: string;
-  creatorName?: string;
-  followerCount?: string;
-  isVerified?: boolean;
-  postTitle: string;
-  postId?: string;
-  isOpen: boolean;
+interface ShareEarnFlowProps {
+  post: {
+    title: string;
+    creator: string;
+    estimatedEarnings: string;
+  };
   onClose: () => void;
-  onTip: (amount: number, message?: string, postId?: string) => void;
-  onSubscribe: (postId?: string) => void;
-  isDarkMode?: boolean;
+  onShare: () => void;
 }
 
-const SupportCreatorModal = ({
-  creatorHandle,
-  creatorName = "Creator",
-  followerCount = "1.2K",
-  isVerified = false,
-  postTitle,
-  postId,
-  isOpen,
-  onClose,
-  onTip,
-  onSubscribe,
-  isDarkMode = true
-}: SupportCreatorModalProps) => {
-  const [activeTab, setActiveTab] = useState<'tip' | 'subscribe'>('tip');
-  const [tipAmount, setTipAmount] = useState('');
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const { toast } = useToast();
+const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare }) => {
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [customMessage, setCustomMessage] = useState(
+    `🚀 Just discovered this insightful analysis: "${post.title}" by @${post.creator}. Worth a read! #Crypto #Finance`
+  );
+  const [distributeToAll, setDistributeToAll] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      setTipAmount('');
-      setMessage('');
-      setIsSuccess(false);
-      setActiveTab('tip');
-    }
-  }, [isOpen]);
+  const platforms = [
+    { id: 'financialpress', name: 'FinancialPress', icon: <span className="text-white font-bold"><span className="text-white">F</span><span className="text-yellow-400">P</span></span>, color: 'bg-black border border-yellow-400' },
+    { id: 'twitter', name: 'Twitter/X', icon: '𝕏', color: 'bg-gray-800' },
+    { id: 'telegram', name: 'Telegram', icon: '✈️', color: 'bg-blue-600' },
+    { id: 'reddit', name: 'Reddit', icon: '🤖', color: 'bg-orange-600' },
+    { id: 'discord', name: 'Discord', icon: '💬', color: 'bg-indigo-600' },
+    { id: 'linkedin', name: 'LinkedIn', icon: '💼', color: 'bg-blue-700' },
+  ];
 
-  useEffect(() => {
-    if (isSuccess) {
-      const timer = setTimeout(() => {
-        onClose();
-        setIsSuccess(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [isSuccess, onClose]);
-
-  const handleSubmit = async () => {
-    if (activeTab === 'tip') {
-      const amount = parseFloat(tipAmount);
-      if (!amount || amount <= 0) {
-        toast({
-          title: "Invalid Amount",
-          description: "Please enter a valid tip amount greater than 0",
-          variant: "destructive"
-        });
-        return;
-      }
-    }
-
-    setIsLoading(true);
-
-    setTimeout(() => {
-      if (activeTab === 'tip') {
-        const amount = parseFloat(tipAmount);
-        onTip(amount, message || undefined, postId);
-        toast({
-          title: "Tip Sent Successfully!",
-          description: `${amount} FPT sent to ${creatorHandle}`,
-        });
-      } else {
-        onSubscribe(postId);
-        toast({
-          title: "Subscription Activated!",
-          description: `You're now subscribed to ${creatorHandle}`,
-        });
-      }
-
-      setIsLoading(false);
-      setIsSuccess(true);
-    }, 1000);
-  };
-
-  const modalClasses = isDarkMode 
-    ? "bg-[#0A0A0A] border-gray-800 text-white"
-    : "bg-white border-gray-300 text-black";
-
-  const inputClasses = isDarkMode
-    ? "bg-gray-900 border-gray-700 text-white placeholder-gray-400"
-    : "bg-gray-50 border-gray-300 text-black placeholder-gray-500";
-
-  const tabButtonClasses = (isActive: boolean) => {
-    if (isDarkMode) {
-      return isActive 
-        ? "bg-yellow-500 text-black hover:bg-yellow-600"
-        : "bg-gray-800 text-gray-300 hover:bg-gray-700";
-    } else {
-      return isActive 
-        ? "bg-yellow-500 text-black hover:bg-yellow-600"
-        : "bg-gray-100 text-gray-600 hover:bg-gray-200";
-    }
-  };
-
-  const shortTitle = postTitle.length > 50 ? `${postTitle.substring(0, 50)}...` : postTitle;
-
-  if (isSuccess) {
-    return (
-      <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className={`${modalClasses} max-w-md`}>
-          <div className="text-center py-8">
-            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">
-              {activeTab === 'tip' ? 'Tip Sent!' : 'Subscribed!'}
-            </h3>
-            <p className={isDarkMode ? "text-gray-300" : "text-gray-600"}>
-              {activeTab === 'tip' 
-                ? `${tipAmount} FPT sent to ${creatorHandle}`
-                : `You're now following ${creatorHandle}`
-              }
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
+  const handlePlatformToggle = (platformId: string) => {
+    setSelectedPlatforms(prev =>
+      prev.includes(platformId)
+        ? prev.filter(id => id !== platformId)
+        : [...prev, platformId]
     );
-  }
+  };
+
+  const handleDistributeAll = () => {
+    if (distributeToAll) {
+      setSelectedPlatforms([]);
+      setDistributeToAll(false);
+    } else {
+      setSelectedPlatforms(platforms.map(p => p.id));
+      setDistributeToAll(true);
+    }
+  };
+
+  const calculateTotalEarnings = () => {
+    const baseEarnings = parseFloat(post.estimatedEarnings.replace(' FPT', '')) || 0;
+    const multiplier = selectedPlatforms.length || 1;
+    return (baseEarnings * multiplier).toFixed(1);
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`${modalClasses} max-w-md`}>
-        <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Support Creator</DialogTitle>
-        </DialogHeader>
-
-        <div className="space-y-6">
-          <div className="flex items-center space-x-3 p-4 rounded-lg bg-opacity-50" 
-               style={{ backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }}>
-            <Avatar className="h-12 w-12">
-              <AvatarFallback className="bg-yellow-500 text-black font-bold">
-                {creatorHandle.charAt(1)?.toUpperCase() || 'C'}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">{creatorHandle}</span>
-                {isVerified && (
-                  <CheckCircle className="w-4 h-4 text-blue-500" />
-                )}
-              </div>
-              <div className="flex items-center space-x-1 text-sm">
-                <Users className="w-3 h-3" />
-                <span className={isDarkMode ? "text-gray-400" : "text-gray-600"}>
-                  {followerCount} followers
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-sm">
-            <span className={isDarkMode ? "text-gray-400" : "text-gray-600"}>Supporting post:</span>
-            <span className="ml-1 font-medium">{shortTitle}</span>
-          </div>
-
-          <div className="flex space-x-2">
-            <Button
-              variant="ghost"
-              className={`flex-1 ${tabButtonClasses(activeTab === 'tip')}`}
-              onClick={() => setActiveTab('tip')}
-            >
-              Tip
-            </Button>
-            <Button
-              variant="ghost"
-              className={`flex-1 ${tabButtonClasses(activeTab === 'subscribe')}`}
-              onClick={() => setActiveTab('subscribe')}
-            >
-              Subscribe
-            </Button>
-          </div>
-
-          {activeTab === 'tip' && (
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Tip Amount (FPT)</label>
-              <Input
-                type="number"
-                placeholder="Enter amount..."
-                value={tipAmount}
-                onChange={(e) => setTipAmount(e.target.value)}
-                className={inputClasses}
-                min="0"
-                step="0.1"
-              />
-            </div>
-          )}
-
-          {activeTab === 'subscribe' && (
-            <div className="space-y-2">
-              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                <h4 className="font-medium mb-2">Monthly Subscription</h4>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Get exclusive content and early access to {creatorHandle}'s posts
-                </p>
-                <div className="mt-2">
-                  <span className="text-lg font-bold text-yellow-500">5.0 FPT</span>
-                  <span className={`text-sm ml-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    /month
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Direct Message (Optional)</label>
-            <Textarea
-              placeholder="Send a message to the creator..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className={`${inputClasses} h-24 resize-none`}
-              maxLength={500}
-            />
-            <div className={`text-xs text-right ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              {message.length}/500
-            </div>
-          </div>
-
-          <div className="flex space-x-3">
-            <Button
-              variant="ghost"
-              className="flex-1"
-              onClick={onClose}
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold"
-              onClick={handleSubmit}
-              disabled={isLoading || (activeTab === 'tip' && (!tipAmount || parseFloat(tipAmount) <= 0))}
-            >
-              {isLoading ? (
-                <span className="flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                  <span>Processing...</span>
-                </span>
-              ) : (
-                activeTab === 'tip' ? 'Send Tip' : 'Subscribe'
-              )}
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+      <Card className="bg-gray-900 border-gray-800 w-full max-w-xl max-h-[90vh] overflow-y-auto">
+        <div className="bg-gray-800 p-4 border-b border-gray-700">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
+            <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-5 h-5" />
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+
+        <CardContent className="space-y-4 p-4">
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">
+                  {post.creator.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center space-x-2 mb-1">
+                  <h3 className="text-white font-semibold text-lg">{post.creator}</h3>
+                  <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-gray-300 mb-1 font-medium text-sm">Post title</label>
+            <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+              <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-gray-300 mb-1 font-medium text-sm">Customize your message</label>
+            <Textarea
+              value={customMessage}
+              onChange={(e) => setCustomMessage(e.target.value)}
+              className="bg-gray-800 border-gray-700 text-white min-h-[80px] text-sm"
+              placeholder="Write your share message..."
+            />
+            <div className="text-right text-gray-400 text-xs mt-1">
+              {customMessage.length}/280 characters
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="block text-gray-300 font-medium text-sm">Select platforms to share</label>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={distributeToAll}
+                  onCheckedChange={handleDistributeAll}
+                  className="border-gray-600"
+                />
+                <span className="text-gray-300 text-xs">Distribute to all</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-2">
+              {platforms.map((platform) => (
+                <div
+                  key={platform.id}
+                  className={`flex items-center space-x-3 p-2 rounded-lg border-2 cursor-pointer transition-colors ${
+                    selectedPlatforms.includes(platform.id)
+                      ? 'border-yellow-500 bg-yellow-500/10'
+                      : 'border-gray-700 bg-gray-800 hover:border-gray-600'
+                  }`}
+                  onClick={() => handlePlatformToggle(platform.id)}
+                >
+                  <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-white text-xs`}>
+                    {platform.icon}
+                  </div>
+                  <span className="text-white font-medium text-sm">{platform.name}</span>
+                  {selectedPlatforms.includes(platform.id) && (
+                    <Check className="w-4 h-4 text-yellow-500 ml-auto" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-green-400 font-semibold text-sm">Total Estimated Earnings</div>
+                <div className="text-gray-300 text-xs">
+                  {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
+                </div>
+              </div>
+              <div className="text-xl font-bold text-green-400">
+                {calculateTotalEarnings()} FPT
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <Button variant="outline" onClick={onClose} className="flex-1 border-gray-600 text-gray-300">
+              Cancel
+            </Button>
+            <Button
+              onClick={onShare}
+              disabled={selectedPlatforms.length === 0}
+              className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-black font-bold"
+            >
+              <Share2 className="w-4 h-4 mr-2" />
+              Distribute Now
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
-export default SupportCreatorModal;
+export default ShareEarnFlow;
