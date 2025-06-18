@@ -453,8 +453,8 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   return (
     <div className={themeClasses}>
       {/* Hero Section */}
-<section className="max-w-[1440px] mx-auto px-8 py-12">
-  <div className="text-center mb-6">
+<section className="max-w-[1440px] mx-auto px-8 pt-12 pb-6">
+  <div className="text-center mb-4">
     <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-2">
       Join FinancialPress
     </h1>
@@ -469,7 +469,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
         Get Started
       </Button>
     </div>
-    <p className="text-sm sm:text-base font-medium text-gray-400">
+    <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-4">
       Create. Stream. Share. Earn.
     </p>
   </div>
