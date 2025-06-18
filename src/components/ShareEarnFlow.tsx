@@ -59,41 +59,38 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
       <Card className="bg-gray-900 border-gray-800 w-full max-w-xl max-h-[90vh] overflow-y-auto">
-        {/* Title Section - Made more prominent */}
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-6 border-b border-gray-700">
+        {/* Title Section */}
+        <div className="bg-gray-800 p-4 border-b border-gray-700">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-black">Share & Earn</h1>
-              <p className="text-black/80 text-sm mt-1">Distribute content and earn FPT tokens</p>
-            </div>
-            <Button variant="ghost" size="sm" onClick={onClose} className="text-black hover:text-black/80">
-              <X className="w-6 h-6" />
+            <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
+            <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-5 h-5" />
             </Button>
           </div>
         </div>
 
         <CardContent className="space-y-4 p-4">
-          {/* Creator Profile Section - More compact */}
-          <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+          {/* Creator Profile Section */}
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">
                   {post.creator.charAt(0).toUpperCase()}
                 </span>
               </div>
-              <div className="flex-1 min-w-0">
+              <div className="flex-1">
                 <div className="flex items-center space-x-2 mb-1">
-                  <h3 className="text-white font-semibold truncate">{post.creator}</h3>
+                  <h3 className="text-white font-semibold text-lg">{post.creator}</h3>
                   <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
                 </div>
-                <div className="flex items-center space-x-3 text-xs">
+                <div className="flex items-center space-x-4 text-sm">
                   <div className="flex items-center space-x-1 text-gray-300">
                     <Users className="w-3 h-3" />
-                    <span>24.5K</span>
+                    <span>24.5K followers</span>
                   </div>
                   <div className="flex items-center space-x-1 text-green-400">
                     <DollarSign className="w-3 h-3" />
-                    <span>2,340 FPT</span>
+                    <span>2,340 FPT earned</span>
                   </div>
                 </div>
               </div>
