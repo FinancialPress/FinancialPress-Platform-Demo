@@ -73,6 +73,9 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
 
           {/* Creator Profile Section */}
           <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+              <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
+            </div>
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-lg">
@@ -93,14 +96,6 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Post Title */}
-          <div>
-            <label className="block text-gray-300 mb-1 font-medium text-sm">Post title</label>
-            <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-              <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
             </div>
           </div>
           
