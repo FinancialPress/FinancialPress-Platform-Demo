@@ -625,7 +625,6 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           </div>
         </div>
       </div>
-      </section>
 
       {/* Share Modal */}
       {showShareModal && selectedContent && (
