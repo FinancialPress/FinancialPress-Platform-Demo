@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { X, Users, CheckCircle } from 'lucide-react';
+import { Users, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface SupportCreatorModalProps {
@@ -97,19 +97,6 @@ const SupportCreatorModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-md">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold">Support Creator</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="text-gray-400 hover:text-white"
-          >
-            <X className="w-4 h-4" />
-          </Button>
-        </div>
-
         {/* Creator Info */}
         <div className="flex items-center space-x-3 p-4 bg-gray-800 rounded-lg border border-gray-700">
           <Avatar className="h-12 w-12">
