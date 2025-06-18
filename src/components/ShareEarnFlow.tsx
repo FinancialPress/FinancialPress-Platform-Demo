@@ -1,11 +1,11 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { X, Share2, Check } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { X, Share2, Check, DollarSign, Users } from 'lucide-react';
 
 interface ShareEarnFlowProps {
   post: {
@@ -23,18 +23,17 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     `🚀 Just discovered this insightful analysis: "${post.title}" by @${post.creator}. Worth a read! #Crypto #Finance`
   );
   const [distributeToAll, setDistributeToAll] = useState(false);
-  const { toast } = useToast();
 
   const platforms = [
-    { id: 'fp', name: 'FinancialPress', icon: 'FP', color: 'bg-black text-yellow-400 font-bold' },
     { id: 'twitter', name: 'Twitter/X', icon: '𝕏', color: 'bg-gray-800' },
     { id: 'telegram', name: 'Telegram', icon: '✈️', color: 'bg-blue-600' },
     { id: 'reddit', name: 'Reddit', icon: '🤖', color: 'bg-orange-600' },
     { id: 'discord', name: 'Discord', icon: '💬', color: 'bg-indigo-600' },
+    { id: 'linkedin', name: 'LinkedIn', icon: '💼', color: 'bg-blue-700' },
   ];
 
   const handlePlatformToggle = (platformId: string) => {
-    setSelectedPlatforms(prev =>
+    setSelectedPlatforms(prev => 
       prev.includes(platformId)
         ? prev.filter(id => id !== platformId)
         : [...prev, platformId]
@@ -57,17 +56,10 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     return (baseEarnings * multiplier).toFixed(1);
   };
 
-  const handleFollow = () => {
-    toast({
-      title: `Followed ${post.creator}`,
-      description: `You are now following @${post.creator}`,
-    });
-  };
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
       <Card className="bg-gray-900 border-gray-800 w-full max-w-xl max-h-[90vh] overflow-y-auto">
-        {/* Title */}
+        {/* Title Section */}
         <div className="bg-gray-800 p-4 border-b border-gray-700">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
@@ -78,35 +70,37 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
         </div>
 
         <CardContent className="space-y-4 p-4">
-          {/* Creator Profile */}
-          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 flex justify-between items-center">
+
+          {/* Creator Profile Section */}
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">{post.creator.charAt(0)}</span>
+                <span className="text-white font-bold text-lg">
+                  {post.creator.charAt(0).toUpperCase()}
+                </span>
               </div>
-              <div>
-                <h3 className="text-white font-semibold text-lg">{post.creator}</h3>
-                <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
+              <div className="flex-1">
+                <div className="flex items-center space-x-2 mb-1">
+                  <h3 className="text-white font-semibold text-lg">{post.creator}</h3>
+                  <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
+                </div>
+                <div className="flex items-center space-x-4 text-sm">
+                  <div className="flex items-center space-x-1 text-gray-300">
+                    <span>24.5K followers</span>
+                  </div>
+                  <div className="flex items-center space-x-1 text-green-400">
+                    <span>2,340 FPT earned</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <Button 
-              size="sm"
-              variant="ghost"
-              onClick={handleFollow}
-              className="bg-yellow-500 text-black px-3 py-1 text-xs font-semibold hover:bg-yellow-600 rounded-full"
-            >
-              Follow
-            </Button>
-          </div>
-
-          {/* Post title */}
-          <div>
-            <label className="block text-gray-300 mb-1 font-medium text-sm">Post title</label>
-            <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-              <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
             </div>
           </div>
 
+          {/* Post Preview */}
+          <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+            <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
+          </div>
+          
           {/* Custom Message */}
           <div>
             <label className="block text-gray-300 mb-1 font-medium text-sm">Customize your message</label>
@@ -134,7 +128,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                 <span className="text-gray-300 text-xs">Distribute to all</span>
               </div>
             </div>
-
+            
             <div className="grid grid-cols-1 gap-2">
               {platforms.map((platform) => (
                 <div
@@ -146,7 +140,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   }`}
                   onClick={() => handlePlatformToggle(platform.id)}
                 >
-                  <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-xs`}>
+                  <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-white text-xs`}>
                     {platform.icon}
                   </div>
                   <span className="text-white font-medium text-sm">{platform.name}</span>
@@ -158,7 +152,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             </div>
           </div>
 
-          {/* Earnings Summary */}
+          {/* Earnings Preview */}
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
             <div className="flex items-center justify-between">
               <div>
