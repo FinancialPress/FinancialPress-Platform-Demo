@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +13,7 @@ import TopComments from '@/components/feed/TopComments';
 import QuickActions from '@/components/feed/QuickActions';
 import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
+import FeedSidebar from '@/components/feed/FeedSidebar';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
@@ -239,9 +241,14 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
   return (
     <div className="min-h-screen bg-black text-white">
       <section className="max-w-[1440px] mx-auto px-8 py-8">
-        {/* Main grid split */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Feed - 2/3 width */}
+        {/* Main grid with sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Left Sidebar - 1/4 width */}
+          <div className="lg:col-span-1">
+            <FeedSidebar isDarkMode={true} onNavigate={onNavigate} />
+          </div>
+
+          {/* Main Content Area - 2/4 width */}
           <div className="lg:col-span-2">
             {/* Feed Header */}
             <div className="flex items-center justify-between mb-6">
@@ -275,8 +282,8 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             </div>
           </div>
 
-          {/* Sidebar - 1/3 width */}
-          <div className="space-y-6">
+          {/* Right Sidebar - 1/4 width */}
+          <div className="lg:col-span-1 space-y-6">
             {/* Embedded Earnings Tracker */}
             <EarningsTracker 
               isVisible={true}
