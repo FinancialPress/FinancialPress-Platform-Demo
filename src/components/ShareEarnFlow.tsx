@@ -81,15 +81,11 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   {post.creator.charAt(0).toUpperCase()}
                 </span>
               </div>
-              <div className="flex-1">
-                <div className="flex items-center space-x-2">
-                  <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
-                  <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
-                </div>
-                <div className="flex items-center space-x-6 text-xs text-gray-400 mt-1">
-                  <span>24.5K followers</span>
-                  <span className="text-green-400">2,340 FPT earned</span>
-                </div>
+              <div className="flex items-center space-x-4">
+                <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
+                <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
+                <span className="text-xs text-gray-400">24.5K followers</span>
+                <span className="text-xs text-green-400">2,340 FPT earned</span>
               </div>
             </div>
           </div>
