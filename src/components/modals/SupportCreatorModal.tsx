@@ -99,10 +99,10 @@ const SupportCreatorModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-xl max-h-[90vh] overflow-y-auto p-0">
-        {/* Title Section - Same style as ShareEarnFlow */}
+        {/* Title Section */}
         <div className="bg-gray-800 p-4 border-b border-gray-700">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-white">Tips</h2>
+            <h2 className="text-2xl font-bold text-white">Tip the Creator</h2>
             <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
               <X className="w-5 h-5" />
             </Button>
