@@ -30,6 +30,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     { id: 'reddit', name: 'Reddit', icon: '🤖', color: 'bg-orange-600' },
     { id: 'discord', name: 'Discord', icon: '💬', color: 'bg-indigo-600' },
     { id: 'linkedin', name: 'LinkedIn', icon: '💼', color: 'bg-blue-700' },
+    { id: 'financialpress', name: 'FinancialPress', icon: '📰', color: 'bg-yellow-600' },
   ];
 
   const handlePlatformToggle = (platformId: string) => {
@@ -70,30 +71,25 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
         </div>
 
         <CardContent className="space-y-4 p-4">
-
-          {/* Creator Profile Section */}
-          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-            <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-              <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
-            </div>
+          {/* Post Title - Made Most Prominent */}
+          <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-lg p-4">
+            <h3 className="text-white font-bold text-xl leading-tight mb-3">{post.title}</h3>
+            
+            {/* Creator Profile - Made Secondary */}
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">
                   {post.creator.charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-1">
-                  <h3 className="text-white font-semibold text-lg">{post.creator}</h3>
+                <div className="flex items-center space-x-2">
+                  <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
                   <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
                 </div>
-                <div className="flex items-center space-x-4 text-sm">
-                  <div className="flex items-center space-x-1 text-gray-300">
-                    <span>24.5K followers</span>
-                  </div>
-                  <div className="flex items-center space-x-1 text-green-400">
-                    <span>2,340 FPT earned</span>
-                  </div>
+                <div className="flex items-center space-x-4 text-xs text-gray-400">
+                  <span>24.5K followers</span>
+                  <span className="text-green-400">2,340 FPT earned</span>
                 </div>
               </div>
             </div>
