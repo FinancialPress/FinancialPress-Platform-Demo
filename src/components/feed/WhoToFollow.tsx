@@ -10,11 +10,11 @@ interface WhoToFollowProps {
 const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
   // Use different user names as requested
   const suggestedUsers = [
-    { name: "QuantumInvestor", followers: "21.1K", badge: "Gold" },
-    { name: "YieldFarmer", followers: "19.8K", badge: "Platinum" },
-    { name: "NFTVisionary", followers: "16.4K", badge: "Silver" },
-    { name: "AltcoinExpert", followers: "12.7K", badge: "Gold" },
-    { name: "Web3Wizard", followers: "11.2K", badge: "Silver" }
+    { name: "QuantumInvestor", followers: "21.1K followers", badge: "Gold" },
+    { name: "YieldFarmer", followers: "19.8K followers", badge: "Platinum" },
+    { name: "NFTVisionary", followers: "16.4K followers", badge: "Silver" },
+    { name: "AltcoinExpert", followers: "12.7K followers", badge: "Gold" },
+    { name: "Web3Wizard", followers: "11.2K followers", badge: "Silver" }
   ];
 
   const cardClasses = isDarkMode 
