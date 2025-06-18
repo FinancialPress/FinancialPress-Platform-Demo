@@ -64,7 +64,7 @@ const FeedSidebar = ({ isDarkMode = true, onNavigate }: FeedSidebarProps) => {
       <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 border-0">
         <CardContent className="p-4 text-center">
           <h4 className="text-black font-bold mb-2">Start Creating</h4>
-          <p className="text-black/80 text-sm mb-3">Share your insights and earn FPT tokens</p>
+          <p className="text-black/80 text-sm mb-3">Share your insights and earn FPT</p>
           <button 
             onClick={() => onNavigate?.(5)}
             className="w-full bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
