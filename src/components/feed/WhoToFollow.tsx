@@ -8,13 +8,13 @@ interface WhoToFollowProps {
 }
 
 const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
-  // Use different user names as requested
+  // Updated usernames and added earnings
   const suggestedUsers = [
-    { name: "QuantumInvestor", followers: "21.1K followers", badge: "Gold" },
-    { name: "YieldFarmer", followers: "19.8K followers", badge: "Platinum" },
-    { name: "NFTVisionary", followers: "16.4K followers", badge: "Silver" },
-    { name: "AltcoinExpert", followers: "12.7K followers", badge: "Gold" },
-    { name: "Web3Wizard", followers: "11.2K followers", badge: "Silver" }
+    { name: "QuantumInvestor", followers: "21.1K", earnings: "890 FPT", badge: "Gold" },
+    { name: "YieldFarmer", followers: "19.8K", earnings: "760 FPT", badge: "Platinum" },
+    { name: "NFTVisionary", followers: "16.4K", earnings: "650 FPT", badge: "Silver" },
+    { name: "AltcoinExpert", followers: "12.7K", earnings: "580 FPT", badge: "Gold" },
+    { name: "Web3Wizard", followers: "11.2K", earnings: "520 FPT", badge: "Silver" }
   ];
 
   const cardClasses = isDarkMode 
@@ -33,6 +33,10 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
     ? "text-gray-400"
     : "text-gray-600";
 
+  const earningsClasses = isDarkMode
+    ? "text-green-400"
+    : "text-green-600";
+
   return (
     <Card className={cardClasses}>
       <CardContent className="p-4">
@@ -44,24 +48,5 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
           {suggestedUsers.map((user, index) => (
             <div key={index} className="flex items-center justify-between py-1">
               <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center">
-                  {/* Avatar initials */}
-                  <span className="text-black font-bold text-xs">{user.name.charAt(0)}</span>
-                </div>
-                <div>
-                  <div className={`font-semibold ${nameClasses} text-xs`}>{user.name}</div>
-                  <div className={`${followersClasses} text-xs`}>{user.followers} followers</div>
-                </div>
-              </div>
-              <Badge className={`${user.badge === 'Platinum' ? 'bg-purple-500' : user.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
-                {user.badge}
-              </Badge>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-export default WhoToFollow;
+                <div className="w-6 h-6 bg](#)
+
