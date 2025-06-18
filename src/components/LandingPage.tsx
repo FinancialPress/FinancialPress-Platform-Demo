@@ -453,27 +453,28 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   return (
     <div className={themeClasses}>
       {/* Hero Section */}
-      <section className="max-w-[1440px] mx-auto px-8 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-2">
-            Join FinancialPress
-          </h1>
-          <p className={`text-base sm:text-lg font-medium ${heroTextClasses} mb-1`}>
-            Real-time insights. Verified contributors. Tokenized rewards.
-          </p>
-          <p className={`text-sm sm:text-base font-semibold tracking-wide ${heroTextClasses}`}>
-            Create. Stream. Share. Earn.
-          </p>
-          <div className="flex gap-4 justify-center mt-6">
-            <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
-              onClick={() => onNavigate?.(1)}
-            >
-              Get Started
-            </Button>
-          </div>
-        </div>
-      </section>
+<section className="max-w-[1440px] mx-auto px-8 py-12">
+  <div className="text-center mb-6">
+    <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-2">
+      Join FinancialPress
+    </h1>
+    <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-1">
+      Real-time insights. Verified contributors. Tokenized rewards.
+    </p>
+    <p className="text-sm sm:text-base font-medium text-gray-400">
+      Create. Stream. Share. Earn.
+    </p>
+    <div className="flex justify-center mt-6 mb-4">
+      <Button 
+        className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
+        onClick={() => onNavigate?.(1)}
+      >
+        Get Started
+      </Button>
+    </div>
+  </div>
+</section>
+
 
       {/* Content Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
