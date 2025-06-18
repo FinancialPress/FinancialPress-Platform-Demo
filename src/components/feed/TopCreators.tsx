@@ -10,11 +10,11 @@ interface TopCreatorsProps {
 
 const TopCreators = ({ isDarkMode = true }: TopCreatorsProps) => {
   const topCreators = [
-    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K", posts: 127 },
-    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K", posts: 89 },
-    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K", posts: 156 },
-    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K", posts: 78 },
-    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K", posts: 94 }
+    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K followers", posts: 127 },
+    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K followers", posts: 89 },
+    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K followers", posts: 156 },
+    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K followers", posts: 78 },
+    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K followers", posts: 94 }
   ];
 
   const cardClasses = isDarkMode 
