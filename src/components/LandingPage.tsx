@@ -453,178 +453,177 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   return (
     <div className={themeClasses}>
       {/* Hero Section */}
-<section className="max-w-[1440px] mx-auto px-8 pt-6 pb-4">
-  <div className="text-center mb-2">
-    <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4">
-      Join FinancialPress
-    </h1>
-    <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-6">
-      Real-time insights. Verified contributors. Tokenized rewards.
-    </p>
-    <div className="flex justify-center mb-4">
-      <Button 
-        className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
-        onClick={() => onNavigate?.(1)}
-      >
-        Get Started
-      </Button>
-    </div>
-    <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2">
-      Create. Stream. Share. Earn.
-    </p>
-  </div>
-</section>
-
-
-
+      <section className="max-w-[1440px] mx-auto px-8 pt-6 pb-4">
+        <div className="text-center mb-2">
+          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4">
+            Join FinancialPress
+          </h1>
+          <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-6">
+            Real-time insights. Verified contributors. Tokenized rewards.
+          </p>
+          <div className="flex justify-center mb-4">
+            <Button 
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
+              onClick={() => onNavigate?.(1)}
+            >
+              Get Started
+            </Button>
+          </div>
+          <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2">
+            Create. Stream. Share. Earn.
+          </p>
+        </div>
+      </section>
 
       {/* Content Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Main Content Area - 3/4 width */}
-        <div className="lg:col-span-3">
-          {/* Live Feed Section - Direct display without tabs */}
-          <div className="mb-8">
-            <LiveFeedSection isDarkMode={isDarkMode} />
-          </div>
+      <div className="max-w-[1440px] mx-auto px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Main Content Area - 3/4 width */}
+          <div className="lg:col-span-3">
+            {/* Live Feed Section - Direct display without tabs */}
+            <div className="mb-8">
+              <LiveFeedSection isDarkMode={isDarkMode} />
+            </div>
 
-          {/* News Section with Filters */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className={newsHeaderClasses}>News</h2>
-              <div className="flex space-x-2">
-                <Button
-                  variant={newsFilter === 'latest' ? 'default' : 'outline'}
-                  size="sm"
-                  className={newsButtonClasses(newsFilter === 'latest')}
-                  onClick={() => setNewsFilter('latest')}
-                >
-                  Latest
-                </Button>
-                <Button
-                  variant={newsFilter === 'trending' ? 'default' : 'outline'}
-                  size="sm"
-                  className={newsButtonClasses(newsFilter === 'trending')}
-                  onClick={() => setNewsFilter('trending')}
-                >
-                  Trending
-                </Button>
+            {/* News Section with Filters */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className={newsHeaderClasses}>News</h2>
+                <div className="flex space-x-2">
+                  <Button
+                    variant={newsFilter === 'latest' ? 'default' : 'outline'}
+                    size="sm"
+                    className={newsButtonClasses(newsFilter === 'latest')}
+                    onClick={() => setNewsFilter('latest')}
+                  >
+                    Latest
+                  </Button>
+                  <Button
+                    variant={newsFilter === 'trending' ? 'default' : 'outline'}
+                    size="sm"
+                    className={newsButtonClasses(newsFilter === 'trending')}
+                    onClick={() => setNewsFilter('trending')}
+                  >
+                    Trending
+                  </Button>
+                </div>
+              </div>
+
+              {/* Content Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {contentGrid.map((item) => (
+                  <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors`}>
+                    <CardContent className="p-0">
+                      <div className="relative">
+                        <img 
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-32 object-cover"
+                        />
+                        <Badge className={`absolute top-2 left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
+                          {item.category}
+                        </Badge>
+                      </div>
+                      <div className="p-3">
+                        {/* Author Header - Compact */}
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center space-x-1">
+                            <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
+                              <span className="text-black font-bold text-xs">{item.author.charAt(0)}</span>
+                            </div>
+                            <span className={`font-medium text-xs ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.author}</span>
+                            <Badge className={`text-xs ${getBadgeColor(item.badge)}`}>
+                              {item.badge.split(' ')[0]}
+                            </Badge>
+                          </div>
+                          <span className={`text-xs ${textClasses}`}>{item.timeAgo}</span>
+                        </div>
+
+                        <h3 className={`font-semibold text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
+                        
+                        {/* Engagement Stats - MODIFIED: removed comments count, added 'views' */}
+                        <div className={`flex items-center justify-between text-xs mb-2 ${textClasses}`}>
+                          <div className="flex items-center space-x-2">
+                            <span>{item.views} views</span>
+                          </div>
+                          <div className="text-green-400 font-semibold text-center">
+                            <span className="text-sm">{item.earnings} FPT Earned</span>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons - Compact */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors`}>
+                              <Heart className="w-3 h-3" />
+                              <span className="text-xs">{item.likes}</span>
+                            </button>
+                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors`}>
+                              <MessageCircle className="w-3 h-3" />
+                              <span className="text-xs">{item.comments}</span>
+                            </button>
+                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors`}>
+                              <Repeat2 className="w-3 h-3" />
+                              <span className="text-xs">{item.shares}</span>
+                            </button>
+                            <button 
+                              className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
+                              onClick={() => handleShare(item)}
+                            >
+                              <Share2 className="w-3 h-3" />
+                              <span className="text-xs">Share & Earn</span>
+                            </button>
+                          </div>
+                          <button 
+                            className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
+                            title="Tip"
+                            aria-label="Tip"
+                            onClick={() => handleTip(item, item.title)}
+                          >
+                            <HandCoins className="w-3 h-3" />
+                            <span className="text-xs">Tip</span>
+                          </button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </div>
 
-            {/* Content Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {contentGrid.map((item) => (
-                <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors`}>
-                  <CardContent className="p-0">
-                    <div className="relative">
-                      <img 
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-32 object-cover"
-                      />
-                      <Badge className={`absolute top-2 left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
-                        {item.category}
-                      </Badge>
-                    </div>
-                    <div className="p-3">
-                      {/* Author Header - Compact */}
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-1">
-                          <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
-                            <span className="text-black font-bold text-xs">{item.author.charAt(0)}</span>
-                          </div>
-                          <span className={`font-medium text-xs ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.author}</span>
-                          <Badge className={`text-xs ${getBadgeColor(item.badge)}`}>
-                            {item.badge.split(' ')[0]}
-                          </Badge>
-                        </div>
-                        <span className={`text-xs ${textClasses}`}>{item.timeAgo}</span>
-                      </div>
+            {/* Load More */}
+            <div className="text-center mb-8">
+              <Button 
+                variant="outline" 
+                className={loadMoreButtonClasses}
+                onClick={() => onNavigate?.(1)}
+              >
+                Load More Content
+              </Button>
+            </div>
+          </div>
 
-                      <h3 className={`font-semibold text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
-                      
-                      {/* Engagement Stats - MODIFIED: removed comments count, added 'views' */}
-                      <div className={`flex items-center justify-between text-xs mb-2 ${textClasses}`}>
-                        <div className="flex items-center space-x-2">
-                          <span>{item.views} views</span>
-                        </div>
-                        <div className="text-green-400 font-semibold text-center">
-                          <span className="text-sm">{item.earnings} FPT Earned</span>
-                        </div>
-                      </div>
-
-                      {/* Action Buttons - Compact */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors`}>
-                            <Heart className="w-3 h-3" />
-                            <span className="text-xs">{item.likes}</span>
-                          </button>
-                          <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors`}>
-                            <MessageCircle className="w-3 h-3" />
-                            <span className="text-xs">{item.comments}</span>
-                          </button>
-                          <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors`}>
-                            <Repeat2 className="w-3 h-3" />
-                            <span className="text-xs">{item.shares}</span>
-                          </button>
-                          <button 
-                            className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
-                            onClick={() => handleShare(item)}
-                          >
-                            <Share2 className="w-3 h-3" />
-                            <span className="text-xs">Share & Earn</span>
-                          </button>
-                        </div>
-                        <button 
-                          className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
-                          title="Tip"
-                          aria-label="Tip"
-                          onClick={() => handleTip(item, item.title)}
-                        >
-                          <HandCoins className="w-3 h-3" />
-                          <span className="text-xs">Tip</span>
-                        </button>
-                      </div>
-                    </div>
+          {/* Right Sidebar - 1/4 width */}
+          <div className="space-y-6">
+            <TopCreators isDarkMode={isDarkMode} />
+            <QuickActions isDarkMode={isDarkMode} onNavigate={onNavigate} />
+            <TopSharers isDarkMode={isDarkMode} />
+            <TopComments isDarkMode={isDarkMode} />
+            <TrendingTopics isDarkMode={isDarkMode} />
+            
+            {/* Stats Section - Moved to Bottom and Stacked */}
+            <div className="space-y-4">
+              <h3 className={sidebarHeaderClasses}>Platform Stats</h3>
+              {liveStats.map((stat, index) => (
+                <Card key={index} className={cardClasses}>
+                  <CardContent className="p-4 text-center">
+                    <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
+                    <div className={statCardTextClasses}>{stat.value}</div>
+                    <div className={`text-sm ${textClasses}`}>{stat.label}</div>
                   </CardContent>
                 </Card>
               ))}
             </div>
-          </div>
-
-          {/* Load More */}
-          <div className="text-center mb-8">
-            <Button 
-              variant="outline" 
-              className={loadMoreButtonClasses}
-              onClick={() => onNavigate?.(1)}
-            >
-              Load More Content
-            </Button>
-          </div>
-        </div>
-
-        {/* Right Sidebar - 1/4 width */}
-        <div className="space-y-6">
-          <TopCreators isDarkMode={isDarkMode} />
-          <QuickActions isDarkMode={isDarkMode} onNavigate={onNavigate} />
-          <TopSharers isDarkMode={isDarkMode} />
-          <TopComments isDarkMode={isDarkMode} />
-          <TrendingTopics isDarkMode={isDarkMode} />
-          
-          {/* Stats Section - Moved to Bottom and Stacked */}
-          <div className="space-y-4">
-            <h3 className={sidebarHeaderClasses}>Platform Stats</h3>
-            {liveStats.map((stat, index) => (
-              <Card key={index} className={cardClasses}>
-                <CardContent className="p-4 text-center">
-                  <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                  <div className={statCardTextClasses}>{stat.value}</div>
-                  <div className={`text-sm ${textClasses}`}>{stat.label}</div>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
       </div>
