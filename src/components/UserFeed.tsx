@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +14,7 @@ import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
 import FeedSidebar from '@/components/feed/FeedSidebar';
+import QuickActions from '@/components/feed/QuickActions';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
@@ -270,6 +272,9 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
+            {/* Quick Actions - Added at the top */}
+            <QuickActions isDarkMode={true} onNavigate={onNavigate} />
+
             {/* Embedded Earnings Tracker */}
             <EarningsTracker 
               isVisible={true}
