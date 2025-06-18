@@ -11,6 +11,7 @@ import UserStats from '@/components/feed/UserStats';
 import QuickActions from '@/components/feed/QuickActions';
 import LiveFeedSection from '@/components/feed/LiveFeedSection';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
+import ShareEarnFlow from '@/components/ShareEarnFlow';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
@@ -21,6 +22,8 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState<any>(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [selectedContent, setSelectedContent] = useState<any>(null);
 
   const featuredNews = [
     {
@@ -374,6 +377,19 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     }
   };
 
+  const handleShare = (content: any) => {
+    setSelectedContent({
+      title: content.title,
+      creator: content.author,
+      estimatedEarnings: "2.4 FPT"
+    });
+    setShowShareModal(true);
+  };
+
+  const handleShareComplete = () => {
+    setShowShareModal(false);
+  };
+
   const handleTip = (creatorData: any, postTitle: string) => {
     setSelectedCreator({
       handle: creatorData.handle,
@@ -545,7 +561,10 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                               <Repeat2 className="w-3 h-3" />
                               <span className="text-xs">{item.shares}</span>
                             </button>
-                            <button className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}>
+                            <button 
+                              className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
+                              onClick={() => handleShare(item)}
+                            >
                               <Share2 className="w-3 h-3" />
                               <span className="text-xs">Share & Earn</span>
                             </button>
@@ -603,6 +622,15 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           </div>
         </div>
       </section>
+
+      {/* Share Modal */}
+      {showShareModal && selectedContent && (
+        <ShareEarnFlow 
+          post={selectedContent}
+          onClose={() => setShowShareModal(false)}
+          onShare={handleShareComplete}
+        />
+      )}
 
       {/* Support Modal */}
       {showSupportModal && selectedCreator && (
