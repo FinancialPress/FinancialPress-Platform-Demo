@@ -18,20 +18,23 @@ const UserStats = ({ showStats }: { showStats?: string[] }) => {
     ? allStats.filter(stat => showStats.includes(stat.label))
     : allStats;
 
-  const columns = filteredStats.length;
-
   return (
-    <div className={`grid grid-cols-${columns} gap-6 mb-6`}>
-      {filteredStats.map((stat, index) => (
-        <Card key={index} className="bg-gray-900 border-gray-800">
-          <CardContent className="p-4 text-center">
-            <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-            <div className="text-xl font-bold text-white">{stat.value}</div>
-            <div className="text-gray-400 text-sm">{stat.label}</div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+    <Card className="bg-gray-900 border-gray-800">
+      <CardContent className="p-4">
+        <h3 className="text-lg font-semibold text-white mb-3">Your Stats</h3>
+        <div className="space-y-3">
+          {filteredStats.map((stat, index) => (
+            <div key={index} className="flex items-center space-x-3 p-2 rounded-lg bg-gray-800">
+              <stat.icon className={`w-5 h-5 ${stat.color}`} />
+              <div className="flex-1">
+                <div className="text-white font-semibold">{stat.value}</div>
+                <div className="text-gray-400 text-sm">{stat.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

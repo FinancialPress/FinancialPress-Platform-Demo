@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,7 +9,6 @@ import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
 import TopComments from '@/components/feed/TopComments';
-import QuickActions from '@/components/feed/QuickActions';
 import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import FeedSidebar from '@/components/feed/FeedSidebar';
@@ -250,23 +248,10 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
 
           {/* Main Content Area - 2/4 width */}
           <div className="lg:col-span-2">
-            {/* Feed Header */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-4">
-                <h2 className="text-2xl font-bold">Your Feed</h2>
-                <Badge className="bg-yellow-600 text-black text-sm">Personalized</Badge>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
-                  Latest
-                </Button>
-                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
-                  Following
-                </Button>
-                <Button variant="outline" className="text-sm border-gray-600 text-gray-300">
-                  Trending
-                </Button>
-              </div>
+            {/* Feed Header - Simplified */}
+            <div className="flex items-center space-x-4 mb-6">
+              <h2 className="text-2xl font-bold">Your Feed</h2>
+              <Badge className="bg-yellow-600 text-black text-sm">Personalized</Badge>
             </div>
 
             {/* Feed Posts */}
@@ -292,10 +277,9 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
               isEmbedded={true}
             />
 
-            {/* Show filtered UserStats (stats except "Earnings") */}
+            {/* Vertical Stats - Below Earnings */}
             <UserStats showStats={["Following", "Content Shared", "Tips Received"]} />
 
-            <QuickActions />
             <UserInterests />
 
             {/* Panels below interests: Top Creators, Top Sharers, Top Comments, Top Trends */}
