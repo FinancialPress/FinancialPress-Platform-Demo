@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import Header from '../components/Header';
 import LandingPage from '../components/LandingPage';
 import SignUpPage from '../components/SignUpPage';
 import OnboardingFlow from '../components/OnboardingFlow';
 import UserFeed from '../components/UserFeed';
-import Dashboard from '../components/Dashboard';
+import Dashboard from '../components/Dashboard'; // ✅ Will receive onNavigate
 import ContentCreator from '../components/ContentCreator';
 import ShareEarnFlow from '../components/ShareEarnFlow';
 import FinalCTA from '../components/FinalCTA';
@@ -30,12 +29,10 @@ const Index = () => {
   };
 
   const handleShareClose = () => {
-    // Handle close logic
     console.log("Share modal closed");
   };
 
   const handleShare = () => {
-    // Handle share logic
     console.log("Content shared");
   };
 
@@ -44,7 +41,7 @@ const Index = () => {
     <SignUpPage key="signup" onNavigate={handleNavigate} />,
     <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} />,
     <UserFeed key="feed" onNavigate={handleNavigate} />,
-    <Dashboard key="dashboard" onNavigate={handleNavigate} />,
+    <Dashboard key="dashboard" onNavigate={handleNavigate} />, // ✅ passes down onNavigate
     <ContentCreator key="creator" onNavigate={handleNavigate} />,
     <ShareEarnFlow 
       key="share" 
@@ -59,7 +56,6 @@ const Index = () => {
     ? "min-h-screen bg-black"
     : "min-h-screen bg-gray-50";
 
-  // Don't show Header on Onboarding (screen 2)
   const showHeader = currentScreen !== 2;
 
   return (
@@ -78,4 +74,3 @@ const Index = () => {
 };
 
 export default Index;
-
