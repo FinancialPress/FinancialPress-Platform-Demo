@@ -73,7 +73,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
 
           {/* Post Preview */}
           <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-            <h2 className="text-white font-semibold mb-1 text-sm">{post.title}</h2>
+            <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
           </div>
           
           {/* Creator Profile Section */}
