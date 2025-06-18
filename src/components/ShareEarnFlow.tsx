@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { X, Share2, Check, DollarSign } from 'lucide-react';
+import { X, Share2, Check, DollarSign, Users } from 'lucide-react';
 
 interface ShareEarnFlowProps {
   post: {
@@ -59,23 +59,51 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
       <Card className="bg-gray-900 border-gray-800 w-full max-w-xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="flex flex-row items-center justify-between pb-4">
-          <CardTitle className="text-xl text-white">Share & Earn</CardTitle>
-          <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
-            <X className="w-5 h-5" />
-          </Button>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Post Preview */}
-          <div className="bg-gray-800 rounded-lg p-3">
-            <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
-            <div className="flex items-center justify-between">
-              <span className="text-gray-300 text-sm">by {post.creator}</span>
-              <Badge className="bg-green-500 text-black text-xs">
-                <DollarSign className="w-3 h-3 mr-1" />
-                Est. {post.estimatedEarnings} per platform
-              </Badge>
+        {/* Title Section */}
+        <div className="bg-gray-800 p-4 border-b border-gray-700">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
+            <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+
+        <CardContent className="space-y-4 p-4">
+          {/* Creator Profile Section */}
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">
+                  {post.creator.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center space-x-2 mb-1">
+                  <h3 className="text-white font-semibold text-lg">{post.creator}</h3>
+                  <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
+                </div>
+                <div className="flex items-center space-x-4 text-sm">
+                  <div className="flex items-center space-x-1 text-gray-300">
+                    <Users className="w-3 h-3" />
+                    <span>24.5K followers</span>
+                  </div>
+                  <div className="flex items-center space-x-1 text-green-400">
+                    <DollarSign className="w-3 h-3" />
+                    <span>2,340 FPT earned</span>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Post Preview */}
+          <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+            <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
+            <Badge className="bg-green-500 text-black text-xs">
+              <DollarSign className="w-3 h-3 mr-1" />
+              Est. {post.estimatedEarnings} per platform
+            </Badge>
           </div>
 
           {/* Custom Message */}
