@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -43,7 +42,6 @@ const SupportCreatorModal = ({
   const [isSuccess, setIsSuccess] = useState(false);
   const { toast } = useToast();
 
-  // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
       setTipAmount('');
@@ -53,7 +51,6 @@ const SupportCreatorModal = ({
     }
   }, [isOpen]);
 
-  // Auto-close after success
   useEffect(() => {
     if (isSuccess) {
       const timer = setTimeout(() => {
@@ -78,8 +75,7 @@ const SupportCreatorModal = ({
     }
 
     setIsLoading(true);
-    
-    // Simulate API call
+
     setTimeout(() => {
       if (activeTab === 'tip') {
         const amount = parseFloat(tipAmount);
@@ -95,7 +91,7 @@ const SupportCreatorModal = ({
           description: `You're now subscribed to ${creatorHandle}`,
         });
       }
-      
+
       setIsLoading(false);
       setIsSuccess(true);
     }, 1000);
@@ -106,8 +102,8 @@ const SupportCreatorModal = ({
     : "bg-white border-gray-300 text-black";
 
   const inputClasses = isDarkMode
-    ? "bg-black border-gray-700 text-white placeholder-gray-400"
-    : "bg-white border-gray-300 text-black placeholder-gray-500";
+    ? "bg-gray-900 border-gray-700 text-white placeholder-gray-400"
+    : "bg-gray-50 border-gray-300 text-black placeholder-gray-500";
 
   const tabButtonClasses = (isActive: boolean) => {
     if (isDarkMode) {
@@ -149,18 +145,9 @@ const SupportCreatorModal = ({
       <DialogContent className={`${modalClasses} max-w-md`}>
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">Support Creator</DialogTitle>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Creator Profile Section */}
           <div className="flex items-center space-x-3 p-4 rounded-lg bg-opacity-50" 
                style={{ backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }}>
             <Avatar className="h-12 w-12">
@@ -184,15 +171,11 @@ const SupportCreatorModal = ({
             </div>
           </div>
 
-          {/* Post Context */}
           <div className="text-sm">
-            <span className={isDarkMode ? "text-gray-400" : "text-gray-600"}>
-              Supporting post: 
-            </span>
+            <span className={isDarkMode ? "text-gray-400" : "text-gray-600"}>Supporting post:</span>
             <span className="ml-1 font-medium">{shortTitle}</span>
           </div>
 
-          {/* Tab Toggle */}
           <div className="flex space-x-2">
             <Button
               variant="ghost"
@@ -210,7 +193,6 @@ const SupportCreatorModal = ({
             </Button>
           </div>
 
-          {/* Tip Amount Input */}
           {activeTab === 'tip' && (
             <div className="space-y-2">
               <label className="text-sm font-medium">Tip Amount (FPT)</label>
@@ -226,7 +208,6 @@ const SupportCreatorModal = ({
             </div>
           )}
 
-          {/* Subscription Info */}
           {activeTab === 'subscribe' && (
             <div className="space-y-2">
               <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
@@ -244,7 +225,6 @@ const SupportCreatorModal = ({
             </div>
           )}
 
-          {/* Direct Message */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Direct Message (Optional)</label>
             <Textarea
@@ -259,7 +239,6 @@ const SupportCreatorModal = ({
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex space-x-3">
             <Button
               variant="ghost"
