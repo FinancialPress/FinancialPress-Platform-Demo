@@ -96,9 +96,12 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             </div>
           </div>
 
-          {/* Post Preview */}
-          <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-            <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
+          {/* Post Title */}
+          <div>
+            <label className="block text-gray-300 mb-1 font-medium text-sm">Post title</label>
+            <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+              <h3 className="text-white font-semibold mb-1 text-sm">{post.title}</h3>
+            </div>
           </div>
           
           {/* Custom Message */}
