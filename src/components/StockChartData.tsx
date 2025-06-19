@@ -126,6 +126,7 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
     }
   ];
 
+  // Mock related videos data
   const relatedVideos = [
     {
       id: 1,
@@ -245,9 +246,10 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                         <Dialog open={isAddTickerOpen} onOpenChange={setIsAddTickerOpen}>
                           <DialogTrigger asChild>
                             <Button 
-                              variant="outline" 
                               size="sm"
-                              className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} flex items-center space-x-1`}
+                              className={`!border !rounded-md !transition !text-sm ${isDarkMode 
+                                ? '!border-gray-600 !text-gray-300 hover:!bg-gray-700' 
+                                : '!border-gray-300 !text-gray-800 hover:!bg-gray-100'} flex items-center space-x-1`}
                             >
                               <Plus className="w-3 h-3" />
                               <span>Switch</span>
@@ -292,18 +294,20 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                       
                       <div className="flex items-center space-x-3 mb-3">
                         <Button 
-                          variant="outline" 
                           size="sm"
-                          className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} flex items-center space-x-1`}
+                          className={`!border !rounded-md !transition !text-sm ${isDarkMode 
+                            ? '!border-gray-600 !text-gray-300 hover:!bg-gray-700' 
+                            : '!border-gray-300 !text-gray-800 hover:!bg-gray-100'} flex items-center space-x-1`}
                         >
                           <Plus className="w-3 h-3" />
                           <span>Follow</span>
                         </Button>
                         <Button 
-                          variant="outline" 
                           size="sm"
                           onClick={handleWatchlistToggle}
-                          className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} flex items-center space-x-1`}
+                          className={`!border !rounded-md !transition !text-sm ${isDarkMode 
+                            ? '!border-gray-600 !text-gray-300 hover:!bg-gray-700' 
+                            : '!border-gray-300 !text-gray-800 hover:!bg-gray-100'} flex items-center space-x-1`}
                         >
                           <Star className={`w-3 h-3 ${isWatchlisted ? 'fill-yellow-500 text-yellow-500' : ''}`} />
                           <span>{isWatchlisted ? 'Watching' : 'Watchlist'}</span>
@@ -403,21 +407,19 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
           {/* Main Content */}
           <div className="lg:col-span-2 min-w-0">
             {/* Enhanced Chart Section with premium background */}
-<div className="mb-12">
-  <div className="w-full min-h-[440px]">
-    <EnhancedChart
-      symbol={currentSymbol}
-      isDarkMode={isDarkMode}
-      height={440}
-      showFullscreen={true}
-      showVolume={true}
-      showSidebarMetrics={false}
-      className="w-full h-full"
-    />
-  </div>
-</div>
-
-
+            <div className="mb-12">
+              <div className="w-full min-h-[440px]">
+                <EnhancedChart
+                  symbol={currentSymbol}
+                  isDarkMode={isDarkMode}
+                  height={440}
+                  showFullscreen={true}
+                  showVolume={true}
+                  showSidebarMetrics={false}
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
 
             {/* Enhanced News Feed */}
             <Card className={`${cardClasses} mt-6`}>
