@@ -84,7 +84,6 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
       marketCap: '428.9B',
       sparkline: [3645, 3612, 3589, 3556, 3567]
     },
-
   ];
 
   const [markets, setMarkets] = useState<MarketData[]>(defaultMarkets);
@@ -158,11 +157,8 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
 
   return (
     <div className="w-full">
-      <Card className={`${cardClasses} relative overflow-hidden`}>
-        {/* Gradient background overlay */}
-        <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-br from-yellow-500/5 via-transparent to-gray-900/50' : 'bg-gradient-to-br from-yellow-400/10 via-transparent to-gray-100/50'} pointer-events-none`} />
-        
-        <CardContent className="p-6 relative z-10">
+      <Card className={`${cardClasses} overflow-hidden`}>
+        <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className={`${textClasses} text-2xl font-bold mb-1`}>Markets Overview</h2>
@@ -170,14 +166,16 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
             </div>
             <Dialog open={isAddTickerOpen} onOpenChange={setIsAddTickerOpen}>
               <DialogTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} flex items-center space-x-2`}
+                <button 
+                  className={`px-3 py-1.5 border rounded-md text-sm font-medium transition ${
+                    isDarkMode 
+                      ? 'bg-gray-900 text-gray-200 border-gray-600 hover:bg-gray-700'
+                      : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-100'
+                  } flex items-center space-x-2`}
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Ticker</span>
-                </Button>
+                </button>
               </DialogTrigger>
               <DialogContent className={isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}>
                 <DialogHeader>
