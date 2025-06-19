@@ -563,8 +563,6 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     ]
   };
 
-  // ... keep existing code (featuredNews, liveStats, helper functions)
-
   const liveStats = [
     { label: "Active Creators", value: "2,847", icon: Users, color: "text-green-400" },
     { label: "Total Rewards Paid", value: "$2.5M", icon: DollarSign, color: "text-yellow-400" },
@@ -773,7 +771,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4">
             Join FinancialPress
           </h1>
-          <p className="text-lg sm:text-xl font-semibold tracking-tight text-white mb-6">
+          <p className={`${heroTextClasses} sm:text-xl font-semibold tracking-tight`}>
             Real-time insights. Verified contributors. Tokenized rewards.
           </p>
           <div className="flex justify-center mb-4">
@@ -803,8 +801,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             {/* News Section with Filters */}
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
-               <h2 className="text-2xl font-bold text-yellow-400">Featured News & Analysis</h2>
-
+                <h2 className="text-2xl font-bold text-yellow-400">Featured News & Analysis</h2>
                 <div className="flex space-x-2">
                   <Button
                     variant={newsFilter === 'latest' ? 'default' : 'outline'}
