@@ -84,18 +84,7 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
       marketCap: '428.9B',
       sparkline: [3645, 3612, 3589, 3556, 3567]
     },
-    {
-      symbol: 'HBAR',
-      name: 'Hedera',
-      price: 0.2834,
-      change: 0.0123,
-      changePercent: 4.54,
-      volume: '89.3M',
-      high24h: 0.2889,
-      low24h: 0.2701,
-      marketCap: '10.7B',
-      sparkline: [0.2701, 0.2756, 0.2789, 0.2812, 0.2834]
-    }
+
   ];
 
   const [markets, setMarkets] = useState<MarketData[]>(defaultMarkets);
