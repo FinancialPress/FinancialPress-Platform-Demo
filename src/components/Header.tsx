@@ -105,6 +105,127 @@ const Header = ({
                 Content Creator
               </button>
               <button 
-                onClick={() => onNavigate?.(6...
+                onClick={() => onNavigate?.(6)}
+                className={`text-black hover:text-gray-700 transition-colors ${currentScreen === 6 ? 'font-bold underline' : ''}`}
+              >
+                Stock Chart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-Something went wrong, please refresh to reconnect or try again.
+      {/* Top Navigation Strip */}
+      <div className={topNavClasses}>
+        <div className="max-w-[1440px] mx-auto px-8 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-8 text-sm">
+              <a href="#" className={`${topNavTextClasses} transition-colors`}>News</a>
+              <a href="#" className={`${topNavTextClasses} transition-colors`}>Your Feed</a>
+              <a href="#" className={`${topNavTextClasses} transition-colors`}>Community</a>
+            </div>
+            
+            {/* Light/Dark Mode Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}
+              onClick={onToggleDarkMode}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <header className={mainHeaderClasses}>
+        <div className="max-w-[1440px] mx-auto px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-8">
+              <div className="h-12 w-[180px]">
+                <img
+                  src={isDarkMode ? "/lovable-uploads/logo.png" : "/lovable-uploads/FullLightMode.png"}
+                  alt="FinancialPress Logo"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-6">
+              {/* Enhanced Search Form */}
+              <form onSubmit={handleSearch} className="relative">
+                <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${searchIconClasses} w-5 h-5`} />
+                <Input 
+                  placeholder="Search $XRP, $FPT, Tesla..."
+                  className={`w-80 ${searchClasses}`}
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  aria-label="Search stocks and cryptocurrencies"
+                />
+                <Button
+                  type="submit"
+                  size="icon"
+                  className={`absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 ${searchButtonClasses} ${
+                    isSearching || !searchValue.trim() 
+                      ? 'opacity-50 cursor-not-allowed' 
+                      : ''
+                  }`}
+                  disabled={isSearching || !searchValue.trim()}
+                  aria-label="Execute search"
+                >
+                  <Search className="w-4 h-4" />
+                </Button>
+              </form>
+              
+              {isLoggedIn ? (
+                <div className="flex items-center space-x-4">
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className={isDarkMode 
+                      ? "border-gray-600 bg-gray-800 text-white hover:bg-gray-700 hover:text-white"
+                      : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50"
+                    }
+                  >
+                    <Bell className="w-5 h-5" />
+                  </Button>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-black" />
+                    </div>
+                    <span className={`${logoTextClasses} font-medium`}>John Doe</span>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <Button 
+                    variant="outline" 
+                    className={isDarkMode 
+                      ? "border-gray-600 bg-gray-800 text-white hover:bg-gray-700 hover:text-white font-semibold px-6"
+                      : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50 font-semibold px-6"
+                    }
+                    onClick={() => onNavigate?.(1)}
+                  >
+                    Sign In
+                  </Button>
+                  <Button 
+                    className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6"
+                    onClick={() => onNavigate?.(1)}
+                  >
+                    Join Now
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Global Scrolling Ticker - Moved to Bottom */}
+      <TickerBar isDarkMode={isDarkMode} />
+    </>
+  );
+};
+
+export default Header;
