@@ -175,41 +175,37 @@ const EnhancedChart = ({
             </div>
           </div>
           {showFullscreen && (
-            <Button
-              variant="outline"
-              size="sm"
+            <button
               onClick={onFullscreen}
-              className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+              className={`inline-flex items-center justify-center h-9 px-3 rounded-md text-sm font-medium transition-colors border ${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
             >
               <Maximize2 className="w-4 h-4" />
-            </Button>
+            </button>
           )}
         </div>
 
-        {/* Fixed Timeframe Selector with proper light mode styling */}
+        {/* Fixed Timeframe Selector - Using native buttons to avoid shadcn conflicts */}
         <div className="flex space-x-1 mb-6 overflow-x-auto">
           {timeframes.map((timeframe) => {
             const isSelected = selectedTimeframe === timeframe;
             
             return (
-              <Button
+              <button
                 key={timeframe}
-                variant="ghost"
-                size="sm"
                 onClick={() => handleTimeframeChange(timeframe)}
-                className={`relative transition-all duration-300 border ${
+                className={`relative h-9 px-3 rounded-md text-sm font-medium transition-all duration-300 border inline-flex items-center justify-center ${
                   isSelected 
-                    ? 'bg-yellow-500 text-black hover:bg-yellow-600 font-medium shadow-lg shadow-yellow-500/25 border-yellow-400' 
+                    ? '!bg-yellow-500 !text-black !hover:bg-yellow-600 !font-medium !shadow-lg !shadow-yellow-500/25 !border-yellow-400' 
                     : isDarkMode 
-                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700 hover:border-gray-500 bg-transparent'
-                      : 'border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 bg-transparent'
+                      ? '!border-gray-600 !text-gray-300 !hover:bg-gray-700 !hover:border-gray-500 !bg-transparent'
+                      : '!border-gray-300 !text-gray-700 !hover:bg-gray-50 !hover:border-gray-400 !bg-transparent'
                 }`}
               >
                 {isSelected && (
                   <div className="absolute inset-0 bg-yellow-400/20 rounded-md animate-pulse" />
                 )}
                 <span className="relative z-10">{timeframe}</span>
-              </Button>
+              </button>
             );
           })}
         </div>
