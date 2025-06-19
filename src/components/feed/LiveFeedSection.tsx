@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -76,19 +77,19 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
     : "bg-white border-gray-200";
 
   const tabButtonClasses = (isActive: boolean) => {
-    const base = 'flex-1 flex items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold transition-colors';
+    const base = 'flex-1 flex items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold transition-colors !bg-transparent border-0';
 
     if (isDarkMode) {
       return `${base} ${
         isActive 
-          ? 'dark:bg-gray-800 !bg-gray-800 text-white border-b-4 border-yellow-500' 
-          : 'text-gray-500 hover:text-yellow-400 hover:bg-gray-800/50'
+          ? '!bg-gray-800 !text-white border-b-4 !border-yellow-500 hover:!bg-gray-800' 
+          : '!text-gray-400 hover:!text-yellow-400 hover:!bg-gray-800/50 !bg-transparent'
       }`;
     } else {
       return `${base} ${
         isActive 
-          ? 'bg-gray-100 text-black border-b-4 border-yellow-500' 
-          : 'text-gray-500 hover:text-black hover:bg-gray-200'
+          ? '!bg-gray-100 !text-black border-b-4 !border-yellow-500 hover:!bg-gray-100' 
+          : '!text-gray-600 hover:!text-black hover:!bg-gray-200 !bg-transparent'
       }`;
     }
   };
