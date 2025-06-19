@@ -48,18 +48,7 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
       marketCap: '43.2T',
       sparkline: [4756, 4762, 4771, 4785, 4789]
     },
-    {
-      symbol: 'DJI',
-      name: 'Dow Jones',
-      price: 38259.12,
-      change: -45.23,
-      changePercent: -0.12,
-      volume: '234.5M',
-      high24h: 38312.45,
-      low24h: 38201.67,
-      marketCap: '32.1T',
-      sparkline: [38312, 38298, 38267, 38245, 38259]
-    },
+
     {
       symbol: 'IXIC',
       name: 'Nasdaq',
@@ -72,17 +61,7 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
       marketCap: '18.9T',
       sparkline: [15567, 15589, 15601, 15618, 15624]
     },
-    {
-      symbol: 'VIX',
-      name: 'Volatility Index',
-      price: 14.23,
-      change: -0.45,
-      changePercent: -3.06,
-      volume: '45.2M',
-      high24h: 15.12,
-      low24h: 13.89,
-      sparkline: [15.12, 14.89, 14.56, 14.34, 14.23]
-    },
+
     {
       symbol: 'BTC',
       name: 'Bitcoin',
