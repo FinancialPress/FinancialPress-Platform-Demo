@@ -67,22 +67,23 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
     ? "bg-gray-900 border-gray-800"
     : "bg-white border-gray-200";
 
-  const tabButtonClasses = (isActive: boolean) => {
-    const base = 'flex-1 flex items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold transition-colors';
-    if (isDarkMode) {
-      return `${base} ${
-        isActive
-          ? 'dark:bg-gray-800 !bg-gray-800 text-white border-b-4 border-yellow-500'
-          : 'text-gray-500 hover:text-yellow-400 hover:bg-gray-800/50'
-      }`;
-    } else {
-      return `${base} ${
-        isActive
-          ? 'bg-gray-100 text-black border-b-4 border-yellow-500'
-          : 'text-gray-500 hover:text-black hover:bg-gray-200'
-      }`;
-    }
-  };
+const tabButtonClasses = (isActive: boolean) => {
+  const base = 'flex-1 flex items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold transition-colors';
+
+  if (isDarkMode) {
+    return `${base} ${
+      isActive 
+        ? 'bg-gray-800 text-white border-b-4 border-yellow-500 hover:text-yellow-400'
+        : 'text-gray-500 hover:text-yellow-400 hover:bg-gray-800/50'
+    }`;
+  } else {
+    return `${base} ${
+      isActive 
+        ? 'bg-gray-100 text-black border-b-4 border-yellow-500 hover:text-black'
+        : 'text-gray-500 hover:text-black hover:bg-gray-200'
+    }`;
+  }
+};
 
   const contentAreaClasses = isDarkMode ? "p-6" : "p-6 bg-gray-50";
 
