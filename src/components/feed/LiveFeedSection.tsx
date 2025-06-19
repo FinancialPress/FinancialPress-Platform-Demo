@@ -82,13 +82,13 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
     if (isDarkMode) {
       return `${base} ${
         isActive 
-          ? '!bg-gray-800 !text-white border-b-4 !border-yellow-500 hover:!bg-gray-800' 
+          ? '!bg-gray-800 !text-white !border-b-4 !border-yellow-500 hover:!bg-gray-800 hover:!text-white' 
           : '!text-gray-400 hover:!text-yellow-400 hover:!bg-gray-800/50 !bg-transparent'
       }`;
     } else {
       return `${base} ${
         isActive 
-          ? '!bg-gray-100 !text-black border-b-4 !border-yellow-500 hover:!bg-gray-100' 
+          ? '!bg-gray-100 !text-black !border-b-4 !border-yellow-500 hover:!bg-gray-100 hover:!text-black' 
           : '!text-gray-600 hover:!text-black hover:!bg-gray-200 !bg-transparent'
       }`;
     }
