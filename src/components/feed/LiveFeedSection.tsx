@@ -72,13 +72,13 @@ const tabButtonClasses = (isActive: boolean) => {
 
   if (isDarkMode) {
     return `${base} ${
-      isActive 
-        ? 'bg-gray-800 text-white border-b-4 border-yellow-500 hover:text-yellow-400'
+      isActive
+        ? '!bg-gray-800 text-white border-b-4 border-yellow-500 hover:text-yellow-400'
         : 'text-gray-500 hover:text-yellow-400 hover:bg-gray-800/50'
     }`;
   } else {
     return `${base} ${
-      isActive 
+      isActive
         ? 'bg-gray-100 text-black border-b-4 border-yellow-500 hover:text-black'
         : 'text-gray-500 hover:text-black hover:bg-gray-200'
     }`;
