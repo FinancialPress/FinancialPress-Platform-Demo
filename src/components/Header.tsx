@@ -144,7 +144,7 @@ const Header = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <img 
-                src={isDarkMode ? "/lovable-uploads/logo.png" : "/lovable-Uploads/FullLightMode.png"}
+                src={isDarkMode ? "/lovable-uploads/logo.png" : "/lovable-uploads/FullLightMode.png"}
                 alt={`FinancialPress Logo ${isDarkMode ? '(Dark Mode)' : '(Light Mode)'}`}
                 className="h-8"
               />
