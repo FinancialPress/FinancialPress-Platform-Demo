@@ -124,7 +124,7 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
               className={tabButtonClasses(activeTab === 'live')}
               onClick={() => setActiveTab('live')}
             >
-              <Play className="w-4 h-4 mr-2 text-inherit" />
+              <Play className={`w-4 h-4 mr-2 ${activeTab === 'live' ? (isDarkMode ? 'text-white' : 'text-black') : (isDarkMode ? 'text-yellow-400' : 'text-black')}`} />
               LIVE FEED
             </Button>
             <Button
