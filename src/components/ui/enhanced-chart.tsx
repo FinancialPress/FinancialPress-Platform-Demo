@@ -38,7 +38,6 @@ const EnhancedChart = ({
 
   const timeframes = ['1D', '5D', '1M', '6M', 'YTD', '1Y'];
 
-
   // Generate realistic market data with volume-based fluctuations
   const generateMarketData = useCallback((timeframe: string): ChartDataPoint[] => {
     const basePrice = 338.75;
@@ -187,33 +186,24 @@ const EnhancedChart = ({
           )}
         </div>
 
-        {/* Enhanced Timeframe Selector with fixed light mode styling */}
+        {/* Fixed Timeframe Selector with proper light mode styling */}
         <div className="flex space-x-1 mb-6 overflow-x-auto">
           {timeframes.map((timeframe) => {
             const isSelected = selectedTimeframe === timeframe;
             
-            // Build className conditionally for better readability
-            let buttonClasses = "relative transition-all duration-300 ";
-            
-            if (isSelected) {
-              // Selected button - same for both modes
-              buttonClasses += "bg-yellow-500 text-black hover:bg-yellow-600 font-medium shadow-lg shadow-yellow-500/25 border-yellow-400";
-            } else {
-              // Unselected button - different for dark/light mode
-              if (isDarkMode) {
-                buttonClasses += "border-gray-600 text-gray-300 hover:bg-gray-700 hover:border-gray-500";
-              } else {
-                buttonClasses += "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400";
-              }
-            }
-
             return (
               <Button
                 key={timeframe}
-                variant={isSelected ? "default" : "outline"}
+                variant="ghost"
                 size="sm"
                 onClick={() => handleTimeframeChange(timeframe)}
-                className={buttonClasses}
+                className={`relative transition-all duration-300 border ${
+                  isSelected 
+                    ? 'bg-yellow-500 text-black hover:bg-yellow-600 font-medium shadow-lg shadow-yellow-500/25 border-yellow-400' 
+                    : isDarkMode 
+                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700 hover:border-gray-500 bg-transparent'
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 bg-transparent'
+                }`}
               >
                 {isSelected && (
                   <div className="absolute inset-0 bg-yellow-400/20 rounded-md animate-pulse" />
