@@ -142,11 +142,12 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                 <div className="space-y-4">
                   {/* Featured Video Preview */}
                   <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop&crop=face"
-                      alt="Live stream presenter - head and shoulders shot"
-                      className="w-full h-full object-cover"
-                    />
+<img 
+  src="https://plus.unsplash.com/premium_photo-1661322680862-c50786006970?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNvbnRlbnQlMjBjcmVhdG9yJTIweW91dHViZSUyMHN0b2NrJTIwbWFya2V0fGVufDB8fDB8fHww"
+  alt="Stock market content creator live streaming"
+  className="w-full h-full object-cover"
+/>
+
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                       <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors cursor-pointer">
                         <Play className="w-8 h-8 text-black ml-1" />
