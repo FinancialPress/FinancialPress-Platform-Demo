@@ -151,11 +151,11 @@ const EnhancedChart = ({
     : "text-gray-600";
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative w-full h-full ${className}`}>
       {/* Premium gradient background overlay */}
       <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-radial from-yellow-500/20 via-yellow-500/5 to-transparent' : 'bg-gradient-radial from-yellow-400/20 via-yellow-400/5 to-transparent'} pointer-events-none backdrop-blur-sm rounded-lg`} />
       
-      <div className="relative z-10">
+      <div className="relative z-10 w-full h-full">
         {/* Header with fullscreen button */}
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -206,12 +206,12 @@ const EnhancedChart = ({
         </div>
 
         {/* Main Chart Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
           {/* Chart Area */}
-          <div className={`lg:col-span-${showSidebarMetrics ? '3' : '4'}`}>
+          <div className={`lg:col-span-${showSidebarMetrics ? '3' : '4'} min-w-0`}>
             <div 
-              className={`relative rounded-lg border overflow-hidden ${cardClasses}`}
-              style={{ height: `${height}px` }}
+              className={`relative rounded-lg border overflow-hidden w-full ${cardClasses}`}
+              style={{ height: `${height - 120}px` }}
             >
               {/* Grid Pattern Background */}
               <div className="absolute inset-0 opacity-20">
@@ -229,7 +229,7 @@ const EnhancedChart = ({
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={chartData}
-                  margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+                  margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
                   onMouseMove={(e) => {
                     if (e && e.activePayload && e.activePayload[0]) {
                       setHoveredPoint(e.activePayload[0].payload);
@@ -315,7 +315,7 @@ const EnhancedChart = ({
             {showVolume && (
               <div className={`mt-4 rounded-lg border overflow-hidden ${cardClasses}`} style={{ height: '100px' }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <AreaChart data={chartData} margin={{ top: 10, right: 20, left: 20, bottom: 10 }}>
                     <XAxis dataKey="time" hide />
                     <YAxis hide />
                     <Area

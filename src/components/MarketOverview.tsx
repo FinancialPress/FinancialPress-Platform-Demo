@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -227,9 +226,9 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
             </Dialog>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* Left Panel - Market Tickers */}
-            <div className="lg:col-span-2 space-y-3">
+            <div className="lg:col-span-3 space-y-3">
               {allMarkets.map((market) => (
                 <div
                   key={market.symbol}
@@ -342,8 +341,8 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
             </div>
 
             {/* Right Panel - Enhanced Interactive Chart */}
-            <div className="lg:col-span-1">
-              <div className="w-full h-full">
+            <div className="lg:col-span-2 min-w-0">
+              <div className="w-full" style={{ height: '320px' }}>
                 <EnhancedChart
                   symbol={allMarkets.find(m => m.symbol === selectedTicker)?.symbol || 'SPY'}
                   isDarkMode={isDarkMode}
@@ -351,7 +350,6 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
                   showFullscreen={false}
                   showVolume={false}
                   showSidebarMetrics={false}
-                  className="w-full h-full"
                 />
               </div>
             </div>

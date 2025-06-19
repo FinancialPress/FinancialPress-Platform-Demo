@@ -401,9 +401,9 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 min-w-0">
             {/* Enhanced Chart Section with premium background */}
-            <div className="w-full mb-6">
+            <div className="w-full mb-6" style={{ height: '400px' }}>
               <EnhancedChart
                 symbol={currentSymbol}
                 isDarkMode={isDarkMode}
@@ -411,7 +411,6 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                 showFullscreen={true}
                 showVolume={true}
                 showSidebarMetrics={false}
-                className="w-full"
               />
             </div>
 
