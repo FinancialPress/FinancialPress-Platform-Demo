@@ -150,10 +150,16 @@ const EnhancedChart = ({
     ? "text-gray-400"
     : "text-gray-600";
 
+  // Calculate chart container height with less aggressive reduction
+  const chartContainerHeight = height - 60; // Reduced from 120px to 60px
+
+  // Fix the grid column span issue with proper conditional logic
+  const chartAreaColSpan = showSidebarMetrics ? "lg:col-span-3" : "lg:col-span-4";
+
   return (
     <div className={`relative w-full h-full ${className}`}>
-      {/* Premium gradient background overlay */}
-      <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-radial from-yellow-500/20 via-yellow-500/5 to-transparent' : 'bg-gradient-radial from-yellow-400/20 via-yellow-400/5 to-transparent'} pointer-events-none backdrop-blur-sm rounded-lg`} />
+      {/* Simplified gradient background overlay */}
+      <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-br from-yellow-500/10 to-transparent' : 'bg-gradient-to-br from-yellow-400/10 to-transparent'} pointer-events-none rounded-lg`} />
       
       <div className="relative z-10 w-full h-full">
         {/* Header with fullscreen button */}
@@ -205,31 +211,31 @@ const EnhancedChart = ({
           ))}
         </div>
 
-        {/* Main Chart Container */}
+        {/* Main Chart Container with fixed grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
-          {/* Chart Area */}
-          <div className={`lg:col-span-${showSidebarMetrics ? '3' : '4'} min-w-0`}>
+          {/* Chart Area with fixed conditional class */}
+          <div className={`${chartAreaColSpan} min-w-0`}>
             <div 
               className={`relative rounded-lg border overflow-hidden w-full ${cardClasses}`}
-              style={{ height: `${height - 120}px` }}
+              style={{ height: `${chartContainerHeight}px` }}
             >
-              {/* Grid Pattern Background */}
-              <div className="absolute inset-0 opacity-20">
+              {/* Simplified grid pattern background */}
+              <div className="absolute inset-0 opacity-10">
                 <svg className="w-full h-full">
                   <defs>
                     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke={isDarkMode ? '#374151' : '#E5E7EB'} strokeWidth="1" strokeDasharray="2,2"/>
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke={isDarkMode ? '#374151' : '#E5E7EB'} strokeWidth="1"/>
                     </pattern>
                   </defs>
                   <rect width="100%" height="100%" fill="url(#grid)" />
                 </svg>
               </div>
 
-              {/* Main Chart */}
+              {/* Main Chart with optimized margins */}
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={chartData}
-                  margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                  margin={{ top: 10, right: 15, left: 15, bottom: 10 }}
                   onMouseMove={(e) => {
                     if (e && e.activePayload && e.activePayload[0]) {
                       setHoveredPoint(e.activePayload[0].payload);
@@ -311,11 +317,11 @@ const EnhancedChart = ({
               </div>
             </div>
 
-            {/* Volume Chart (if enabled) */}
+            {/* Volume Chart (if enabled) with optimized margins */}
             {showVolume && (
               <div className={`mt-4 rounded-lg border overflow-hidden ${cardClasses}`} style={{ height: '100px' }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData} margin={{ top: 10, right: 20, left: 20, bottom: 10 }}>
+                  <AreaChart data={chartData} margin={{ top: 5, right: 15, left: 15, bottom: 5 }}>
                     <XAxis dataKey="time" hide />
                     <YAxis hide />
                     <Area
