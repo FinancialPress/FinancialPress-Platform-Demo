@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,6 +11,7 @@ import TopComments from '@/components/feed/TopComments';
 import UserStats from '@/components/feed/UserStats';
 import QuickActions from '@/components/feed/QuickActions';
 import LiveFeedSection from '@/components/feed/LiveFeedSection';
+import MarketOverview from '@/components/MarketOverview';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
 
@@ -796,6 +798,11 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             {/* Live Feed Section - Direct display without tabs */}
             <div className="mb-8">
               <LiveFeedSection isDarkMode={isDarkMode} />
+            </div>
+
+            {/* Markets Overview Section */}
+            <div className="mb-8">
+              <MarketOverview isDarkMode={isDarkMode} />
             </div>
 
             {/* News Section with Filters */}
