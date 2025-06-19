@@ -143,7 +143,7 @@ const Header = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <img 
-                src="/lovable-uploads/292f3b8a-b075-47bf-990a-f015bb5ce94b.png" 
+                src="/lovable-uploads/logo.png" 
                 alt="FinancialPress Logo" 
                 className="h-8"
               />
