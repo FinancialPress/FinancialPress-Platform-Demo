@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface TickerBarProps {
@@ -61,16 +60,16 @@ const TickerBar = ({ isDarkMode = true }: TickerBarProps) => {
     
     if (isPositive === true) {
       return isDarkMode 
-        ? `${baseClasses} bg-green-900/50 text-green-400 border border-green-800`
-        : `${baseClasses} bg-green-100 text-green-700 border border-green-200`;
+        ? `${baseClasses} bg-green-900/50 text-green-400 border border-gray-800`
+        : `${baseClasses} bg-green-100 text-green-700 border border-gray-200`;
     } else if (isPositive === false) {
       return isDarkMode 
-        ? `${baseClasses} bg-red-900/50 text-red-400 border border-red-800`
-        : `${baseClasses} bg-red-100 text-red-700 border border-red-200`;
+        ? `${baseClasses} bg-red-900/50 text-red-400 border border-gray-800`
+        : `${baseClasses} bg-red-100 text-red-700 border border-gray-200`;
     } else {
       return isDarkMode 
-        ? `${baseClasses} bg-gray-800 text-gray-400 border border-gray-700`
-        : `${baseClasses} bg-gray-100 text-gray-600 border border-gray-300`;
+        ? `${baseClasses} bg-gray-900 text-gray-400 border border-gray-800`
+        : `${baseClasses} bg-gray-100 text-gray-600 border border-gray-200`;
     }
   };
 
@@ -87,7 +86,9 @@ const TickerBar = ({ isDarkMode = true }: TickerBarProps) => {
                 key={`${item.symbol}-${index}`}
                 className={getTickerItemClasses(item.isPositive)}
               >
-                <span className="font-semibold mr-2">{item.symbol}</span>
+                <span className={`font-semibold mr-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                  {item.symbol}
+                </span>
                 <span>{item.change}</span>
               </div>
             ))}
