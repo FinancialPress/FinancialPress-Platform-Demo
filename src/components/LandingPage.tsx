@@ -803,7 +803,8 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             {/* News Section with Filters */}
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className={newsHeaderClasses}>News</h2>
+               <h2 className="text-2xl font-bold text-yellow-400">Featured News & Analysis</h2>
+
                 <div className="flex space-x-2">
                   <Button
                     variant={newsFilter === 'latest' ? 'default' : 'outline'}
