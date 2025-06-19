@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import TickerBar from './TickerBar';
 
 interface HeaderProps {
   onNavigate?: (screen: number, symbol?: string) => void;
@@ -69,6 +69,9 @@ const Header = ({
 
   return (
     <>
+      {/* Global Scrolling Ticker */}
+      <TickerBar isDarkMode={isDarkMode} />
+
       {/* Demo Navigation Strip */}
       <div className="w-full bg-yellow-500 border-b border-yellow-600">
         <div className="max-w-[1440px] mx-auto px-8 py-2">

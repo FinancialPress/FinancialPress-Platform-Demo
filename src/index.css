@@ -100,3 +100,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Ticker animation */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker-scroll {
+  animation: ticker-scroll 120s linear infinite;
+  display: flex;
+  width: fit-content;
+}
