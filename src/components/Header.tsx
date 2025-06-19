@@ -140,7 +140,8 @@ const Header = ({
 
       {/* Main Header */}
       <header className={mainHeaderClasses}>
-        <div className="max-w-[1440px] mx-auto px-8 py-4">
+        <div className="max-w-[1440px] mx-auto px-8 py-1">
+
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <div className="h-14 w-[200px]">
