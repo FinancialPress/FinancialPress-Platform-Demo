@@ -143,23 +143,22 @@ const Header = ({
         <div className="max-w-[1440px] mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              <div className="relative h-8 w-auto">
-                {/* Dark Mode Logo */}
+              <div className="relative h-8 w-[160px] bg-red-200">
                 <img
                   src="/lovable-uploads/logo.png"
-                  alt="FinancialPress Logo Dark"
-                  className={`absolute h-8 w-auto transition-opacity duration-300 ease-in-out ${
+                  alt="Dark Logo"
+                  className={`absolute top-0 left-0 h-8 w-[160px] object-contain transition-opacity duration-300 ${
                     isDarkMode ? 'opacity-100' : 'opacity-0'
                   }`}
+                  style={{ zIndex: 10 }}
                 />
-                
-                {/* Light Mode Logo */}
                 <img
                   src="/lovable-uploads/FullLightMode.png"
-                  alt="FinancialPress Logo Light"
-                  className={`absolute h-8 w-auto transition-opacity duration-300 ease-in-out ${
+                  alt="Light Logo"
+                  className={`absolute top-0 left-0 h-8 w-[160px] object-contain transition-opacity duration-300 ${
                     !isDarkMode ? 'opacity-100' : 'opacity-0'
                   }`}
+                  style={{ zIndex: 10 }}
                 />
               </div>
             </div>
