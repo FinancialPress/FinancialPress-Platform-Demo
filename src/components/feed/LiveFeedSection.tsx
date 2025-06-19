@@ -94,7 +94,7 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
     : "bg-white border-gray-200";
 
   const tabButtonClasses = (isActive: boolean) => {
-    const base = 'flex-1 rounded-none py-4 text-sm font-semibold transition-colors';
+    const base = 'flex-1 flex items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold transition-colors';
 
     if (isDarkMode) {
       return `${base} ${
@@ -124,7 +124,7 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
               className={tabButtonClasses(activeTab === 'live')}
               onClick={() => setActiveTab('live')}
             >
-              <Play className="w-4 h-4 mr-2" />
+              <Play className="w-4 h-4 mr-2 text-inherit" />
               LIVE FEED
             </Button>
             <Button
