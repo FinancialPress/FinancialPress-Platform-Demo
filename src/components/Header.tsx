@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
+import { Search, Bell, User, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import TickerBar from './TickerBar';
@@ -69,9 +69,6 @@ const Header = ({
 
   return (
     <>
-      {/* Global Scrolling Ticker */}
-      <TickerBar isDarkMode={isDarkMode} />
-
       {/* Demo Navigation Strip */}
       <div className="w-full bg-yellow-500 border-b border-yellow-600">
         <div className="max-w-[1440px] mx-auto px-8 py-2">
@@ -128,7 +125,7 @@ const Header = ({
               <a href="#" className={`${topNavTextClasses} transition-colors`}>Community</a>
             </div>
             
-            {/* Light/Dark Mode Toggle moved to right side */}
+            {/* Light/Dark Mode Toggle */}
             <Button
               variant="ghost"
               size="icon"
@@ -147,7 +144,7 @@ const Header = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <img 
-                src={isDarkMode ? "/lovable-uploads/logo.png" : "/lovable-uploads/FullLightMode.png"}
+                src={isDarkMode ? "/lovable-uploads/logo.png" : "/lovable-Uploads/FullLightMode.png"}
                 alt={`FinancialPress Logo ${isDarkMode ? '(Dark Mode)' : '(Light Mode)'}`}
                 className="h-8"
               />
@@ -222,6 +219,9 @@ const Header = ({
           </div>
         </div>
       </header>
+
+      {/* Global Scrolling Ticker - Moved to Bottom */}
+      <TickerBar isDarkMode={isDarkMode} />
     </>
   );
 };
