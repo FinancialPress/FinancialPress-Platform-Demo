@@ -1,11 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { TrendingUp, TrendingDown, Clock, ExternalLink, Star, Plus, ChevronDown, Play } from 'lucide-react';
+import { TrendingUp, TrendingDown, Clock, ExternalLink, Star, Plus, ChevronDown, Play, Search } from 'lucide-react';
+import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import { useToast } from '@/hooks/use-toast';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
@@ -24,6 +26,11 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
   const [isWatchlisted, setIsWatchlisted] = useState(false);
   const [isOverviewOpen, setIsOverviewOpen] = useState(true);
   const [newsTab, setNewsTab] = useState('All');
+  const [hoveredPrice, setHoveredPrice] = useState(false);
+  const [animatingPrice, setAnimatingPrice] = useState(false);
+  const [isAddTickerOpen, setIsAddTickerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentSymbol, setCurrentSymbol] = useState(symbol);
   const { toast } = useToast();
 
   // Mock chart data
@@ -41,6 +48,26 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
   const previousPrice = chartData[timeFrame as keyof typeof chartData].slice(-2)[0];
   const priceChange = currentPrice - previousPrice;
   const percentChange = ((priceChange / previousPrice) * 100);
+
+  // Sparkline data for current symbol
+  const sparklineData = chartData[timeFrame as keyof typeof chartData].slice(-5).map((value, index) => ({ value, index }));
+
+  // Available tickers for "Add Ticker" modal
+  const availableTickers = [
+    { symbol: 'AAPL', name: 'Apple Inc.', price: 189.45 },
+    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 142.67 },
+    { symbol: 'MSFT', name: 'Microsoft Corp.', price: 378.90 },
+    { symbol: 'NVDA', name: 'NVIDIA Corp.', price: 875.23 },
+    { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 151.34 },
+    { symbol: 'META', name: 'Meta Platforms Inc.', price: 335.78 },
+    { symbol: 'BTC', name: 'Bitcoin', price: 94567.89 },
+    { symbol: 'ETH', name: 'Ethereum', price: 3567.23 }
+  ];
+
+  const filteredTickers = availableTickers.filter(ticker =>
+    ticker.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    ticker.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Mock financial data
   const financialMetrics = [
@@ -125,17 +152,37 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
     }
   ];
 
+  // Simulate live price updates with animations
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimatingPrice(true);
+      setTimeout(() => setAnimatingPrice(false), 1000);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     setIsLoading(true);
     const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
-  }, [symbol, timeFrame]);
+  }, [currentSymbol, timeFrame]);
 
   const handleWatchlistToggle = () => {
     setIsWatchlisted(!isWatchlisted);
     toast({
-      title: isWatchlisted ? `${symbol} removed from Watchlist` : `${symbol} added to your Watchlist!`,
+      title: isWatchlisted ? `${currentSymbol} removed from Watchlist` : `${currentSymbol} added to your Watchlist!`,
       description: isWatchlisted ? "Stock removed successfully" : "You can track this stock in your portfolio",
+    });
+  };
+
+  const handleTickerChange = (ticker: any) => {
+    setCurrentSymbol(ticker.symbol);
+    setIsAddTickerOpen(false);
+    setSearchQuery('');
+    toast({
+      title: `Switched to ${ticker.symbol}`,
+      description: `Now viewing ${ticker.name}`,
     });
   };
 
@@ -162,15 +209,83 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
           <div className="lg:col-span-1">
             <div className="space-y-6 sticky top-8">
               {/* Enhanced Stock Info Card */}
-              <Card className={cardClasses}>
-                <CardContent className="p-6">
+              <Card className={`${cardClasses} relative overflow-hidden`}>
+                {/* Premium gradient background */}
+                <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-br from-yellow-500/10 via-transparent to-gray-900/50' : 'bg-gradient-to-br from-yellow-400/10 via-transparent to-gray-100/50'} pointer-events-none`} />
+                
+                <CardContent className="p-6 relative z-10">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
-                        <h2 className={`${textClasses} text-2xl font-bold`}>{symbol}</h2>
+                        <div className="flex items-center space-x-2">
+                          <h2 className={`${textClasses} text-2xl font-bold`}>{currentSymbol}</h2>
+                          {/* Sparkline on hover */}
+                          {hoveredPrice && (
+                            <div className="w-12 h-6">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={sparklineData}>
+                                  <Line 
+                                    type="monotone" 
+                                    dataKey="value" 
+                                    stroke={priceChange >= 0 ? '#10B981' : '#EF4444'} 
+                                    strokeWidth={1}
+                                    dot={false}
+                                  />
+                                </LineChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
+                        </div>
                         <Badge className="bg-green-600 text-white text-xs">
                           NASDAQ
                         </Badge>
+                        
+                        {/* Add Ticker Button */}
+                        <Dialog open={isAddTickerOpen} onOpenChange={setIsAddTickerOpen}>
+                          <DialogTrigger asChild>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} flex items-center space-x-1`}
+                            >
+                              <Plus className="w-3 h-3" />
+                              <span>Switch</span>
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className={isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}>
+                            <DialogHeader>
+                              <DialogTitle className={textClasses}>Switch Ticker</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4">
+                              <div className="relative">
+                                <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${secondaryTextClasses}`} />
+                                <Input
+                                  placeholder="Search tickers..."
+                                  value={searchQuery}
+                                  onChange={(e) => setSearchQuery(e.target.value)}
+                                  className={`pl-10 ${isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-gray-50 border-gray-300 text-black'}`}
+                                />
+                              </div>
+                              <div className="space-y-2 max-h-60 overflow-y-auto">
+                                {filteredTickers.map((ticker) => (
+                                  <div
+                                    key={ticker.symbol}
+                                    onClick={() => handleTickerChange(ticker)}
+                                    className={`p-3 rounded-lg border cursor-pointer transition-colors ${isDarkMode ? 'border-gray-700 hover:border-gray-600 bg-gray-800/50' : 'border-gray-200 hover:border-gray-300 bg-gray-50'}`}
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <div>
+                                        <div className={`${textClasses} font-medium`}>{ticker.symbol}</div>
+                                        <div className={`${secondaryTextClasses} text-sm`}>{ticker.name}</div>
+                                      </div>
+                                      <div className={`${textClasses} font-medium`}>${ticker.price.toFixed(2)}</div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                       <p className={`${secondaryTextClasses} text-sm mb-4`}>Tesla Inc. - Common Stock</p>
                       
@@ -197,7 +312,11 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                   </div>
                   
                   <div className="space-y-2 mb-4">
-                    <div className={`${textClasses} text-4xl font-bold`}>
+                    <div 
+                      className={`${textClasses} text-4xl font-bold transition-all duration-500 ${animatingPrice ? 'animate-pulse scale-105' : ''}`}
+                      onMouseEnter={() => setHoveredPrice(true)}
+                      onMouseLeave={() => setHoveredPrice(false)}
+                    >
                       ${currentPrice.toFixed(2)}
                     </div>
                     <div className="flex items-center space-x-2">
@@ -206,13 +325,37 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                       ) : (
                         <TrendingDown className="w-4 h-4 text-red-400" />
                       )}
-                      <span className={`${priceChange >= 0 ? 'text-green-400' : 'text-red-400'} font-medium`}>
+                      <span className={`${priceChange >= 0 ? 'text-green-400' : 'text-red-400'} font-medium transition-all duration-300 ${animatingPrice ? 'glow' : ''}`}>
                         {priceChange >= 0 ? '+' : ''}{priceChange.toFixed(2)} ({percentChange >= 0 ? '+' : ''}{percentChange.toFixed(2)}%)
                       </span>
                     </div>
                     <div className={`${secondaryTextClasses} text-sm flex items-center space-x-1`}>
                       <span>At close: 4:00 PM EST</span>
                     </div>
+                    
+                    {/* Enhanced hover tooltip */}
+                    {hoveredPrice && (
+                      <div className={`mt-4 p-4 rounded-lg border ${isDarkMode ? 'bg-gray-800/90 border-gray-700' : 'bg-white/90 border-gray-200'} backdrop-blur-sm`}>
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <span className={`${secondaryTextClasses} block`}>Volume</span>
+                            <span className={`${textClasses} font-medium`}>24.5M</span>
+                          </div>
+                          <div>
+                            <span className={`${secondaryTextClasses} block`}>Market Cap</span>
+                            <span className={`${textClasses} font-medium`}>1.08T</span>
+                          </div>
+                          <div>
+                            <span className={`${secondaryTextClasses} block`}>24h High</span>
+                            <span className={`${textClasses} font-medium`}>${(currentPrice * 1.02).toFixed(2)}</span>
+                          </div>
+                          <div>
+                            <span className={`${secondaryTextClasses} block`}>24h Low</span>
+                            <span className={`${textClasses} font-medium`}>${(currentPrice * 0.98).toFixed(2)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Analyst Rating */}
@@ -258,12 +401,15 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
 
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Enhanced Chart Section */}
-            <Card className={cardClasses}>
-              <CardContent className="p-6">
+            {/* Enhanced Chart Section with premium background */}
+            <Card className={`${cardClasses} relative overflow-hidden`}>
+              {/* Premium blur + radial gradient overlay */}
+              <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-radial from-yellow-500/20 via-yellow-500/5 to-transparent' : 'bg-gradient-radial from-yellow-400/20 via-yellow-400/5 to-transparent'} pointer-events-none backdrop-blur-sm`} />
+              
+              <CardContent className="p-6 relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   <h1 className={`${textClasses} text-2xl font-bold`}>
-                    {symbol} Interactive Chart
+                    {currentSymbol} Interactive Chart
                   </h1>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
@@ -319,7 +465,7 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                       </svg>
                       
                       <div className="absolute top-4 left-4 text-green-400 text-sm font-medium">
-                        {timeFrame} Chart for {symbol}
+                        {timeFrame} Chart for {currentSymbol}
                       </div>
                       <div className="absolute bottom-4 right-4 text-gray-400 text-xs">
                         Volume: 24.5M
@@ -368,7 +514,7 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
             <Card className={`${cardClasses} mt-6`}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className={`${textClasses} text-xl font-bold`}>Latest {symbol} News</h2>
+                  <h2 className={`${textClasses} text-xl font-bold`}>Latest {currentSymbol} News</h2>
                 </div>
 
                 {/* News Tabs */}
@@ -419,7 +565,7 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
             {/* Related Videos Section */}
             <Card className={`${cardClasses} mt-6`}>
               <CardContent className="p-6">
-                <h3 className={`${textClasses} text-lg font-bold mb-4`}>Related Videos: {symbol}</h3>
+                <h3 className={`${textClasses} text-lg font-bold mb-4`}>Related Videos: {currentSymbol}</h3>
                 <div className="grid grid-cols-1 gap-4">
                   {relatedVideos.map((video) => (
                     <div

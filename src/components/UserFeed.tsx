@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, HandCoins } from 'lucide-react';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
+import MarketOverview from './MarketOverview';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
@@ -13,6 +14,7 @@ import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
 import FeedSidebar from '@/components/feed/FeedSidebar';
+import LiveFeedSection from '@/components/feed/LiveFeedSection';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 
 interface UserFeedProps {
@@ -271,12 +273,18 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
           </div>
 
           {/* Main Content Area - 2/4 width */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-8">
             {/* Feed Header - Simplified */}
-            <div className="flex items-center space-x-4 mb-6">
+            <div className="flex items-center space-x-4">
               <h2 className="text-2xl font-bold">Your Feed</h2>
               <Badge className="bg-yellow-600 text-black text-sm">Personalized</Badge>
             </div>
+
+            {/* Live Feed Section */}
+            <LiveFeedSection isDarkMode={true} />
+
+            {/* Markets Overview - New Component */}
+            <MarketOverview isDarkMode={true} />
 
             {/* Feed Posts */}
             <div className="space-y-6">
@@ -284,7 +292,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             </div>
 
             {/* Load More */}
-            <div className="text-center mt-8">
+            <div className="text-center">
               <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700">
                 Load More Posts
               </Button>

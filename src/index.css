@@ -116,3 +116,20 @@
   display: flex;
   width: fit-content;
 }
+
+/* Premium glow effects for price animations */
+.glow {
+  text-shadow: 0 0 10px currentColor;
+  filter: brightness(1.2);
+}
+
+/* Radial gradient backgrounds */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+@layer utilities {
+  .bg-gradient-radial {
+    background-image: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+}
