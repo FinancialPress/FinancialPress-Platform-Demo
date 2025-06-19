@@ -13,6 +13,7 @@ import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
 import TopComments from '@/components/feed/TopComments';
 import TrendingTopics from '@/components/feed/TrendingTopics';
+import EnhancedChart from '@/components/ui/enhanced-chart';
 
 interface StockChartDataProps {
   symbol?: string;
@@ -225,7 +226,7 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                               <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={sparklineData}>
                                   <Line 
-                                    type="monotone" 
+                                    type="cardinal" 
                                     dataKey="value" 
                                     stroke={priceChange >= 0 ? '#10B981' : '#EF4444'} 
                                     strokeWidth={1}
@@ -402,113 +403,15 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Enhanced Chart Section with premium background */}
-            <Card className={`${cardClasses} relative overflow-hidden`}>
-              {/* Premium blur + radial gradient overlay */}
-              <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-radial from-yellow-500/20 via-yellow-500/5 to-transparent' : 'bg-gradient-radial from-yellow-400/20 via-yellow-400/5 to-transparent'} pointer-events-none backdrop-blur-sm`} />
-              
-              <CardContent className="p-6 relative z-10">
-                <div className="flex items-center justify-between mb-6">
-                  <h1 className={`${textClasses} text-2xl font-bold`}>
-                    {currentSymbol} Interactive Chart
-                  </h1>
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-2">
-                      <Clock className={`w-4 h-4 ${secondaryTextClasses}`} />
-                      <span className={`${secondaryTextClasses} text-sm`}>Real-time</span>
-                    </div>
-                    <Button variant="outline" size="sm" className={`${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}>
-                      Fullscreen
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Professional Chart Area */}
-                <div className="h-96 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center mb-6 relative overflow-hidden">
-                  {isLoading ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-full relative">
-                      {/* Grid Pattern */}
-                      <div className="absolute inset-0 opacity-20">
-                        <svg className="w-full h-full">
-                          <defs>
-                            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#374151" strokeWidth="1"/>
-                            </pattern>
-                          </defs>
-                          <rect width="100%" height="100%" fill="url(#grid)" />
-                        </svg>
-                      </div>
-                      
-                      {/* Mock Chart Line */}
-                      <svg className="w-full h-full relative z-10" viewBox="0 0 400 200">
-                        <defs>
-                          <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#10B981', stopOpacity: 0.3 }} />
-                            <stop offset="100%" style={{ stopColor: '#10B981', stopOpacity: 0 }} />
-                          </linearGradient>
-                        </defs>
-                        <path
-                          d="M 0 150 Q 100 120 200 80 T 400 60"
-                          stroke="#10B981"
-                          strokeWidth="2"
-                          fill="none"
-                        />
-                        <path
-                          d="M 0 150 Q 100 120 200 80 T 400 60 L 400 200 L 0 200 Z"
-                          fill="url(#chartGradient)"
-                        />
-                      </svg>
-                      
-                      <div className="absolute top-4 left-4 text-green-400 text-sm font-medium">
-                        {timeFrame} Chart for {currentSymbol}
-                      </div>
-                      <div className="absolute bottom-4 right-4 text-gray-400 text-xs">
-                        Volume: 24.5M
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Enhanced Time Frame Selector */}
-                <div className="flex space-x-1 mb-4">
-                  {timeFrames.map((tf) => (
-                    <Button
-                      key={tf}
-                      variant={timeFrame === tf ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setTimeFrame(tf)}
-                      className={
-                        timeFrame === tf
-                          ? "bg-yellow-500 text-black hover:bg-yellow-600 font-medium"
-                          : isDarkMode
-                          ? "border-gray-600 text-gray-300 hover:bg-gray-700"
-                          : "border-gray-300 text-gray-700 hover:bg-gray-50"
-                      }
-                    >
-                      {tf}
-                    </Button>
-                  ))}
-                </div>
-
-                {/* Chart Options */}
-                <div className="flex items-center space-x-4 text-sm">
-                  <Button variant="ghost" size="sm" className={`${secondaryTextClasses} hover:${textClasses}`}>
-                    Key Events
-                  </Button>
-                  <Button variant="ghost" size="sm" className={`${secondaryTextClasses} hover:${textClasses}`}>
-                    Mountain View
-                  </Button>
-                  <Button variant="ghost" size="sm" className={`${secondaryTextClasses} hover:${textClasses}`}>
-                    Advanced Chart
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <EnhancedChart
+              symbol={currentSymbol}
+              isDarkMode={isDarkMode}
+              height={400}
+              showFullscreen={true}
+              showVolume={true}
+              showSidebarMetrics={false}
+              className="mb-6"
+            />
 
             {/* Enhanced News Feed */}
             <Card className={`${cardClasses} mt-6`}>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { TrendingUp, TrendingDown, Plus, Search } from 'lucide-react';
+import EnhancedChart from '@/components/ui/enhanced-chart';
 
 interface MarketData {
   symbol: string;
@@ -48,7 +48,6 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
       marketCap: '43.2T',
       sparkline: [4756, 4762, 4771, 4785, 4789]
     },
-
     {
       symbol: 'IXIC',
       name: 'Nasdaq',
@@ -61,7 +60,6 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
       marketCap: '18.9T',
       sparkline: [15567, 15589, 15601, 15618, 15624]
     },
-
     {
       symbol: 'BTC',
       name: 'Bitcoin',
@@ -101,49 +99,6 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
   ];
 
   const [markets, setMarkets] = useState<MarketData[]>(defaultMarkets);
-
-  // Chart data for different timeframes
-  const chartData = {
-    '1D': [
-      { time: '09:30', value: 4756 },
-      { time: '11:00', value: 4762 },
-      { time: '12:30', value: 4771 },
-      { time: '14:00', value: 4785 },
-      { time: '15:30', value: 4789 }
-    ],
-    '5D': [
-      { time: 'Mon', value: 4723 },
-      { time: 'Tue', value: 4756 },
-      { time: 'Wed', value: 4771 },
-      { time: 'Thu', value: 4785 },
-      { time: 'Fri', value: 4789 }
-    ],
-    '1M': [
-      { time: 'Week 1', value: 4567 },
-      { time: 'Week 2', value: 4623 },
-      { time: 'Week 3', value: 4701 },
-      { time: 'Week 4', value: 4789 }
-    ],
-    '3M': [
-      { time: 'Oct', value: 4234 },
-      { time: 'Nov', value: 4456 },
-      { time: 'Dec', value: 4789 }
-    ],
-    '6M': [
-      { time: 'Jul', value: 4123 },
-      { time: 'Aug', value: 4234 },
-      { time: 'Sep', value: 4345 },
-      { time: 'Oct', value: 4456 },
-      { time: 'Nov', value: 4567 },
-      { time: 'Dec', value: 4789 }
-    ],
-    '1Y': [
-      { time: 'Q1', value: 3867 },
-      { time: 'Q2', value: 4123 },
-      { time: 'Q3', value: 4345 },
-      { time: 'Q4', value: 4789 }
-    ]
-  };
 
   // Simulate price updates
   useEffect(() => {
@@ -311,17 +266,24 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
                         <span className={`${secondaryTextClasses} text-sm`}>{market.name}</span>
                       </div>
                       
-                      {/* Sparkline on hover */}
+                      {/* Enhanced Sparkline on hover */}
                       {hoveredTicker === market.symbol && (
-                        <div className="w-16 h-8">
+                        <div className="w-20 h-12">
                           <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={market.sparkline.map((value, index) => ({ value, index }))}>
                               <Line 
-                                type="monotone" 
+                                type="cardinal" 
                                 dataKey="value" 
                                 stroke={market.change >= 0 ? '#10B981' : '#EF4444'} 
-                                strokeWidth={1}
+                                strokeWidth={2}
                                 dot={false}
+                                activeDot={{ 
+                                  r: 3, 
+                                  fill: '#EAB308', 
+                                  stroke: '#FBBF24', 
+                                  strokeWidth: 1,
+                                  style: { filter: 'drop-shadow(0 0 4px #EAB308)' }
+                                }}
                               />
                             </LineChart>
                           </ResponsiveContainer>
@@ -347,7 +309,7 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
                         </span>
                       </div>
                       
-                      {/* Tooltip on hover */}
+                      {/* Enhanced tooltip on hover */}
                       {hoveredTicker === market.symbol && (
                         <div className={`absolute right-4 top-full mt-2 p-3 rounded-lg shadow-lg border z-50 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} min-w-48`}>
                           <div className="space-y-2 text-xs">
@@ -378,77 +340,17 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
               ))}
             </div>
 
-            {/* Right Panel - Interactive Chart */}
+            {/* Right Panel - Enhanced Interactive Chart */}
             <div className="lg:col-span-1">
-              <div className={`p-4 rounded-lg border ${cardClasses} relative overflow-hidden`}>
-                {/* Chart background gradient */}
-                <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-radial from-yellow-500/10 via-transparent to-gray-900/50' : 'bg-gradient-radial from-yellow-400/10 via-transparent to-gray-100/50'} pointer-events-none`} />
-                
-                <div className="relative z-10">
-                  <div className="mb-4">
-                    <h3 className={`${textClasses} font-semibold mb-2`}>
-                      {allMarkets.find(m => m.symbol === selectedTicker)?.name || 'S&P 500'}
-                    </h3>
-                    <div className="flex flex-wrap gap-1">
-                      {timeframes.map((tf) => (
-                        <Button
-                          key={tf}
-                          variant={timeframe === tf ? "default" : "ghost"}
-                          size="sm"
-                          onClick={() => setTimeframe(tf)}
-                          className={
-                            timeframe === tf
-                              ? "bg-yellow-500 text-black hover:bg-yellow-600 h-7 px-2 text-xs"
-                              : isDarkMode
-                              ? "text-gray-400 hover:text-white hover:bg-gray-700 h-7 px-2 text-xs"
-                              : "text-gray-600 hover:text-black hover:bg-gray-100 h-7 px-2 text-xs"
-                          }
-                        >
-                          {tf}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="h-48 mb-4">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={chartData[timeframe as keyof typeof chartData]}>
-                        <XAxis 
-                          dataKey="time" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 10, fill: isDarkMode ? '#9CA3AF' : '#6B7280' }}
-                        />
-                        <YAxis 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 10, fill: isDarkMode ? '#9CA3AF' : '#6B7280' }}
-                        />
-                        <Tooltip 
-                          contentStyle={{
-                            backgroundColor: isDarkMode ? '#1F2937' : '#FFFFFF',
-                            border: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}`,
-                            borderRadius: '8px',
-                            fontSize: '12px'
-                          }}
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="value" 
-                          stroke="#EAB308" 
-                          strokeWidth={2}
-                          dot={{ fill: '#EAB308', strokeWidth: 2, r: 3 }}
-                          activeDot={{ r: 5, fill: '#EAB308' }}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
-
-                  <div className={`text-center ${secondaryTextClasses} text-xs`}>
-                    Click any ticker to view its chart
-                  </div>
-                </div>
-              </div>
+              <EnhancedChart
+                symbol={allMarkets.find(m => m.symbol === selectedTicker)?.symbol || 'SPY'}
+                isDarkMode={isDarkMode}
+                height={320}
+                showFullscreen={false}
+                showVolume={false}
+                showSidebarMetrics={false}
+                className="w-full"
+              />
             </div>
           </div>
         </CardContent>
