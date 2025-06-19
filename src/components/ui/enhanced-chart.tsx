@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, ReferenceLine, Area, AreaChart } from 'recharts';
 import { Button } from '@/components/ui/button';
@@ -187,28 +186,41 @@ const EnhancedChart = ({
           )}
         </div>
 
-        {/* Enhanced Timeframe Selector */}
+        {/* Enhanced Timeframe Selector with fixed light mode styling */}
         <div className="flex space-x-1 mb-6 overflow-x-auto">
-          {timeframes.map((timeframe) => (
-            <Button
-              key={timeframe}
-              variant={selectedTimeframe === timeframe ? "default" : "outline"}
-              size="sm"
-              onClick={() => handleTimeframeChange(timeframe)}
-              className={`relative transition-all duration-300 ${
-                selectedTimeframe === timeframe
-                  ? "bg-yellow-500 text-black hover:bg-yellow-600 font-medium shadow-lg shadow-yellow-500/25 border-yellow-400"
-                  : isDarkMode
-                  ? "border-gray-600 text-gray-300 hover:bg-gray-700 hover:border-gray-500"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
-              }`}
-            >
-              {selectedTimeframe === timeframe && (
-                <div className="absolute inset-0 bg-yellow-400/20 rounded-md animate-pulse" />
-              )}
-              <span className="relative z-10">{timeframe}</span>
-            </Button>
-          ))}
+          {timeframes.map((timeframe) => {
+            const isSelected = selectedTimeframe === timeframe;
+            
+            // Build className conditionally for better readability
+            let buttonClasses = "relative transition-all duration-300 ";
+            
+            if (isSelected) {
+              // Selected button - same for both modes
+              buttonClasses += "bg-yellow-500 text-black hover:bg-yellow-600 font-medium shadow-lg shadow-yellow-500/25 border-yellow-400";
+            } else {
+              // Unselected button - different for dark/light mode
+              if (isDarkMode) {
+                buttonClasses += "border-gray-600 text-gray-300 hover:bg-gray-700 hover:border-gray-500";
+              } else {
+                buttonClasses += "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400";
+              }
+            }
+
+            return (
+              <Button
+                key={timeframe}
+                variant={isSelected ? "default" : "outline"}
+                size="sm"
+                onClick={() => handleTimeframeChange(timeframe)}
+                className={buttonClasses}
+              >
+                {isSelected && (
+                  <div className="absolute inset-0 bg-yellow-400/20 rounded-md animate-pulse" />
+                )}
+                <span className="relative z-10">{timeframe}</span>
+              </Button>
+            );
+          })}
         </div>
 
         {/* Main Chart Container with fixed grid layout */}
