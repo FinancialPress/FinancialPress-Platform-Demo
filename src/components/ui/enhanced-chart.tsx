@@ -36,7 +36,8 @@ const EnhancedChart = ({
   const [isAnimating, setIsAnimating] = useState(true);
   const [hoveredPoint, setHoveredPoint] = useState<ChartDataPoint | null>(null);
 
-  const timeframes = ['1D', '5D', '1M', '6M', 'YTD', '1Y', '5Y', 'All'];
+  const timeframes = ['1D', '5D', '1M', '6M', 'YTD', '1Y'];
+
 
   // Generate realistic market data with volume-based fluctuations
   const generateMarketData = useCallback((timeframe: string): ChartDataPoint[] => {
