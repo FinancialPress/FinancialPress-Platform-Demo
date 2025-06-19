@@ -403,16 +403,18 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
           {/* Main Content */}
           <div className="lg:col-span-2 min-w-0">
             {/* Enhanced Chart Section with premium background */}
-            <div className="w-full mb-6" style={{ height: '400px' }}>
-              <EnhancedChart
-                symbol={currentSymbol}
-                isDarkMode={isDarkMode}
-                height={400}
-                showFullscreen={true}
-                showVolume={true}
-                showSidebarMetrics={false}
-              />
-            </div>
+<div className="mb-10 overflow-hidden">
+  <EnhancedChart
+    symbol={currentSymbol}
+    isDarkMode={isDarkMode}
+    height={400}
+    showFullscreen={true}
+    showVolume={true}
+    showSidebarMetrics={false}
+    className="w-full h-[400px] overflow-hidden"
+  />
+</div>
+
 
             {/* Enhanced News Feed */}
             <Card className={`${cardClasses} mt-6`}>
