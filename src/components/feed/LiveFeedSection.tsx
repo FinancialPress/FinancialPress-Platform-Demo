@@ -69,14 +69,6 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
       avatar: "MN",
       isVerified: true,
       category: "Crypto"
-    },
-    {
-      host: "Yuli Kay",
-      title: "Monthly Crypto News Roundtable with Bitget ...",
-      viewers: "+811",
-      avatar: "YK",
-      isVerified: true,
-      category: "Crypto"
     }
   ];
 
@@ -255,7 +247,7 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                             <Badge className="bg-purple-600 text-white text-xs mt-1">{feed.category}</Badge>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-1 bg-red-600 rounded-full px-2 py-1">
+                        <div className="flex items-center space-x-1 bg-green-600 rounded-full px-2 py-1">
                           <Users className="w-3 h-3 text-white" />
                           <span className="text-white text-xs font-semibold">{feed.viewers}</span>
                         </div>
