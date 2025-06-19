@@ -94,17 +94,19 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
     : "bg-white border-gray-200";
 
   const tabButtonClasses = (isActive: boolean) => {
+    const base = 'flex-1 rounded-none py-4 text-sm font-semibold transition-colors';
+
     if (isDarkMode) {
-      return `flex-1 rounded-none py-4 ${
+      return `${base} ${
         isActive 
           ? 'bg-gray-800 text-white border-b-2 border-yellow-500' 
-          : 'text-gray-400 hover:text-yellow-500'
+          : 'text-gray-400 hover:text-yellow-400 hover:bg-gray-800/40'
       }`;
     } else {
-      return `flex-1 rounded-none py-4 ${
+      return `${base} ${
         isActive 
           ? 'bg-gray-100 text-black border-b-2 border-yellow-500' 
-          : 'text-gray-600 hover:text-black'
+          : 'text-gray-600 hover:text-black hover:bg-gray-100'
       }`;
     }
   };
