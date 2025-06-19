@@ -245,15 +245,16 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                         {/* Add Ticker Button */}
                         <Dialog open={isAddTickerOpen} onOpenChange={setIsAddTickerOpen}>
                           <DialogTrigger asChild>
-                            <Button 
-                              size="sm"
-                              className={`!border !rounded-md !transition !text-sm ${isDarkMode 
-                                ? '!border-gray-600 !text-gray-300 hover:!bg-gray-700' 
-                                : '!border-gray-300 !text-gray-800 hover:!bg-gray-100'} flex items-center space-x-1`}
+                            <button 
+                              className={`px-3 py-1.5 border rounded-md text-sm font-medium transition ${
+                                isDarkMode 
+                                  ? 'bg-gray-900 text-gray-200 border-gray-600 hover:bg-gray-700'
+                                  : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-100'
+                              } flex items-center space-x-1`}
                             >
                               <Plus className="w-3 h-3" />
                               <span>Switch</span>
-                            </Button>
+                            </button>
                           </DialogTrigger>
                           <DialogContent className={isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}>
                             <DialogHeader>
@@ -293,25 +294,27 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                       <p className={`${secondaryTextClasses} text-sm mb-4`}>Tesla Inc. - Common Stock</p>
                       
                       <div className="flex items-center space-x-3 mb-3">
-                        <Button 
-                          size="sm"
-                          className={`!border !rounded-md !transition !text-sm ${isDarkMode 
-                            ? '!border-gray-600 !text-gray-300 hover:!bg-gray-700' 
-                            : '!border-gray-300 !text-gray-800 hover:!bg-gray-100'} flex items-center space-x-1`}
+                        <button 
+                          className={`px-3 py-1.5 border rounded-md text-sm font-medium transition ${
+                            isDarkMode 
+                              ? 'bg-gray-900 text-gray-200 border-gray-600 hover:bg-gray-700'
+                              : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-100'
+                          } flex items-center space-x-1`}
                         >
                           <Plus className="w-3 h-3" />
                           <span>Follow</span>
-                        </Button>
-                        <Button 
-                          size="sm"
+                        </button>
+                        <button 
                           onClick={handleWatchlistToggle}
-                          className={`!border !rounded-md !transition !text-sm ${isDarkMode 
-                            ? '!border-gray-600 !text-gray-300 hover:!bg-gray-700' 
-                            : '!border-gray-300 !text-gray-800 hover:!bg-gray-100'} flex items-center space-x-1`}
+                          className={`px-3 py-1.5 border rounded-md text-sm font-medium transition ${
+                            isDarkMode 
+                              ? 'bg-gray-900 text-gray-200 border-gray-600 hover:bg-gray-700'
+                              : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-100'
+                          } flex items-center space-x-1`}
                         >
                           <Star className={`w-3 h-3 ${isWatchlisted ? 'fill-yellow-500 text-yellow-500' : ''}`} />
                           <span>{isWatchlisted ? 'Watching' : 'Watchlist'}</span>
-                        </Button>
+                        </button>
                       </div>
                     </div>
                   </div>
