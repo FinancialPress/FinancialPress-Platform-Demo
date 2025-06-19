@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -272,7 +273,7 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
                           <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={market.sparkline.map((value, index) => ({ value, index }))}>
                               <Line 
-                                type="cardinal" 
+                                type={"cardinal" as any}
                                 dataKey="value" 
                                 stroke={market.change >= 0 ? '#10B981' : '#EF4444'} 
                                 strokeWidth={2}
@@ -342,15 +343,17 @@ const MarketOverview = ({ isDarkMode = true }: MarketOverviewProps) => {
 
             {/* Right Panel - Enhanced Interactive Chart */}
             <div className="lg:col-span-1">
-              <EnhancedChart
-                symbol={allMarkets.find(m => m.symbol === selectedTicker)?.symbol || 'SPY'}
-                isDarkMode={isDarkMode}
-                height={320}
-                showFullscreen={false}
-                showVolume={false}
-                showSidebarMetrics={false}
-                className="w-full"
-              />
+              <div className="w-full h-full">
+                <EnhancedChart
+                  symbol={allMarkets.find(m => m.symbol === selectedTicker)?.symbol || 'SPY'}
+                  isDarkMode={isDarkMode}
+                  height={320}
+                  showFullscreen={false}
+                  showVolume={false}
+                  showSidebarMetrics={false}
+                  className="w-full h-full"
+                />
+              </div>
             </div>
           </div>
         </CardContent>

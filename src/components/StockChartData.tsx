@@ -226,7 +226,7 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
                               <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={sparklineData}>
                                   <Line 
-                                    type="cardinal" 
+                                    type={"cardinal" as any}
                                     dataKey="value" 
                                     stroke={priceChange >= 0 ? '#10B981' : '#EF4444'} 
                                     strokeWidth={1}
@@ -403,15 +403,17 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Enhanced Chart Section with premium background */}
-            <EnhancedChart
-              symbol={currentSymbol}
-              isDarkMode={isDarkMode}
-              height={400}
-              showFullscreen={true}
-              showVolume={true}
-              showSidebarMetrics={false}
-              className="mb-6"
-            />
+            <div className="w-full mb-6">
+              <EnhancedChart
+                symbol={currentSymbol}
+                isDarkMode={isDarkMode}
+                height={400}
+                showFullscreen={true}
+                showVolume={true}
+                showSidebarMetrics={false}
+                className="w-full"
+              />
+            </div>
 
             {/* Enhanced News Feed */}
             <Card className={`${cardClasses} mt-6`}>

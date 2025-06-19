@@ -229,6 +229,7 @@ const EnhancedChart = ({
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={chartData}
+                  margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
                   onMouseMove={(e) => {
                     if (e && e.activePayload && e.activePayload[0]) {
                       setHoveredPoint(e.activePayload[0].payload);
@@ -283,7 +284,7 @@ const EnhancedChart = ({
                   )}
                   
                   <Area
-                    type="cardinal"
+                    type={"cardinal" as any}
                     dataKey="value"
                     stroke={priceChange >= 0 ? '#10B981' : '#EF4444'}
                     strokeWidth={2}
@@ -314,11 +315,11 @@ const EnhancedChart = ({
             {showVolume && (
               <div className={`mt-4 rounded-lg border overflow-hidden ${cardClasses}`} style={{ height: '100px' }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData}>
+                  <AreaChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                     <XAxis dataKey="time" hide />
                     <YAxis hide />
                     <Area
-                      type="monotone"
+                      type={"monotone" as any}
                       dataKey="volume"
                       stroke="#6B7280"
                       fill="#6B7280"
