@@ -143,7 +143,8 @@ const Header = ({
         <div className="max-w-[1440px] mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              <div className="h-12 w-[180px]">
+              <div className="h-14 w-[200px]">
+
                 <img
                   src={isDarkMode ? "/lovable-uploads/logo.png" : "/lovable-uploads/FullLightMode.png"}
                   alt="FinancialPress Logo"
