@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -44,14 +43,6 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
       avatar: "MN",
       isVerified: true,
       category: "Crypto"
-    },
-    {
-      host: "Yuli Kay",
-      title: "Monthly Crypto News Roundtable with Bitget ...",
-      viewers: "+811",
-      avatar: "YK",
-      isVerified: true,
-      category: "Crypto"
     }
   ];
 
@@ -77,19 +68,18 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
     : "bg-white border-gray-200";
 
   const tabButtonClasses = (isActive: boolean) => {
-    const base = 'flex-1 flex items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold transition-colors !bg-transparent border-0';
-
+    const base = 'flex-1 flex items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold transition-colors';
     if (isDarkMode) {
       return `${base} ${
-        isActive 
-          ? '!bg-gray-800 !text-white !border-b-4 !border-yellow-500 hover:!bg-gray-800 hover:!text-white' 
-          : '!text-gray-400 hover:!text-yellow-400 hover:!bg-gray-800/50 !bg-transparent'
+        isActive
+          ? 'dark:bg-gray-800 !bg-gray-800 text-white border-b-4 border-yellow-500'
+          : 'text-gray-500 hover:text-yellow-400 hover:bg-gray-800/50'
       }`;
     } else {
       return `${base} ${
-        isActive 
-          ? '!bg-gray-100 !text-black !border-b-4 !border-yellow-500 hover:!bg-gray-100 hover:!text-black' 
-          : '!text-gray-600 hover:!text-black hover:!bg-gray-200 !bg-transparent'
+        isActive
+          ? 'bg-gray-100 text-black border-b-4 border-yellow-500'
+          : 'text-gray-500 hover:text-black hover:bg-gray-200'
       }`;
     }
   };
@@ -229,7 +219,7 @@ const LiveFeedSection = ({ isDarkMode = true }: LiveFeedSectionProps) => {
                           <Badge className="bg-purple-600 text-white text-xs mt-1">{feed.category}</Badge>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-1 bg-red-600 rounded-full px-2 py-1">
+                      <div className="flex items-center space-x-1 bg-green-600 rounded-full px-2 py-1">
                         <Users className="w-3 h-3 text-white" />
                         <span className="text-white text-xs font-semibold">{feed.viewers}</span>
                       </div>
