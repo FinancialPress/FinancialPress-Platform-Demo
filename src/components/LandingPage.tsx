@@ -785,7 +785,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             </Button>
           </div>
           <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2">
-            Create. Stream. Share. Earn.
+            Post. Stream. Share. Earn.
           </p>
         </div>
       </section>
