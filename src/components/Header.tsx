@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -143,8 +144,8 @@ const Header = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <img 
-                src="/lovable-uploads/logo.png" 
-                alt="FinancialPress Logo" 
+                src={isDarkMode ? "/lovable-uploads/logo.png" : "/lovable-uploads/FullLightMode.png"}
+                alt={`FinancialPress Logo ${isDarkMode ? '(Dark Mode)' : '(Light Mode)'}`}
                 className="h-8"
               />
             </div>
