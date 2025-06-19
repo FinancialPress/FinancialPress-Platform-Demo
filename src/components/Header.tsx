@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Bell, User, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -143,12 +142,11 @@ const Header = ({
         <div className="max-w-[1440px] mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
-<img 
-  src="/lovable-uploads/logo.png" 
-  alt="FinancialPress Logo" 
-  className="h-8"
-/>
-
+              <img 
+                src="/lovable-uploads/292f3b8a-b075-47bf-990a-f015bb5ce94b.png" 
+                alt="FinancialPress Logo" 
+                className="h-8"
+              />
             </div>
             
             <div className="flex items-center space-x-6">
