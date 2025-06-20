@@ -48,7 +48,6 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const labelClasses = isDarkMode ? 'text-gray-300' : 'text-gray-700';
-  const switchBorderClasses = isDarkMode ? 'border-gray-700' : 'border-gray-300';
 
   return (
     <div className={`min-h-screen ${bgClasses}`}>
@@ -239,21 +238,17 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <Label className={labelClasses}>Enable live chat</Label>
-                        <div className={`border ${switchBorderClasses} rounded-md p-1`}>
-                          <Switch 
-                            checked={enableLiveChat}
-                            onCheckedChange={setEnableLiveChat}
-                          />
-                        </div>
+                        <Switch 
+                          checked={enableLiveChat}
+                          onCheckedChange={setEnableLiveChat}
+                        />
                       </div>
                       <div className="flex items-center justify-between">
                         <Label className={labelClasses}>Let people watch later</Label>
-                        <div className={`border ${switchBorderClasses} rounded-md p-1`}>
-                          <Switch 
-                            checked={allowWatchLater}
-                            onCheckedChange={setAllowWatchLater}
-                          />
-                        </div>
+                        <Switch 
+                          checked={allowWatchLater}
+                          onCheckedChange={setAllowWatchLater}
+                        />
                       </div>
                     </div>
                     <div>
@@ -336,21 +331,15 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label className={`${labelClasses} text-sm`}>Twitter/X</Label>
-                      <div className={`border ${switchBorderClasses} rounded-md p-1`}>
-                        <Switch />
-                      </div>
+                      <Switch />
                     </div>
                     <div className="flex items-center justify-between">
                       <Label className={`${labelClasses} text-sm`}>LinkedIn</Label>
-                      <div className={`border ${switchBorderClasses} rounded-md p-1`}>
-                        <Switch />
-                      </div>
+                      <Switch />
                     </div>
                     <div className="flex items-center justify-between">
                       <Label className={`${labelClasses} text-sm`}>Telegram</Label>
-                      <div className={`border ${switchBorderClasses} rounded-md p-1`}>
-                        <Switch />
-                      </div>
+                      <Switch />
                     </div>
                   </div>
                 </div>
