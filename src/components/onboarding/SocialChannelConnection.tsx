@@ -22,12 +22,16 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
   const { isDarkMode } = useTheme();
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
   const [connectionStep, setConnectionStep] = useState<'select' | 'connect' | 'authorize'>('select');
+
+  // Function to set platform-specific colors based on theme
+  const platformColor = (dark: string, light: string) => isDarkMode ? dark : light;
+
   const [platforms, setPlatforms] = useState<Platform[]>([
     { 
       id: 'twitter', 
       name: 'X (Twitter)', 
       icon: '𝕏', 
-      color: 'bg-black',
+      color: platformColor('bg-black', 'bg-gray-200'), // Conditional color
       description: 'Share tweets and engage with your audience',
       connected: false 
     },
@@ -105,8 +109,8 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   if (connectionStep === 'connect' && selectedPlatform) {
     return (
-      <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
-        <div className={`w-full max-w-2xl mx-auto px-4 sm:px-6 ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+      <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'} py-8`}>
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
             <CardHeader>
               <div className="flex items-center space-x-3">
@@ -164,8 +168,8 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   if (connectionStep === 'authorize' && selectedPlatform) {
     return (
-      <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
-        <div className={`w-full max-w-2xl mx-auto px-4 sm:px-6 ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+      <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'} py-8`}>
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
             <CardContent className="p-8 sm:p-12 text-center">
               <div className={`w-16 h-16 sm:w-20 sm:h-20 ${selectedPlatform.color} rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center`}>
@@ -188,8 +192,8 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
   }
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
-      <div className={`w-full max-w-4xl mx-auto px-4 sm:px-6 ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+    <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'} py-8`}>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
           <CardHeader className="text-center">
             <CardTitle className={`text-2xl sm:text-3xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
@@ -255,8 +259,8 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
                   variant="outline"
                   className={`px-6 sm:px-8 py-2 text-sm sm:text-base ${
                     isDarkMode
-                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
-                      : 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
+                      ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
+                      : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
                   }`}
                   onClick={onContinue}
                 >
