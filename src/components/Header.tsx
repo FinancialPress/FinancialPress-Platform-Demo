@@ -131,7 +131,6 @@ const Header = ({
               <a href="#" className={`${topNavTextClasses} transition-colors`}>Community</a>
             </div>
             
-            {/* Light/Dark Mode Toggle */}
             <Button
               variant="ghost"
               size="icon"
@@ -227,15 +226,24 @@ const Header = ({
                     <div className="hidden sm:flex flex-col">
                       <div className="flex items-center space-x-2">
                         <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
-                        <Badge className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">
+                        <Badge className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-semibold">
                           Creator Newcomer
                         </Badge>
                       </div>
                       <div className="flex items-center space-x-3">
                         <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
+                        <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
                       </div>
                     </div>
                   </div>
+
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
+                  >
+                    <Settings className="w-4 h-4" />
+                  </Button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
@@ -303,7 +311,6 @@ const Header = ({
                   Stock Chart
                 </button>
 
-                {/* Mobile Profile Info (shown when logged in) */}
                 {shouldShowLoggedIn && (
                   <div className="border-t border-gray-700 pt-3 px-4">
                     <div className="flex items-center space-x-3">
@@ -314,7 +321,7 @@ const Header = ({
                       <div>
                         <div className="flex items-center space-x-2">
                           <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
-                          <Badge className="bg-green-100 text-green-800 text-xs px-1 py-0.5 rounded-full">
+                          <Badge className="bg-yellow-500 text-black text-xs px-1 py-0.5 rounded-full font-semibold">
                             Creator
                           </Badge>
                         </div>
