@@ -48,6 +48,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const labelClasses = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+  const borderClasses = isDarkMode ? 'border-gray-700' : 'border-gray-300';
 
   return (
     <div className={`min-h-screen ${bgClasses}`}>
@@ -108,7 +109,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       </div>
                       <div>
                         <Label className={labelClasses}>Thumbnail Image</Label>
-                        <div className={`border-2 border-dashed ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg p-4 text-center`}>
+                        <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
                           <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
                           <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
                           <Button size="sm" className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}>
@@ -118,7 +119,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       </div>
                       <div>
                         <Label className={labelClasses}>Upload Content</Label>
-                        <div className={`border-2 border-dashed ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg p-4 text-center`}>
+                        <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
                           <Upload className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
                           <p className={`${labelClasses} text-sm mb-2`}>Drag & drop or browse</p>
                           <Button size="sm" className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}>
@@ -201,7 +202,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       </div>
                       <div>
                         <Label className={labelClasses}>Thumbnail</Label>
-                        <div className={`border-2 border-dashed ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg p-4 text-center`}>
+                        <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
                           <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
                           <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
                           <Button size="sm" className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}>
@@ -241,6 +242,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                         <Switch 
                           checked={enableLiveChat}
                           onCheckedChange={setEnableLiveChat}
+                          className={`border ${borderClasses}`}
                         />
                       </div>
                       <div className="flex items-center justify-between">
@@ -248,6 +250,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                         <Switch 
                           checked={allowWatchLater}
                           onCheckedChange={setAllowWatchLater}
+                          className={`border ${borderClasses}`}
                         />
                       </div>
                     </div>
@@ -312,16 +315,34 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <Label className={labelClasses}>Share with:</Label>
                   <RadioGroup value={shareWith} onValueChange={setShareWith} className="space-y-2">
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="paid" id="paid" />
-                      <Label htmlFor="paid" className={`${labelClasses} text-sm cursor-pointer`}>Paid subscribers</Label>
+                      <RadioGroupItem 
+                        value="paid" 
+                        id="paid" 
+                        className={`${isDarkMode ? 'border-gray-600 text-white' : 'border-gray-400 text-gray-900'}`}
+                      />
+                      <Label htmlFor="paid" className={`${labelClasses} text-sm cursor-pointer`}>
+                        Paid subscribers
+                      </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="followers" id="followers" />
-                      <Label htmlFor="followers" className={`${labelClasses} text-sm cursor-pointer`}>Followers</Label>
+                      <RadioGroupItem 
+                        value="followers" 
+                        id="followers"
+                        className={`${isDarkMode ? 'border-gray-600 text-white' : 'border-gray-400 text-gray-900'}`}
+                      />
+                      <Label htmlFor="followers" className={`${labelClasses} text-sm cursor-pointer`}>
+                        Followers
+                      </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="public" id="public" />
-                      <Label htmlFor="public" className={`${labelClasses} text-sm cursor-pointer`}>Public</Label>
+                      <RadioGroupItem 
+                        value="public" 
+                        id="public"
+                        className={`${isDarkMode ? 'border-gray-600 text-white' : 'border-gray-400 text-gray-900'}`}
+                      />
+                      <Label htmlFor="public" className={`${labelClasses} text-sm cursor-pointer`}>
+                        Public
+                      </Label>
                     </div>
                   </RadioGroup>
                 </div>
@@ -331,15 +352,15 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label className={`${labelClasses} text-sm`}>Twitter/X</Label>
-                      <Switch />
+                      <Switch className={`border ${borderClasses}`} />
                     </div>
                     <div className="flex items-center justify-between">
                       <Label className={`${labelClasses} text-sm`}>LinkedIn</Label>
-                      <Switch />
+                      <Switch className={`border ${borderClasses}`} />
                     </div>
                     <div className="flex items-center justify-between">
                       <Label className={`${labelClasses} text-sm`}>Telegram</Label>
-                      <Switch />
+                      <Switch className={`border ${borderClasses}`} />
                     </div>
                   </div>
                 </div>
