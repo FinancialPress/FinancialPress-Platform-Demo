@@ -110,9 +110,9 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   const connectedCount = platforms.filter(p => p.connected).length;
 
-  if (connectionStep === 'connect' && selectedPlatform) {
-    return (
-      <div className={`min-h-screen ${background}`}>
+  return (
+    <div className={`min-h-screen w-full ${background}`}>
+      {connectionStep === 'connect' && selectedPlatform ? (
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
             <CardHeader>
@@ -165,13 +165,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
             </CardContent>
           </Card>
         </div>
-      </div>
-    );
-  }
-
-  if (connectionStep === 'authorize' && selectedPlatform) {
-    return (
-      <div className={`min-h-screen ${background}`}>
+      ) : connectionStep === 'authorize' && selectedPlatform ? (
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
             <CardContent className="p-8 sm:p-12 text-center">
@@ -190,99 +184,95 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
             </CardContent>
           </Card>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className={`min-h-screen ${background}`}>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
-          <CardHeader className="text-center">
-            <CardTitle className={`text-2xl sm:text-3xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              Connect Your Accounts
-            </CardTitle>
-            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Connect your social media accounts to start sharing content and earning FPT tokens
-            </p>
-            <div className="text-center">
-              {connectedCount > 0 && (
-                <Badge className="bg-green-600 text-white text-xs sm:text-sm">
-                  {connectedCount} platform{connectedCount !== 1 ? 's' : ''} connected
-                </Badge>
-              )}
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4 sm:space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {platforms.map((platform) => (
-                <Card 
-                  key={platform.id} 
-                  className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200 hover:bg-gray-100'} cursor-pointer transition-all ${platform.connected ? 'ring-2 ring-green-500' : ''}`}
-                  onClick={() => !platform.connected && handlePlatformSelect(platform)}
-                >
-                  <CardContent className="p-3 sm:p-4">
-                    <div className="flex items-center space-x-2 sm:space-x-3">
-                      <div className={`w-8 h-8 sm:w-12 sm:h-12 ${platform.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                        <span className="text-lg sm:text-2xl">{platform.icon}</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-1 sm:space-x-2">
-                          <h3 className={`font-semibold text-sm sm:text-base truncate ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            {platform.name}
-                          </h3>
-                          {platform.connected && <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />}
-                        </div>
-                        <p className={`text-xs sm:text-sm line-clamp-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                          {platform.description}
-                        </p>
-                      </div>
-                      {!platform.connected && <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} flex-shrink-0`} />}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} p-3 sm:p-4 rounded-lg`}>
-              <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                Why connect platforms?
-              </h4>
-              <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} space-y-1`}>
-                <li>Seamless content distribution across multiple channels</li>
-                <li>Unified analytics and performance tracking</li>
-                <li>Automated posting and scheduling capabilities</li>
-                <li>Maximize your earning potential with wider reach</li>
-              </ul>
-            </div>
-
-            <div className="text-center space-y-4">
-              <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6">
-                <Button 
-                  variant="outline"
-                  className={`px-6 sm:px-8 py-2 text-sm sm:text-base ${
-                    isDarkMode
-                      ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
-                      : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
-                  }`}
-                  onClick={onContinue}
-                >
-                  Do this later
-                </Button>
-                <Button 
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
-                  onClick={onContinue}
-                >
-                  Continue <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
-                </Button>
-              </div>
-              <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'} mt-2`}>
-                You can connect more platforms later from your settings
+      ) : (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+            <CardHeader className="text-center">
+              <CardTitle className={`text-2xl sm:text-3xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                Connect Your Accounts
+              </CardTitle>
+              <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Connect your social media accounts to start sharing content and earning FPT tokens
               </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              <div className="text-center">
+                {connectedCount > 0 && (
+                  <Badge className="bg-green-600 text-white text-xs sm:text-sm">
+                    {connectedCount} platform{connectedCount !== 1 ? 's' : ''} connected
+                  </Badge>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                {platforms.map((platform) => (
+                  <Card 
+                    key={platform.id} 
+                    className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200 hover:bg-gray-100'} cursor-pointer transition-all ${platform.connected ? 'ring-2 ring-green-500' : ''}`}
+                    onClick={() => !platform.connected && handlePlatformSelect(platform)}
+                  >
+                    <CardContent className="p-3 sm:p-4">
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className={`w-8 h-8 sm:w-12 sm:h-12 ${platform.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                          <span className="text-lg sm:text-2xl">{platform.icon}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-1 sm:space-x-2">
+                            <h3 className={`font-semibold text-sm sm:text-base truncate ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                              {platform.name}
+                            </h3>
+                            {platform.connected && <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />}
+                          </div>
+                          <p className={`text-xs sm:text-sm line-clamp-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            {platform.description}
+                          </p>
+                        </div>
+                        {!platform.connected && <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} flex-shrink-0`} />}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} p-3 sm:p-4 rounded-lg`}>
+                <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                  Why connect platforms?
+                </h4>
+                <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} space-y-1`}>
+                  <li>Seamless content distribution across multiple channels</li>
+                  <li>Unified analytics and performance tracking</li>
+                  <li>Automated posting and scheduling capabilities</li>
+                  <li>Maximize your earning potential with wider reach</li>
+                </ul>
+              </div>
+
+              <div className="text-center space-y-4">
+                <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6">
+                  <Button 
+                    variant="outline"
+                    className={`px-6 sm:px-8 py-2 text-sm sm:text-base ${
+                      isDarkMode
+                        ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
+                        : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
+                    }`}
+                    onClick={onContinue}
+                  >
+                    Do this later
+                  </Button>
+                  <Button 
+                    className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
+                    onClick={onContinue}
+                  >
+                    Continue <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+                  </Button>
+                </div>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'} mt-2`}>
+                  You can connect more platforms later from your settings
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };
