@@ -6,11 +6,12 @@ import TopicSelection from './onboarding/TopicSelection';
 import CreatorSelection from './onboarding/CreatorSelection';
 import CreatorProfileSetup from './onboarding/CreatorProfileSetup';
 import DistributorProfileSetup from './onboarding/DistributorProfileSetup';
+import OnboardingWelcome from './onboarding/OnboardingWelcome';
 
 interface OnboardingFlowProps {
   userRole?: 'creator' | 'distributor';
   onComplete?: () => void;
-  onLandingPage?: () => void;
+  onLandingPage?: () => void; // Add prop to navigate home
 }
 
 const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: OnboardingFlowProps) => {
@@ -35,7 +36,7 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: Onb
   };
 
   const handleComplete = () => {
-    // Navigate directly to user feed (screen 3) with onboarding flag
+    // Navigate to user feed (screen 3 in the main app)
     onComplete?.();
   };
 
@@ -58,9 +59,16 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: Onb
         );
       case 3:
         return userRole === 'creator' ? (
-          <CreatorProfileSetup onContinue={handleComplete} />
+          <CreatorProfileSetup onContinue={() => setCurrentStep(4)} />
         ) : (
-          <DistributorProfileSetup onContinue={handleComplete} />
+          <DistributorProfileSetup onContinue={() => setCurrentStep(4)} />
+        );
+      case 4:
+        return (
+          <OnboardingWelcome
+            userRole={userRole}
+            onComplete={handleComplete}
+          />
         );
       default:
         return (
@@ -83,10 +91,10 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: Onb
         <X className="w-6 h-6 text-gray-300" />
       </button>
       <div className="max-w-[1440px] mx-auto px-8 py-20">
-        {/* Progress Steps - Updated to show only 3 steps */}
+        {/* Progress Steps */}
         <div className="flex justify-center mb-12">
           <div className="flex items-center space-x-4">
-            {[1, 2, 3].map((step) => (
+            {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
                   currentStep >= step 
@@ -95,7 +103,7 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: Onb
                 }`}>
                   {currentStep > step ? <Check className="w-6 h-6" /> : step}
                 </div>
-                {step < 3 && (
+                {step < 4 && (
                   <div className={`w-16 h-1 mx-2 ${
                     currentStep > step 
                       ? 'bg-yellow-500'
@@ -114,3 +122,4 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: Onb
 };
 
 export default OnboardingFlow;
+

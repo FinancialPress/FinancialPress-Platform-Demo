@@ -15,22 +15,12 @@ const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [searchSymbol, setSearchSymbol] = useState('');
-  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const handleNavigate = (screen: number, symbol?: string) => {
     setCurrentScreen(screen);
     if (symbol) {
       setSearchSymbol(symbol);
     }
-    // Reset onboarding flag when navigating normally
-    if (screen !== 3) {
-      setShowOnboarding(false);
-    }
-  };
-
-  const handleOnboardingComplete = () => {
-    setShowOnboarding(true);
-    setCurrentScreen(3); // Navigate to UserFeed with onboarding flag
   };
 
   const handleToggleDarkMode = () => {
@@ -57,8 +47,8 @@ const Index = () => {
   const screens = [
     <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <SignUpPage key="signup" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} onComplete={handleOnboardingComplete} />,
-    <UserFeed key="feed" onNavigate={handleNavigate} isDarkMode={isDarkMode} showOnboarding={showOnboarding} />,
+    <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} />,
+    <UserFeed key="feed" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <ContentCreator key="creator" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <StockChartData key="stockchart" symbol={searchSymbol} onNavigate={handleNavigate} isDarkMode={isDarkMode} />,

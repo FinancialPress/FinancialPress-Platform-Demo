@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Bell, User, Sun, Moon, Menu, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -216,7 +215,7 @@ const Header = ({
               
               {shouldShowLoggedIn ? (
                 <div className="flex items-center space-x-2 sm:space-x-4">
-                  {/* Account Profile */}
+                 {/* Account Profile */}
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
                       <AvatarImage src="/placeholder.svg" alt="Profile" />
@@ -227,13 +226,13 @@ const Header = ({
                     <div className="hidden sm:flex flex-col">
                       <div className="flex items-center space-x-2">
                         <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
-                        <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
                         <Badge className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-semibold">
                           Creator Newcomer
                         </Badge>
                       </div>
                       <div className="flex items-center space-x-3">
                         <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
+                        <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
                       </div>
                     </div>
                   </div>
