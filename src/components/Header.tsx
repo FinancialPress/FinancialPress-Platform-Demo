@@ -236,14 +236,6 @@ const Header = ({
                       </div>
                     </div>
                   </div>
-
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
-                  >
-                    <Settings className="w-4 h-4" />
-                  </Button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
