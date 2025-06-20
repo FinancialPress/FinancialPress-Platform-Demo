@@ -37,104 +37,109 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
   const feedPosts = [
     {
       id: 1,
-      creator: "CryptoAnalyst",
-      handle: "@cryptoanalyst",
-      badge: "Gold Creator",
-      timeAgo: "2h",
+      creator: 'CryptoAnalyst',
+      handle: '@cryptoanalyst',
+      badge: 'Gold Creator',
+      timeAgo: '2h',
       content: "Bitcoin Bull Run: What's Driving the $94K Rally?",
-      description: "The recent surge past $94K represents a significant psychological barrier. Key factors include increased institutional adoption, favorable regulatory news, and strong on-chain metrics. The momentum appears sustainable with support levels holding firm.",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop",
+      description:
+        'The recent surge past $94K represents a significant psychological barrier. Key factors include increased institutional adoption, favorable regulatory news, and strong on-chain metrics. The momentum appears sustainable with support levels holding firm.',
+      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop',
       engagement: {
         likes: 2400,
         shares: 156,
         comments: 89,
-        views: 12500
+        views: 12500,
       },
-      earnings: "45.8 FPT",
-      category: "Crypto Analysis",
+      earnings: '45.8 FPT',
+      category: 'Crypto Analysis',
       isRecommended: true,
-      isFollowing: false
+      isFollowing: false,
     },
     {
       id: 2,
-      creator: "DeFiGuru",
-      handle: "@defiguru",
-      badge: "Platinum Creator",
-      timeAgo: "4h",
-      content: "DeFi Renaissance: Top 5 Protocols to Watch in 2024",
-      description: "The DeFi landscape is evolving rapidly. Here are the protocols showing the most promise: 1) Uniswap V4 with hooks, 2) Aave's GHO stablecoin expansion, 3) Compound III growth, 4) Curve's new tokenomics, 5) Lido's staking dominance. Each represents a unique opportunity in the evolving ecosystem.",
+      creator: 'DeFiGuru',
+      handle: '@defiguru',
+      badge: 'Platinum Creator',
+      timeAgo: '4h',
+      content: 'DeFi Renaissance: Top 5 Protocols to Watch in 2024',
+      description:
+        "The DeFi landscape is evolving rapidly. Here are the protocols showing the most promise: 1) Uniswap V4 with hooks, 2) Aave's GHO stablecoin expansion, 3) Compound III growth, 4) Curve's new tokenomics, 5) Lido's staking dominance. Each represents a unique opportunity in the evolving ecosystem.",
       engagement: {
         likes: 1800,
         shares: 134,
         comments: 67,
-        views: 8900
+        views: 8900,
       },
-      earnings: "38.2 FPT",
-      category: "DeFi",
-      isFollowing: true
+      earnings: '38.2 FPT',
+      category: 'DeFi',
+      isFollowing: true,
     },
     {
       id: 3,
-      creator: "NFTTracker",
-      handle: "@nfttracker",
-      badge: "Silver Creator",
-      timeAgo: "6h",
-      content: "NFT Market Recovery: Blue Chips Lead the Way",
-      description: "Floor prices for top collections are showing signs of recovery. BAYC, CryptoPunks, and Azuki are leading the charge with increased trading volume and whale accumulation patterns. The market sentiment is shifting positive.",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop",
+      creator: 'NFTTracker',
+      handle: '@nfttracker',
+      badge: 'Silver Creator',
+      timeAgo: '6h',
+      content: 'NFT Market Recovery: Blue Chips Lead the Way',
+      description:
+        'Floor prices for top collections are showing signs of recovery. BAYC, CryptoPunks, and Azuki are leading the charge with increased trading volume and whale accumulation patterns. The market sentiment is shifting positive.',
+      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop',
       engagement: {
         likes: 1200,
         shares: 89,
         comments: 45,
-        views: 6700
+        views: 6700,
       },
-      earnings: "28.5 FPT",
-      category: "NFTs"
+      earnings: '28.5 FPT',
+      category: 'NFTs',
     },
     {
       id: 4,
-      creator: "TechAnalyst",
-      handle: "@techanalyst",
-      badge: "Gold Creator",
-      timeAgo: "8h",
-      content: "AI Revolution in Finance: Which Stocks Will Soar?",
-      description: "AI integration in financial services is accelerating. Companies like NVDA, MSFT, and emerging fintech players are positioning themselves for massive growth. The convergence of AI and finance presents unprecedented opportunities for investors.",
+      creator: 'TechAnalyst',
+      handle: '@techanalyst',
+      badge: 'Gold Creator',
+      timeAgo: '8h',
+      content: 'AI Revolution in Finance: Which Stocks Will Soar?',
+      description:
+        'AI integration in financial services is accelerating. Companies like NVDA, MSFT, and emerging fintech players are positioning themselves for massive growth. The convergence of AI and finance presents unprecedented opportunities for investors.',
       engagement: {
         likes: 2100,
         shares: 167,
         comments: 78,
-        views: 11200
+        views: 11200,
       },
-      earnings: "42.3 FPT",
-      category: "AI & Tech",
-      isRecommended: true
+      earnings: '42.3 FPT',
+      category: 'AI & Tech',
+      isRecommended: true,
     },
     {
       id: 5,
-      creator: "MacroMind",
-      handle: "@macromind",
-      badge: "Platinum Creator",
-      timeAgo: "1d",
-      content: "Macro Outlook: Fed Policy Impact on Crypto Markets",
-      description: "The Federal Reserve's monetary policy decisions continue to significantly impact cryptocurrency markets. Current signals suggest a dovish stance may benefit risk assets including crypto. Key levels to watch and timing considerations for the next quarter.",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=300&fit=crop",
+      creator: 'MacroMind',
+      handle: '@macromind',
+      badge: 'Platinum Creator',
+      timeAgo: '1d',
+      content: 'Macro Outlook: Fed Policy Impact on Crypto Markets',
+      description:
+        "The Federal Reserve's monetary policy decisions continue to significantly impact cryptocurrency markets. Current signals suggest a dovish stance may benefit risk assets including crypto. Key levels to watch and timing considerations for the next quarter.",
+      image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=300&fit=crop',
       engagement: {
         likes: 3200,
         shares: 289,
         comments: 123,
-        views: 15800
+        views: 15800,
       },
-      earnings: "58.7 FPT",
-      category: "Macroeconomics",
-      isFollowing: true
-    }
+      earnings: '58.7 FPT',
+      category: 'Macroeconomics',
+      isFollowing: true,
+    },
   ];
 
   const handleShare = (content: any) => {
     setSelectedContent({
       title: content.content,
       creator: content.creator,
-      estimatedEarnings: "2.4 FPT"
+      estimatedEarnings: '2.4 FPT',
     });
     setShowShareModal(true);
   };
@@ -149,7 +154,7 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
       name: post.creator,
       postTitle: post.content,
       postId: `post-${post.id}`,
-      isVerified: post.badge === 'Platinum Creator'
+      isVerified: post.badge === 'Platinum Creator',
     });
     setShowSupportModal(true);
   };
@@ -174,19 +179,19 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
             <div>
               <div className="flex items-center space-x-2 mb-1">
                 <span className={`${textClasses} font-semibold`}>{post.creator}</span>
-                <Badge className={`text-xs ${
-                  post.badge === 'Platinum' ? 'bg-purple-500 text-white' : 
-                  post.badge === 'Gold' ? 'bg-yellow-500 text-black' : 
-                  'bg-gray-500 text-white'
-                }`}>
+                <Badge
+                  className={`text-xs ${
+                    post.badge === 'Platinum Creator'
+                      ? 'bg-purple-500 text-white'
+                      : post.badge === 'Gold Creator'
+                        ? 'bg-yellow-500 text-black'
+                        : 'bg-gray-500 text-white'
+                  }`}
+                >
                   {post.badge}
                 </Badge>
-                {post.isFollowing && (
-                  <Badge className="bg-blue-600 text-white text-xs">Following</Badge>
-                )}
-                {post.isRecommended && (
-                  <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>
-                )}
+                {post.isFollowing && <Badge className="bg-blue-600 text-white text-xs">Following</Badge>}
+                {post.isRecommended && <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>}
               </div>
               <div className={`flex items-center space-x-2 ${mutedText} text-sm`}>
                 <span>{post.handle}</span>
@@ -213,11 +218,7 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
         {/* Image */}
         {post.image && (
           <div className="mb-4">
-            <img 
-              src={post.image} 
-              alt={post.content}
-              className="w-full h-80 rounded-lg object-cover"
-            />
+            <img src={post.image} alt={post.content} className="w-full h-80 rounded-lg object-cover" />
           </div>
         )}
 
@@ -232,7 +233,9 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
         </div>
 
         {/* Action Buttons */}
-        <div className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+        <div
+          className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}
+        >
           <div className="flex items-center space-x-8">
             <button className={`flex items-center space-x-2 ${mutedText} hover:text-red-400 transition-colors`}>
               <Heart className="w-5 h-5" />
@@ -246,7 +249,7 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
               <Repeat2 className="w-5 h-5" />
               <span>{post.engagement.shares}</span>
             </button>
-            <button 
+            <button
               className={`flex items-center space-x-2 ${mutedText} hover:text-yellow-400 transition-colors`}
               onClick={() => handleShare(post)}
             >
@@ -254,7 +257,7 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
               <span>Share & Earn</span>
             </button>
           </div>
-          <button 
+          <button
             className={`${mutedText} hover:text-yellow-400 transition-colors flex items-center space-x-2`}
             title="Tip"
             aria-label="Tip"
@@ -287,9 +290,7 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
             </div>
 
             {/* Feed Posts */}
-            <div className="space-y-6">
-              {feedPosts.map(renderFeedPost)}
-            </div>
+            <div className="space-y-6">{feedPosts.map(renderFeedPost)}</div>
 
             {/* Load More */}
             <div className="text-center">
@@ -302,37 +303,36 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
             {/* Embedded Earnings Tracker */}
-            <EarningsTracker 
+            <EarningsTracker
               isVisible={true}
               onClose={() => {}}
               onNavigate={onNavigate}
               isEmbedded={true}
+              isDarkMode={isDarkMode} // Added
             />
 
-            <UserInterests />
+            <UserInterests isDarkMode={isDarkMode} /> {/* Added */}
 
             {/* New Who to Follow panel */}
-            <WhoToFollow />
+            <WhoToFollow isDarkMode={isDarkMode} /> {/* Added */}
 
-            {/* Panels below Who to Follow: Top Creators, Top Sharers, Top Comments */}
-            <TopCreators />
-            <TopSharers />
-            <TopComments />
-            <TrendingTopics />
+            <TopCreators isDarkMode={isDarkMode} /> {/* Added */}
+            <TopSharers isDarkMode={isDarkMode} /> {/* Added */}
+            <TopComments isDarkMode={isDarkMode} /> {/* Added */}
+            <TrendingTopics isDarkMode={isDarkMode} /> {/* Added */}
 
             {/* UserStats moved to bottom */}
-            <UserStats showStats={["Following", "Content Shared", "Tips Received"]} />
+            <UserStats
+              isDarkMode={isDarkMode} // Added
+              showStats={['Following', 'Content Shared', 'Tips Received']}
+            />
           </div>
         </div>
       </section>
 
       {/* Share Modal */}
       {showShareModal && selectedContent && (
-        <ShareEarnFlow 
-          post={selectedContent}
-          onClose={() => setShowShareModal(false)}
-          onShare={handleShareComplete}
-        />
+        <ShareEarnFlow post={selectedContent} onClose={() => setShowShareModal(false)} onShare={handleShareComplete} />
       )}
 
       {/* Support Modal */}
