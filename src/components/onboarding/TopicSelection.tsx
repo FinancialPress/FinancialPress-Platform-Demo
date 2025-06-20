@@ -27,13 +27,9 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   const description = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const noteText = 'text-gray-500';
 
-  const unselectedLight =
-    'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black ' +
-    'active:bg-yellow-500 active:text-black focus:bg-yellow-500 focus:text-black';
-
-  const unselectedDark =
-    'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white hover:border-gray-500 ' +
-    'active:bg-yellow-500 active:text-black focus:bg-yellow-500 focus:text-black';
+  const unselectedButton = isDarkMode
+    ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white'
+    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black';
 
   return (
     <Card className={`${bg} max-w-4xl mx-auto`}>
@@ -61,9 +57,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
                 className={`p-4 h-auto font-medium border transition-all ${
                   isSelected
                     ? 'bg-yellow-500 text-black border-yellow-500'
-                    : isDarkMode
-                    ? unselectedDark
-                    : unselectedLight
+                    : unselectedButton
                 }`}
                 onClick={() => onTopicToggle(topic)}
               >
