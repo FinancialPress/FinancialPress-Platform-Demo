@@ -109,7 +109,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   if (connectionStep === 'connect' && selectedPlatform) {
     return (
-      <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-white'} py-8`}>
+      <div className="w-full min-h-screen py-8">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
             <CardHeader>
@@ -168,7 +168,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   if (connectionStep === 'authorize' && selectedPlatform) {
     return (
-      <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-white'} py-8`}>
+      <div className="w-full min-h-screen py-8">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
             <CardContent className="p-8 sm:p-12 text-center">
@@ -192,7 +192,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
   }
 
   return (
-    <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-white'} py-8`}>
+    <div className="w-full min-h-screen py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
           <CardHeader className="text-center">
