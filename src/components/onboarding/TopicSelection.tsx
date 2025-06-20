@@ -26,9 +26,6 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   const heading = isDarkMode ? 'text-white' : 'text-black';
   const description = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const noteText = isDarkMode ? 'text-gray-500' : 'text-gray-500';
-  const outlineBase = isDarkMode
-    ? 'border-gray-600 text-gray-300 hover:border-yellow-500 hover:text-yellow-500'
-    : 'border-gray-300 text-gray-600 hover:border-yellow-500 hover:text-yellow-500';
 
   return (
     <Card className={`${bg} max-w-4xl mx-auto`}>
@@ -50,27 +47,31 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
         </div>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8">
-          {topics.map((topic) => (
-            <Button
-              key={topic}
-              variant={selectedTopics.includes(topic) ? "default" : "outline"}
-              className={`p-4 h-auto ${
-                selectedTopics.includes(topic) 
-                  ? 'bg-yellow-500 text-black border-yellow-500' 
-                  : outlineBase
-              }`}
-              onClick={() => onTopicToggle(topic)}
-            >
-              {selectedTopics.includes(topic) && <Check className="w-4 h-4 mr-2" />}
-              {topic}
-            </Button>
-          ))}
+          {topics.map((topic) => {
+            const isSelected = selectedTopics.includes(topic);
+
+            const buttonBase = 'p-4 h-auto border font-medium';
+            const selectedButton = 'bg-yellow-500 text-black border-yellow-500';
+            const unselectedButton = isDarkMode
+              ? 'border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500'
+              : 'border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600';
+
+            return (
+              <Button
+                key={topic}
+                className={`${buttonBase} ${isSelected ? selectedButton : unselectedButton}`}
+                onClick={() => onTopicToggle(topic)}
+              >
+                {isSelected && <Check className="w-4 h-4 mr-2" />}
+                {topic}
+              </Button>
+            );
+          })}
         </div>
 
         <div className="text-center space-y-4">
           <div className="flex justify-center space-x-6">
             <Button 
-              variant="outline"
               className={`px-8 py-2 ${
                 isDarkMode
                   ? 'border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
@@ -87,7 +88,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
               Continue <ChevronRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
-          <p className={`text-xs mt-2 ${noteText}`}>
+          <p className={`text-xs ${noteText}`}>
             You can connect more platforms later from your settings
           </p>
         </div>
