@@ -228,12 +228,12 @@ const Header = ({
                       <div className="flex items-center space-x-2">
                         <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
                         <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
-                        <Badge className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-semibold">
-                          Creator Newcomer
-                        </Badge>
                       </div>
                       <div className="flex items-center space-x-3">
                         <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
+                        <Badge className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-semibold">
+                          Creator Newcomer
+                        </Badge>
                       </div>
                     </div>
                   </div>
