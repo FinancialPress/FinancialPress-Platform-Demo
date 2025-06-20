@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 import Header from '../components/Header';
 import LandingPage from '../components/LandingPage';
 import SignUpPage from '../components/SignUpPage';
@@ -14,10 +15,10 @@ import FinalCTA from '../components/FinalCTA';
 
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const [searchSymbol, setSearchSymbol] = useState('');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   const handleNavigate = (screen: number, symbol?: string) => {
     // Special handling for Content Creator - navigate to dedicated page
@@ -39,10 +40,6 @@ const Index = () => {
   const handleOnboardingComplete = () => {
     setShowOnboarding(true);
     setCurrentScreen(3); // Navigate to UserFeed with onboarding flag
-  };
-
-  const handleToggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
   };
 
   // Mock data for ShareEarnFlow
@@ -93,7 +90,7 @@ const Index = () => {
           onNavigate={handleNavigate} 
           currentScreen={currentScreen}
           isDarkMode={isDarkMode}
-          onToggleDarkMode={handleToggleDarkMode}
+          onToggleDarkMode={toggleTheme}
         />
       )}
       <div className="w-full">

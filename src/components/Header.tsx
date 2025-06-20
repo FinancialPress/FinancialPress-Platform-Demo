@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Search, Bell, User, Sun, Moon, Menu, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { useTheme } from '../contexts/ThemeContext';
 import TickerBar from './TickerBar';
 
 interface HeaderProps {
@@ -23,12 +23,17 @@ const Header = ({
   isLoggedIn = false, 
   isDemoMinimized = false, 
   onToggleDemo,
-  isDarkMode = true,
-  onToggleDarkMode
+  isDarkMode: propIsDarkMode,
+  onToggleDarkMode: propOnToggleDarkMode
 }: HeaderProps) => {
   const [searchValue, setSearchValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  
+  // Use theme context, but fallback to props for backward compatibility
+  const themeContext = useTheme();
+  const isDarkMode = propIsDarkMode !== undefined ? propIsDarkMode : themeContext.isDarkMode;
+  const onToggleDarkMode = propOnToggleDarkMode || themeContext.toggleTheme;
 
   // Determine if user should be shown as logged in based on current screen
   const shouldShowLoggedIn = [3, 4, 5, 6].includes(currentScreen) || isLoggedIn;

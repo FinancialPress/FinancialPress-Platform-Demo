@@ -3,14 +3,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface QuickActionsProps {
   isDarkMode?: boolean;
   onNavigate?: (screen: number) => void;
 }
 
-const QuickActions = ({ isDarkMode = true, onNavigate }: QuickActionsProps) => {
+const QuickActions = ({ isDarkMode: propIsDarkMode, onNavigate }: QuickActionsProps) => {
   const navigate = useNavigate();
+  const themeContext = useTheme();
+  const isDarkMode = propIsDarkMode !== undefined ? propIsDarkMode : themeContext.isDarkMode;
 
   const cardClasses = isDarkMode 
     ? "bg-gray-900 border-gray-800"

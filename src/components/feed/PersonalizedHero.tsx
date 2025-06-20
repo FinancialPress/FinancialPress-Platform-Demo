@@ -2,18 +2,23 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface PersonalizedHeroProps {
   onNavigate?: (screen: number) => void;
 }
 
 const PersonalizedHero = ({ onNavigate }: PersonalizedHeroProps) => {
+  const { isDarkMode } = useTheme();
+  
+  const textClasses = isDarkMode ? 'text-gray-300' : 'text-gray-600';
+
   return (
     <div className="text-center mb-6">
       <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
         Your Personalized Financial Feed
       </h1>
-      <p className="text-base text-gray-300 mb-4 max-w-2xl mx-auto">
+      <p className={`text-base ${textClasses} mb-4 max-w-2xl mx-auto`}>
         Content curated based on your interests in Crypto, DeFi, and AI Trading.
       </p>
       <div className="flex gap-3 justify-center mb-6">
