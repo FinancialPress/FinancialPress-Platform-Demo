@@ -227,7 +227,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center gap-x-4">
-                          <Switch 
+                        <Switch 
                           checked={enableLiveChat}
                           onCheckedChange={setEnableLiveChat}
                           className={`border ${borderClasses}`}
@@ -280,18 +280,17 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <span className={`${mutedText} text-sm`}>Estimated Earnings</span>
                   <span className="text-yellow-400 text-sm font-medium">15-30 FPT</span>
                 </div>
-               <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
-            <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} text-sm`}>
-              Save as Draft
-            </Button>
-            <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold text-sm"
-              onClick={handlePublish}
-            >
-              Publish Content
-            </Button>
-          </div>
-          </div>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                  <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} text-sm`}>
+                    Save as Draft
+                  </Button>
+                  <Button 
+                    className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold text-sm"
+                    onClick={handlePublish}
+                  >
+                    Publish Content
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
