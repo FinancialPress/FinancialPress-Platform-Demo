@@ -28,6 +28,10 @@ const QuickActions = ({ isDarkMode = true, onNavigate }: QuickActionsProps) => {
     navigate('/create');
   };
 
+  const handleViewDashboard = () => {
+    onNavigate?.(4); // Navigate to Dashboard screen
+  };
+
   return (
     <Card className={cardClasses}>
       <CardContent className="p-4">
@@ -49,7 +53,7 @@ const QuickActions = ({ isDarkMode = true, onNavigate }: QuickActionsProps) => {
           <Button
             variant="outline"
             className={`w-full text-sm ${outlineButtonClasses}`}
-            onClick={() => onNavigate?.(4)} // Dashboard/Analytics
+            onClick={handleViewDashboard}
           >
             View Analytics
           </Button>

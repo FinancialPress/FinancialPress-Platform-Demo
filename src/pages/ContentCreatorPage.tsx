@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import ContentCreator from '../components/ContentCreator';
 
@@ -9,16 +10,18 @@ interface ContentCreatorPageProps {
 }
 
 const ContentCreatorPage = ({ onNavigate, isDarkMode = true }: ContentCreatorPageProps) => {
+  const navigate = useNavigate();
+
   const handleClose = () => {
-    // Navigate back to user feed (screen 3)
-    onNavigate?.(3);
+    // Navigate back to home page which shows the user feed
+    navigate('/');
   };
 
   return (
     <div className="min-h-screen bg-black text-white relative">
-      {/* Close button - top right */}
+      {/* Close button - fixed positioning with higher z-index */}
       <button
-        className="absolute top-6 right-8 z-20 bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition-colors"
+        className="fixed top-6 right-8 z-50 bg-gray-800 rounded-full p-3 hover:bg-gray-700 transition-colors shadow-lg"
         title="Close and return to feed"
         onClick={handleClose}
         aria-label="Close"
