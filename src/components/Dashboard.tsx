@@ -433,6 +433,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
+                  {/* Primary yellow button */}
                   <Button 
                     className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold flex items-center justify-center"
                     onClick={() => onNavigate?.(5)}
@@ -440,31 +441,52 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                     <DollarSign className="w-4 h-4 mr-2" />
                     Create and Earn
                   </Button>
+
+                  {/* Light mode optimized secondary buttons */}
                   <Button 
-                    variant="outline" 
-                    className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} flex items-center justify-center`}
+                    className={`w-full flex items-center justify-center font-semibold ${
+                      isDarkMode 
+                        ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                    }`}
+                    variant="outline"
                     onClick={() => onNavigate?.(3)}
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Share with Insight
                   </Button>
+
                   <Button 
-                    variant="outline" 
-                    className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} flex items-center justify-center`}
+                    className={`w-full flex items-center justify-center font-semibold ${
+                      isDarkMode 
+                        ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                    }`}
+                    variant="outline"
                   >
                     <Video className="w-4 h-4 mr-2" />
                     Host a Live Session
                   </Button>
+
                   <Button 
-                    variant="outline" 
-                    className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} flex items-center justify-center`}
+                    className={`w-full flex items-center justify-center font-semibold ${
+                      isDarkMode 
+                        ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                    }`}
+                    variant="outline"
                   >
                     <UserPlus className="w-4 h-4 mr-2" />
                     Connect with People
                   </Button>
+
                   <Button 
-                    variant="outline" 
-                    className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} flex items-center justify-center`}
+                    className={`w-full flex items-center justify-center font-semibold ${
+                      isDarkMode 
+                        ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                    }`}
+                    variant="outline"
                   >
                     <DollarSign className="w-4 h-4 mr-2" />
                     Withdraw Funds
