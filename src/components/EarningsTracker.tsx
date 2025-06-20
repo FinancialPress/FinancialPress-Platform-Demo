@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,7 @@ interface EarningsTrackerProps {
   isEmbedded?: boolean;
   isDarkMode?: boolean;
   customEarnings?: string;
+  isFromOnboarding?: boolean;
 }
 
 const EarningsTracker: React.FC<EarningsTrackerProps> = ({
@@ -21,6 +21,7 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
   isEmbedded = false,
   isDarkMode = true,
   customEarnings,
+  isFromOnboarding = false,
 }) => {
   const [balance, setBalance] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -33,7 +34,7 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
   const subCardBg = isDarkMode ? 'bg-gray-800' : 'bg-gray-100';
 
   useEffect(() => {
-    if (customEarnings) {
+    if (isFromOnboarding && customEarnings) {
       const targetValue = parseFloat(customEarnings);
       if (targetValue > balance) {
         setIsAnimating(true);
@@ -41,7 +42,10 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
           setBalance((prev) => {
             if (prev >= targetValue) {
               clearInterval(interval);
-              setIsAnimating(false);
+              // Stop animation after 5 seconds
+              setTimeout(() => {
+                setIsAnimating(false);
+              }, 5000);
               return targetValue;
             }
             return prev + 0.1;
@@ -51,26 +55,12 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
       } else {
         setBalance(targetValue);
       }
+    } else if (!isFromOnboarding) {
+      // Show original earnings when not from onboarding
+      setBalance(5.1);
+      setIsAnimating(false);
     }
-  }, [customEarnings, balance]);
-
-  useEffect(() => {
-    if (isVisible && !customEarnings) {
-      setIsAnimating(true);
-      // Simulate real-time earnings
-      const interval = setInterval(() => {
-        setBalance((prev) => prev + 0.1);
-      }, 500);
-
-      // Stop animation after 5 seconds
-      setTimeout(() => {
-        setIsAnimating(false);
-        clearInterval(interval);
-      }, 5000);
-
-      return () => clearInterval(interval);
-    }
-  }, [isVisible, customEarnings]);
+  }, [customEarnings, balance, isFromOnboarding]);
 
   const earningsData = [
     { platform: 'Twitter/X', shares: 3, earnings: '2.4 FPT', engagement: '1.2K views' },
@@ -97,10 +87,10 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
             <div className={`text-2xl font-bold text-yellow-500 mb-1 transition-all duration-300 ${isAnimating ? 'animate-pulse' : ''}`}>
               {balance.toFixed(1)} FPT
             </div>
-            {isAnimating && (
+            {isAnimating && isFromOnboarding && (
               <div className="text-green-400 text-xs animate-pulse">⚡ Earning in real-time...</div>
             )}
-            {!isAnimating && balance > 0 && (
+            {!isAnimating && balance > 0 && isFromOnboarding && (
               <Badge className="bg-green-500 text-black text-xs">✅ You just earned {balance.toFixed(1)} FPT!</Badge>
             )}
           </div>
@@ -109,34 +99,36 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
           <div className="space-y-2 mb-3">
             <div className="flex justify-between text-xs">
               <span className={mutedText}>Total Shares Today</span>
-              <span className="font-semibold">6</span>
+              <span className="font-semibold">{isFromOnboarding ? '0' : '6'}</span>
             </div>
             <div className="flex justify-between text-xs">
               <span className={mutedText}>Total Engagement</span>
-              <span className="font-semibold">2.47K views</span>
+              <span className="font-semibold">{isFromOnboarding ? '0 views' : '2.47K views'}</span>
             </div>
             <div className="flex justify-between text-xs">
               <span className={mutedText}>Avg. per Share</span>
-              <span className="text-green-400 font-semibold">0.85 FPT</span>
+              <span className="text-green-400 font-semibold">{isFromOnboarding ? '0 FPT' : '0.85 FPT'}</span>
             </div>
           </div>
 
-          {/* Platform Breakdown */}
-          <div className="space-y-1 mb-3">
-            <div className={`${mutedText} text-xs font-medium mb-1`}>Platform Breakdown:</div>
-            {earningsData.map((data, index) => (
-              <div
-                key={index}
-                className={`flex items-center justify-between text-xs ${subCardBg} rounded p-1.5`}
-              >
-                <span className={mutedText}>{data.platform}</span>
-                <div className="text-right">
-                  <div className="text-green-400 font-semibold">{data.earnings}</div>
-                  <div className={`${mutedText} text-xs`}>{data.engagement}</div>
+          {/* Platform Breakdown - only show if not from onboarding or if has earnings */}
+          {(!isFromOnboarding || balance > 0) && (
+            <div className="space-y-1 mb-3">
+              <div className={`${mutedText} text-xs font-medium mb-1`}>Platform Breakdown:</div>
+              {earningsData.map((data, index) => (
+                <div
+                  key={index}
+                  className={`flex items-center justify-between text-xs ${subCardBg} rounded p-1.5`}
+                >
+                  <span className={mutedText}>{data.platform}</span>
+                  <div className="text-right">
+                    <div className="text-green-400 font-semibold">{isFromOnboarding ? '0 FPT' : data.earnings}</div>
+                    <div className={`${mutedText} text-xs`}>{isFromOnboarding ? '0 views' : data.engagement}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* CTA Buttons */}
           <div className="space-y-2">
@@ -153,7 +145,7 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
     );
   }
 
-  // Original floating version
+  // ... keep existing code (original floating version)
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {/* Floating Wallet Widget */}

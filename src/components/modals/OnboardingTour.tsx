@@ -118,23 +118,25 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
       </div>
       
       {/* Focused Element Highlight - Remove blur from target */}
-      <style jsx>{`
-        ${stepContent.selector} {
-          position: relative;
-          z-index: 45;
-          filter: none !important;
-          backdrop-filter: none !important;
-        }
-        
-        body:has(.onboarding-active) * {
-          filter: blur(2px);
-        }
-        
-        body:has(.onboarding-active) ${stepContent.selector},
-        body:has(.onboarding-active) ${stepContent.selector} * {
-          filter: none !important;
-        }
-      `}</style>
+      <style>
+        {`
+          ${stepContent.selector} {
+            position: relative;
+            z-index: 45;
+            filter: none !important;
+            backdrop-filter: none !important;
+          }
+          
+          body:has(.onboarding-active) * {
+            filter: blur(2px);
+          }
+          
+          body:has(.onboarding-active) ${stepContent.selector},
+          body:has(.onboarding-active) ${stepContent.selector} * {
+            filter: none !important;
+          }
+        `}
+      </style>
     </>
   );
 };

@@ -31,11 +31,15 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [showWelcomeModal, setShowWelcomeModal] = useState(showOnboarding);
   const [showTour, setShowTour] = useState(false);
   const [earningsAmount, setEarningsAmount] = useState('0.0');
+  const [isFromOnboarding, setIsFromOnboarding] = useState(showOnboarding);
 
   useEffect(() => {
     // Show welcome modal if this is first time from onboarding
     if (showOnboarding) {
       setShowWelcomeModal(true);
+      setIsFromOnboarding(true);
+    } else {
+      setIsFromOnboarding(false);
     }
   }, [showOnboarding]);
 
@@ -59,10 +63,18 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   const handleTourComplete = () => {
     setShowTour(false);
+    // Stop the flashing after tour completes
+    setTimeout(() => {
+      setEarningsAmount('1.0');
+    }, 5000);
   };
 
   const handleSkipTour = () => {
     setShowTour(false);
+    // Stop the flashing after tour is skipped
+    setTimeout(() => {
+      setEarningsAmount('1.0');
+    }, 5000);
   };
 
   const handleEarningsUpdate = () => {
@@ -354,7 +366,8 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
                 onNavigate={onNavigate}
                 isEmbedded={true}
                 isDarkMode={isDarkMode}
-                customEarnings={earningsAmount}
+                customEarnings={isFromOnboarding ? earningsAmount : undefined}
+                isFromOnboarding={isFromOnboarding}
               />
             </div>
 
@@ -369,10 +382,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             <TrendingTopics isDarkMode={isDarkMode} />
 
             {/* UserStats moved to bottom */}
-            <UserStats
-              isDarkMode={isDarkMode}
-              showStats={['Following', 'Content Shared', 'Tips Received']}
-            />
+            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} />
           </div>
         </div>
       </section>
