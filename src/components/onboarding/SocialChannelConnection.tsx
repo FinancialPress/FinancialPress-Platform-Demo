@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ChevronRight, CheckCircle, ArrowLeft, Facebook } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext'; // Added ThemeContext import
 
 interface SocialChannelConnectionProps {
   onContinue: () => void;
@@ -19,6 +19,7 @@ interface Platform {
 }
 
 const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) => {
+  const { isDarkMode } = useTheme(); // Use ThemeContext to get isDarkMode
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
   const [connectionStep, setConnectionStep] = useState<'select' | 'connect' | 'authorize'>('select');
   const [platforms, setPlatforms] = useState<Platform[]>([
@@ -105,7 +106,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
   if (connectionStep === 'connect' && selectedPlatform) {
     return (
       <div className="w-full max-w-2xl mx-auto px-4 sm:px-6">
-        <Card className="bg-gray-900 border-gray-800">
+        <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
           <CardHeader>
             <div className="flex items-center space-x-3">
               <Button variant="ghost" size="sm" onClick={handleBack}>
@@ -116,16 +117,22 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
                   <span className="text-lg sm:text-2xl">{selectedPlatform.icon}</span>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <CardTitle className="text-lg sm:text-2xl text-white truncate">{selectedPlatform.name} Integration</CardTitle>
-                  <p className="text-gray-300 text-sm sm:text-base">{selectedPlatform.description}</p>
+                  <CardTitle className={`text-lg sm:text-2xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                    {selectedPlatform.name} Integration
+                  </CardTitle>
+                  <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {selectedPlatform.description}
+                  </p>
                 </div>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4 sm:space-y-6">
             <div className="bg-gray-800 p-3 sm:p-4 rounded-lg">
-              <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">What you'll get:</h4>
-              <ul className="text-xs sm:text-sm text-gray-300 space-y-1">
+              <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                What you'll get:
+              </h4>
+              <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} space-y-1`}>
                 <li>• Automatic content posting to {selectedPlatform.name}</li>
                 <li>• Real-time engagement tracking</li>
                 <li>• Performance analytics and insights</li>
@@ -156,13 +163,15 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
   if (connectionStep === 'authorize' && selectedPlatform) {
     return (
       <div className="w-full max-w-2xl mx-auto px-4 sm:px-6">
-        <Card className="bg-gray-900 border-gray-800">
+        <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
           <CardContent className="p-8 sm:p-12 text-center">
             <div className={`w-16 h-16 sm:w-20 sm:h-20 ${selectedPlatform.color} rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center`}>
               <span className="text-2xl sm:text-3xl">{selectedPlatform.icon}</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Connecting to {selectedPlatform.name}...</h2>
-            <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
+            <h2 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} mb-3 sm:mb-4`}>
+              Connecting to {selectedPlatform.name}...
+            </h2>
+            <p className={`mb-4 sm:mb-6 text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Please complete the authorization process in the popup window.
             </p>
             <div className="animate-pulse">
@@ -176,10 +185,12 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-      <Card className="bg-gray-900 border-gray-800">
+      <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl sm:text-3xl text-white">Connect Your Platforms</CardTitle>
-          <p className="text-gray-300 text-sm sm:text-base">
+          <CardTitle className={`text-2xl sm:text-3xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            Connect Your Platforms
+          </CardTitle>
+          <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Connect your social media accounts to start sharing content and earning FPT tokens
           </p>
           <div className="text-center">
@@ -220,8 +231,10 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
           </div>
 
           <div className="bg-gray-800 p-3 sm:p-4 rounded-lg">
-            <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">Why connect platforms?</h4>
-            <ul className="text-xs sm:text-sm text-gray-400 space-y-1">
+            <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              Why connect platforms?
+            </h4>
+            <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} space-y-1`}>
               <li>• Seamless content distribution across multiple channels</li>
               <li>• Unified analytics and performance tracking</li>
               <li>• Automated posting and scheduling capabilities</li>
@@ -245,7 +258,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
                 Continue <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
               </Button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">
+            <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'} mt-2`}>
               You can connect more platforms later from your settings
             </p>
           </div>
