@@ -216,20 +216,7 @@ const Header = ({
               
               {shouldShowLoggedIn ? (
                 <div className="flex items-center space-x-2 sm:space-x-4">
-                  {/* Notifications */}
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className={`hidden sm:flex relative ${isDarkMode 
-                      ? "border-gray-600 bg-gray-800 text-white hover:bg-gray-700 hover:text-white"
-                      : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50"
-                    }`}
-                  >
-                    <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
-                  </Button>
-
-                  {/* Account Profile */}
+                 {/* Account Profile */}
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
                       <AvatarImage src="/placeholder.svg" alt="Profile" />
@@ -246,18 +233,8 @@ const Header = ({
                       </div>
                       <div className="flex items-center space-x-3">
                         <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
-                        <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
                       </div>
                     </div>
-
-                    {/* Settings Button */}
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
-                    >
-                      <Settings className="w-4 h-4" />
-                    </Button>
                   </div>
                 </div>
               ) : (
