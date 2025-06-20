@@ -291,6 +291,16 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <span className={`${mutedText} text-sm`}>Estimated Earnings</span>
                   <span className="text-yellow-400 text-sm font-medium">15-30 FPT</span>
                 </div>
+            <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} text-sm`}>
+              Save as Draft
+            </Button>
+            <Button 
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold text-sm"
+              onClick={handlePublish}
+            >
+              Publish Content
+            </Button>
+          </div>
               </CardContent>
             </Card>
 
