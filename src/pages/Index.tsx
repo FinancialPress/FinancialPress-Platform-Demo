@@ -9,7 +9,6 @@ import ContentCreator from '../components/ContentCreator';
 import ShareEarnFlow from '../components/ShareEarnFlow';
 import StockChartData from '../components/StockChartData';
 import FinalCTA from '../components/FinalCTA';
-import SocialChannelConnection from '../components/SocialChannelConnection';
 
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -40,6 +39,7 @@ const Index = () => {
   };
 
   const handleShare = () => {
+    // Handle share logic
     console.log("Content shared");
   };
 
@@ -57,8 +57,7 @@ const Index = () => {
       onClose={handleShareClose}
       onShare={handleShare}
     />,
-    <FinalCTA key="cta" />,
-    <SocialChannelConnection key="social" onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+    <FinalCTA key="cta" />
   ];
 
   const themeClasses = isDarkMode 
