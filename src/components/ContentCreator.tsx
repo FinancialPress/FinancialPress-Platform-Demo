@@ -59,17 +59,6 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
             <h1 className={`text-2xl sm:text-3xl font-bold ${textClasses}`}>Create Content</h1>
             <p className={`${mutedText} text-sm sm:text-base`}>Share your insights and earn FPT tokens</p>
           </div>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
-            <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} text-sm`}>
-              Save as Draft
-            </Button>
-            <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold text-sm"
-              onClick={handlePublish}
-            >
-              Publish Content
-            </Button>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -291,6 +280,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <span className={`${mutedText} text-sm`}>Estimated Earnings</span>
                   <span className="text-yellow-400 text-sm font-medium">15-30 FPT</span>
                 </div>
+               <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} text-sm`}>
               Save as Draft
             </Button>
@@ -300,6 +290,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
             >
               Publish Content
             </Button>
+          </div>
           </div>
               </CardContent>
             </Card>
