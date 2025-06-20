@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,17 +14,73 @@ import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
 import FeedSidebar from '@/components/feed/FeedSidebar';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
+import WelcomeModal from '@/components/modals/WelcomeModal';
+import OnboardingTour from '@/components/modals/OnboardingTour';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
   isDarkMode: boolean;
+  showOnboarding?: boolean;
 }
 
-const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
+const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedContent, setSelectedContent] = useState<any>(null);
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState<any>(null);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(showOnboarding);
+  const [showTour, setShowTour] = useState(false);
+  const [earningsAmount, setEarningsAmount] = useState('0.0');
+  const [isFromOnboarding, setIsFromOnboarding] = useState(showOnboarding);
+
+  useEffect(() => {
+    // Show welcome modal if this is first time from onboarding
+    if (showOnboarding) {
+      setShowWelcomeModal(true);
+      setIsFromOnboarding(true);
+    } else {
+      setIsFromOnboarding(false);
+    }
+  }, [showOnboarding]);
+
+  useEffect(() => {
+    // Add/remove body class for onboarding
+    if (showTour) {
+      document.body.classList.add('onboarding-active');
+    } else {
+      document.body.classList.remove('onboarding-active');
+    }
+
+    return () => {
+      document.body.classList.remove('onboarding-active');
+    };
+  }, [showTour]);
+
+  const handleStartTour = () => {
+    setShowWelcomeModal(false);
+    setShowTour(true);
+  };
+
+  const handleTourComplete = () => {
+    setShowTour(false);
+    // Stop the flashing after tour completes
+    setTimeout(() => {
+      setEarningsAmount('1.0');
+    }, 5000);
+  };
+
+  const handleSkipTour = () => {
+    setShowTour(false);
+    // Stop the flashing after tour is skipped
+    setTimeout(() => {
+      setEarningsAmount('1.0');
+    }, 5000);
+  };
+
+  const handleEarningsUpdate = () => {
+    // Animate earnings from 0.0 to 1.0
+    setEarningsAmount('1.0');
+  };
 
   // Theme-aware classes
   const bgClasses = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
@@ -277,12 +333,12 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
         {/* Main grid with sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Sidebar - 1/4 width */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1" data-tour="start-creating">
             <FeedSidebar isDarkMode={isDarkMode} onNavigate={onNavigate} />
           </div>
 
           {/* Main Content Area - 2/4 width */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-8" data-tour="feed-content">
             {/* Feed Header - Simplified */}
             <div className="flex items-center space-x-4">
               <h2 className={`text-2xl font-bold ${textClasses}`}>Your Feed</h2>
@@ -303,32 +359,49 @@ const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
             {/* Embedded Earnings Tracker */}
-            <EarningsTracker
-              isVisible={true}
-              onClose={() => {}}
-              onNavigate={onNavigate}
-              isEmbedded={true}
-              isDarkMode={isDarkMode} // Added
-            />
+            <div data-tour="earnings-tracker">
+              <EarningsTracker
+                isVisible={true}
+                onClose={() => {}}
+                onNavigate={onNavigate}
+                isEmbedded={true}
+                isDarkMode={isDarkMode}
+                customEarnings={isFromOnboarding ? earningsAmount : undefined}
+                isFromOnboarding={isFromOnboarding}
+              />
+            </div>
 
-            <UserInterests isDarkMode={isDarkMode} /> {/* Added */}
+            <UserInterests isDarkMode={isDarkMode} />
 
             {/* New Who to Follow panel */}
-            <WhoToFollow isDarkMode={isDarkMode} /> {/* Added */}
+            <WhoToFollow isDarkMode={isDarkMode} />
 
-            <TopCreators isDarkMode={isDarkMode} /> {/* Added */}
-            <TopSharers isDarkMode={isDarkMode} /> {/* Added */}
-            <TopComments isDarkMode={isDarkMode} /> {/* Added */}
-            <TrendingTopics isDarkMode={isDarkMode} /> {/* Added */}
+            <TopCreators isDarkMode={isDarkMode} />
+            <TopSharers isDarkMode={isDarkMode} />
+            <TopComments isDarkMode={isDarkMode} />
+            <TrendingTopics isDarkMode={isDarkMode} />
 
             {/* UserStats moved to bottom */}
-            <UserStats
-              isDarkMode={isDarkMode} // Added
-              showStats={['Following', 'Content Shared', 'Tips Received']}
-            />
+            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} />
           </div>
         </div>
       </section>
+
+      {/* Welcome Modal */}
+      <WelcomeModal 
+        isOpen={showWelcomeModal}
+        onStartTour={handleStartTour}
+        isDarkMode={isDarkMode}
+      />
+
+      {/* Onboarding Tour */}
+      <OnboardingTour 
+        isActive={showTour}
+        onComplete={handleTourComplete}
+        onSkip={handleSkipTour}
+        isDarkMode={isDarkMode}
+        onEarningsUpdate={handleEarningsUpdate}
+      />
 
       {/* Share Modal */}
       {showShareModal && selectedContent && (
