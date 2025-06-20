@@ -17,13 +17,21 @@ import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
+  isDarkMode: boolean;
 }
 
-const UserFeed = ({ onNavigate }: UserFeedProps) => {
+const UserFeed = ({ onNavigate, isDarkMode }: UserFeedProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedContent, setSelectedContent] = useState<any>(null);
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState<any>(null);
+
+  // Theme-aware classes
+  const bgClasses = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
+  const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-gray-300';
+  const textClasses = isDarkMode ? 'text-white' : 'text-black';
+  const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
+  const buttonClasses = isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-100';
 
   // Single column feed content
   const feedPosts = [
@@ -155,7 +163,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
   };
 
   const renderFeedPost = (post: any) => (
-    <Card key={post.id} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
+    <Card key={post.id} className={`${cardClasses} transition-colors`}>
       <CardContent className="p-6">
         {/* User Header */}
         <div className="flex items-start justify-between mb-4">
@@ -165,7 +173,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             </div>
             <div>
               <div className="flex items-center space-x-2 mb-1">
-                <span className="text-white font-semibold">{post.creator}</span>
+                <span className={`${textClasses} font-semibold`}>{post.creator}</span>
                 <Badge className={`text-xs ${
                   post.badge === 'Platinum' ? 'bg-purple-500 text-white' : 
                   post.badge === 'Gold' ? 'bg-yellow-500 text-black' : 
@@ -180,7 +188,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
                   <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>
                 )}
               </div>
-              <div className="flex items-center space-x-2 text-gray-400 text-sm">
+              <div className={`flex items-center space-x-2 ${mutedText} text-sm`}>
                 <span>{post.handle}</span>
                 <span>•</span>
                 <span>{post.timeAgo}</span>
@@ -190,7 +198,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+            <Button variant="ghost" size="sm" className={`${mutedText} hover:${textClasses}`}>
               <MoreHorizontal className="w-4 h-4" />
             </Button>
           </div>
@@ -198,8 +206,8 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
 
         {/* Content */}
         <div className="mb-4">
-          <h3 className="text-white font-semibold text-xl mb-3">{post.content}</h3>
-          <p className="text-gray-300 leading-relaxed">{post.description}</p>
+          <h3 className={`${textClasses} font-semibold text-xl mb-3`}>{post.content}</h3>
+          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>{post.description}</p>
         </div>
 
         {/* Image */}
@@ -214,7 +222,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
         )}
 
         {/* Engagement Stats */}
-        <div className="flex items-center justify-between text-gray-400 text-sm mb-4">
+        <div className={`flex items-center justify-between ${mutedText} text-sm mb-4`}>
           <div className="flex items-center space-x-4">
             <span>{post.engagement.views.toLocaleString()} views</span>
             <span>{post.engagement.comments} comments</span>
@@ -224,22 +232,22 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-800">
+        <div className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
           <div className="flex items-center space-x-8">
-            <button className="flex items-center space-x-2 text-gray-400 hover:text-red-400 transition-colors">
+            <button className={`flex items-center space-x-2 ${mutedText} hover:text-red-400 transition-colors`}>
               <Heart className="w-5 h-5" />
               <span>{post.engagement.likes}</span>
             </button>
-            <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors">
+            <button className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}>
               <MessageCircle className="w-5 h-5" />
               <span>{post.engagement.comments}</span>
             </button>
-            <button className="flex items-center space-x-2 text-gray-400 hover:text-green-400 transition-colors">
+            <button className={`flex items-center space-x-2 ${mutedText} hover:text-green-400 transition-colors`}>
               <Repeat2 className="w-5 h-5" />
               <span>{post.engagement.shares}</span>
             </button>
             <button 
-              className="flex items-center space-x-2 text-gray-400 hover:text-yellow-400 transition-colors"
+              className={`flex items-center space-x-2 ${mutedText} hover:text-yellow-400 transition-colors`}
               onClick={() => handleShare(post)}
             >
               <Share2 className="w-5 h-5" />
@@ -247,7 +255,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
             </button>
           </div>
           <button 
-            className="text-gray-400 hover:text-yellow-400 transition-colors flex items-center space-x-2"
+            className={`${mutedText} hover:text-yellow-400 transition-colors flex items-center space-x-2`}
             title="Tip"
             aria-label="Tip"
             onClick={() => handleTip(post)}
@@ -261,20 +269,20 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className={`min-h-screen ${bgClasses}`}>
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         {/* Main grid with sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Sidebar - 1/4 width */}
           <div className="lg:col-span-1">
-            <FeedSidebar isDarkMode={true} onNavigate={onNavigate} />
+            <FeedSidebar isDarkMode={isDarkMode} onNavigate={onNavigate} />
           </div>
 
           {/* Main Content Area - 2/4 width */}
           <div className="lg:col-span-2 space-y-8">
             {/* Feed Header - Simplified */}
             <div className="flex items-center space-x-4">
-              <h2 className="text-2xl font-bold">Your Feed</h2>
+              <h2 className={`text-2xl font-bold ${textClasses}`}>Your Feed</h2>
               <Badge className="bg-yellow-600 text-black text-sm">Personalized</Badge>
             </div>
 
@@ -285,7 +293,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
 
             {/* Load More */}
             <div className="text-center">
-              <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700">
+              <Button variant="outline" className={buttonClasses}>
                 Load More Posts
               </Button>
             </div>
@@ -338,7 +346,7 @@ const UserFeed = ({ onNavigate }: UserFeedProps) => {
           postId={selectedCreator.postId}
           onTip={handleTipSubmit}
           onSubscribe={handleSubscribe}
-          isDarkMode={true}
+          isDarkMode={isDarkMode}
           isVerified={selectedCreator.isVerified}
           followerCount="1.2K"
         />
