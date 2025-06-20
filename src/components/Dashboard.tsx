@@ -144,7 +144,72 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               </Card>
             </div>
 
-            {/* Earnings Charts Row */}
+            {/* Original Earnings Charts Row */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Earnings over time */}
+              <Card className={cardClasses}>
+                <CardHeader className="pb-3">
+                  <CardTitle className={textClasses + ' text-base'}>Earnings Over Time</CardTitle>
+                  <p className={mutedText + ' text-xs'}>Weekly performance trend</p>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <LineChart data={earningsData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#374151' : '#E5E7EB'} />
+                      <XAxis dataKey="day" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} fontSize={12} />
+                      <YAxis stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} fontSize={12} />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: tooltipBg,
+                          border: `1px solid ${tooltipBorder}`,
+                          borderRadius: '8px',
+                          color: isDarkMode ? '#FFFFFF' : '#000000'
+                        }}
+                      />
+                      <Line type="monotone" dataKey="value" stroke="#3B82F6" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              {/* Earnings by platform (pie chart) */}
+              <Card className={cardClasses}>
+                <CardHeader className="pb-3">
+                  <CardTitle className={textClasses + ' text-base'}>Earnings by Platform</CardTitle>
+                  <p className={mutedText + ' text-xs'}>Distribution across platforms</p>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart>
+                      <Pie
+                        data={earningsBySharesData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={60}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        fontSize={10}
+                      >
+                        {earningsBySharesData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'][index]} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: tooltipBg,
+                          border: `1px solid ${tooltipBorder}`,
+                          borderRadius: '8px',
+                          color: isDarkMode ? '#FFFFFF' : '#000000'
+                        }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* New Earnings Charts Row */}
             <div className="grid grid-cols-3 gap-4">
               {/* Earnings by Content */}
               <Card className={cardClasses}>
