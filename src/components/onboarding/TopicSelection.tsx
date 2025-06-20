@@ -57,7 +57,8 @@ const TopicSelection = ({
             const isSelected = selectedTopics.includes(topic);
 
             const base = 'p-4 h-auto font-medium border transition-all';
-            const selectedStyle = 'bg-yellow-500 text-black border-yellow-500';
+            const selectedStyle =
+              'bg-yellow-500 text-black border-yellow-500 hover:bg-yellow-500 hover:text-black';
             const lightUnselected =
               'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black';
             const darkUnselected =
