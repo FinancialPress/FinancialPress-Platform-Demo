@@ -26,13 +26,17 @@ const OnboardingFlow = ({
 
   const toggleTopic = (topic: string) => {
     setSelectedTopics(prev =>
-      prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]
+      prev.includes(topic)
+        ? prev.filter(t => t !== topic)
+        : [...prev, topic]
     );
   };
 
   const toggleCreator = (creator: string) => {
     setSelectedCreators(prev =>
-      prev.includes(creator) ? prev.filter(c => c !== creator) : [...prev, creator]
+      prev.includes(creator)
+        ? prev.filter(c => c !== creator)
+        : [...prev, creator]
     );
   };
 
@@ -66,17 +70,19 @@ const OnboardingFlow = ({
   };
 
   const bgColor = isDarkMode ? 'bg-black text-white' : 'bg-white text-black';
-  const closeBtnBg = isDarkMode ? 'bg-gray-800 hover:bg-gray-700 text-gray-300' : 'bg-gray-200 hover:bg-gray-300 text-gray-600';
-  const completedStep = isDarkMode ? 'bg-yellow-500 text-black' : 'bg-yellow-400 text-black';
-  const pendingStep = isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-300 text-gray-600';
-  const barColor = isDarkMode ? 'bg-gray-700' : 'bg-gray-300';
+  const buttonStyle = isDarkMode
+    ? 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+    : 'bg-gray-200 hover:bg-gray-300 text-gray-600';
+  const stepDone = isDarkMode ? 'bg-yellow-500 text-black' : 'bg-yellow-400 text-black';
+  const stepPending = isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-300 text-gray-600';
+  const barInactive = isDarkMode ? 'bg-gray-700' : 'bg-gray-300';
   const barActive = isDarkMode ? 'bg-yellow-500' : 'bg-yellow-400';
 
   return (
     <div className={`min-h-screen ${bgColor} relative`}>
       {/* Close Button */}
       <button
-        className={`absolute top-6 right-8 z-20 rounded-full p-2 transition-colors ${closeBtnBg}`}
+        className={`absolute top-6 right-8 z-20 rounded-full p-2 transition-colors ${buttonStyle}`}
         title="Return to landing page"
         onClick={onLandingPage}
         aria-label="Close"
@@ -84,20 +90,21 @@ const OnboardingFlow = ({
         <X className="w-6 h-6" />
       </button>
 
-      {/* Onboarding Container */}
+      {/* Progress & Step Content */}
       <div className="max-w-[1440px] mx-auto px-8 py-20">
-        {/* Progress Steps */}
         <div className="flex justify-center mb-12">
           <div className="flex items-center space-x-4">
-            {[1, 2, 3, 4].map(step => (
+            {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                  currentStep >= step ? completedStep : pendingStep
+                  currentStep >= step ? stepDone : stepPending
                 }`}>
                   {currentStep > step ? <Check className="w-6 h-6" /> : step}
                 </div>
                 {step < 4 && (
-                  <div className={`w-16 h-1 mx-2 ${currentStep > step ? barActive : barColor}`} />
+                  <div className={`w-16 h-1 mx-2 ${
+                    currentStep > step ? barActive : barInactive
+                  }`} />
                 )}
               </div>
             ))}
