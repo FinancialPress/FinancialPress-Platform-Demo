@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -252,7 +253,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
                     className={`px-6 sm:px-8 py-2 text-sm sm:text-base ${
                       isDarkMode
                         ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
-                        : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
+                        : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-100 hover:text-black'
                     }`}
                     onClick={onContinue}
                   >
