@@ -48,9 +48,9 @@ const Index = () => {
     <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <SignUpPage key="signup" onNavigate={handleNavigate} />,
     <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} />,
-    <UserFeed key="feed" onNavigate={handleNavigate} />,
-    <Dashboard key="dashboard" onNavigate={handleNavigate} />,
-    <ContentCreator key="creator" onNavigate={handleNavigate} />,
+    <UserFeed key="feed" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
+    <Dashboard key="dashboard" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
+    <ContentCreator key="creator" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <StockChartData key="stockchart" symbol={searchSymbol} onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <ShareEarnFlow 
       key="share" 

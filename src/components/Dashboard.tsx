@@ -20,10 +20,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 interface DashboardProps {
   onNavigate?: (screen: number) => void;
-  isDarkMode?: boolean;
+  isDarkMode: boolean;
 }
 
-const Dashboard = ({ onNavigate, isDarkMode = true }: DashboardProps) => {
+const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
   // Debug log to verify isDarkMode
   console.log('DASHBOARD isDarkMode:', isDarkMode);
 
