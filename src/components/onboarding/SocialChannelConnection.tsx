@@ -109,7 +109,8 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   if (connectionStep === 'connect' && selectedPlatform) {
     return (
-      <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'} py-8`}>
+      <div className={`w-full min-h-screen ${isDarkMode ? 'bg-black' : 'bg-white'} py-8`}>
+
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
             <CardHeader>
