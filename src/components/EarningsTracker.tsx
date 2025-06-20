@@ -131,7 +131,7 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
           <div className="space-y-2">
             <Button
               className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-xs py-2"
-              onClick={() => onNavigate?.(5)}
+              onClick={() => onNavigate?.(4)}
             >
               <BarChart3 className="w-3 h-3 mr-1" />
               View Dashboard
