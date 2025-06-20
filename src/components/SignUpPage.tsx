@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,13 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Chrome, Mail, ArrowLeft } from 'lucide-react';
+import { Chrome, Mail } from 'lucide-react';
 
 interface SignUpPageProps {
   onNavigate?: (screen: number) => void;
+  isDarkMode?: boolean;
 }
 
-const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
+const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const handleAccountCreation = () => {
@@ -20,22 +20,32 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
     onNavigate?.(2);
   };
 
+  // Theme-aware utility classes
+  const background = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
+  const card = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
+  const label = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+  const input = isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
+  const separator = isDarkMode ? 'bg-gray-700' : 'bg-gray-300';
+  const dividerTextBg = isDarkMode ? 'bg-gray-900 text-gray-400' : 'bg-white text-gray-600';
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className={`min-h-screen ${background}`}>
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
             Join FinancialPress
           </h1>
-          <p className="text-xl text-gray-300">
+          <p className={`text-xl ${label}`}>
             Start earning crypto by creating and sharing quality financial content
           </p>
         </div>
 
         {/* Sign Up Form */}
-        <Card className="bg-gray-900 border-gray-800 max-w-md mx-auto">
+        <Card className={`${card} max-w-md mx-auto`}>
           <CardHeader>
-            <CardTitle className="text-2xl text-center text-white">Create Your Account</CardTitle>
+            <CardTitle className={`text-2xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              Create Your Account
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Social Sign Up Options */}
@@ -55,47 +65,47 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
               </svg>
               Connect with X
             </Button>
+            <Button
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
+              onClick={handleAccountCreation}
+            >
+              <img
+                src="/reown-brandmark-negative.svg"
+                alt="Reown"
+                className="w-5 h-5 mr-2"
+                style={{ display: 'inline-block', verticalAlign: 'middle' }}
+              />
+              Connect with Reown
+            </Button>
 
-<Button
-  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
-  onClick={handleAccountCreation}
->
-  <img
-    src="/reown-brandmark-negative.svg"
-    alt="Reown"
-    className="w-5 h-5 mr-2"
-    style={{ display: "inline-block", verticalAlign: "middle" }}
-  />
-  Connect with Reown
-</Button>
-            
+            {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full bg-gray-700" />
+                <Separator className={`w-full ${separator}`} />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-gray-900 px-2 text-gray-400">Or</span>
+                <span className={`px-2 ${dividerTextBg}`}>Or</span>
               </div>
             </div>
 
             {/* Email Sign Up */}
             <div className="space-y-4">
               <div>
-                <Label htmlFor="email" className="text-gray-300">Email</Label>
+                <Label htmlFor="email" className={label}>Email</Label>
                 <Input 
                   id="email" 
                   type="email" 
                   placeholder="Enter your email"
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className={input}
                 />
               </div>
               <div>
-                <Label htmlFor="password" className="text-gray-300">Password</Label>
+                <Label htmlFor="password" className={label}>Password</Label>
                 <Input 
                   id="password" 
                   type="password" 
                   placeholder="Create a password"
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className={input}
                 />
               </div>
 
@@ -106,7 +116,7 @@ const SignUpPage = ({ onNavigate }: SignUpPageProps) => {
                   checked={agreeToTerms}
                   onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
                 />
-                <Label htmlFor="agree-terms" className="text-gray-300 text-sm">
+                <Label htmlFor="agree-terms" className={`${label} text-sm`}>
                   I agree to the Terms and Conditions
                 </Label>
               </div>
