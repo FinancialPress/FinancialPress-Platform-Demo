@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ChevronRight, CheckCircle, ArrowLeft, Facebook } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext'; // Added ThemeContext import
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface SocialChannelConnectionProps {
   onContinue: () => void;
@@ -19,7 +19,7 @@ interface Platform {
 }
 
 const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) => {
-  const { isDarkMode } = useTheme(); // Use ThemeContext to get isDarkMode
+  const { isDarkMode } = useTheme();
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
   const [connectionStep, setConnectionStep] = useState<'select' | 'connect' | 'authorize'>('select');
   const [platforms, setPlatforms] = useState<Platform[]>([
@@ -105,165 +105,177 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
 
   if (connectionStep === 'connect' && selectedPlatform) {
     return (
-      <div className="w-full max-w-2xl mx-auto px-4 sm:px-6">
-        <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
-          <CardHeader>
-            <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm" onClick={handleBack}>
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-              <div className="flex items-center space-x-3 min-w-0 flex-1">
-                <div className={`w-8 h-8 sm:w-12 sm:h-12 ${selectedPlatform.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                  <span className="text-lg sm:text-2xl">{selectedPlatform.icon}</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <CardTitle className={`text-lg sm:text-2xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                    {selectedPlatform.name} Integration
-                  </CardTitle>
-                  <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {selectedPlatform.description}
-                  </p>
+      <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+        <div className={`w-full max-w-2xl mx-auto px-4 sm:px-6 ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+          <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+            <CardHeader>
+              <div className="flex items-center space-x-3">
+                <Button variant="ghost" size="sm" onClick={handleBack}>
+                  <ArrowLeft className="w-4 h-4" />
+                </Button>
+                <div className="flex items-center space-x-3 min-w-0 flex-1">
+                  <div className={`w-8 h-8 sm:w-12 sm:h-12 ${selectedPlatform.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                    <span className="text-lg sm:text-2xl">{selectedPlatform.icon}</span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <CardTitle className={`text-lg sm:text-2xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                      {selectedPlatform.name} Integration
+                    </CardTitle>
+                    <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                      {selectedPlatform.description}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4 sm:space-y-6">
-            <div className="bg-gray-800 p-3 sm:p-4 rounded-lg">
-              <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                What you'll get:
-              </h4>
-              <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} space-y-1`}>
-                <li>• Automatic content posting to {selectedPlatform.name}</li>
-                <li>• Real-time engagement tracking</li>
-                <li>• Performance analytics and insights</li>
-                <li>• Streamlined content management</li>
-              </ul>
-            </div>
+            </CardHeader>
+            <CardContent className="space-y-4 sm:space-y-6">
+              <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} p-3 sm:p-4 rounded-lg`}>
+                <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                  What you'll get:
+                </h4>
+                <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} space-y-1`}>
+                  <li>• Automatic content posting to {selectedPlatform.name}</li>
+                  <li>• Real-time engagement tracking</li>
+                  <li>• Performance analytics and insights</li>
+                  <li>• Streamlined content management</li>
+                </ul>
+              </div>
 
-            <div className="bg-blue-900/30 border border-blue-500/30 p-3 sm:p-4 rounded-lg">
-              <p className="text-blue-200 text-xs sm:text-sm">
-                <strong>Note:</strong> When connecting your {selectedPlatform.name} account, FinancialPress requests specific access to enable functionality that you control. We only access data necessary for the features you enable.
-              </p>
-            </div>
+              <div className={`${isDarkMode ? 'bg-blue-900/30 border-blue-500/30' : 'bg-blue-100/30 border-blue-300/30'} p-3 sm:p-4 rounded-lg`}>
+                <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-blue-200' : 'text-blue-600'}`}>
+                  <strong>Note:</strong> When connecting your {selectedPlatform.name} account, FinancialPress requests specific access to enable functionality that you control. We only access data necessary for the features you enable.
+                </p>
+              </div>
 
-            <div className="text-center">
-              <Button 
-                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
-                onClick={handleConnect}
-              >
-                Connect {selectedPlatform.name}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+              <div className="text-center">
+                <Button 
+                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
+                  onClick={handleConnect}
+                >
+                  Connect {selectedPlatform.name}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
 
   if (connectionStep === 'authorize' && selectedPlatform) {
     return (
-      <div className="w-full max-w-2xl mx-auto px-4 sm:px-6">
-        <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
-          <CardContent className="p-8 sm:p-12 text-center">
-            <div className={`w-16 h-16 sm:w-20 sm:h-20 ${selectedPlatform.color} rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center`}>
-              <span className="text-2xl sm:text-3xl">{selectedPlatform.icon}</span>
-            </div>
-            <h2 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} mb-3 sm:mb-4`}>
-              Connecting to {selectedPlatform.name}...
-            </h2>
-            <p className={`mb-4 sm:mb-6 text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Please complete the authorization process in the popup window.
-            </p>
-            <div className="animate-pulse">
-              <div className="w-48 sm:w-64 h-2 bg-yellow-500 rounded-full mx-auto"></div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+        <div className={`w-full max-w-2xl mx-auto px-4 sm:px-6 ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+          <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+            <CardContent className="p-8 sm:p-12 text-center">
+              <div className={`w-16 h-16 sm:w-20 sm:h-20 ${selectedPlatform.color} rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center`}>
+                <span className="text-2xl sm:text-3xl">{selectedPlatform.icon}</span>
+              </div>
+              <h2 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} mb-3 sm:mb-4`}>
+                Connecting to {selectedPlatform.name}...
+              </h2>
+              <p className={`mb-4 sm:mb-6 text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Please complete the authorization process in the popup window.
+              </p>
+              <div className="animate-pulse">
+                <div className="w-48 sm:w-64 h-2 bg-yellow-500 rounded-full mx-auto"></div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-      <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
-        <CardHeader className="text-center">
-          <CardTitle className={`text-2xl sm:text-3xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
-            Connect Your Platforms
-          </CardTitle>
-          <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Connect your social media accounts to start sharing content and earning FPT tokens
-          </p>
-          <div className="text-center">
-            {connectedCount > 0 && (
-              <Badge className="bg-green-600 text-white text-xs sm:text-sm">
-                {connectedCount} platform{connectedCount !== 1 ? 's' : ''} connected
-              </Badge>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4 sm:space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {platforms.map((platform) => (
-              <Card 
-                key={platform.id} 
-                className={`bg-gray-800 border-gray-700 cursor-pointer transition-all hover:bg-gray-750 ${
-                  platform.connected ? 'ring-2 ring-green-500' : ''
-                }`}
-                onClick={() => !platform.connected && handlePlatformSelect(platform)}
-              >
-                <CardContent className="p-3 sm:p-4">
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <div className={`w-8 h-8 sm:w-12 sm:h-12 ${platform.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                      <span className="text-lg sm:text-2xl">{platform.icon}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-1 sm:space-x-2">
-                        <h3 className="text-white font-semibold text-sm sm:text-base truncate">{platform.name}</h3>
-                        {platform.connected && <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />}
-                      </div>
-                      <p className="text-gray-400 text-xs sm:text-sm line-clamp-2">{platform.description}</p>
-                    </div>
-                    {!platform.connected && <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0" />}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="bg-gray-800 p-3 sm:p-4 rounded-lg">
-            <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              Why connect platforms?
-            </h4>
-            <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} space-y-1`}>
-              <li>• Seamless content distribution across multiple channels</li>
-              <li>• Unified analytics and performance tracking</li>
-              <li>• Automated posting and scheduling capabilities</li>
-              <li>• Maximize your earning potential with wider reach</li>
-            </ul>
-          </div>
-
-          <div className="text-center space-y-4">
-            <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6">
-              <Button 
-                variant="outline"
-                className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white px-6 sm:px-8 py-2 text-sm sm:text-base"
-                onClick={onContinue}
-              >
-                Do this later
-              </Button>
-              <Button 
-                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
-                onClick={onContinue}
-              >
-                Continue <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
-              </Button>
-            </div>
-            <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'} mt-2`}>
-              You can connect more platforms later from your settings
+    <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+      <div className={`w-full max-w-4xl mx-auto px-4 sm:px-6 ${isDarkMode ? 'bg-black' : 'bg-gray-50'}`}>
+        <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+          <CardHeader className="text-center">
+            <CardTitle className={`text-2xl sm:text-3xl ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              Connect Your Platforms
+            </CardTitle>
+            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Connect your social media accounts to start sharing content and earning FPT tokens
             </p>
-          </div>
-        </CardContent>
-      </Card>
+            <div className="text-center">
+              {connectedCount > 0 && (
+                <Badge className="bg-green-600 text-white text-xs sm:text-sm">
+                  {connectedCount} platform{connectedCount !== 1 ? 's' : ''} connected
+                </Badge>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              {platforms.map((platform) => (
+                <Card 
+                  key={platform.id} 
+                  className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200 hover:bg-gray-100'} cursor-pointer transition-all ${platform.connected ? 'ring-2 ring-green-500' : ''}`}
+                  onClick={() => !platform.connected && handlePlatformSelect(platform)}
+                >
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <div className={`w-8 h-8 sm:w-12 sm:h-12 ${platform.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                        <span className="text-lg sm:text-2xl">{platform.icon}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-1 sm:space-x-2">
+                          <h3 className={`font-semibold text-sm sm:text-base truncate ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                            {platform.name}
+                          </h3>
+                          {platform.connected && <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />}
+                        </div>
+                        <p className={`text-xs sm:text-sm line-clamp-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          {platform.description}
+                        </p>
+                      </div>
+                      {!platform.connected && <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} flex-shrink-0`} />}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} p-3 sm:p-4 rounded-lg`}>
+              <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                Why connect platforms?
+              </h4>
+              <ul className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} space-y-1`}>
+                <li>• Seamless content distribution across multiple channels</li>
+                <li>• Unified analytics and performance tracking</li>
+                <li>• Automated posting and scheduling capabilities</li>
+                <li>• Maximize your earning potential with wider reach</li>
+              </ul>
+            </div>
+
+            <div className="text-center space-y-4">
+              <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6">
+                <Button 
+                  variant="outline"
+                  className={`px-6 sm:px-8 py-2 text-sm sm:text-base ${
+                    isDarkMode
+                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
+                  }`}
+                  onClick={onContinue}
+                >
+                  Do this later
+                </Button>
+                <Button 
+                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
+                  onClick={onContinue}
+                >
+                  Continue <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+                </Button>
+              </div>
+              <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'} mt-2`}>
+                You can connect more platforms later from your settings
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
