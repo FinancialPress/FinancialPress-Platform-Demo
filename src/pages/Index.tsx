@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Header from '../components/Header';
 import LandingPage from '../components/LandingPage';
@@ -46,7 +45,7 @@ const Index = () => {
 
   const screens = [
     <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <SignUpPage key="signup" onNavigate={handleNavigate} />,
+    <SignUpPage key="signup" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} />,
     <UserFeed key="feed" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
