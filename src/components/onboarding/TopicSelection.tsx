@@ -60,16 +60,14 @@ const TopicSelection = ({
             const unselectedLight = 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black';
             const unselectedDark = 'bg-gray-900 border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500';
 
+            const buttonClasses = isSelected
+              ? `${base} ${selectedStyles}`
+              : `${base} ${isDarkMode ? unselectedDark : unselectedLight}`;
+
             return (
               <Button
                 key={topic}
-                className={`${base} ${
-                  isSelected
-                    ? selectedStyles
-                    : isDarkMode
-                    ? unselectedDark
-                    : unselectedLight
-                }`}
+                className={buttonClasses}
                 onClick={() => onTopicToggle(topic)}
               >
                 {isSelected && <Check className="w-4 h-4 mr-2" />}
