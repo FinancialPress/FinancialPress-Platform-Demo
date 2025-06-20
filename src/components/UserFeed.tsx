@@ -39,6 +39,19 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
     }
   }, [showOnboarding]);
 
+  useEffect(() => {
+    // Add/remove body class for onboarding
+    if (showTour) {
+      document.body.classList.add('onboarding-active');
+    } else {
+      document.body.classList.remove('onboarding-active');
+    }
+
+    return () => {
+      document.body.classList.remove('onboarding-active');
+    };
+  }, [showTour]);
+
   const handleStartTour = () => {
     setShowWelcomeModal(false);
     setShowTour(true);

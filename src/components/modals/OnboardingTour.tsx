@@ -16,6 +16,13 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
   const [showEarningsAnimation, setShowEarningsAnimation] = useState(false);
 
   useEffect(() => {
+    if (isActive) {
+      // Scroll to top when tour starts
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [isActive]);
+
+  useEffect(() => {
     if (currentStep === 3 && isActive) {
       // Trigger earnings animation when step 3 begins
       setTimeout(() => {
@@ -69,8 +76,10 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
 
   return (
     <>
-      {/* Overlay */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-40" />
+      {/* Blur Overlay - everything except focused element */}
+      <div className="fixed inset-0 z-40">
+        <div className="absolute inset-0 backdrop-blur-sm bg-black bg-opacity-30" />
+      </div>
       
       {/* Tour Card */}
       <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md mx-4">
@@ -108,13 +117,22 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
         </Card>
       </div>
       
-      {/* Highlight Effect for Current Step */}
+      {/* Focused Element Highlight - Remove blur from target */}
       <style jsx>{`
         ${stepContent.selector} {
           position: relative;
           z-index: 45;
-          box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.5);
-          border-radius: 8px;
+          filter: none !important;
+          backdrop-filter: none !important;
+        }
+        
+        body:has(.onboarding-active) * {
+          filter: blur(2px);
+        }
+        
+        body:has(.onboarding-active) ${stepContent.selector},
+        body:has(.onboarding-active) ${stepContent.selector} * {
+          filter: none !important;
         }
       `}</style>
     </>
