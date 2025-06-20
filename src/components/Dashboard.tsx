@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -48,11 +47,11 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
   ];
 
   const earningsBySharesData = [
-    { platform: 'Twitter', value: 78 },
-    { platform: 'LinkedIn', value: 65 },
-    { platform: 'Medium', value: 43 },
-    { platform: 'Telegram', value: 29 },
-    { platform: 'Others', value: 18 }
+    { platform: 'X (Twitter)', value: 78 },
+    { platform: 'YouTube', value: 65 },
+    { platform: 'Telegram', value: 43 },
+    { platform: 'LinkedIn', value: 29 },
+    { platform: 'Instagram', value: 18 }
   ];
 
   const subscriberEarningsData = [
@@ -100,7 +99,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black'}`}>
-      <div className="max-w-[1440px] mx-auto px-8 py-8">
+      <div className="max-w-[1440px] mx-auto px-8 py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -172,33 +171,50 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                 </CardContent>
               </Card>
 
-              {/* Earnings by platform (pie chart with legend) */}
+              {/* Earnings by platform (pie chart with vertical legend on left) */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
                   <CardTitle className={textClasses + ' text-base'}>Earnings by Platform</CardTitle>
                   <p className={mutedText + ' text-xs'}>Distribution across platforms</p>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <PieChart>
-                      <Pie
-                        data={earningsBySharesData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={50}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {earningsBySharesData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'][index]} />
-                        ))}
-                      </Pie>
-                      <Legend 
-                        wrapperStyle={{ fontSize: '12px', color: isDarkMode ? '#FFFFFF' : '#000000' }}
-                        iconType="circle"
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
+                  <div className="flex items-center">
+                    <div className="flex flex-col space-y-2 mr-4">
+                      {earningsBySharesData.map((entry, index) => (
+                        <div key={entry.platform} className="flex items-center space-x-2 text-xs">
+                          <div 
+                            className="w-3 h-3 rounded-full"
+                            style={{ backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'][index] }}
+                          />
+                          <span className={isDarkMode ? 'text-white' : 'text-black'}>{entry.platform}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <ResponsiveContainer width="100%" height={200}>
+                      <PieChart>
+                        <Pie
+                          data={earningsBySharesData}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={60}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {earningsBySharesData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'][index]} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: tooltipBg,
+                            border: `1px solid ${tooltipBorder}`,
+                            borderRadius: '8px',
+                            color: isDarkMode ? '#FFFFFF' : '#000000'
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
                 </CardContent>
               </Card>
             </div>
