@@ -14,7 +14,12 @@ interface OnboardingFlowProps {
   isDarkMode?: boolean;
 }
 
-const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage, isDarkMode = true }: OnboardingFlowProps) => {
+const OnboardingFlow = ({
+  userRole = 'creator',
+  onComplete,
+  onLandingPage,
+  isDarkMode = true
+}: OnboardingFlowProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedCreators, setSelectedCreators] = useState<string[]>([]);
@@ -65,10 +70,11 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage, isDar
   const completedStep = isDarkMode ? 'bg-yellow-500 text-black' : 'bg-yellow-400 text-black';
   const pendingStep = isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-300 text-gray-600';
   const barColor = isDarkMode ? 'bg-gray-700' : 'bg-gray-300';
-  const barActive = 'bg-yellow-500';
+  const barActive = isDarkMode ? 'bg-yellow-500' : 'bg-yellow-400';
 
   return (
     <div className={`min-h-screen ${bgColor} relative`}>
+      {/* Close Button */}
       <button
         className={`absolute top-6 right-8 z-20 rounded-full p-2 transition-colors ${closeBtnBg}`}
         title="Return to landing page"
@@ -78,6 +84,7 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage, isDar
         <X className="w-6 h-6" />
       </button>
 
+      {/* Onboarding Container */}
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         {/* Progress Steps */}
         <div className="flex justify-center mb-12">
