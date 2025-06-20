@@ -237,7 +237,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       />
                     </div>
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-x-4">
                           <Switch 
                           checked={enableLiveChat}
                           onCheckedChange={setEnableLiveChat}
@@ -245,7 +245,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                         />
                         <Label className={labelClasses}>Enable live chat</Label>
                       </div>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-x-4">
                         <Switch 
                           checked={allowWatchLater}
                           onCheckedChange={setAllowWatchLater}
@@ -350,15 +350,15 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                 <div className="space-y-3">
                   <Label className={labelClasses}>Auto-Share To:</Label>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-x-4">
                       <Switch className={`border ${borderClasses}`} />
                       <Label className={`${labelClasses} text-sm`}>Twitter/X</Label>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-x-4">
                       <Switch className={`border ${borderClasses}`} />
                       <Label className={`${labelClasses} text-sm`}>LinkedIn</Label>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-x-4">
                       <Switch className={`border ${borderClasses}`} />
                       <Label className={`${labelClasses} text-sm`}>Telegram</Label>
                     </div>
