@@ -640,20 +640,20 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     : "text-gray-600";
 
   const heroTextClasses = isDarkMode
-    ? "text-lg text-gray-300 mb-6 max-w-4xl mx-auto leading-relaxed"
-    : "text-lg text-gray-600 mb-6 max-w-4xl mx-auto leading-relaxed";
+    ? "text-base sm:text-lg text-gray-300 mb-6 max-w-4xl mx-auto leading-relaxed px-4"
+    : "text-base sm:text-lg text-gray-600 mb-6 max-w-4xl mx-auto leading-relaxed px-4";
 
   const newsHeaderClasses = isDarkMode
-    ? "text-2xl font-bold text-white"
-    : "text-2xl font-bold text-black";
+    ? "text-xl sm:text-2xl font-bold text-white"
+    : "text-xl sm:text-2xl font-bold text-black";
 
   const newsButtonClasses = (isActive: boolean) => {
     if (isActive) {
-      return "bg-yellow-500 text-black hover:bg-yellow-600";
+      return "bg-yellow-500 text-black hover:bg-yellow-600 text-xs sm:text-sm px-3 sm:px-4";
     }
     return isDarkMode 
-      ? "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
-      : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50 font-semibold px-6";
+      ? "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white text-xs sm:text-sm px-3 sm:px-4"
+      : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50 font-semibold text-xs sm:text-sm px-3 sm:px-4";
   };
 
   const loadMoreButtonClasses = isDarkMode
@@ -661,89 +661,89 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     : "border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-900 bg-white";
 
   const sidebarHeaderClasses = isDarkMode
-    ? "text-lg font-semibold text-white"
-    : "text-lg font-semibold text-black";
+    ? "text-base sm:text-lg font-semibold text-white"
+    : "text-base sm:text-lg font-semibold text-black";
 
   const statCardTextClasses = isDarkMode
-    ? "text-xl font-bold text-white"
-    : "text-xl font-bold text-black";
+    ? "text-lg sm:text-xl font-bold text-white"
+    : "text-lg sm:text-xl font-bold text-black";
 
   const renderContentCard = (item: any) => (
-    <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors`}>
+    <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors w-full`}>
       <CardContent className="p-0">
         <div className="relative">
           <img 
             src={item.image}
             alt={item.title}
-            className="w-full h-32 object-cover"
+            className="w-full h-24 sm:h-32 object-cover"
           />
-          <Badge className={`absolute top-2 left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
+          <Badge className={`absolute top-1 sm:top-2 left-1 sm:left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
             {item.category}
           </Badge>
           {item.isVideo && (
-            <div className="absolute top-2 right-2 bg-black bg-opacity-60 rounded-full p-1">
-              <Play className="w-3 h-3 text-white" fill="white" />
+            <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-black bg-opacity-60 rounded-full p-1">
+              <Play className="w-2 h-2 sm:w-3 sm:h-3 text-white" fill="white" />
             </div>
           )}
         </div>
-        <div className="p-3">
+        <div className="p-2 sm:p-3">
           {/* Author Header - Compact */}
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center space-x-1">
-              <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-1 min-w-0 flex-1">
+              <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-black font-bold text-xs">{item.author.charAt(0)}</span>
               </div>
-              <span className={`font-medium text-xs ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.author}</span>
-              <Badge className={`text-xs ${getBadgeColor(item.badge)}`}>
+              <span className={`font-medium text-xs truncate ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.author}</span>
+              <Badge className={`text-xs hidden sm:inline-block ${getBadgeColor(item.badge)}`}>
                 {item.badge.split(' ')[0]}
               </Badge>
             </div>
-            <span className={`text-xs ${textClasses}`}>{item.timeAgo}</span>
+            <span className={`text-xs ${textClasses} flex-shrink-0`}>{item.timeAgo}</span>
           </div>
 
-          <h3 className={`font-semibold text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
+          <h3 className={`font-semibold text-xs sm:text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
           
           {/* Engagement Stats */}
           <div className={`flex items-center justify-between text-xs mb-2 ${textClasses}`}>
             <div className="flex items-center space-x-2">
-              <span>{item.views} views</span>
+              <span className="truncate">{item.views} views</span>
             </div>
-            <div className="text-green-400 font-semibold text-center">
-              <span className="text-sm">{item.earnings} FPT Earned</span>
+            <div className="text-green-400 font-semibold text-center flex-shrink-0">
+              <span className="text-xs sm:text-sm">{item.earnings} FPT Earned</span>
             </div>
           </div>
 
           {/* Action Buttons - Compact */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors`}>
+            <div className="flex items-center space-x-2 sm:space-x-3 overflow-x-auto">
+              <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors flex-shrink-0`}>
                 <Heart className="w-3 h-3" />
-                <span className="text-xs">{item.likes}</span>
+                <span className="text-xs hidden sm:inline">{item.likes}</span>
               </button>
-              <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors`}>
+              <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors flex-shrink-0`}>
                 <MessageCircle className="w-3 h-3" />
-                <span className="text-xs">{item.comments}</span>
+                <span className="text-xs hidden sm:inline">{item.comments}</span>
               </button>
-              <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors`}>
+              <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors flex-shrink-0`}>
                 <Repeat2 className="w-3 h-3" />
-                <span className="text-xs">{item.shares}</span>
+                <span className="text-xs hidden sm:inline">{item.shares}</span>
               </button>
               <button 
-                className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
+                className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors flex-shrink-0`}
                 onClick={() => handleShare(item)}
               >
                 <Share2 className="w-3 h-3" />
-                <span className="text-xs">Share & Earn</span>
+                <span className="text-xs hidden sm:inline">Share</span>
               </button>
             </div>
             <button 
-              className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors`}
+              className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors flex-shrink-0`}
               title="Tip"
               aria-label="Tip"
               onClick={() => handleTip(item, item.title)}
             >
               <HandCoins className="w-3 h-3" />
-              <span className="text-xs">Tip</span>
+              <span className="text-xs hidden sm:inline">Tip</span>
             </button>
           </div>
         </div>
@@ -752,64 +752,64 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   );
 
   const renderSection = (title: string, posts: any[]) => (
-    <div className="mb-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="mb-6 sm:mb-8">
+      <div className="flex items-center justify-between mb-4 sm:mb-6 px-4 sm:px-0">
         <h2 className={newsHeaderClasses}>{title}</h2>
-        <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-semibold rounded px-3 py-1 h-auto">
+        <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs sm:text-sm font-semibold rounded px-2 sm:px-3 py-1 h-auto">
           See All
         </Button>
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 px-4 sm:px-0">
         {posts.map(renderContentCard)}
       </div>
     </div>
   );
 
   return (
-    <div className={themeClasses}>
+    <div className={`${themeClasses} w-full overflow-x-hidden`}>
       {/* Hero Section */}
-      <section className="max-w-[1440px] mx-auto px-8 pt-6 pb-4">
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 pt-4 sm:pt-6 pb-4">
         <div className="text-center mb-2">
-          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4 px-4">
             Join FinancialPress
           </h1>
-          <p className={`${heroTextClasses} sm:text-xl font-semibold tracking-tight`}>
+          <p className={heroTextClasses}>
             Real-time insights. Verified contributors. Tokenized rewards.
           </p>
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-4 px-4">
             <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3"
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base"
               onClick={() => onNavigate?.(1)}
             >
               Get Started
             </Button>
           </div>
-          <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2">
+          <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2 px-4">
             Post. Stream. Share. Earn.
           </p>
         </div>
       </section>
 
       {/* Content Layout */}
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main Content Area - 3/4 width */}
-          <div className="lg:col-span-3">
+      <div className="max-w-[1440px] mx-auto px-0 sm:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8">
+          {/* Main Content Area - 3/4 width on desktop, full width on mobile */}
+          <div className="lg:col-span-3 w-full">
             {/* Live Feed Section - Direct display without tabs */}
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <LiveFeedSection isDarkMode={isDarkMode} />
             </div>
 
             {/* Markets Overview Section */}
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <MarketOverview isDarkMode={isDarkMode} />
             </div>
 
             {/* News Section with Filters */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-yellow-400">Featured News & Analysis</h2>
-                <div className="flex space-x-2">
+            <div className="mb-6 sm:mb-8">
+              <div className="flex items-center justify-between mb-4 sm:mb-6 px-4 sm:px-0">
+                <h2 className="text-lg sm:text-2xl font-bold text-yellow-400">Featured News & Analysis</h2>
+                <div className="flex space-x-1 sm:space-x-2">
                   <Button
                     variant={newsFilter === 'latest' ? 'default' : 'outline'}
                     size="sm"
@@ -829,19 +829,55 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                 </div>
               </div>
 
-              {/* Categorized News Sections */}
-              {renderSection("Stock Market", currentContent.stockMarket)}
-              {renderSection("Crypto Market", currentContent.cryptoMarket)}
-              {renderSection("Global Markets", currentContent.globalMarkets)}
-              {renderSection("AI & Tech", currentContent.aiTech)}
-              {renderSection("Economy", currentContent.economy)}
+              {/* Categorized News Sections - showing just a few for mobile */}
+              <div className="space-y-6 sm:space-y-8">
+                {/* Show all sections but fewer items on mobile */}
+                <div className="space-y-6 sm:space-y-8">
+                  {/* Stock Market Section - Show 2 items on mobile, 3 on desktop */}
+                  <div className="mb-6 sm:mb-8">
+                    <div className="flex items-center justify-between mb-4 sm:mb-6 px-4 sm:px-0">
+                      <h2 className={newsHeaderClasses}>Stock Market</h2>
+                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs sm:text-sm font-semibold rounded px-2 sm:px-3 py-1 h-auto">
+                        See All
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 px-4 sm:px-0">
+                      {(newsFilter === 'latest' ? latestNewsBySector.stockMarket : trendingNewsBySector.stockMarket)
+                        .slice(0, window.innerWidth < 640 ? 2 : 3)
+                        .map(renderContentCard)}
+                    </div>
+                  </div>
+
+                  {/* Crypto Market Section */}
+                  <div className="mb-6 sm:mb-8">
+                    <div className="flex items-center justify-between mb-4 sm:mb-6 px-4 sm:px-0">
+                      <h2 className={newsHeaderClasses}>Crypto Market</h2>
+                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs sm:text-sm font-semibold rounded px-2 sm:px-3 py-1 h-auto">
+                        See All
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 px-4 sm:px-0">
+                      {(newsFilter === 'latest' ? latestNewsBySector.cryptoMarket : trendingNewsBySector.cryptoMarket)
+                        .slice(0, window.innerWidth < 640 ? 2 : 3)
+                        .map(renderContentCard)}
+                    </div>
+                  </div>
+
+                  {/* Show fewer sections on mobile */}
+                  <div className="hidden sm:block space-y-6 sm:space-y-8">
+                    {renderSection("Global Markets", newsFilter === 'latest' ? latestNewsBySector.globalMarkets : trendingNewsBySector.globalMarkets)}
+                    {renderSection("AI & Tech", newsFilter === 'latest' ? latestNewsBySector.aiTech : trendingNewsBySector.aiTech)}
+                    {renderSection("Economy", newsFilter === 'latest' ? latestNewsBySector.economy : trendingNewsBySector.economy)}
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Load More */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-6 sm:mb-8 px-4 sm:px-0">
               <Button 
                 variant="outline" 
-                className={loadMoreButtonClasses}
+                className={`${loadMoreButtonClasses} text-sm sm:text-base px-4 sm:px-6`}
                 onClick={() => onNavigate?.(1)}
               >
                 Load More Content
@@ -849,8 +885,8 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             </div>
           </div>
 
-          {/* Right Sidebar - 1/4 width */}
-          <div className="space-y-6">
+          {/* Right Sidebar - Hidden on mobile, shown on lg+ */}
+          <div className="hidden lg:block space-y-6">
             <TopCreators isDarkMode={isDarkMode} />
             <QuickActions isDarkMode={isDarkMode} onNavigate={onNavigate} />
             <TopSharers isDarkMode={isDarkMode} />

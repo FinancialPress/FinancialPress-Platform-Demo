@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import Header from '../components/Header';
 import LandingPage from '../components/LandingPage';
@@ -68,7 +69,7 @@ const Index = () => {
   const showHeader = currentScreen !== 2;
 
   return (
-    <div className={themeClasses}>
+    <div className={`${themeClasses} w-full overflow-x-hidden`}>
       {showHeader && (
         <Header 
           onNavigate={handleNavigate} 
@@ -77,7 +78,9 @@ const Index = () => {
           onToggleDarkMode={handleToggleDarkMode}
         />
       )}
-      {screens[currentScreen]}
+      <div className="w-full">
+        {screens[currentScreen]}
+      </div>
     </div>
   );
 };
