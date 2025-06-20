@@ -1,8 +1,9 @@
-
 import React, { useState } from 'react';
-import { Search, Bell, User, Sun, Moon, Menu } from 'lucide-react';
+import { Search, Bell, User, Sun, Moon, Menu, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import TickerBar from './TickerBar';
 
 interface HeaderProps {
@@ -27,6 +28,9 @@ const Header = ({
   const [searchValue, setSearchValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  // Determine if user should be shown as logged in based on current screen
+  const shouldShowLoggedIn = [3, 4, 5, 6].includes(currentScreen) || isLoggedIn;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -210,23 +214,50 @@ const Header = ({
                 {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </Button>
               
-              {isLoggedIn ? (
+              {shouldShowLoggedIn ? (
                 <div className="flex items-center space-x-2 sm:space-x-4">
+                  {/* Notifications */}
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className={`hidden sm:flex ${isDarkMode 
+                    className={`hidden sm:flex relative ${isDarkMode 
                       ? "border-gray-600 bg-gray-800 text-white hover:bg-gray-700 hover:text-white"
                       : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50"
                     }`}
                   >
                     <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
                   </Button>
+
+                  {/* Account Profile */}
                   <div className="flex items-center space-x-2 sm:space-x-3">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                      <User className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
+                    <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
+                      <AvatarImage src="/placeholder.svg" alt="Profile" />
+                      <AvatarFallback className="bg-yellow-500 text-black font-semibold">JD</AvatarFallback>
+                    </Avatar>
+                    
+                    {/* Profile Info - Hidden on mobile */}
+                    <div className="hidden sm:flex flex-col">
+                      <div className="flex items-center space-x-2">
+                        <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
+                        <Badge className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">
+                          Creator Newcomer
+                        </Badge>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
+                        <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
+                      </div>
                     </div>
-                    <span className={`${logoTextClasses} font-medium text-sm sm:text-base hidden sm:block`}>John Doe</span>
+
+                    {/* Settings Button */}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
+                    >
+                      <Settings className="w-4 h-4" />
+                    </Button>
                   </div>
                 </div>
               ) : (
@@ -294,6 +325,30 @@ const Header = ({
                 >
                   Stock Chart
                 </button>
+
+                {/* Mobile Profile Info (shown when logged in) */}
+                {shouldShowLoggedIn && (
+                  <div className="border-t border-gray-700 pt-3 px-4">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src="/placeholder.svg" alt="Profile" />
+                        <AvatarFallback className="bg-yellow-500 text-black font-semibold">JD</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="flex items-center space-x-2">
+                          <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
+                          <Badge className="bg-green-100 text-green-800 text-xs px-1 py-0.5 rounded-full">
+                            Creator
+                          </Badge>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
+                          <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
