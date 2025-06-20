@@ -158,7 +158,8 @@ const EnhancedChart = ({
   return (
     <div className={`relative w-full h-full ${className}`}>
       {/* Simplified gradient background overlay */}
-      <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-br from-yellow-500/10 to-transparent' : 'bg-gradient-to-br from-yellow-400/10 to-transparent'} pointer-events-none rounded-lg`} />
+      <div className={`absolute inset-0 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} pointer-events-none rounded-lg`} />
+
       
       <div className="relative z-10 w-full h-full">
         {/* Header with fullscreen button */}
