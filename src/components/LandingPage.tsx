@@ -9,7 +9,6 @@ import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
 import TopComments from '@/components/feed/TopComments';
 import UserStats from '@/components/feed/UserStats';
-import QuickActions from '@/components/feed/QuickActions';
 import LiveFeedSection from '@/components/feed/LiveFeedSection';
 import MarketOverview from '@/components/MarketOverview';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
@@ -888,7 +887,6 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           {/* Right Sidebar - Hidden on mobile, shown on lg+ */}
           <div className="hidden lg:block space-y-6">
             <TopCreators isDarkMode={isDarkMode} />
-            <QuickActions isDarkMode={isDarkMode} onNavigate={onNavigate} />
             <TopSharers isDarkMode={isDarkMode} />
             <TopComments isDarkMode={isDarkMode} />
             <TrendingTopics isDarkMode={isDarkMode} />
