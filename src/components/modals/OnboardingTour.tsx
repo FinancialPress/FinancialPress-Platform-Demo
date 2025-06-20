@@ -47,7 +47,7 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
       case 1:
         return {
           title: "Step 1 - Start Creating",
-          content: "This is your creative hub. Start your own posts, share from your other platforms, or even go live. However you want to share — it starts here.",
+          content: "This is your creative hub. Start your own posts, share from your other platforms, or even go live. However you want to share, it starts here.",
           selector: "[data-tour='start-creating']"
         };
       case 2:
@@ -59,7 +59,7 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
       case 3:
         return {
           title: "Step 3 - Live Earnings",
-          content: "Keep tabs on your earnings here — everything you make, live and in real time. And to get you started, we've already added 1.0 FPT to your wallet for being one of our earliest adopters 💸.",
+          content: "Keep tabs on your earnings here. And to get you started, we've already added 1.0 FPT to your wallet for being one of our earliest adopters.",
           selector: "[data-tour='earnings-tracker']"
         };
       default:
