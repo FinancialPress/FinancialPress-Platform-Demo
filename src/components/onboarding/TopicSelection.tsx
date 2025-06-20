@@ -27,10 +27,6 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   const description = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const noteText = 'text-gray-500';
 
-  const unselectedButton = isDarkMode
-    ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white'
-    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black';
-
   return (
     <Card className={`${bg} max-w-4xl mx-auto`}>
       <CardHeader>
@@ -51,14 +47,17 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8">
           {topics.map((topic) => {
             const isSelected = selectedTopics.includes(topic);
+
+            const baseClasses = 'p-4 h-auto font-medium border transition-all';
+            const selectedClasses = 'bg-yellow-500 text-black border-yellow-500';
+            const unselectedClasses = isDarkMode
+              ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white'
+              : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black';
+
             return (
               <Button
                 key={topic}
-                className={`p-4 h-auto font-medium border transition-all ${
-                  isSelected
-                    ? 'bg-yellow-500 text-black border-yellow-500'
-                    : unselectedButton
-                }`}
+                className={`${baseClasses} ${isSelected ? selectedClasses : unselectedClasses}`}
                 onClick={() => onTopicToggle(topic)}
               >
                 {isSelected && <Check className="w-4 h-4 mr-2" />}
