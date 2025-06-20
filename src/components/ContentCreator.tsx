@@ -238,20 +238,20 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <Label className={labelClasses}>Enable live chat</Label>
-                        <Switch 
+                          <Switch 
                           checked={enableLiveChat}
                           onCheckedChange={setEnableLiveChat}
                           className={`border ${borderClasses}`}
                         />
+                        <Label className={labelClasses}>Enable live chat</Label>
                       </div>
                       <div className="flex items-center justify-between">
-                        <Label className={labelClasses}>Let people watch later</Label>
                         <Switch 
                           checked={allowWatchLater}
                           onCheckedChange={setAllowWatchLater}
                           className={`border ${borderClasses}`}
                         />
+                        <Label className={labelClasses}>Let people watch later</Label>
                       </div>
                     </div>
                     <div>
@@ -351,16 +351,16 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <Label className={labelClasses}>Auto-Share To:</Label>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
+                      <Switch className={`border ${borderClasses}`} />
                       <Label className={`${labelClasses} text-sm`}>Twitter/X</Label>
-                      <Switch className={`border ${borderClasses}`} />
                     </div>
                     <div className="flex items-center justify-between">
+                      <Switch className={`border ${borderClasses}`} />
                       <Label className={`${labelClasses} text-sm`}>LinkedIn</Label>
-                      <Switch className={`border ${borderClasses}`} />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label className={`${labelClasses} text-sm`}>Telegram</Label>
                       <Switch className={`border ${borderClasses}`} />
+                      <Label className={`${labelClasses} text-sm`}>Telegram</Label>
                     </div>
                   </div>
                 </div>
