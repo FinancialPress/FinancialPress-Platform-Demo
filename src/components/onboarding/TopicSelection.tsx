@@ -53,8 +53,8 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
             const buttonBase = 'p-4 h-auto border font-medium';
             const selectedButton = 'bg-yellow-500 text-black border-yellow-500';
             const unselectedButton = isDarkMode
-              ? 'border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500'
-              : 'border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600';
+              ? 'bg-gray-900 border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500'
+              : 'bg-white border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600';
 
             return (
               <Button
