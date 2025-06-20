@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { 
   TrendingUp, 
@@ -16,29 +16,30 @@ import {
   Star,
   Trophy
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, CartesianGrid, Tooltip, YAxis, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 interface DashboardProps {
   onNavigate?: (screen: number) => void;
+  isDarkMode?: boolean;
 }
 
-const Dashboard = ({ onNavigate }: DashboardProps) => {
+const Dashboard = ({ onNavigate, isDarkMode = true }: DashboardProps) => {
   const earningsData = [
-    { day: 'Mon', earnings: 5 },
-    { day: 'Tue', earnings: 8 },
-    { day: 'Wed', earnings: 12 },
-    { day: 'Thu', earnings: 18 },
-    { day: 'Fri', earnings: 15 },
-    { day: 'Sat', earnings: 22 },
-    { day: 'Sun', earnings: 20 }
+    { day: 'Mon', value: 5 },
+    { day: 'Tue', value: 8 },
+    { day: 'Wed', value: 12 },
+    { day: 'Thu', value: 18 },
+    { day: 'Fri', value: 15 },
+    { day: 'Sat', value: 22 },
+    { day: 'Sun', value: 20 }
   ];
 
   const platformData = [
-    { platform: 'Twitter', earnings: 450 },
-    { platform: 'LinkedIn', earnings: 320 },
-    { platform: 'Medium', earnings: 280 },
-    { platform: 'Telegram', earnings: 180 },
-    { platform: 'Others', earnings: 120 }
+    { platform: 'Twitter', value: 450 },
+    { platform: 'LinkedIn', value: 320 },
+    { platform: 'Medium', value: 280 },
+    { platform: 'Telegram', value: 180 },
+    { platform: 'Others', value: 120 }
   ];
 
   const topContent = [
@@ -56,14 +57,25 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
     { title: 'Viral Sensation', progress: 92, target: 10, current: 9.2 }
   ];
 
+  // Reusable theme-aware classes
+  const cardClasses = isDarkMode 
+    ? 'bg-gray-900 border-gray-800 text-white' 
+    : 'bg-white border-gray-200 text-black';
+  const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
+  const subtleBorder = isDarkMode ? 'border-gray-800' : 'border-gray-300';
+  const textClasses = isDarkMode ? 'text-white' : 'text-black';
+  const subtleText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+  const tooltipBg = isDarkMode ? '#1F2937' : '#FFFFFF';
+  const tooltipBorder = isDarkMode ? '#374151' : '#E5E7EB';
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black'}`}>
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
-            <p className="text-gray-400">Track your content performance and earnings</p>
+            <p className={mutedText}>Track your content performance and earnings</p>
           </div>
           <div className="flex gap-3">
             <Button 
@@ -74,7 +86,7 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
             </Button>
             <Button 
               variant="outline" 
-              className="border-gray-600 text-gray-300"
+              className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} hover:bg-gray-700`}
               onClick={() => onNavigate?.(3)}
             >
               Find Content to Share
@@ -87,34 +99,34 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
           <div className="col-span-8 space-y-6">
             {/* Key Metrics */}
             <div className="grid grid-cols-4 gap-4">
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className="text-sm text-gray-400 mb-1">Today's Earnings</div>
-                  <div className="text-2xl font-bold text-white">18</div>
-                  <div className="text-xs text-gray-400">FP Shares</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Today's Earnings</div>
+                  <div className="text-2xl font-bold">18</div>
+                  <div className={mutedText + ' text-xs'}>FP Shares</div>
                   <div className="text-xs text-green-400">+5% vs yesterday</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className="text-sm text-gray-400 mb-1">Weekly Earnings</div>
-                  <div className="text-2xl font-bold text-white">75</div>
-                  <div className="text-xs text-gray-400">FP Shares</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Weekly Earnings</div>
+                  <div className="text-2xl font-bold">75</div>
+                  <div className={mutedText + ' text-xs'}>FP Shares</div>
                   <div className="text-xs text-green-400">+8 vs last week</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className="text-sm text-gray-400 mb-1">Total Reach</div>
-                  <div className="text-2xl font-bold text-white">4,280</div>
-                  <div className="text-xs text-gray-400">+15% this month</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Total Reach</div>
+                  <div className="text-2xl font-bold">4,280</div>
+                  <div className={mutedText + ' text-xs'}>+15% this month</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className="text-sm text-gray-400 mb-1">Wallet Balance</div>
-                  <div className="text-2xl font-bold text-white">325</div>
-                  <div className="text-xs text-gray-400">FP Tokens</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Wallet Balance</div>
+                  <div className="text-2xl font-bold">325</div>
+                  <div className={mutedText + ' text-xs'}>FP Tokens</div>
                   <div className="text-xs text-blue-400">Withdraw</div>
                 </CardContent>
               </Card>
@@ -123,50 +135,52 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
             {/* Charts Row */}
             <div className="grid grid-cols-2 gap-6">
               {/* Earnings Over Time */}
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className={cardClasses}>
                 <CardHeader>
-                  <CardTitle className="text-white text-lg">Earnings Over Time</CardTitle>
-                  <p className="text-gray-400 text-sm">Tokens earned from content engagement</p>
+                  <CardTitle className={textClasses + ' text-lg'}>Earnings Over Time</CardTitle>
+                  <p className={mutedText + ' text-sm'}>Tokens earned from content engagement</p>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={earningsData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                      <XAxis dataKey="day" stroke="#9CA3AF" />
-                      <YAxis stroke="#9CA3AF" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#374151' : '#E5E7EB'} />
+                      <XAxis dataKey="day" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} />
+                      <YAxis stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} />
                       <Tooltip 
                         contentStyle={{ 
-                          backgroundColor: '#1F2937', 
-                          border: '1px solid #374151',
-                          borderRadius: '8px'
+                          backgroundColor: tooltipBg,
+                          border: `1px solid ${tooltipBorder}`,
+                          borderRadius: '8px',
+                          color: isDarkMode ? '#FFFFFF' : '#000000'
                         }}
                       />
-                      <Line type="monotone" dataKey="earnings" stroke="#3B82F6" strokeWidth={2} />
+                      <Line type="monotone" dataKey="value" stroke="#3B82F6" strokeWidth={2} />
                     </LineChart>
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
 
               {/* Earnings by Platform */}
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className={cardClasses}>
                 <CardHeader>
-                  <CardTitle className="text-white text-lg">Earnings by Platform</CardTitle>
-                  <p className="text-gray-400 text-sm">Where your content performs best</p>
+                  <CardTitle className={textClasses + ' text-lg'}>Earnings by Platform</CardTitle>
+                  <p className={mutedText + ' text-sm'}>Where your content performs best</p>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={platformData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                      <XAxis dataKey="platform" stroke="#9CA3AF" />
-                      <YAxis stroke="#9CA3AF" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#374151' : '#E5E7EB'} />
+                      <XAxis dataKey="platform" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} />
+                      <YAxis stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} />
                       <Tooltip 
                         contentStyle={{ 
-                          backgroundColor: '#1F2937', 
-                          border: '1px solid #374151',
-                          borderRadius: '8px'
+                          backgroundColor: tooltipBg,
+                          border: `1px solid ${tooltipBorder}`,
+                          borderRadius: '8px',
+                          color: isDarkMode ? '#FFFFFF' : '#000000'
                         }}
                       />
-                      <Bar dataKey="earnings" fill="#06B6D4" />
+                      <Bar dataKey="value" fill="#06B6D4" />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -174,19 +188,19 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
             </div>
 
             {/* Top Performing Content */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className={cardClasses}>
               <CardHeader>
-                <CardTitle className="text-white text-lg flex items-center justify-between">
-                  Top Performing Content
-                  <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
+                <CardTitle className="flex items-center justify-between">
+                  <span className={textClasses + ' text-lg'}>Top Performing Content</span>
+                  <Button variant="outline" size="sm" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} hover:bg-gray-700`}>
                     View All
                   </Button>
                 </CardTitle>
-                <p className="text-gray-400 text-sm">Your highest earning content</p>
+                <p className={mutedText + ' text-sm'}>Your highest earning content</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <div className="grid grid-cols-5 gap-4 text-sm text-gray-400 pb-2 border-b border-gray-800">
+                  <div className={`grid grid-cols-5 gap-4 text-sm ${mutedText} pb-2 border-b ${subtleBorder}`}>
                     <div>Content</div>
                     <div>Views</div>
                     <div>Shares</div>
@@ -199,11 +213,11 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
                         <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-xs font-bold">
                           {content.title.charAt(0)}
                         </div>
-                        <span className="text-white">{content.title}</span>
+                        <span className={textClasses}>{content.title}</span>
                       </div>
-                      <div className="text-gray-300">{content.views}</div>
-                      <div className="text-gray-300">{content.shares}</div>
-                      <div className="text-gray-300">{content.tips}</div>
+                      <div className={subtleText}>{content.views}</div>
+                      <div className={subtleText}>{content.shares}</div>
+                      <div className={subtleText}>{content.tips}</div>
                       <div>
                         <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs">
                           {content.earnings}
@@ -219,23 +233,23 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
           {/* Right Column - Community & Performance */}
           <div className="col-span-4 space-y-6">
             {/* Community Ranking */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className={cardClasses}>
               <CardHeader>
-                <CardTitle className="text-white text-lg flex items-center">
+                <CardTitle className="flex items-center">
                   <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
-                  Community Ranking
+                  <span className={textClasses + ' text-lg'}>Community Ranking</span>
                 </CardTitle>
-                <p className="text-gray-400 text-sm">Your position in the FinancialPress community</p>
+                <p className={mutedText + ' text-sm'}>Your position in the FinancialPress community</p>
               </CardHeader>
               <CardContent className="text-center">
                 <div className="text-6xl font-bold text-blue-500 mb-2">#42</div>
-                <div className="text-sm text-gray-400 mb-4">in FP Crypto Creators</div>
+                <div className={mutedText + ' text-sm mb-4'}>in FP Crypto Creators</div>
                 <div className="space-y-2 mb-4">
                   <Badge className="bg-blue-600 text-white mr-2">Top Share</Badge>
                   <Badge className="bg-green-600 text-white mr-2">First Share</Badge>
                   <Badge className="bg-yellow-600 text-black">Hot Club</Badge>
                 </div>
-                <div className="text-xs text-gray-400 space-y-1">
+                <div className={mutedText + ' text-xs space-y-1'}>
                   <div><strong>Personal Bests:</strong></div>
                   <div>Most shared content this week</div>
                   <div>New record for likes in a single day</div>
@@ -245,15 +259,15 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
             </Card>
 
             {/* Quick Actions */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className={cardClasses}>
               <CardHeader>
-                <CardTitle className="text-white text-lg">Quick Actions</CardTitle>
-                <p className="text-gray-400 text-sm">Common tasks you can perform right away</p>
+                <CardTitle className={textClasses + ' text-lg'}>Quick Actions</CardTitle>
+                <p className={mutedText + ' text-sm'}>Common tasks you can perform right away</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <Button 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-start"
+                    className="w-full bg-blue-600 hover:bg-blue-700 flex items-center justify-start"
                     onClick={() => onNavigate?.(4)}
                   >
                     <PlusCircle className="w-4 h-4 mr-2" />
@@ -262,19 +276,19 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="w-full border-gray-600 text-gray-300 flex items-center justify-start"
+                    className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start hover:bg-gray-700`}
                     onClick={() => onNavigate?.(3)}
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Find Content to Share
                     <span className="ml-auto text-xs">Discover shareable content</span>
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 flex items-center justify-start">
+                  <Button variant="outline" className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start hover:bg-gray-700`}>
                     <Users className="w-4 h-4 mr-2" />
                     Connect
                     <span className="ml-auto text-xs">Link more social accounts</span>
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-600 text-gray-300 flex items-center justify-start">
+                  <Button variant="outline" className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start hover:bg-gray-700`}>
                     <DollarSign className="w-4 h-4 mr-2" />
                     Withdraw
                     <span className="ml-auto text-xs">Share earnings and withdraw</span>
@@ -284,18 +298,18 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
             </Card>
 
             {/* Achievement Progress */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className={cardClasses}>
               <CardHeader>
-                <CardTitle className="text-white text-lg">Achievement Progress</CardTitle>
-                <p className="text-gray-400 text-sm">Track your milestones and achievements</p>
+                <CardTitle className={textClasses + ' text-lg'}>Achievement Progress</CardTitle>
+                <p className={mutedText + ' text-sm'}>Track your milestones and achievements</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {achievements.map((achievement, index) => (
                     <div key={index}>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-white">{achievement.title}</span>
-                        <span className="text-gray-400">{Math.round(achievement.current)}/{achievement.target}</span>
+                        <span className={textClasses}>{achievement.title}</span>
+                        <span className={mutedText}>{Math.round(achievement.current)}/{achievement.target}</span>
                       </div>
                       <Progress value={achievement.progress} className="h-2" />
                     </div>
@@ -305,28 +319,28 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
             </Card>
 
             {/* Network Growth */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className={cardClasses}>
               <CardHeader>
-                <CardTitle className="text-white text-lg">Network Growth</CardTitle>
-                <p className="text-gray-400 text-sm">Your audience growth and reach</p>
+                <CardTitle className={textClasses + ' text-lg'}>Network Growth</CardTitle>
+                <p className={mutedText + ' text-sm'}>Your audience growth and reach</p>
               </CardHeader>
               <CardContent>
                 <div className="text-center mb-4">
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <div className="text-2xl font-bold text-white">128</div>
-                      <div className="text-xs text-gray-400">Followers</div>
+                      <div className="text-2xl font-bold">128</div>
+                      <div className={mutedText + ' text-xs'}>Followers</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-white">345</div>
-                      <div className="text-xs text-gray-400">Following</div>
+                      <div className="text-2xl font-bold">345</div>
+                      <div className={mutedText + ' text-xs'}>Following</div>
                     </div>
                   </div>
-                  <div className="text-xs text-gray-400 mb-4">
+                  <div className={mutedText + ' text-xs mb-4'}>
                     <strong>Your public profile:</strong><br />
                     FinancialPress.love/user/yourprofile2
                   </div>
-                  <div className="text-xs text-gray-400">
+                  <div className={mutedText + ' text-xs'}>
                     Share your profile to grow your network and position yourself as a thought leader in the financial space.
                   </div>
                 </div>
