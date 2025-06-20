@@ -20,7 +20,7 @@ import {
   Video,
   UserPlus
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend } from 'recharts';
 
 interface DashboardProps {
   onNavigate?: (screen: number) => void;
@@ -172,7 +172,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                 </CardContent>
               </Card>
 
-              {/* Earnings by platform (pie chart) */}
+              {/* Earnings by platform (pie chart with legend) */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
                   <CardTitle className={textClasses + ' text-base'}>Earnings by Platform</CardTitle>
@@ -185,23 +185,17 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         data={earningsBySharesData}
                         cx="50%"
                         cy="50%"
-                        outerRadius={60}
+                        outerRadius={50}
                         fill="#8884d8"
                         dataKey="value"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        fontSize={10}
                       >
                         {earningsBySharesData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'][index]} />
                         ))}
                       </Pie>
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: tooltipBg,
-                          border: `1px solid ${tooltipBorder}`,
-                          borderRadius: '8px',
-                          color: isDarkMode ? '#FFFFFF' : '#000000'
-                        }}
+                      <Legend 
+                        wrapperStyle={{ fontSize: '12px', color: isDarkMode ? '#FFFFFF' : '#000000' }}
+                        iconType="circle"
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -292,9 +286,9 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
 
             {/* Tabbed Top Performing Content */}
             <Card className={cardClasses}>
-              <CardHeader>
-                <CardTitle className={textClasses + ' text-lg'}>Performance Analytics</CardTitle>
-                <p className={mutedText + ' text-sm'}>Your top earning content and shares</p>
+              <CardHeader className="pb-3">
+                <CardTitle className={textClasses + ' text-base'}>Performance Analytics</CardTitle>
+                <p className={mutedText + ' text-xs'}>Your top earning content and shares</p>
               </CardHeader>
               <CardContent>
                 <Tabs value={contentTab} onValueChange={setContentTab} className="w-full">
@@ -359,12 +353,12 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
           <div className="col-span-4 space-y-6">
             {/* Community Stats with Followers/Subscribers */}
             <Card className={cardClasses}>
-              <CardHeader>
+              <CardHeader className="pb-3">
                 <CardTitle className="flex items-center">
                   <Users className="w-5 h-5 mr-2 text-blue-500" />
-                  <span className={textClasses + ' text-lg'}>Community Stats</span>
+                  <span className={textClasses + ' text-base'}>Community Stats</span>
                 </CardTitle>
-                <p className={mutedText + ' text-sm'}>Your audience and engagement</p>
+                <p className={mutedText + ' text-xs'}>Your audience and engagement</p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4 mb-6">
@@ -391,11 +385,35 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               </CardContent>
             </Card>
 
+            {/* Network Growth */}
+            <Card className={cardClasses}>
+              <CardHeader className="pb-3">
+                <CardTitle className={textClasses + ' text-base'}>Network Growth</CardTitle>
+                <p className={mutedText + ' text-xs'}>Your expanding professional network</p>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className={textClasses + ' text-sm'}>Connections</span>
+                    <span className="text-blue-500 font-semibold">+24 this week</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className={textClasses + ' text-sm'}>Industry Contacts</span>
+                    <span className="text-green-500 font-semibold">143 total</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className={textClasses + ' text-sm'}>Mutual Connections</span>
+                    <span className="text-yellow-500 font-semibold">67 active</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Updated Quick Actions */}
             <Card className={cardClasses}>
-              <CardHeader>
-                <CardTitle className={textClasses + ' text-lg'}>Quick Actions</CardTitle>
-                <p className={mutedText + ' text-sm'}>Start creating and earning</p>
+              <CardHeader className="pb-3">
+                <CardTitle className={textClasses + ' text-base'}>Quick Actions</CardTitle>
+                <p className={mutedText + ' text-xs'}>Start creating and earning</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -441,9 +459,9 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
 
             {/* Achievement Progress */}
             <Card className={cardClasses}>
-              <CardHeader>
-                <CardTitle className={textClasses + ' text-lg'}>Achievement Progress</CardTitle>
-                <p className={mutedText + ' text-sm'}>Track your milestones and achievements</p>
+              <CardHeader className="pb-3">
+                <CardTitle className={textClasses + ' text-base'}>Achievement Progress</CardTitle>
+                <p className={mutedText + ' text-xs'}>Track your milestones and achievements</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
