@@ -27,6 +27,14 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   const description = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const noteText = 'text-gray-500';
 
+  const unselectedLight =
+    'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black ' +
+    'active:bg-yellow-500 active:text-black focus:bg-yellow-500 focus:text-black';
+
+  const unselectedDark =
+    'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white hover:border-gray-500 ' +
+    'active:bg-yellow-500 active:text-black focus:bg-yellow-500 focus:text-black';
+
   return (
     <Card className={`${bg} max-w-4xl mx-auto`}>
       <CardHeader>
@@ -34,9 +42,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
         <p className={`text-center ${subtext} text-lg`}>
           Choose what content you're interested in for better discovery and earnings opportunities
         </p>
-        <div className={`text-center text-sm ${stepText}`}>
-          Step 2 of 3
-        </div>
+        <div className={`text-center text-sm ${stepText}`}>Step 2 of 3</div>
       </CardHeader>
       <CardContent className="p-8">
         <div className="mb-6">
@@ -49,15 +55,16 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8">
           {topics.map((topic) => {
             const isSelected = selectedTopics.includes(topic);
-            const base = 'p-4 h-auto font-medium border transition-all';
-            const selectedStyle = 'bg-yellow-500 text-black border-yellow-500';
-            const unselectedDark = 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white hover:border-gray-500';
-            const unselectedLight = 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black';
-
             return (
               <Button
                 key={topic}
-                className={`${base} ${isSelected ? selectedStyle : isDarkMode ? unselectedDark : unselectedLight}`}
+                className={`p-4 h-auto font-medium border transition-all ${
+                  isSelected
+                    ? 'bg-yellow-500 text-black border-yellow-500'
+                    : isDarkMode
+                    ? unselectedDark
+                    : unselectedLight
+                }`}
                 onClick={() => onTopicToggle(topic)}
               >
                 {isSelected && <Check className="w-4 h-4 mr-2" />}
