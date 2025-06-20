@@ -26,7 +26,7 @@ const WelcomeModal = ({ isOpen, onStartTour, isDarkMode = true }: WelcomeModalPr
         
         <div className="space-y-4">
           <p className={`text-base leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            You're officially part of something new and exciting. As an early adopter, you've got exclusive access to a brand-new way to share your voice and earn as you grow.
+            As an early adopter, you've got exclusive access to a brand-new way to share your voice and earn as you grow.
           </p>
           
           <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>
