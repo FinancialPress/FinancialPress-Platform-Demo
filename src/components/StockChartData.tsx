@@ -213,7 +213,8 @@ const StockChartData = ({ symbol = 'TSLA', onNavigate, isDarkMode = true }: Stoc
               {/* Enhanced Stock Info Card */}
               <Card className={`${cardClasses} relative overflow-hidden`}>
                 {/* Premium gradient background */}
-                <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-br from-yellow-500/10 via-transparent to-gray-900/50' : 'bg-gradient-to-br from-yellow-400/10 via-transparent to-gray-100/50'} pointer-events-none`} />
+                <div className="absolute inset-0 pointer-events-none" />
+
                 
                 <CardContent className="p-6 relative z-10">
                   <div className="flex items-start justify-between mb-4">
