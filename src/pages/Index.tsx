@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import LandingPage from '../components/LandingPage';
 import SignUpPage from '../components/SignUpPage';
@@ -16,8 +17,15 @@ const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [searchSymbol, setSearchSymbol] = useState('');
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const navigate = useNavigate();
 
   const handleNavigate = (screen: number, symbol?: string) => {
+    // Special handling for Content Creator - navigate to dedicated page
+    if (screen === 5) {
+      navigate('/create');
+      return;
+    }
+    
     setCurrentScreen(screen);
     if (symbol) {
       setSearchSymbol(symbol);

@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -8,6 +10,8 @@ interface QuickActionsProps {
 }
 
 const QuickActions = ({ isDarkMode = true, onNavigate }: QuickActionsProps) => {
+  const navigate = useNavigate();
+
   const cardClasses = isDarkMode 
     ? "bg-gray-900 border-gray-800"
     : "bg-white border-gray-200";
@@ -20,6 +24,10 @@ const QuickActions = ({ isDarkMode = true, onNavigate }: QuickActionsProps) => {
     ? "border-gray-600 text-gray-300 hover:bg-gray-700"
     : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50 font-semibold px-6";
 
+  const handleCreateContent = () => {
+    navigate('/create');
+  };
+
   return (
     <Card className={cardClasses}>
       <CardContent className="p-4">
@@ -27,7 +35,7 @@ const QuickActions = ({ isDarkMode = true, onNavigate }: QuickActionsProps) => {
         <div className="space-y-2">
           <Button
             className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-sm"
-            onClick={() => onNavigate?.(5)} // Content Creator
+            onClick={handleCreateContent}
           >
             Create Content
           </Button>
