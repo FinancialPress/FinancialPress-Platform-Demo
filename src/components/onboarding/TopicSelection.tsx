@@ -56,9 +56,14 @@ const TopicSelection = ({
             const isSelected = selectedTopics.includes(topic);
             const base = 'p-4 h-auto font-medium border transition-all';
 
+            // ✅ ACTIVE yellow button: no hover classes at all
             const selectedStyles = 'bg-yellow-500 text-black border-yellow-500';
-            const unselectedLight = 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black';
-            const unselectedDark = 'bg-gray-900 border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500';
+
+            // ✅ Only unselected buttons get hover
+            const unselectedLight =
+              'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black';
+            const unselectedDark =
+              'bg-gray-900 border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500';
 
             const buttonClasses = isSelected
               ? `${base} ${selectedStyles}`
