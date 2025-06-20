@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -36,6 +35,8 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
 
   const handleNext = () => {
     if (currentStep < 3) {
+      // Scroll to top before moving to next step
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setCurrentStep(currentStep + 1);
     } else {
       onComplete();
