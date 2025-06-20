@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -23,13 +24,13 @@ const UserInterests = ({ isDarkMode = false }: UserInterestsProps) => {
           <Star className="w-4 h-4 mr-2 text-yellow-500" />
           Your Interests
         </h3>
-        &lt;div className="flex flex-wrap gap-2"&gt;
+        <div className="flex flex-wrap gap-2">
           {interests.map((interest, index) => (
-            &lt;Badge key={index} className={badgeClasses}&gt;
+            <Badge key={index} className={badgeClasses}>
               {interest}
-            &lt;/Badge&gt;
+            </Badge>
           ))}
-        &lt;/div&gt;
+        </div>
       </CardContent>
     </Card>
   );
