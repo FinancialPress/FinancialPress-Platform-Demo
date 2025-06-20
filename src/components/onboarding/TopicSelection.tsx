@@ -15,7 +15,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   const { isDarkMode } = useTheme();
 
   const topics = [
-    'Crypto', 'Stocks', 'Tech', 'NFTs', 'AI', 'Pharma', 
+    'Crypto', 'Stocks', 'Tech', 'NFTs', 'AI', 'Pharma',
     'Macroeconomics', 'Trading', 'DeFi', 'Web3', 'Blockchain', 'Fintech'
   ];
 
@@ -25,7 +25,7 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   const stepText = isDarkMode ? 'text-gray-400' : 'text-gray-500';
   const heading = isDarkMode ? 'text-white' : 'text-black';
   const description = isDarkMode ? 'text-gray-400' : 'text-gray-600';
-  const noteText = isDarkMode ? 'text-gray-500' : 'text-gray-500';
+  const noteText = 'text-gray-500';
 
   return (
     <Card className={`${bg} max-w-4xl mx-auto`}>
@@ -45,21 +45,20 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
             We'll suggest content based on your interests and connect you with relevant audiences
           </p>
         </div>
-        
+
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8">
           {topics.map((topic) => {
             const isSelected = selectedTopics.includes(topic);
-
-            const buttonBase = 'p-4 h-auto border font-medium';
-            const selectedButton = 'bg-yellow-500 text-black border-yellow-500';
-            const unselectedButton = isDarkMode
-              ? 'bg-gray-900 border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500'
-              : 'bg-white border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600';
-
             return (
               <Button
                 key={topic}
-                className={`${buttonBase} ${isSelected ? selectedButton : unselectedButton}`}
+                className={`p-4 h-auto font-medium border transition-all ${
+                  isSelected
+                    ? 'bg-yellow-500 text-black border-yellow-500'
+                    : isDarkMode
+                    ? 'bg-gray-900 border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500'
+                    : 'bg-white border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600'
+                }`}
                 onClick={() => onTopicToggle(topic)}
               >
                 {isSelected && <Check className="w-4 h-4 mr-2" />}
@@ -71,17 +70,18 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
 
         <div className="text-center space-y-4">
           <div className="flex justify-center space-x-6">
-            <Button 
-              className={`px-8 py-2 ${
+            <Button
+              variant="outline"
+              className={`px-8 py-2 text-sm sm:text-base ${
                 isDarkMode
-                  ? 'border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
-                  : 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
+                  ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black'
               }`}
               onClick={onContinue}
             >
               Do this later
             </Button>
-            <Button 
+            <Button
               className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3"
               onClick={onContinue}
             >
