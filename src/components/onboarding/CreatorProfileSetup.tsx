@@ -6,12 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { PenTool, Upload, Camera, CheckCircle, XCircle, Plus, Trash2, Share2 } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface CreatorProfileSetupProps {
   onContinue: () => void;
 }
 
 const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
+  const { isDarkMode } = useTheme();
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [newPlatformUrl, setNewPlatformUrl] = useState('');
   const [wantsToCreate, setWantsToCreate] = useState(false);
@@ -37,9 +39,9 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
   };
 
   const togglePlatformConnection = (platformId: string) => {
-    setPlatforms(prev => prev.map(p => 
-      p.id === platformId ? { ...p, connected: !p.connected } : p
-    ));
+    setPlatforms(prev =>
+      prev.map(p => p.id === platformId ? { ...p, connected: !p.connected } : p)
+    );
   };
 
   const addNewPlatform = () => {
@@ -67,26 +69,29 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
     setWantsToShare(checked === true);
   };
 
+  const bg = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
+  const text = isDarkMode ? 'text-white' : 'text-black';
+  const subtext = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+  const formBg = isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-gray-100 border-gray-300 text-black';
+  const boxBg = isDarkMode ? 'bg-gray-800' : 'bg-gray-100';
+
   return (
-    <Card className="bg-gray-900 border-gray-800 max-w-2xl mx-auto">
+    <Card className={`${bg} max-w-2xl mx-auto`}>
       <CardHeader>
         <div className="flex items-center justify-center mb-4">
           <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center">
             <PenTool className="w-8 h-8 text-black" />
           </div>
         </div>
-        <CardTitle className="text-3xl text-center text-white">Complete Your Profile</CardTitle>
-        <p className="text-center text-gray-300">Set up your profile to start earning from your content</p>
-        <div className="text-center text-sm text-gray-400">
-          Step 3 of 3
-        </div>
+        <CardTitle className={`text-3xl text-center ${text}`}>Complete Your Profile</CardTitle>
+        <p className={`text-center ${subtext}`}>Set up your profile to start earning from your content</p>
+        <div className={`text-center text-sm ${subtext}`}>Step 3 of 3</div>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Profile Picture Upload */}
         <div className="text-center">
-          <Label className="text-gray-300 block mb-2">Profile Picture</Label>
+          <Label className={`${subtext} block mb-2`}>Profile Picture</Label>
           <div className="relative inline-block">
-            <div className="w-24 h-24 bg-gray-700 rounded-full mx-auto flex items-center justify-center overflow-hidden">
+            <div className={`w-24 h-24 ${boxBg} rounded-full mx-auto flex items-center justify-center overflow-hidden`}>
               {profileImage ? (
                 <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
               ) : (
@@ -95,53 +100,36 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
             </div>
             <label className="absolute bottom-0 right-0 bg-yellow-500 rounded-full p-2 cursor-pointer hover:bg-yellow-600 transition-colors">
               <Upload className="w-4 h-4 text-black" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
+              <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
             </label>
           </div>
         </div>
 
         <div>
-          <Label className="text-gray-300">Creator Display Name</Label>
-          <Input 
-            placeholder="Your creator name"
-            className="bg-gray-800 border-gray-700 text-white"
-          />
+          <Label className={subtext}>Creator Display Name</Label>
+          <Input placeholder="Your creator name" className={formBg} />
         </div>
 
         <div>
-          <Label className="text-gray-300">Your Organisation</Label>
-          <Input 
-            placeholder="Company or organisation name (optional)"
-            className="bg-gray-800 border-gray-700 text-white"
-          />
+          <Label className={subtext}>Your Organisation</Label>
+          <Input placeholder="Company or organisation name (optional)" className={formBg} />
         </div>
 
         <div>
-          <Label className="text-gray-300">Bio & Expertise</Label>
-          <Textarea 
-            placeholder="Tell your audience about your expertise and background..."
-            className="bg-gray-800 border-gray-700 text-white"
-          />
+          <Label className={subtext}>Bio & Expertise</Label>
+          <Textarea placeholder="Tell your audience about your expertise..." className={formBg} />
         </div>
 
-        {/* Enhanced Social Links Section */}
         <div>
-          <Label className="text-gray-300 mb-3 block">Social Links</Label>
+          <Label className={`${subtext} mb-3 block`}>Social Links</Label>
           <div className="space-y-3">
             {platforms.map((platform) => (
-              <div key={platform.id} className="flex items-center justify-between bg-gray-800 p-3 rounded-lg">
+              <div key={platform.id} className={`${boxBg} p-3 rounded-lg flex items-center justify-between`}>
                 <div className="flex items-center space-x-3">
                   <span className="text-xl">{platform.icon}</span>
-                  <span className="text-white font-medium">{platform.name}</span>
+                  <span className={`font-medium ${text}`}>{platform.name}</span>
                   <span className={`text-xs px-2 py-1 rounded ${
-                    platform.connected 
-                      ? 'bg-green-600 text-white' 
-                      : 'bg-gray-600 text-gray-300'
+                    platform.connected ? 'bg-green-600 text-white' : 'bg-gray-500 text-white'
                   }`}>
                     {platform.connected ? 'Connected' : 'Disconnected'}
                   </span>
@@ -150,24 +138,18 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
                   <Button
                     size="sm"
                     variant="outline"
-                    className={`border-gray-600 ${
-                      platform.connected 
-                        ? 'text-red-400 hover:bg-red-400 hover:text-white' 
-                        : 'text-green-400 hover:bg-green-400 hover:text-white'
+                    className={`border-gray-400 ${
+                      platform.connected ? 'text-red-500 hover:bg-red-500 hover:text-white' : 'text-green-600 hover:bg-green-500 hover:text-white'
                     }`}
                     onClick={() => togglePlatformConnection(platform.id)}
                   >
-                    {platform.connected ? (
-                      <XCircle className="w-4 h-4" />
-                    ) : (
-                      <CheckCircle className="w-4 h-4" />
-                    )}
+                    {platform.connected ? <XCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                   </Button>
                   {platform.id.startsWith('custom-') && (
                     <Button
                       size="sm"
                       variant="outline"
-                      className="border-gray-600 text-red-400 hover:bg-red-400 hover:text-white"
+                      className="border-gray-400 text-red-500 hover:bg-red-500 hover:text-white"
                       onClick={() => removePlatform(platform.id)}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -176,14 +158,12 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
                 </div>
               </div>
             ))}
-            
-            {/* Add new platform */}
             <div className="flex space-x-2">
               <Input
                 placeholder="Paste platform URL"
                 value={newPlatformUrl}
                 onChange={(e) => setNewPlatformUrl(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white flex-1"
+                className={`${formBg} flex-1`}
               />
               <Button
                 onClick={addNewPlatform}
@@ -197,19 +177,15 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
           </div>
         </div>
 
-        {/* What do you want to do section */}
         <div className="space-y-3">
-          <Label className="text-gray-300 block">What do you want to do?</Label>
-          
-          <div 
+          <Label className={`${subtext} block`}>What do you want to do?</Label>
+          <div
             className={`flex items-center space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-              wantsToCreate 
-                ? 'bg-yellow-500/10 border-yellow-500' 
-                : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+              wantsToCreate ? 'bg-yellow-500/10 border-yellow-500' : `${boxBg} border-gray-300 hover:border-gray-400`
             }`}
             onClick={() => setWantsToCreate(!wantsToCreate)}
           >
-            <Checkbox 
+            <Checkbox
               id="create"
               checked={wantsToCreate}
               onCheckedChange={handleCreateCheckedChange}
@@ -217,25 +193,23 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
             />
             <div className="flex items-center space-x-3">
               <div className={`w-8 h-8 rounded flex items-center justify-center ${
-                wantsToCreate ? 'bg-yellow-500' : 'bg-gray-600'
+                wantsToCreate ? 'bg-yellow-500' : 'bg-gray-500'
               }`}>
-                <PenTool className={`w-5 h-5 ${wantsToCreate ? 'text-black' : 'text-gray-400'}`} />
+                <PenTool className={`w-5 h-5 ${wantsToCreate ? 'text-black' : 'text-white'}`} />
               </div>
-              <span className={`font-medium ${wantsToCreate ? 'text-white' : 'text-gray-400'}`}>
+              <span className={`font-medium ${wantsToCreate ? text : 'text-gray-500'}`}>
                 Create my own editorial content and analysis
               </span>
             </div>
           </div>
 
-          <div 
+          <div
             className={`flex items-center space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-              wantsToShare 
-                ? 'bg-blue-500/10 border-blue-500' 
-                : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+              wantsToShare ? 'bg-blue-500/10 border-blue-500' : `${boxBg} border-gray-300 hover:border-gray-400`
             }`}
             onClick={() => setWantsToShare(!wantsToShare)}
           >
-            <Checkbox 
+            <Checkbox
               id="share"
               checked={wantsToShare}
               onCheckedChange={handleShareCheckedChange}
@@ -243,21 +217,18 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
             />
             <div className="flex items-center space-x-3">
               <div className={`w-8 h-8 rounded flex items-center justify-center ${
-                wantsToShare ? 'bg-blue-500' : 'bg-gray-600'
+                wantsToShare ? 'bg-blue-500' : 'bg-gray-500'
               }`}>
-                <Share2 className={`w-5 h-5 ${wantsToShare ? 'text-white' : 'text-gray-400'}`} />
+                <Share2 className={`w-5 h-5 ${wantsToShare ? 'text-white' : 'text-white'}`} />
               </div>
-              <span className={`font-medium ${wantsToShare ? 'text-white' : 'text-gray-400'}`}>
+              <span className={`font-medium ${wantsToShare ? text : 'text-gray-500'}`}>
                 Share and distribute other people's content
               </span>
             </div>
           </div>
         </div>
 
-        <Button 
-          className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
-          onClick={onContinue}
-        >
+        <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3" onClick={onContinue}>
           Complete Setup
         </Button>
       </CardContent>
