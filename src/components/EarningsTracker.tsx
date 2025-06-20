@@ -84,11 +84,12 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
             <div className={`text-2xl font-bold text-yellow-500 mb-1`}>
               {balance.toFixed(1)} FPT
             </div>
-            {isAnimating && isFromOnboarding && (
-              <div className="text-green-400 text-xs">⚡ Earning in real-time...</div>
+            <div className="text-green-400 text-xs">⚡ Earning in real-time...</div>
+            {!isFromOnboarding && balance > 0 && (
+              <Badge className="bg-green-500 text-black text-xs mt-1">✅ You just earned {balance.toFixed(1)} FPT!</Badge>
             )}
-            {!isAnimating && balance > 0 && isFromOnboarding && (
-              <Badge className="bg-green-500 text-black text-xs">✅ You just earned {balance.toFixed(1)} FPT!</Badge>
+            {isFromOnboarding && balance > 0 && (
+              <Badge className="bg-green-500 text-black text-xs mt-1">✅ You just earned {balance.toFixed(1)} FPT!</Badge>
             )}
           </div>
 
@@ -142,7 +143,7 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
     );
   }
 
-  // ... keep existing code (original floating version)
+  // Original floating version
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {/* Floating Wallet Widget */}
@@ -161,12 +162,8 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
           {/* Real-time Balance */}
           <div className="text-center mb-6">
             <div className="text-3xl font-bold text-yellow-500 mb-2">{balance.toFixed(1)} FPT</div>
-            {isAnimating && (
-              <div className="text-green-400 text-sm">⚡ Earning in real-time...</div>
-            )}
-            {!isAnimating && (
-              <Badge className="bg-green-500 text-black">✅ You just earned {balance.toFixed(1)} FPT for your first share!</Badge>
-            )}
+            <div className="text-green-400 text-sm">⚡ Earning in real-time...</div>
+            <Badge className="bg-green-500 text-black mt-2">✅ You just earned {balance.toFixed(1)} FPT for your first share!</Badge>
           </div>
 
           {/* Quick Stats */}
