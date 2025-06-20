@@ -16,7 +16,7 @@ import {
   Star,
   Trophy
 } from 'lucide-react';
-import { LineChart, Line, XAxis, CartesianGrid, Tooltip, YAxis, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 interface DashboardProps {
   onNavigate?: (screen: number) => void;
@@ -24,6 +24,9 @@ interface DashboardProps {
 }
 
 const Dashboard = ({ onNavigate, isDarkMode = true }: DashboardProps) => {
+  // Debug log to verify isDarkMode
+  console.log('DASHBOARD isDarkMode:', isDarkMode);
+
   const earningsData = [
     { day: 'Mon', value: 5 },
     { day: 'Tue', value: 8 },
@@ -86,7 +89,7 @@ const Dashboard = ({ onNavigate, isDarkMode = true }: DashboardProps) => {
             </Button>
             <Button 
               variant="outline" 
-              className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} hover:bg-gray-700`}
+              className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
               onClick={() => onNavigate?.(3)}
             >
               Find Content to Share
@@ -192,7 +195,7 @@ const Dashboard = ({ onNavigate, isDarkMode = true }: DashboardProps) => {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className={textClasses + ' text-lg'}>Top Performing Content</span>
-                  <Button variant="outline" size="sm" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} hover:bg-gray-700`}>
+                  <Button variant="outline" size="sm" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
                     View All
                   </Button>
                 </CardTitle>
@@ -276,19 +279,19 @@ const Dashboard = ({ onNavigate, isDarkMode = true }: DashboardProps) => {
                   </Button>
                   <Button 
                     variant="outline" 
-                    className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start hover:bg-gray-700`}
+                    className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                     onClick={() => onNavigate?.(3)}
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Find Content to Share
                     <span className="ml-auto text-xs">Discover shareable content</span>
                   </Button>
-                  <Button variant="outline" className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start hover:bg-gray-700`}>
+                  <Button variant="outline" className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
                     <Users className="w-4 h-4 mr-2" />
                     Connect
                     <span className="ml-auto text-xs">Link more social accounts</span>
                   </Button>
-                  <Button variant="outline" className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start hover:bg-gray-700`}>
+                  <Button variant="outline" className={`w-full ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'} flex items-center justify-start ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
                     <DollarSign className="w-4 h-4 mr-2" />
                     Withdraw
                     <span className="ml-auto text-xs">Share earnings and withdraw</span>
