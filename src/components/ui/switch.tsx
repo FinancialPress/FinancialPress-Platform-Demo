@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 
@@ -9,7 +10,7 @@ const Switch = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SwitchPrimitives.Root
     className={cn(
-      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(55,65,81)] focus-visible:ring-offset-2"
+      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(55,65,81)] focus-visible:ring-offset-2",
       className
     )}
     {...props}
