@@ -11,7 +11,12 @@ interface TopicSelectionProps {
   onContinue: () => void;
 }
 
-const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }: TopicSelectionProps) => {
+const TopicSelection = ({
+  userRole,
+  selectedTopics,
+  onTopicToggle,
+  onContinue
+}: TopicSelectionProps) => {
   const { isDarkMode } = useTheme();
 
   const topics = [
@@ -30,7 +35,9 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
   return (
     <Card className={`${bg} max-w-4xl mx-auto`}>
       <CardHeader>
-        <CardTitle className={`text-3xl text-center ${title}`}>Set Your Topics & Interests</CardTitle>
+        <CardTitle className={`text-3xl text-center ${title}`}>
+          Set Your Topics & Interests
+        </CardTitle>
         <p className={`text-center ${subtext} text-lg`}>
           Choose what content you're interested in for better discovery and earnings opportunities
         </p>
@@ -47,17 +54,22 @@ const TopicSelection = ({ userRole, selectedTopics, onTopicToggle, onContinue }:
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8">
           {topics.map((topic) => {
             const isSelected = selectedTopics.includes(topic);
+            const base = 'p-4 h-auto font-medium border transition-all';
 
-            const baseClasses = 'p-4 h-auto font-medium border transition-all';
-            const selectedClasses = 'bg-yellow-500 text-black border-yellow-500';
-            const unselectedClasses = isDarkMode
-              ? 'bg-gray-900 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white'
-              : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black';
+            const selectedStyles = 'bg-yellow-500 text-black border-yellow-500';
+            const unselectedLight = 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-black';
+            const unselectedDark = 'bg-gray-900 border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500';
 
             return (
               <Button
                 key={topic}
-                className={`${baseClasses} ${isSelected ? selectedClasses : unselectedClasses}`}
+                className={`${base} ${
+                  isSelected
+                    ? selectedStyles
+                    : isDarkMode
+                    ? unselectedDark
+                    : unselectedLight
+                }`}
                 onClick={() => onTopicToggle(topic)}
               >
                 {isSelected && <Check className="w-4 h-4 mr-2" />}
