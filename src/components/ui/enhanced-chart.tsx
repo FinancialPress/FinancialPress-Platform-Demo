@@ -309,7 +309,7 @@ const EnhancedChart = ({
                       )}
 
                       <Area
-                        type="cardinal"
+                        type="monotone"
                         dataKey="value"
                         stroke={priceChange >= 0 ? '#10B981' : '#EF4444'}
                         strokeWidth={2}
