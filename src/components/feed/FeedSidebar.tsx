@@ -77,17 +77,6 @@ const FeedSidebar = ({ isDarkMode = true, onNavigate }: FeedSidebarProps) => {
       {/* Main Navigation */}
       <Card className={cardClasses}>
         <CardContent className="p-4">
-          {/* User Profile Section */}
-          <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-gray-800">
-            <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-black" />
-            </div>
-            <div>
-              <div className={`${textClasses} font-semibold`}>John Doe</div>
-              <div className={`${secondaryTextClasses} text-sm`}>@johndoe</div>
-            </div>
-          </div>
-
           {/* Navigation Items */}
           <nav className="space-y-1">
             {menuItems.map((item, index) => (
