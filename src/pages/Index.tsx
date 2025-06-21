@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { AuthProvider } from '../contexts/AuthContext';
 import Header from '../components/Header';
 import LandingPage from '../components/LandingPage';
 import SignUpPage from '../components/SignUpPage';
@@ -13,14 +14,17 @@ import ShareEarnFlow from '../components/ShareEarnFlow';
 import StockChartData from '../components/StockChartData';
 import FinalCTA from '../components/FinalCTA';
 
+type UserType = 'demo' | 'live' | null;
+
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [searchSymbol, setSearchSymbol] = useState('');
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [userType, setUserType] = useState<UserType>(null);
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
 
-  const handleNavigate = (screen: number, symbol?: string) => {
+  const handleNavigate = (screen: number, symbol?: string, type?: UserType) => {
     // Special handling for Content Creator - navigate to dedicated page
     if (screen === 5) {
       navigate('/create');
@@ -30,6 +34,9 @@ const Index = () => {
     setCurrentScreen(screen);
     if (symbol) {
       setSearchSymbol(symbol);
+    }
+    if (type) {
+      setUserType(type);
     }
     // Reset onboarding flag when navigating normally
     if (screen !== 3) {
@@ -50,19 +57,17 @@ const Index = () => {
   };
 
   const handleShareClose = () => {
-    // Handle close logic
     console.log("Share modal closed");
   };
 
   const handleShare = () => {
-    // Handle share logic
     console.log("Content shared");
   };
 
   const screens = [
     <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <SignUpPage key="signup" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} onComplete={handleOnboardingComplete} />,
+    <SignUpPage key="signup" onNavigate={handleNavigate} isDarkMode={isDarkMode} userType={userType} setUserType={setUserType} />,
+    <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} onComplete={handleOnboardingComplete} userType={userType} />,
     <UserFeed key="feed" onNavigate={handleNavigate} isDarkMode={isDarkMode} showOnboarding={showOnboarding} />,
     <Dashboard key="dashboard" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
     <ContentCreator key="creator" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
@@ -84,19 +89,21 @@ const Index = () => {
   const showHeader = currentScreen !== 2;
 
   return (
-    <div className={`${themeClasses} w-full overflow-x-hidden`}>
-      {showHeader && (
-        <Header 
-          onNavigate={handleNavigate} 
-          currentScreen={currentScreen}
-          isDarkMode={isDarkMode}
-          onToggleDarkMode={toggleTheme}
-        />
-      )}
-      <div className="w-full">
-        {screens[currentScreen]}
+    <AuthProvider>
+      <div className={`${themeClasses} w-full overflow-x-hidden`}>
+        {showHeader && (
+          <Header 
+            onNavigate={handleNavigate} 
+            currentScreen={currentScreen}
+            isDarkMode={isDarkMode}
+            onToggleDarkMode={toggleTheme}
+          />
+        )}
+        <div className="w-full">
+          {screens[currentScreen]}
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   );
 };
 

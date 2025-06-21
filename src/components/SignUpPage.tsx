@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,19 +6,80 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Chrome, Mail } from 'lucide-react';
+import { Chrome, Mail, Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/components/ui/use-toast';
 
 interface SignUpPageProps {
-  onNavigate?: (screen: number) => void;
+  onNavigate?: (screen: number, symbol?: string, userType?: 'demo' | 'live') => void;
   isDarkMode?: boolean;
+  userType?: 'demo' | 'live' | null;
+  setUserType?: (type: 'demo' | 'live' | null) => void;
 }
 
-const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
+const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: SignUpPageProps) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [referralCode, setReferralCode] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { signUp } = useAuth();
+  const { toast } = useToast();
 
-  const handleAccountCreation = () => {
-    // Navigate to onboarding after account creation
-    onNavigate?.(2);
+  const handleDemoFlow = (provider: string) => {
+    // Set user type to demo and navigate to onboarding
+    setUserType?.('demo');
+    onNavigate?.(2, undefined, 'demo');
+  };
+
+  const handleLiveSignUp = async () => {
+    if (!email || !password) {
+      toast({
+        title: "Error",
+        description: "Please enter both email and password",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!agreeToTerms) {
+      toast({
+        title: "Error", 
+        description: "Please agree to the Terms and Conditions",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      const { error } = await signUp(email, password, referralCode || undefined);
+      
+      if (error) {
+        toast({
+          title: "Signup Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Account Created!",
+          description: "Please check your email to verify your account.",
+        });
+        // Set user type to live and navigate to onboarding
+        setUserType?.('live');
+        onNavigate?.(2, undefined, 'live');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Theme-aware utility classes
@@ -48,17 +110,19 @@ const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Social Sign Up Options */}
+            {/* Social Sign Up Options - Demo Flow */}
             <Button 
               className="w-full bg-white text-black hover:bg-gray-100 font-semibold py-3"
-              onClick={handleAccountCreation}
+              onClick={() => handleDemoFlow('google')}
+              disabled={loading}
             >
               <Chrome className="w-5 h-5 mr-2" />
               Continue with Google
             </Button>
             <Button 
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
-              onClick={handleAccountCreation}
+              onClick={() => handleDemoFlow('twitter')}
+              disabled={loading}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -67,7 +131,8 @@ const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
             </Button>
             <Button
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
-              onClick={handleAccountCreation}
+              onClick={() => handleDemoFlow('reown')}
+              disabled={loading}
             >
               <img
                 src="/reown-brandmark-negative.svg"
@@ -88,7 +153,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
               </div>
             </div>
 
-            {/* Email Sign Up */}
+            {/* Email Sign Up - Live Flow */}
             <div className="space-y-4">
               <div>
                 <Label htmlFor="email" className={label}>Email</Label>
@@ -96,7 +161,10 @@ const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
                   id="email" 
                   type="email" 
                   placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className={input}
+                  disabled={loading}
                 />
               </div>
               <div>
@@ -105,7 +173,22 @@ const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
                   id="password" 
                   type="password" 
                   placeholder="Create a password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className={input}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <Label htmlFor="referral" className={label}>Referral Code (Optional)</Label>
+                <Input 
+                  id="referral" 
+                  type="text" 
+                  placeholder="Enter referral code (FPX-XXXXXX)"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value)}
+                  className={input}
+                  disabled={loading}
                 />
               </div>
 
@@ -115,6 +198,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
                   id="agree-terms" 
                   checked={agreeToTerms}
                   onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
+                  disabled={loading}
                 />
                 <Label htmlFor="agree-terms" className={`${label} text-sm`}>
                   I agree to the Terms and Conditions
@@ -123,10 +207,15 @@ const SignUpPage = ({ onNavigate, isDarkMode = true }: SignUpPageProps) => {
 
               <Button 
                 className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
-                onClick={handleAccountCreation}
+                onClick={handleLiveSignUp}
+                disabled={loading}
               >
-                <Mail className="w-5 h-5 mr-2" />
-                Create Account
+                {loading ? (
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                ) : (
+                  <Mail className="w-5 h-5 mr-2" />
+                )}
+                {loading ? 'Creating Account...' : 'Create Account'}
               </Button>
             </div>
           </CardContent>

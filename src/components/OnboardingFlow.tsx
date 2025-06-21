@@ -10,11 +10,12 @@ import DistributorProfileSetup from './onboarding/DistributorProfileSetup';
 
 interface OnboardingFlowProps {
   userRole?: 'creator' | 'distributor';
+  userType?: 'demo' | 'live' | null;
   onComplete?: () => void;
   onLandingPage?: () => void;
 }
 
-const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: OnboardingFlowProps) => {
+const OnboardingFlow = ({ userRole = 'creator', userType, onComplete, onLandingPage }: OnboardingFlowProps) => {
   const { isDarkMode } = useTheme();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
@@ -60,9 +61,17 @@ const OnboardingFlow = ({ userRole = 'creator', onComplete, onLandingPage }: Onb
         );
       case 3:
         return userRole === 'creator' ? (
-          <CreatorProfileSetup onContinue={handleComplete} />
+          <CreatorProfileSetup 
+            onContinue={handleComplete} 
+            userType={userType}
+            selectedTopics={selectedTopics}
+          />
         ) : (
-          <DistributorProfileSetup onContinue={handleComplete} />
+          <DistributorProfileSetup 
+            onContinue={handleComplete} 
+            userType={userType}
+            selectedTopics={selectedTopics}
+          />
         );
       default:
         return (
