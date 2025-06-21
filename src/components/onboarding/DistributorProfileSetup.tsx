@@ -52,7 +52,7 @@ const DistributorProfileSetup = ({ onContinue }: DistributorProfileSetupProps) =
           <Label className="text-gray-300">Social Accounts for Sharing</Label>
           <div className="space-y-2">
             <Input 
-              placeholder="Twitter/X Account"
+              placeholder="X/Twitter Account"
               className="bg-gray-800 border-gray-700 text-white"
             />
             <Input 
