@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { AuthProvider } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useProfile } from '../hooks/useProfile';
 import Header from '../components/Header';
 import LandingPage from '../components/LandingPage';
 import SignUpPage from '../components/SignUpPage';
@@ -16,13 +18,15 @@ import FinalCTA from '../components/FinalCTA';
 
 type UserType = 'demo' | 'live' | null;
 
-const Index = () => {
+const IndexContent = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [searchSymbol, setSearchSymbol] = useState('');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [userType, setUserType] = useState<UserType>(null);
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
+  const { user } = useAuth();
+  const { profile } = useProfile();
 
   const handleNavigate = (screen: number, symbol?: string, type?: UserType) => {
     // Special handling for Content Creator - navigate to dedicated page
@@ -89,20 +93,28 @@ const Index = () => {
   const showHeader = currentScreen !== 2;
 
   return (
-    <AuthProvider>
-      <div className={`${themeClasses} w-full overflow-x-hidden`}>
-        {showHeader && (
-          <Header 
-            onNavigate={handleNavigate} 
-            currentScreen={currentScreen}
-            isDarkMode={isDarkMode}
-            onToggleDarkMode={toggleTheme}
-          />
-        )}
-        <div className="w-full">
-          {screens[currentScreen]}
-        </div>
+    <div className={`${themeClasses} w-full overflow-x-hidden`}>
+      {showHeader && (
+        <Header 
+          onNavigate={handleNavigate} 
+          currentScreen={currentScreen}
+          isDarkMode={isDarkMode}
+          onToggleDarkMode={toggleTheme}
+          userProfile={profile}
+          isLoggedIn={!!user}
+        />
+      )}
+      <div className="w-full">
+        {screens[currentScreen]}
       </div>
+    </div>
+  );
+};
+
+const Index = () => {
+  return (
+    <AuthProvider>
+      <IndexContent />
     </AuthProvider>
   );
 };

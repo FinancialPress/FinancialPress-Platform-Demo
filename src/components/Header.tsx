@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from '../contexts/ThemeContext';
+import { UserProfile } from '../hooks/useProfile';
 import TickerBar from './TickerBar';
 
 interface HeaderProps {
@@ -15,6 +16,7 @@ interface HeaderProps {
   onToggleDemo?: () => void;
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
+  userProfile?: UserProfile | null;
 }
 
 const Header = ({ 
@@ -24,7 +26,8 @@ const Header = ({
   isDemoMinimized = false, 
   onToggleDemo,
   isDarkMode: propIsDarkMode,
-  onToggleDarkMode: propOnToggleDarkMode
+  onToggleDarkMode: propOnToggleDarkMode,
+  userProfile
 }: HeaderProps) => {
   const [searchValue, setSearchValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
@@ -35,8 +38,47 @@ const Header = ({
   const isDarkMode = propIsDarkMode !== undefined ? propIsDarkMode : themeContext.isDarkMode;
   const onToggleDarkMode = propOnToggleDarkMode || themeContext.toggleTheme;
 
-  // Determine if user should be shown as logged in based on current screen
+  // Determine if user should be shown as logged in based on current screen or actual login status
   const shouldShowLoggedIn = [3, 4, 5, 6].includes(currentScreen) || isLoggedIn;
+
+  // Get user display data (real profile data if available, fallback to demo data)
+  const getDisplayData = () => {
+    if (userProfile && isLoggedIn) {
+      return {
+        displayName: userProfile.display_name || 'User',
+        username: userProfile.display_name ? `@${userProfile.display_name.toLowerCase().replace(/\s+/g, '')}` : '@user',
+        fptBalance: userProfile.fpt_balance || 0,
+        imageUrl: userProfile.image_url,
+        role: userProfile.role || 'newcomer'
+      };
+    }
+    
+    // Demo/fallback data
+    return {
+      displayName: 'John Doe',
+      username: '@johndoe',
+      fptBalance: 1247.5,
+      imageUrl: null,
+      role: 'creator'
+    };
+  };
+
+  const { displayName, username, fptBalance, imageUrl, role } = getDisplayData();
+
+  const getInitials = (name: string) => {
+    return name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
+  };
+
+  const getRoleBadge = (userRole: string) => {
+    switch (userRole) {
+      case 'creator':
+        return 'Creator Newcomer';
+      case 'distributor':
+        return 'Distributor';
+      default:
+        return 'Newcomer';
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -224,20 +266,22 @@ const Header = ({
                   {/* Account Profile */}
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
-                      <AvatarImage src="/placeholder.svg" alt="Profile" />
-                      <AvatarFallback className="bg-yellow-500 text-black font-semibold">JD</AvatarFallback>
+                      <AvatarImage src={imageUrl || undefined} alt="Profile" />
+                      <AvatarFallback className="bg-yellow-500 text-black font-semibold">
+                        {getInitials(displayName)}
+                      </AvatarFallback>
                     </Avatar>
                     
                     {/* Profile Info - Hidden on mobile */}
                     <div className="hidden sm:flex flex-col">
                       <div className="flex items-center space-x-2">
-                        <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
-                        <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
+                        <span className={`${logoTextClasses} font-semibold text-sm`}>{displayName}</span>
+                        <span className={`text-xs font-medium ${logoTextClasses}`}>{fptBalance.toLocaleString()} FPT</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
+                        <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{username}</span>
                         <Badge className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-semibold">
-                          Creator Newcomer
+                          {getRoleBadge(role)}
                         </Badge>
                       </div>
                     </div>
@@ -313,19 +357,21 @@ const Header = ({
                   <div className="border-t border-gray-700 pt-3 px-4">
                     <div className="flex items-center space-x-3">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage src="/placeholder.svg" alt="Profile" />
-                        <AvatarFallback className="bg-yellow-500 text-black font-semibold">JD</AvatarFallback>
+                        <AvatarImage src={imageUrl || undefined} alt="Profile" />
+                        <AvatarFallback className="bg-yellow-500 text-black font-semibold">
+                          {getInitials(displayName)}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="flex items-center space-x-2">
-                          <span className={`${logoTextClasses} font-semibold text-sm`}>John Doe</span>
+                          <span className={`${logoTextClasses} font-semibold text-sm`}>{displayName}</span>
                           <Badge className="bg-yellow-500 text-black text-xs px-1 py-0.5 rounded-full font-semibold">
-                            Creator
+                            {getRoleBadge(role)}
                           </Badge>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>@johndoe</span>
-                          <span className={`text-xs font-medium ${logoTextClasses}`}>1,247.5 FPT</span>
+                          <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{username}</span>
+                          <span className={`text-xs font-medium ${logoTextClasses}`}>{fptBalance.toLocaleString()} FPT</span>
                         </div>
                       </div>
                     </div>

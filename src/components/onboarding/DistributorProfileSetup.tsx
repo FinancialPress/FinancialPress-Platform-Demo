@@ -11,6 +11,7 @@ import { useProfile } from '@/hooks/useProfile';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2 } from 'lucide-react';
+import ProfilePictureUpload from '../ProfilePictureUpload';
 
 interface DistributorProfileSetupProps {
   onContinue: () => void;
@@ -27,6 +28,7 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
   
   const [displayName, setDisplayName] = useState('');
   const [bio, setBio] = useState('');
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
 
   const handleContinue = async () => {
     if (userType === 'demo') {
@@ -61,7 +63,8 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
         display_name: displayName.trim(),
         bio: bio.trim() || null,
         topics: selectedTopics,
-        role: 'distributor'
+        role: 'distributor',
+        image_url: profileImageUrl
       };
 
       const { error } = await updateProfile(profileData);
@@ -110,6 +113,14 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
           <CardTitle className={`text-xl ${textClass}`}>Distributor Profile</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
+          <ProfilePictureUpload
+            currentImageUrl={profileImageUrl}
+            displayName={displayName}
+            onImageChange={setProfileImageUrl}
+            userType={userType}
+            disabled={loading}
+          />
+
           <div>
             <Label htmlFor="display-name" className={labelClass}>Display Name *</Label>
             <Input
