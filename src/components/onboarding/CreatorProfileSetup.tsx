@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { PenTool, Upload, Camera, CheckCircle, XCircle, Plus, Trash2, Share2 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfile';
 
 interface CreatorProfileSetupProps {
   onContinue: () => void;
@@ -14,7 +16,12 @@ interface CreatorProfileSetupProps {
 
 const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
   const { isDarkMode } = useTheme();
+  const { updateProfile } = useAuth();
+  const { profile } = useProfile();
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState('');
+  const [organization, setOrganization] = useState('');
+  const [bio, setBio] = useState('');
   const [newPlatformUrl, setNewPlatformUrl] = useState('');
   const [wantsToCreate, setWantsToCreate] = useState(false);
   const [wantsToShare, setWantsToShare] = useState(false);
@@ -69,6 +76,27 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
     setWantsToShare(checked === true);
   };
 
+  const handleCompleteSetup = async () => {
+    // Determine role based on selections
+    let role = 'creator';
+    if (wantsToCreate && wantsToShare) {
+      role = 'both';
+    } else if (wantsToShare) {
+      role = 'distributor';
+    }
+
+    // Update profile with completed information
+    await updateProfile({
+      display_name: displayName,
+      bio,
+      image_url: profileImage,
+      role,
+      // Note: wallet_identifier was already set during sign up with placeholder
+    });
+
+    onContinue();
+  };
+
   const cardBg = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
   const textColor = isDarkMode ? 'text-white' : 'text-black';
   const subText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
@@ -89,6 +117,11 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
         <div className={`text-center text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
           Step 3 of 3
         </div>
+        {profile?.wallet_identifier && (
+          <div className={`text-center text-xs ${isDarkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
+            Wallet: {profile.wallet_identifier}
+          </div>
+        )}
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="text-center">
@@ -115,12 +148,22 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
 
         <div>
           <Label className={labelColor}>Creator Display Name</Label>
-          <Input placeholder="Your creator name" className={inputClass} />
+          <Input 
+            placeholder="Your creator name" 
+            className={inputClass}
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
         </div>
 
         <div>
           <Label className={labelColor}>Your Organisation</Label>
-          <Input placeholder="Company or organisation name (optional)" className={inputClass} />
+          <Input 
+            placeholder="Company or organisation name (optional)" 
+            className={inputClass}
+            value={organization}
+            onChange={(e) => setOrganization(e.target.value)}
+          />
         </div>
 
         <div>
@@ -128,6 +171,8 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
           <Textarea
             placeholder="Tell your audience about your expertise and background..."
             className={inputClass}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
         </div>
 
@@ -253,7 +298,7 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
 
         <Button
           className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
-          onClick={onContinue}
+          onClick={handleCompleteSetup}
         >
           Complete Setup
         </Button>
