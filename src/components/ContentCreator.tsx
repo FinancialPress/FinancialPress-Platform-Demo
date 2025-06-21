@@ -351,7 +351,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <div className="space-y-2">
                     <div className="flex items-center gap-x-4">
                       <Switch className={`border ${borderClasses}`} />
-                      <Label className={`${labelClasses} text-sm`}>Twitter/X</Label>
+                      <Label className={`${labelClasses} text-sm`}>X/Twitter</Label>
                     </div>
                     <div className="flex items-center gap-x-4">
                       <Switch className={`border ${borderClasses}`} />
