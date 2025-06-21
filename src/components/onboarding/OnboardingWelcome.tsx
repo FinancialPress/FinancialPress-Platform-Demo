@@ -29,7 +29,7 @@ const SocialChannelConnection = ({ onContinue }: SocialChannelConnectionProps) =
   const [platforms, setPlatforms] = useState<Platform[]>([
     { 
       id: 'twitter', 
-      name: 'X (Twitter)', 
+      name: 'X/Twitter', 
       icon: '𝕏', 
       color: platformColor('bg-black', 'bg-gray-200'),
       description: 'Share tweets and engage with your audience',
