@@ -19,7 +19,7 @@ const CreatorProfileSetup = ({ onContinue }: CreatorProfileSetupProps) => {
   const [wantsToCreate, setWantsToCreate] = useState(false);
   const [wantsToShare, setWantsToShare] = useState(false);
   const [platforms, setPlatforms] = useState([
-    { id: 'twitter', name: 'X (Twitter)', icon: '𝕏', connected: true },
+    { id: 'twitter', name: 'X/Twitter', icon: '𝕏', connected: true },
     { id: 'facebook', name: 'Facebook', icon: '📘', connected: false },
     { id: 'youtube', name: 'YouTube', icon: '📺', connected: true },
     { id: 'linkedin', name: 'LinkedIn', icon: '💼', connected: false },
