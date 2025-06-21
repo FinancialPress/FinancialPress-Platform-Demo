@@ -442,12 +442,13 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                     Create and Earn
                   </Button>
 
+              
                   {/* Light mode optimized secondary buttons */}
                   <Button 
                     className={`w-full flex items-center justify-center font-semibold ${
                       isDarkMode 
                         ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                        : 'bg-white border-b border-gray-200 text-gray-600 hover:bg-gray-100'
                     }`}
                     variant="outline"
                     onClick={() => onNavigate?.(3)}
@@ -460,7 +461,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                     className={`w-full flex items-center justify-center font-semibold ${
                       isDarkMode 
                         ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                        : 'bg-white border-b border-gray-200 text-gray-600 hover:bg-gray-100'
                     }`}
                     variant="outline"
                   >
@@ -472,7 +473,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                     className={`w-full flex items-center justify-center font-semibold ${
                       isDarkMode 
                         ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                        : 'bg-white border-b border-gray-200 text-gray-600 hover:bg-gray-100'
                     }`}
                     variant="outline"
                   >
@@ -484,7 +485,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                     className={`w-full flex items-center justify-center font-semibold ${
                       isDarkMode 
                         ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                        : 'border border-gray-300 text-gray-800 hover:bg-gray-100'
+                        : 'bg-white border-b border-gray-200 text-gray-600 hover:bg-gray-100'
                     }`}
                     variant="outline"
                   >
