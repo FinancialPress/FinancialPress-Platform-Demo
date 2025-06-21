@@ -24,8 +24,8 @@ const QuickActions = ({ isDarkMode: propIsDarkMode, onNavigate }: QuickActionsPr
     : "text-black";
 
   const outlineButtonClasses = isDarkMode
-    ? "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
-    : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50 hover:text-black font-semibold px-6";
+    ? "border-gray-600 text-gray-300 hover:bg-gray-700"
+    : "bg-white border-gray-200 text-gray-600 hover:bg-gray-100 font-semibold px-6";
 
   const handleCreateContent = () => {
     navigate('/create');
