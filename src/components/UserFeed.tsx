@@ -87,7 +87,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-gray-300';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
-  const buttonClasses = isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-100';
+  const buttonClasses = isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'bg-white norder-b border-gray-200 text-gray-600 hover:bg-gray-100';
 
   // Single column feed content
   const feedPosts = [
