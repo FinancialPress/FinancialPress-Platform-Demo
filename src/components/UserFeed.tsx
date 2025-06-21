@@ -1,8 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { Heart, MessageCircle, Share2, Repeat2, Eye, MoreHorizontal, HandCoins } from 'lucide-react';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
 import TrendingTopics from '@/components/feed/TrendingTopics';
@@ -13,6 +11,8 @@ import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
 import FeedSidebar from '@/components/feed/FeedSidebar';
+import FeedPost from '@/components/feed/FeedPost';
+import FeedHeader from '@/components/feed/FeedHeader';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import WelcomeModal from '@/components/modals/WelcomeModal';
 import OnboardingTour from '@/components/modals/OnboardingTour';
@@ -84,9 +84,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   // Theme-aware classes
   const bgClasses = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
-  const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-gray-300';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
-  const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const buttonClasses = isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-100';
 
   // Single column feed content
@@ -223,110 +221,6 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
     console.log(`Subscribed to ${selectedCreator?.handle}`, { postId });
   };
 
-  const renderFeedPost = (post: any) => (
-    <Card key={post.id} className={`${cardClasses} transition-colors`}>
-      <CardContent className="p-6">
-        {/* User Header */}
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-              <span className="text-black font-bold">{post.creator.charAt(0)}</span>
-            </div>
-            <div>
-              <div className="flex items-center space-x-2 mb-1">
-                <span className={`${textClasses} font-semibold`}>{post.creator}</span>
-                <Badge
-                  className={`text-xs ${
-                    post.badge === 'Platinum Creator'
-                      ? 'bg-purple-500 text-white'
-                      : post.badge === 'Gold Creator'
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-gray-500 text-white'
-                  }`}
-                >
-                  {post.badge}
-                </Badge>
-                {post.isFollowing && <Badge className="bg-blue-600 text-white text-xs">Following</Badge>}
-                {post.isRecommended && <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>}
-              </div>
-              <div className={`flex items-center space-x-2 ${mutedText} text-sm`}>
-                <span>{post.handle}</span>
-                <span>•</span>
-                <span>{post.timeAgo}</span>
-                <span>•</span>
-                <Badge className="bg-blue-600 text-white text-xs">{post.category}</Badge>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm" className={`${mutedText}`}>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="mb-4">
-          <h3 className={`${textClasses} font-semibold text-xl mb-3`}>{post.content}</h3>
-          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>{post.description}</p>
-        </div>
-
-        {/* Image */}
-        {post.image && (
-          <div className="mb-4">
-            <img src={post.image} alt={post.content} className="w-full h-80 rounded-lg object-cover" />
-          </div>
-        )}
-
-        {/* Engagement Stats */}
-        <div className={`flex items-center justify-between ${mutedText} text-sm mb-4`}>
-          <div className="flex items-center space-x-4">
-            <span>{post.engagement.views.toLocaleString()} views</span>
-            <span>{post.engagement.comments} comments</span>
-            <span>{post.engagement.shares} shares</span>
-          </div>
-          <span className="text-green-400 font-semibold">Earned: {post.earnings}</span>
-        </div>
-
-        {/* Action Buttons */}
-        <div
-          className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}
-        >
-          <div className="flex items-center space-x-8">
-            <button className={`flex items-center space-x-2 ${mutedText} hover:text-red-400 transition-colors`}>
-              <Heart className="w-5 h-5" />
-              <span>{post.engagement.likes}</span>
-            </button>
-            <button className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}>
-              <MessageCircle className="w-5 h-5" />
-              <span>{post.engagement.comments}</span>
-            </button>
-            <button className={`flex items-center space-x-2 ${mutedText} hover:text-green-400 transition-colors`}>
-              <Repeat2 className="w-5 h-5" />
-              <span>{post.engagement.shares}</span>
-            </button>
-            <button
-              className={`flex items-center space-x-2 ${mutedText} hover:text-yellow-400 transition-colors`}
-              onClick={() => handleShare(post)}
-            >
-              <Share2 className="w-5 h-5" />
-              <span>Share & Earn</span>
-            </button>
-          </div>
-          <button
-            className={`${mutedText} hover:text-yellow-400 transition-colors flex items-center space-x-2`}
-            title="Tip"
-            aria-label="Tip"
-            onClick={() => handleTip(post)}
-          >
-            <HandCoins className="w-5 h-5" />
-            <span className="text-base">Tip</span>
-          </button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
   return (
     <div className={`min-h-screen ${bgClasses}`}>
       <section className="max-w-[1440px] mx-auto px-8 py-8">
@@ -339,14 +233,21 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Main Content Area - 2/4 width */}
           <div className="lg:col-span-2 space-y-8" data-tour="feed-content">
-            {/* Feed Header - Simplified */}
-            <div className="flex items-center space-x-4">
-              <h2 className={`text-2xl font-bold ${textClasses}`}>Your Feed</h2>
-              <Badge className="bg-yellow-600 text-black text-sm">Personalized</Badge>
-            </div>
+            {/* Feed Header */}
+            <FeedHeader textClasses={textClasses} />
 
             {/* Feed Posts */}
-            <div className="space-y-6">{feedPosts.map(renderFeedPost)}</div>
+            <div className="space-y-6">
+              {feedPosts.map((post) => (
+                <FeedPost
+                  key={post.id}
+                  post={post}
+                  isDarkMode={isDarkMode}
+                  onShare={() => handleShare(post)}
+                  onTip={() => handleTip(post)}
+                />
+              ))}
+            </div>
 
             {/* Load More */}
             <div className="text-center">
