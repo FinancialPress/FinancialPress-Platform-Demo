@@ -14,8 +14,8 @@ export interface UserProfile {
   referral_code: string | null;
   referred_by: string | null;
   fpt_balance: number;
-  created_at: string;
-  updated_at: string;
+  image_url: string | null;
+  instance_id: string | null;
 }
 
 export const useProfile = () => {
@@ -52,7 +52,7 @@ export const useProfile = () => {
 
     const { error } = await supabase
       .from('profiles')
-      .update({ ...updates, updated_at: new Date().toISOString() })
+      .update(updates)
       .eq('id', user.id);
 
     if (!error) {
@@ -70,8 +70,7 @@ export const useProfile = () => {
       .upsert({ 
         id: user.id,
         email: user.email,
-        ...profileData,
-        updated_at: new Date().toISOString()
+        ...profileData
       });
 
     if (!error) {
