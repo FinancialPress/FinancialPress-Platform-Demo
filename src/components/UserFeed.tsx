@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import ShareEarnFlow from './ShareEarnFlow';
@@ -12,11 +13,9 @@ import WhoToFollow from '@/components/feed/WhoToFollow';
 import FeedSidebar from '@/components/feed/FeedSidebar';
 import FeedPost from '@/components/feed/FeedPost';
 import FeedHeader from '@/components/feed/FeedHeader';
-import FeedLoadingSkeleton from '@/components/feed/FeedLoadingSkeleton';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import WelcomeModal from '@/components/modals/WelcomeModal';
 import OnboardingTour from '@/components/modals/OnboardingTour';
-import { generateMockFeedItem } from '@/utils/mockFeedData';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
@@ -33,121 +32,6 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [showTour, setShowTour] = useState(false);
   const [earningsAmount, setEarningsAmount] = useState('0.0');
   const [isFromOnboarding, setIsFromOnboarding] = useState(showOnboarding);
-  
-  // Infinite scroll states
-  const [feedItems, setFeedItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(0);
-
-  // Initialize feed with initial posts
-  useEffect(() => {
-    const initialPosts = [
-      {
-        id: 1,
-        creator: 'CryptoAnalyst',
-        handle: '@cryptoanalyst',
-        badge: 'Gold Creator',
-        timeAgo: '2h',
-        content: "Bitcoin Bull Run: What's Driving the $94K Rally?",
-        description: 'The recent surge past $94K represents a significant psychological barrier. Key factors include increased institutional adoption, favorable regulatory news, and strong on-chain metrics. The momentum appears sustainable with support levels holding firm.',
-        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop',
-        engagement: { likes: 2400, shares: 156, comments: 89, views: 12500 },
-        earnings: '45.8 FPT',
-        category: 'Crypto Analysis',
-        isRecommended: true,
-        isFollowing: false,
-      },
-      {
-        id: 2,
-        creator: 'DeFiGuru',
-        handle: '@defiguru',
-        badge: 'Platinum Creator',
-        timeAgo: '4h',
-        content: 'DeFi Renaissance: Top 5 Protocols to Watch in 2024',
-        description: "The DeFi landscape is evolving rapidly. Here are the protocols showing the most promise: 1) Uniswap V4 with hooks, 2) Aave's GHO stablecoin expansion, 3) Compound III growth, 4) Curve's new tokenomics, 5) Lido's staking dominance. Each represents a unique opportunity in the evolving ecosystem.",
-        engagement: { likes: 1800, shares: 134, comments: 67, views: 8900 },
-        earnings: '38.2 FPT',
-        category: 'DeFi',
-        isFollowing: true,
-      },
-      {
-        id: 3,
-        creator: 'NFTTracker',
-        handle: '@nfttracker',
-        badge: 'Silver Creator',
-        timeAgo: '6h',
-        content: 'NFT Market Recovery: Blue Chips Lead the Way',
-        description: 'Floor prices for top collections are showing signs of recovery. BAYC, CryptoPunks, and Azuki are leading the charge with increased trading volume and whale accumulation patterns. The market sentiment is shifting positive.',
-        image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop',
-        engagement: { likes: 1200, shares: 89, comments: 45, views: 6700 },
-        earnings: '28.5 FPT',
-        category: 'NFTs',
-      },
-      {
-        id: 4,
-        creator: 'TechAnalyst',
-        handle: '@techanalyst',
-        badge: 'Gold Creator',
-        timeAgo: '8h',
-        content: 'AI Revolution in Finance: Which Stocks Will Soar?',
-        description: 'AI integration in financial services is accelerating. Companies like NVDA, MSFT, and emerging fintech players are positioning themselves for massive growth. The convergence of AI and finance presents unprecedented opportunities for investors.',
-        engagement: { likes: 2100, shares: 167, comments: 78, views: 11200 },
-        earnings: '42.3 FPT',
-        category: 'AI & Tech',
-        isRecommended: true,
-      },
-      {
-        id: 5,
-        creator: 'MacroMind',
-        handle: '@macromind',
-        badge: 'Platinum Creator',
-        timeAgo: '1d',
-        content: 'Macro Outlook: Fed Policy Impact on Crypto Markets',
-        description: "The Federal Reserve's monetary policy decisions continue to significantly impact cryptocurrency markets. Current signals suggest a dovish stance may benefit risk assets including crypto. Key levels to watch and timing considerations for the next quarter.",
-        image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=300&fit=crop',
-        engagement: { likes: 3200, shares: 289, comments: 123, views: 15800 },
-        earnings: '58.7 FPT',
-        category: 'Macroeconomics',
-        isFollowing: true,
-      },
-    ];
-    setFeedItems(initialPosts);
-    setPage(1);
-  }, []);
-
-  // Infinite scroll logic
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop 
-        >= document.documentElement.offsetHeight - 1000 && hasMore && !loading) {
-      loadMore();
-    }
-  };
-
-  const loadMore = () => {
-    if (loading) return;
-    
-    setLoading(true);
-    setTimeout(() => {
-      const newItems = Array.from({ length: 5 }, (_, i) => 
-        generateMockFeedItem(feedItems.length + i + 1)
-      );
-      setFeedItems(prev => [...prev, ...newItems]);
-      setPage(prev => prev + 1);
-      setLoading(false);
-      
-      // Simulate end of data after 50 items
-      if (feedItems.length > 45) {
-        setHasMore(false);
-      }
-    }, 1000);
-  };
-
-  // Add scroll event listener
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore, feedItems.length]);
 
   useEffect(() => {
     // Show welcome modal if this is first time from onboarding
@@ -203,6 +87,108 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const buttonClasses = isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-100';
 
+  // Single column feed content
+  const feedPosts = [
+    {
+      id: 1,
+      creator: 'CryptoAnalyst',
+      handle: '@cryptoanalyst',
+      badge: 'Gold Creator',
+      timeAgo: '2h',
+      content: "Bitcoin Bull Run: What's Driving the $94K Rally?",
+      description:
+        'The recent surge past $94K represents a significant psychological barrier. Key factors include increased institutional adoption, favorable regulatory news, and strong on-chain metrics. The momentum appears sustainable with support levels holding firm.',
+      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop',
+      engagement: {
+        likes: 2400,
+        shares: 156,
+        comments: 89,
+        views: 12500,
+      },
+      earnings: '45.8 FPT',
+      category: 'Crypto Analysis',
+      isRecommended: true,
+      isFollowing: false,
+    },
+    {
+      id: 2,
+      creator: 'DeFiGuru',
+      handle: '@defiguru',
+      badge: 'Platinum Creator',
+      timeAgo: '4h',
+      content: 'DeFi Renaissance: Top 5 Protocols to Watch in 2024',
+      description:
+        "The DeFi landscape is evolving rapidly. Here are the protocols showing the most promise: 1) Uniswap V4 with hooks, 2) Aave's GHO stablecoin expansion, 3) Compound III growth, 4) Curve's new tokenomics, 5) Lido's staking dominance. Each represents a unique opportunity in the evolving ecosystem.",
+      engagement: {
+        likes: 1800,
+        shares: 134,
+        comments: 67,
+        views: 8900,
+      },
+      earnings: '38.2 FPT',
+      category: 'DeFi',
+      isFollowing: true,
+    },
+    {
+      id: 3,
+      creator: 'NFTTracker',
+      handle: '@nfttracker',
+      badge: 'Silver Creator',
+      timeAgo: '6h',
+      content: 'NFT Market Recovery: Blue Chips Lead the Way',
+      description:
+        'Floor prices for top collections are showing signs of recovery. BAYC, CryptoPunks, and Azuki are leading the charge with increased trading volume and whale accumulation patterns. The market sentiment is shifting positive.',
+      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop',
+      engagement: {
+        likes: 1200,
+        shares: 89,
+        comments: 45,
+        views: 6700,
+      },
+      earnings: '28.5 FPT',
+      category: 'NFTs',
+    },
+    {
+      id: 4,
+      creator: 'TechAnalyst',
+      handle: '@techanalyst',
+      badge: 'Gold Creator',
+      timeAgo: '8h',
+      content: 'AI Revolution in Finance: Which Stocks Will Soar?',
+      description:
+        'AI integration in financial services is accelerating. Companies like NVDA, MSFT, and emerging fintech players are positioning themselves for massive growth. The convergence of AI and finance presents unprecedented opportunities for investors.',
+      engagement: {
+        likes: 2100,
+        shares: 167,
+        comments: 78,
+        views: 11200,
+      },
+      earnings: '42.3 FPT',
+      category: 'AI & Tech',
+      isRecommended: true,
+    },
+    {
+      id: 5,
+      creator: 'MacroMind',
+      handle: '@macromind',
+      badge: 'Platinum Creator',
+      timeAgo: '1d',
+      content: 'Macro Outlook: Fed Policy Impact on Crypto Markets',
+      description:
+        "The Federal Reserve's monetary policy decisions continue to significantly impact cryptocurrency markets. Current signals suggest a dovish stance may benefit risk assets including crypto. Key levels to watch and timing considerations for the next quarter.",
+      image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=300&fit=crop',
+      engagement: {
+        likes: 3200,
+        shares: 289,
+        comments: 123,
+        views: 15800,
+      },
+      earnings: '58.7 FPT',
+      category: 'Macroeconomics',
+      isFollowing: true,
+    },
+  ];
+
   const handleShare = (content: any) => {
     setSelectedContent({
       title: content.content,
@@ -252,7 +238,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
             {/* Feed Posts */}
             <div className="space-y-6">
-              {feedItems.map((post) => (
+              {feedPosts.map((post) => (
                 <FeedPost
                   key={post.id}
                   post={post}
@@ -261,23 +247,13 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
                   onTip={() => handleTip(post)}
                 />
               ))}
-              
-              {/* Loading Skeletons */}
-              {loading && (
-                <FeedLoadingSkeleton isDarkMode={isDarkMode} count={3} />
-              )}
-              
-              {/* End of feed message */}
-              {!hasMore && (
-                <div className="text-center py-8">
-                  <p className={`${textClasses} text-lg font-medium`}>
-                    You've reached the end of your feed
-                  </p>
-                  <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mt-2`}>
-                    Check back later for more content!
-                  </p>
-                </div>
-              )}
+            </div>
+
+            {/* Load More */}
+            <div className="text-center">
+              <Button variant="outline" className={buttonClasses}>
+                Load More Posts
+              </Button>
             </div>
           </div>
 
