@@ -47,7 +47,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
   ];
 
   const earningsBySharesData = [
-    { platform: 'X (Twitter)', value: 78 },
+    { platform: 'X/Twitter', value: 78 },
     { platform: 'YouTube', value: 65 },
     { platform: 'Telegram', value: 43 },
     { platform: 'LinkedIn', value: 29 },
