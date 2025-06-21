@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,7 +25,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   const [distributeToAll, setDistributeToAll] = useState(false);
 
   const platforms = [
-    { id: 'twitter', name: 'Twitter/X', icon: '𝕏', color: 'bg-gray-800' },
+    { id: 'twitter', name: 'X/Twitter', icon: '𝕏', color: 'bg-gray-800' },
     { id: 'telegram', name: 'Telegram', icon: '✈️', color: 'bg-blue-600' },
     { id: 'reddit', name: 'Reddit', icon: '🤖', color: 'bg-orange-600' },
     { id: 'discord', name: 'Discord', icon: '💬', color: 'bg-indigo-600' },
