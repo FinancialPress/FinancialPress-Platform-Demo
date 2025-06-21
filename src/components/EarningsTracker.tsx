@@ -60,7 +60,7 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
   }, [customEarnings, balance, isFromOnboarding]);
 
   const earningsData = [
-    { platform: 'Twitter/X', shares: 3, earnings: '2.4 FPT', engagement: '1.2K views' },
+    { platform: 'X/Twitter', shares: 3, earnings: '2.4 FPT', engagement: '1.2K views' },
     { platform: 'Telegram', shares: 2, earnings: '1.8 FPT', engagement: '850 views' },
     { platform: 'Reddit', shares: 1, earnings: '0.9 FPT', engagement: '420 views' },
   ];
