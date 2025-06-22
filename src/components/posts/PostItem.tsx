@@ -48,13 +48,17 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch {
+      return 'Invalid date';
+    }
   };
 
   // Generate mock engagement metrics
@@ -67,17 +71,53 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
 
   const engagement = generateEngagement();
 
-  // Safe fallback for image with null guard
-  const getImageUrl = () => {
-    if (post.image_url) return post.image_url;
-    return getPlaceholderImage(post.section);
+  // Harmonize data shapes with null guards
+  const getPostTitle = () => {
+    return post?.title || post?.content || 'Untitled Post';
+  };
+
+  const getPostBody = () => {
+    return post?.body || post?.description || '';
+  };
+
+  const getPostImageUrl = () => {
+    const imageUrl = post?.image_url || post?.image;
+    if (imageUrl) return imageUrl;
+    return getPlaceholderImage(post?.section || 'default');
+  };
+
+  const getPostTags = () => {
+    const tags = post?.tags;
+    if (!tags) return [];
+    if (Array.isArray(tags)) return tags;
+    return [];
+  };
+
+  const getPostExternalUrl = () => {
+    return post?.external_url || null;
+  };
+
+  const getPostSection = () => {
+    return post?.section || 'general';
+  };
+
+  const getPostType = () => {
+    return post?.type || 'create_earn';
+  };
+
+  const getPostCreatedAt = () => {
+    return post?.created_at || new Date().toISOString();
+  };
+
+  const getPostId = () => {
+    return post?.id || 'unknown';
   };
 
   const handleShareAndEarn = async () => {
     if (mockEngagement.isLiveUser) {
       try {
-        await mockEngagement.trackEngagement('share', post.id);
-        await mockEngagement.triggerReward('share', post.id);
+        await mockEngagement.trackEngagement('share', getPostId());
+        await mockEngagement.triggerReward('share', getPostId());
       } catch (error) {
         console.error('Error in engagement tracking:', error);
       }
@@ -106,6 +146,17 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
     setShowSupportModal(false);
   };
 
+  // Safe variables with harmonized data
+  const title = getPostTitle();
+  const body = getPostBody();
+  const imageUrl = getPostImageUrl();
+  const tags = getPostTags();
+  const externalUrl = getPostExternalUrl();
+  const section = getPostSection();
+  const type = getPostType();
+  const createdAt = getPostCreatedAt();
+  const postId = getPostId();
+
   return (
     <>
       <Card className={`${cardClasses} transition-colors`}>
@@ -115,41 +166,41 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
               <div className="flex items-center gap-2 mb-2">
                 <Badge 
                   className={`text-xs ${
-                    post.type === 'create_earn' 
+                    type === 'create_earn' 
                       ? 'bg-yellow-500 text-black' 
                       : 'bg-blue-600 text-white'
                   }`}
                 >
-                  {post.type === 'create_earn' ? 'Create & Earn' : 'Share Insight'}
+                  {type === 'create_earn' ? 'Create & Earn' : 'Share Insight'}
                 </Badge>
-                {post.section && (
+                {section && (
                   <Badge variant="outline" className="text-xs">
-                    {post.section.toUpperCase()}
+                    {section.toUpperCase()}
                   </Badge>
                 )}
               </div>
               <h3 className={`${textClasses} font-semibold text-lg mb-2`}>
-                {post.title}
+                {title}
               </h3>
-              {post.body && (
+              {body && (
                 <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 line-clamp-3`}>
-                  {post.body}
+                  {body}
                 </p>
               )}
-              {post.external_url && (
+              {externalUrl && (
                 <Button
                   variant="outline"
                   size="sm"
                   className="mb-3"
-                  onClick={() => window.open(post.external_url, '_blank')}
+                  onClick={() => window.open(externalUrl, '_blank')}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Read More
                 </Button>
               )}
-              {post.tags && post.tags.length > 0 && (
+              {tags.length > 0 && (
                 <div className="flex flex-wrap gap-1 mb-3">
-                  {post.tags.map((tag, index) => (
+                  {tags.map((tag, index) => (
                     <Badge key={index} variant="secondary" className="text-xs">
                       {tag}
                     </Badge>
@@ -162,8 +213,8 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
           {/* Image with safe fallback */}
           <div className="mb-4">
             <img 
-              src={getImageUrl()} 
-              alt={post.title} 
+              src={imageUrl} 
+              alt={title} 
               className="w-full h-48 object-cover rounded-lg"
               onError={(e) => {
                 e.currentTarget.src = getPlaceholderImage();
@@ -179,7 +230,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
               <span>{engagement.shares} shares</span>
             </div>
             <span className="text-green-400 font-semibold">
-              Earned: +{post.type === 'create_earn' ? '5' : '3'} FPT
+              Earned: +{type === 'create_earn' ? '5' : '3'} FPT
             </span>
           </div>
 
@@ -218,7 +269,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
           {/* Date */}
           <div className={`flex items-center ${mutedText} text-sm pt-2 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} mt-2`}>
             <Calendar className="w-4 h-4 mr-1" />
-            {formatDate(post.created_at)}
+            {formatDate(createdAt)}
           </div>
         </CardContent>
       </Card>
@@ -227,9 +278,9 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
       {showShareModal && (
         <ShareEarnFlow
           post={{
-            title: post.title,
+            title: title,
             creator: 'creator',
-            estimatedEarnings: post.type === 'create_earn' ? '5.0 FPT' : '3.0 FPT'
+            estimatedEarnings: type === 'create_earn' ? '5.0 FPT' : '3.0 FPT'
           }}
           onClose={() => setShowShareModal(false)}
           onShare={handleShareComplete}
@@ -242,8 +293,8 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
         creatorName="Creator"
         followerCount="1.2K"
         isVerified={false}
-        postTitle={post.title}
-        postId={post.id}
+        postTitle={title}
+        postId={postId}
         isOpen={showSupportModal}
         onClose={() => setShowSupportModal(false)}
         onTip={handleTipComplete}
