@@ -7,6 +7,50 @@ import { useProfile } from '../hooks/useProfile';
 import Header from '../components/Header';
 import UserFeed from '../components/UserFeed';
 
+// Error boundary wrapper for UserFeed
+class UserFeedErrorBoundary extends React.Component<
+  { children: React.ReactNode; isDarkMode: boolean },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; isDarkMode: boolean }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('UserFeed Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      const bgClasses = this.props.isDarkMode ? "min-h-screen bg-black text-white" : "min-h-screen bg-gray-50 text-black";
+      
+      return (
+        <div className={bgClasses}>
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
+              <p className="text-lg mb-4">Unable to load the feed. Please try refreshing the page.</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-fpYellow hover:bg-fpYellowDark text-black font-semibold px-6 py-2 rounded"
+              >
+                Refresh Page
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return <>{this.props.children}</>;
+  }
+}
+
 const UserFeedPage = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
@@ -47,11 +91,13 @@ const UserFeedPage = () => {
         isDarkMode={isDarkMode}
         userProfile={profile}
       />
-      <UserFeed 
-        onNavigate={handleNavigate}
-        isDarkMode={isDarkMode}
-        showOnboarding={false}
-      />
+      <UserFeedErrorBoundary isDarkMode={isDarkMode}>
+        <UserFeed 
+          onNavigate={handleNavigate}
+          isDarkMode={isDarkMode}
+          showOnboarding={false}
+        />
+      </UserFeedErrorBoundary>
     </div>
   );
 };
