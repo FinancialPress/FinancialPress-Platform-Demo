@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface DemoNavigationBarProps {
@@ -17,8 +16,7 @@ const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps
   ];
 
   return (
-   <div className="w-full bg-fpYellow border-b border-yellow-600 hidden md:block">
-
+    <div className="w-full bg-fpYellow border-b border-fpYellow hidden md:block">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6 text-sm overflow-x-auto">
@@ -26,9 +24,9 @@ const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps
               <button
                 key={screen}
                 onClick={() => onNavigate(screen)}
-                className={`text-black hover:text-gray-700 transition-colors whitespace-nowrap ${
-                  currentScreen === screen ? 'font-bold underline' : ''
-                }`}
+                className={`transition-colors whitespace-nowrap 
+                  text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 
+                  ${currentScreen === screen ? 'font-bold underline' : ''}`}
               >
                 {label}
               </button>
