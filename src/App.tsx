@@ -10,7 +10,6 @@ import { BalanceProvider } from "./contexts/BalanceContext";
 import Index from "./pages/Index";
 import ProfilePage from "./pages/ProfilePage";
 import ContentCreatorPage from "./pages/ContentCreatorPage";
-import UserFeedPage from "./pages/UserFeedPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,7 +27,6 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/create" element={<ContentCreatorPage />} />
-                <Route path="/feed" element={<UserFeedPage />} />
                 <Route path="/auth" element={<Navigate to="/" replace />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

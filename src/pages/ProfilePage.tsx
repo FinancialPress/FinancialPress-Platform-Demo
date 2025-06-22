@@ -28,7 +28,7 @@ interface Transaction {
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const { profile, updateProfile, refetch } = useProfile();
   const { balance } = useBalance();
@@ -175,7 +175,6 @@ const ProfilePage = () => {
           }}
           currentScreen={-1}
           isDarkMode={isDarkMode}
-          onToggleDarkMode={toggleTheme}
           userProfile={profile}
           isLoggedIn={!!user}
         />
@@ -196,7 +195,6 @@ const ProfilePage = () => {
         }}
         currentScreen={-1}
         isDarkMode={isDarkMode}
-        onToggleDarkMode={toggleTheme}
         userProfile={profile}
         isLoggedIn={!!user}
       />
