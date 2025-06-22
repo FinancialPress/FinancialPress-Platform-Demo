@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { supabase } from '@/integrations/supabase/client';
 import { useTheme } from '../contexts/ThemeContext';
 import { UserProfile } from '../hooks/useProfile';
 import TickerBar from './TickerBar';
@@ -34,9 +34,6 @@ const Header = ({
   const [searchValue, setSearchValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-
-  // Supabase client for sign-out
-  const supabase = useSupabaseClient();
 
   // Theme handling
   const themeContext = useTheme();
