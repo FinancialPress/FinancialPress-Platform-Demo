@@ -9,11 +9,13 @@ import ContentCreator from "@/components/ContentCreator";
 import StockChartData from "@/components/StockChartData";
 import OnboardingFlow from "@/components/OnboardingFlow";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
 import { useProfile } from "@/hooks/useProfile";
 
 const AppContent = () => {
   const { user, loading: authLoading } = useAuth();
   const { profile, loading: profileLoading } = useProfile();
+  const { isDarkMode } = useTheme();
   const [currentScreen, setCurrentScreen] = useState(0);
   const [searchSymbol, setSearchSymbol] = useState("");
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
@@ -57,11 +59,11 @@ const AppContent = () => {
       case 1:
         return <SignUpPage onNavigate={handleNavigate} />;
       case 3:
-        return <UserFeed onNavigate={handleNavigate} />;
+        return <UserFeed onNavigate={handleNavigate} isDarkMode={isDarkMode} />;
       case 4:
-        return <Dashboard onNavigate={handleNavigate} />;
+        return <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />;
       case 5:
-        return <ContentCreator onNavigate={handleNavigate} />;
+        return <ContentCreator onNavigate={handleNavigate} isDarkMode={isDarkMode} />;
       case 6:
         return <StockChartData symbol={searchSymbol} onNavigate={handleNavigate} />;
       default:
@@ -86,7 +88,9 @@ const AppContent = () => {
 const Index = () => {
   return (
     <AuthProvider>
-      <AppContent />
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </AuthProvider>
   );
 };
