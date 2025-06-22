@@ -38,14 +38,13 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [isFromOnboarding, setIsFromOnboarding] = useState(showOnboarding);
   const [isInitialized, setIsInitialized] = useState(false);
   
-  // Safe balance access with fallback
-  let balance = 0;
-  try {
-    const balanceContext = useBalance();
-    balance = balanceContext?.balance || 0;
-  } catch (error) {
-    console.warn('Balance context not available:', error);
-  }
+  // Always call hooks at top level - no conditional calls
+  const balanceContext = useBalance();
+  const postsHook = usePosts();
+  
+  // Safe access with fallbacks
+  const balance = balanceContext?.balance || 0;
+  const posts = postsHook?.posts || [];
   
   // Infinite scroll states
   const [feedItems, setFeedItems] = useState<any[]>([]);
@@ -53,19 +52,9 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
 
-  // Safe posts access with fallback
-  let posts: any[] = [];
-  try {
-    const postsHook = usePosts();
-    posts = postsHook?.posts || [];
-  } catch (error) {
-    console.warn('Posts hook not available:', error);
-    posts = [];
-  }
-
-  // Initialize feed with initial posts
+  // Initialize feed with initial posts - simplified
   useEffect(() => {
-    try {
+    const initializeFeed = () => {
       const initialPosts = [
         {
           id: 1,
@@ -139,11 +128,10 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       setFeedItems(initialPosts);
       setPage(1);
       setIsInitialized(true);
-    } catch (error) {
-      console.error('Error initializing feed:', error);
-      setIsInitialized(true); // Still mark as initialized to prevent infinite loading
-    }
-  }, []);
+    };
+
+    initializeFeed();
+  }, []); // Empty dependency array - only run once
 
   // Show loading state until initialized
   if (!isInitialized) {
@@ -176,14 +164,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
     );
   }
 
-  // Infinite scroll logic
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop 
-        >= document.documentElement.offsetHeight - 1000 && hasMore && !loading) {
-      loadMore();
-    }
-  };
-
+  // Infinite scroll logic - simplified
   const loadMore = () => {
     if (loading) return;
     
@@ -196,14 +177,13 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       setPage(prev => prev + 1);
       setLoading(false);
       
-      // Simulate end of data after 50 items
       if (feedItems.length > 45) {
         setHasMore(false);
       }
     }, 1000);
   };
 
-  // Add scroll event listener
+  // Simplified scroll event listener
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerHeight + document.documentElement.scrollTop 
@@ -214,7 +194,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore, feedItems.length]);
+  }, [loading, hasMore]); // Simplified dependencies
 
   useEffect(() => {
     // Show welcome modal if this is first time from onboarding
