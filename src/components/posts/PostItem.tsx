@@ -47,7 +47,8 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return 'Invalid date';
     try {
       return new Date(dateString).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -71,45 +72,53 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
 
   const engagement = generateEngagement();
 
-  // Safe data access with proper Post interface properties
+  // Comprehensive null guards for both DB and mock data shapes
   const getPostTitle = () => {
-    return post?.title || 'Untitled Post';
+    const heading = (post as any)?.title ?? (post as any)?.content ?? '(untitled)';
+    return typeof heading === 'string' ? heading : '(untitled)';
   };
 
   const getPostBody = () => {
-    return post?.body || '';
+    const body = (post as any)?.body ?? (post as any)?.description ?? '';
+    return typeof body === 'string' ? body : '';
   };
 
   const getPostImageUrl = () => {
-    const imageUrl = post?.image_url;
-    if (imageUrl) return imageUrl;
-    return getPlaceholderImage(post?.section || 'default');
+    const imgSrc = (post as any)?.image_url ?? (post as any)?.image ?? null;
+    if (imgSrc && typeof imgSrc === 'string') return imgSrc;
+    return getPlaceholderImage((post as any)?.section || 'default');
   };
 
   const getPostTags = () => {
-    const tags = post?.tags;
-    if (!tags || !Array.isArray(tags)) return [];
-    return tags;
+    const tags = (post as any)?.tags;
+    if (!tags) return [];
+    if (Array.isArray(tags)) return tags;
+    return [];
   };
 
   const getPostExternalUrl = () => {
-    return post?.external_url || null;
+    const url = (post as any)?.external_url;
+    return (url && typeof url === 'string') ? url : null;
   };
 
   const getPostSection = () => {
-    return post?.section || 'general';
+    const section = (post as any)?.section;
+    return (section && typeof section === 'string') ? section : 'general';
   };
 
   const getPostType = () => {
-    return post?.type || 'create_earn';
+    const type = (post as any)?.type;
+    return (type && typeof type === 'string') ? type : 'create_earn';
   };
 
   const getPostCreatedAt = () => {
-    return post?.created_at || new Date().toISOString();
+    const createdAt = (post as any)?.created_at ?? (post as any)?.timeAgo;
+    return createdAt || new Date().toISOString();
   };
 
   const getPostId = () => {
-    return post?.id || 'unknown';
+    const id = (post as any)?.id;
+    return id ? String(id) : 'unknown';
   };
 
   const handleShareAndEarn = async () => {
@@ -145,7 +154,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
     setShowSupportModal(false);
   };
 
-  // Safe variables with proper Post interface properties
+  // Safe variables with comprehensive null guards
   const title = getPostTitle();
   const body = getPostBody();
   const imageUrl = getPostImageUrl();
@@ -197,7 +206,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
                   Read More
                 </Button>
               )}
-              {tags.length > 0 && (
+              {tags && tags.length > 0 && (
                 <div className="flex flex-wrap gap-1 mb-3">
                   {tags.map((tag, index) => (
                     <Badge key={index} variant="secondary" className="text-xs">
