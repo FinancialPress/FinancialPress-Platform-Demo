@@ -71,26 +71,25 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
 
   const engagement = generateEngagement();
 
-  // Harmonize data shapes with null guards
+  // Safe data access with proper Post interface properties
   const getPostTitle = () => {
-    return post?.title || post?.content || 'Untitled Post';
+    return post?.title || 'Untitled Post';
   };
 
   const getPostBody = () => {
-    return post?.body || post?.description || '';
+    return post?.body || '';
   };
 
   const getPostImageUrl = () => {
-    const imageUrl = post?.image_url || post?.image;
+    const imageUrl = post?.image_url;
     if (imageUrl) return imageUrl;
     return getPlaceholderImage(post?.section || 'default');
   };
 
   const getPostTags = () => {
     const tags = post?.tags;
-    if (!tags) return [];
-    if (Array.isArray(tags)) return tags;
-    return [];
+    if (!tags || !Array.isArray(tags)) return [];
+    return tags;
   };
 
   const getPostExternalUrl = () => {
@@ -146,7 +145,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
     setShowSupportModal(false);
   };
 
-  // Safe variables with harmonized data
+  // Safe variables with proper Post interface properties
   const title = getPostTitle();
   const body = getPostBody();
   const imageUrl = getPostImageUrl();
