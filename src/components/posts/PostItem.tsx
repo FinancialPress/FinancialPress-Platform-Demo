@@ -72,60 +72,29 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
 
   const engagement = generateEngagement();
 
-  // Comprehensive null guards for both DB and mock data shapes
-  const getPostTitle = () => {
-    const heading = (post as any)?.title ?? (post as any)?.content ?? '(untitled)';
-    return typeof heading === 'string' ? heading : '(untitled)';
-  };
+  // Safe data access with null-safety guards
+  const title = (post as any).title || (post as any).content || '(untitled)';
+  const body = (post as any).body || (post as any).description || '';
+  const tags = Array.isArray((post as any).tags) ? (post as any).tags : [];
+  const externalUrl = (post as any).external_url || null;
+  const section = (post as any).section || 'general';
+  const type = (post as any).type || 'create_earn';
+  const postId = (post as any).id ? String((post as any).id) : 'unknown';
+  
+  // Safe image URL handling
+  const imageUrl = ((post as any).image_url ?? (post as any).image) || 
+                   getPlaceholderImage((post as any).section ?? 'default');
 
-  const getPostBody = () => {
-    const body = (post as any)?.body ?? (post as any)?.description ?? '';
-    return typeof body === 'string' ? body : '';
-  };
-
-  const getPostImageUrl = () => {
-    const imgSrc = (post as any)?.image_url ?? (post as any)?.image ?? null;
-    if (imgSrc && typeof imgSrc === 'string') return imgSrc;
-    return getPlaceholderImage((post as any)?.section || 'default');
-  };
-
-  const getPostTags = () => {
-    const tags = (post as any)?.tags;
-    if (!tags) return [];
-    if (Array.isArray(tags)) return tags;
-    return [];
-  };
-
-  const getPostExternalUrl = () => {
-    const url = (post as any)?.external_url;
-    return (url && typeof url === 'string') ? url : null;
-  };
-
-  const getPostSection = () => {
-    const section = (post as any)?.section;
-    return (section && typeof section === 'string') ? section : 'general';
-  };
-
-  const getPostType = () => {
-    const type = (post as any)?.type;
-    return (type && typeof type === 'string') ? type : 'create_earn';
-  };
-
-  const getPostCreatedAt = () => {
-    const createdAt = (post as any)?.created_at ?? (post as any)?.timeAgo;
-    return createdAt || new Date().toISOString();
-  };
-
-  const getPostId = () => {
-    const id = (post as any)?.id;
-    return id ? String(id) : 'unknown';
-  };
+  // Safe created_at handling for both ISO strings and Date objects
+  const createdAt = typeof (post as any).created_at === 'string'
+    ? (post as any).created_at
+    : ((post as any).created_at as Date)?.toISOString() ?? new Date().toISOString();
 
   const handleShareAndEarn = async () => {
     if (mockEngagement.isLiveUser) {
       try {
-        await mockEngagement.trackEngagement('share', getPostId());
-        await mockEngagement.triggerReward('share', getPostId());
+        await mockEngagement.trackEngagement('share', postId);
+        await mockEngagement.triggerReward('share', postId);
       } catch (error) {
         console.error('Error in engagement tracking:', error);
       }
@@ -153,17 +122,6 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
     console.log(`Subscribed`, { postId });
     setShowSupportModal(false);
   };
-
-  // Safe variables with comprehensive null guards
-  const title = getPostTitle();
-  const body = getPostBody();
-  const imageUrl = getPostImageUrl();
-  const tags = getPostTags();
-  const externalUrl = getPostExternalUrl();
-  const section = getPostSection();
-  const type = getPostType();
-  const createdAt = getPostCreatedAt();
-  const postId = getPostId();
 
   return (
     <>
@@ -208,7 +166,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
               )}
               {tags && tags.length > 0 && (
                 <div className="flex flex-wrap gap-1 mb-3">
-                  {tags.map((tag, index) => (
+                  {tags.map((tag: string, index: number) => (
                     <Badge key={index} variant="secondary" className="text-xs">
                       {tag}
                     </Badge>
@@ -225,7 +183,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
               alt={title} 
               className="w-full h-48 object-cover rounded-lg"
               onError={(e) => {
-                e.currentTarget.src = getPlaceholderImage();
+                e.currentTarget.src = getPlaceholderImage((post as any).section ?? 'default');
               }}
             />
           </div>
