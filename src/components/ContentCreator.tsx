@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,10 +16,11 @@ import {
   Video, 
   Image as ImageIcon, 
   Eye, 
-  TrendingUp,
   Calendar,
-  Clock
+  X
 } from 'lucide-react';
+import { usePosts } from '@/hooks/usePosts';
+import { useFPTTokens } from '@/hooks/useFPTTokens';
 
 interface ContentCreatorProps {
   onNavigate?: (screen: number) => void;
@@ -26,18 +28,113 @@ interface ContentCreatorProps {
 }
 
 const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
+  const navigate = useNavigate();
+  const { createEarnPost, shareInsightPost } = usePosts();
+  const { addTokens } = useFPTTokens();
+  
   const [contentType, setContentType] = useState('create-earn');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
   const [commentary, setCommentary] = useState('');
   const [description, setDescription] = useState('');
+  const [section, setSection] = useState<'stock' | 'crypto'>('stock');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [customTags, setCustomTags] = useState('');
   const [enableLiveChat, setEnableLiveChat] = useState(true);
   const [allowWatchLater, setAllowWatchLater] = useState(true);
   const [shareWith, setShareWith] = useState('public');
+  const [isPublishing, setIsPublishing] = useState(false);
 
-  const handlePublish = () => {
-    onNavigate?.(3);
+  const allTags = {
+    stock: ['Stock Market', 'Analysis', 'Trading', 'Investment', 'Market News'],
+    crypto: ['Crypto Market', 'Bitcoin', 'Ethereum', 'DeFi', 'Blockchain', 'NFT'],
+    general: ['News', 'Commentary', 'Live', 'Educational']
+  };
+
+  const handleTagToggle = (tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    );
+  };
+
+  const getAllTags = () => {
+    const tags = [...selectedTags];
+    if (customTags.trim()) {
+      tags.push(...customTags.split(',').map(t => t.trim()).filter(t => t));
+    }
+    return tags;
+  };
+
+  const handlePublish = async () => {
+    if (!title.trim()) {
+      return;
+    }
+
+    setIsPublishing(true);
+    
+    try {
+      const tags = getAllTags();
+      
+      if (contentType === 'create-earn') {
+        if (!content.trim()) {
+          return;
+        }
+        
+        const result = await createEarnPost({
+          title,
+          body: content,
+          tags,
+          section
+        });
+        
+        if (result) {
+          // Award 5 FPT tokens for posting
+          await addTokens(5, 'content_creation', 'Create & Earn post published');
+          
+          // Reset form
+          setTitle('');
+          setContent('');
+          setSelectedTags([]);
+          setCustomTags('');
+          
+          // Navigate to landing page
+          navigate('/');
+          onNavigate?.(0);
+        }
+      } else if (contentType === 'share-insight') {
+        if (!linkUrl.trim()) {
+          return;
+        }
+        
+        const result = await shareInsightPost({
+          title,
+          external_url: linkUrl,
+          commentary,
+          tags
+        });
+        
+        if (result) {
+          // Award 3 FPT tokens for sharing insight
+          await addTokens(3, 'content_sharing', 'Share Insight post published');
+          
+          // Reset form
+          setTitle('');
+          setLinkUrl('');
+          setCommentary('');
+          setSelectedTags([]);
+          setCustomTags('');
+          
+          // Navigate to user feed
+          navigate('/');
+          onNavigate?.(3);
+        }
+      }
+    } finally {
+      setIsPublishing(false);
+    }
   };
 
   // Theme-aware classes
@@ -96,20 +193,27 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                         />
                       </div>
                       <div>
+                        <Label className={labelClasses}>Section</Label>
+                        <RadioGroup value={section} onValueChange={(value: 'stock' | 'crypto') => setSection(value)} className="space-y-2">
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="stock" id="stock" />
+                            <Label htmlFor="stock" className={`${labelClasses} text-sm cursor-pointer`}>
+                              Stock Market
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="crypto" id="crypto" />
+                            <Label htmlFor="crypto" className={`${labelClasses} text-sm cursor-pointer`}>
+                              Crypto Market
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                      <div>
                         <Label className={labelClasses}>Thumbnail Image</Label>
                         <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
                           <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
                           <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
-                          <Button size="sm" className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}>
-                            Choose File
-                          </Button>
-                        </div>
-                      </div>
-                      <div>
-                        <Label className={labelClasses}>Upload Content</Label>
-                        <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
-                          <Upload className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
-                          <p className={`${labelClasses} text-sm mb-2`}>Drag & drop or browse</p>
                           <Button size="sm" className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}>
                             Choose File
                           </Button>
@@ -121,21 +225,38 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       <Textarea 
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        placeholder="Share your insights, analysis, or thoughts... (supports basic formatting and links)"
+                        placeholder="Share your insights, analysis, or thoughts..."
                         className={`${inputClasses} min-h-[200px] sm:min-h-[300px]`}
                       />
                     </div>
                     <div>
                       <Label className={`${labelClasses} mb-2 block`}>Tags</Label>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        <Badge className="bg-blue-600 text-white">Crypto</Badge>
-                        <Badge className="bg-green-600 text-white">Bitcoin</Badge>
-                        <Badge className="bg-purple-600 text-white">Analysis</Badge>
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap gap-2">
+                          {allTags[section].map((tag) => (
+                            <Badge
+                              key={tag}
+                              className={`cursor-pointer ${
+                                selectedTags.includes(tag)
+                                  ? 'bg-yellow-500 text-black'
+                                  : 'bg-gray-500 text-white hover:bg-gray-400'
+                              }`}
+                              onClick={() => handleTagToggle(tag)}
+                            >
+                              {tag}
+                              {selectedTags.includes(tag) && (
+                                <X className="w-3 h-3 ml-1" />
+                              )}
+                            </Badge>
+                          ))}
+                        </div>
+                        <Input 
+                          value={customTags}
+                          onChange={(e) => setCustomTags(e.target.value)}
+                          placeholder="Add custom tags (comma separated)"
+                          className={inputClasses}
+                        />
                       </div>
-                      <Input 
-                        placeholder="Add tags (comma separated)"
-                        className={inputClasses}
-                      />
                     </div>
                   </TabsContent>
 
@@ -143,6 +264,8 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                     <div>
                       <Label className={labelClasses}>Title</Label>
                       <Input 
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         placeholder="Enter content title..."
                         className={inputClasses}
                       />
@@ -167,15 +290,32 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                     </div>
                     <div>
                       <Label className={`${labelClasses} mb-2 block`}>Tags</Label>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        <Badge className="bg-blue-600 text-white">Stocks</Badge>
-                        <Badge className="bg-red-600 text-white">News</Badge>
-                        <Badge className="bg-orange-600 text-white">Commentary</Badge>
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap gap-2">
+                          {allTags.general.map((tag) => (
+                            <Badge
+                              key={tag}
+                              className={`cursor-pointer ${
+                                selectedTags.includes(tag)
+                                  ? 'bg-blue-600 text-white'
+                                  : 'bg-gray-500 text-white hover:bg-gray-400'
+                              }`}
+                              onClick={() => handleTagToggle(tag)}
+                            >
+                              {tag}
+                              {selectedTags.includes(tag) && (
+                                <X className="w-3 h-3 ml-1" />
+                              )}
+                            </Badge>
+                          ))}
+                        </div>
+                        <Input 
+                          value={customTags}
+                          onChange={(e) => setCustomTags(e.target.value)}
+                          placeholder="Add custom tags (comma separated)"
+                          className={inputClasses}
+                        />
                       </div>
-                      <Input 
-                        placeholder="Add tags (comma separated)"
-                        className={inputClasses}
-                      />
                     </div>
                   </TabsContent>
 
@@ -277,17 +417,20 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                 </div>
                 <div className="flex justify-between">
                   <span className={`${mutedText} text-sm`}>Estimated Earnings</span>
-                  <span className="text-yellow-400 text-sm font-medium">15-30 FPT</span>
+                  <span className="text-yellow-400 text-sm font-medium">
+                    {contentType === 'create-earn' ? '5 FPT' : '3 FPT'}
+                  </span>
                 </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
-                  <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'bg-white norder-b border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-black'} text-sm`}>
+                  <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-black'} text-sm`}>
                     Save as Draft
                   </Button>
                   <Button 
                     className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold text-sm"
                     onClick={handlePublish}
+                    disabled={isPublishing || !title.trim() || (contentType === 'create-earn' && !content.trim()) || (contentType === 'share-insight' && !linkUrl.trim())}
                   >
-                    Publish Content
+                    {isPublishing ? 'Publishing...' : 'Publish Content'}
                   </Button>
                 </div>
               </CardContent>

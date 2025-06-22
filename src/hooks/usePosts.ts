@@ -24,7 +24,6 @@ export interface CreateEarnPostData {
   image_url?: string;
   tags?: string[];
   section?: 'stock' | 'crypto';
-  [key: string]: any; // Make it compatible with Json type
 }
 
 export interface ShareInsightPostData {
@@ -33,7 +32,6 @@ export interface ShareInsightPostData {
   commentary?: string;
   image_url?: string;
   tags?: string[];
-  [key: string]: any; // Make it compatible with Json type
 }
 
 export const usePosts = () => {
@@ -42,13 +40,19 @@ export const usePosts = () => {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (section?: 'stock' | 'crypto') => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      let query = supabase
         .from('posts')
         .select('*')
         .order('created_at', { ascending: false });
+
+      if (section) {
+        query = query.eq('section', section);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       
@@ -60,6 +64,7 @@ export const usePosts = () => {
       })) as Post[];
       
       setPosts(typedPosts);
+      return typedPosts;
     } catch (error) {
       console.error('Error fetching posts:', error);
       toast({
@@ -67,6 +72,7 @@ export const usePosts = () => {
         description: "Failed to fetch posts",
         variant: "destructive",
       });
+      return [];
     } finally {
       setLoading(false);
     }
@@ -84,7 +90,13 @@ export const usePosts = () => {
 
     try {
       const { data, error } = await supabase.rpc('create_earn_post', {
-        payload: postData as any // Cast to any to satisfy Json type requirement
+        payload: {
+          title: postData.title,
+          body: postData.body,
+          image_url: postData.image_url || null,
+          tags: postData.tags || [],
+          section: postData.section || 'stock'
+        }
       });
 
       if (error) throw error;
@@ -120,7 +132,13 @@ export const usePosts = () => {
 
     try {
       const { data, error } = await supabase.rpc('share_insight_post', {
-        payload: postData as any // Cast to any to satisfy Json type requirement
+        payload: {
+          title: postData.title,
+          external_url: postData.external_url,
+          commentary: postData.commentary || null,
+          image_url: postData.image_url || null,
+          tags: postData.tags || []
+        }
       });
 
       if (error) throw error;
@@ -173,6 +191,7 @@ export const usePosts = () => {
     loading,
     createEarnPost,
     shareInsightPost,
+    fetchPosts,
     refetch: fetchPosts
   };
 };
