@@ -24,6 +24,7 @@ export interface CreateEarnPostData {
   image_url?: string;
   tags?: string[];
   section?: 'stock' | 'crypto';
+  [key: string]: any; // Make it compatible with Json type
 }
 
 export interface ShareInsightPostData {
@@ -32,6 +33,7 @@ export interface ShareInsightPostData {
   commentary?: string;
   image_url?: string;
   tags?: string[];
+  [key: string]: any; // Make it compatible with Json type
 }
 
 export const usePosts = () => {
@@ -49,7 +51,15 @@ export const usePosts = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setPosts(data || []);
+      
+      // Type cast the data to ensure proper typing
+      const typedPosts = (data || []).map(post => ({
+        ...post,
+        type: post.type as 'create_earn' | 'share_insight',
+        tags: post.tags || []
+      })) as Post[];
+      
+      setPosts(typedPosts);
     } catch (error) {
       console.error('Error fetching posts:', error);
       toast({
@@ -74,7 +84,7 @@ export const usePosts = () => {
 
     try {
       const { data, error } = await supabase.rpc('create_earn_post', {
-        payload: postData
+        payload: postData as any // Cast to any to satisfy Json type requirement
       });
 
       if (error) throw error;
@@ -110,7 +120,7 @@ export const usePosts = () => {
 
     try {
       const { data, error } = await supabase.rpc('share_insight_post', {
-        payload: postData
+        payload: postData as any // Cast to any to satisfy Json type requirement
       });
 
       if (error) throw error;
