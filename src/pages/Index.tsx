@@ -1,86 +1,112 @@
 
-import { useState, useEffect } from "react";
-import Header from "@/components/Header";
-import LandingPage from "@/components/LandingPage";
-import SignUpPage from "@/components/SignUpPage";
-import UserFeed from "@/components/UserFeed";
-import Dashboard from "@/components/Dashboard";
-import ContentCreator from "@/components/ContentCreator";
-import StockChartData from "@/components/StockChartData";
-import OnboardingFlow from "@/components/OnboardingFlow";
-import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
-import { useProfile } from "@/hooks/useProfile";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
+import { AuthProvider } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useProfile } from '../hooks/useProfile';
+import Header from '../components/Header';
+import LandingPage from '../components/LandingPage';
+import SignUpPage from '../components/SignUpPage';
+import OnboardingFlow from '../components/OnboardingFlow';
+import UserFeed from '../components/UserFeed';
+import Dashboard from '../components/Dashboard';
+import ContentCreator from '../components/ContentCreator';
+import ShareEarnFlow from '../components/ShareEarnFlow';
+import StockChartData from '../components/StockChartData';
+import FinalCTA from '../components/FinalCTA';
 
-const AppContent = () => {
-  const { user, loading: authLoading } = useAuth();
-  const { profile, loading: profileLoading } = useProfile();
-  const { isDarkMode } = useTheme();
+type UserType = 'demo' | 'live' | null;
+
+const IndexContent = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
-  const [searchSymbol, setSearchSymbol] = useState("");
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const [searchSymbol, setSearchSymbol] = useState('');
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [userType, setUserType] = useState<UserType>(null);
+  const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
+  const { user } = useAuth();
+  const { profile } = useProfile();
 
-  // Check if user needs onboarding
-  const needsOnboarding = user && !hasCompletedOnboarding && (!profile || !profile.display_name || !profile.username);
-
-  useEffect(() => {
-    // If user has a complete profile, mark onboarding as complete
-    if (profile && profile.display_name && profile.username) {
-      setHasCompletedOnboarding(true);
+  const handleNavigate = (screen: number, symbol?: string, type?: UserType) => {
+    // Special handling for Content Creator - navigate to dedicated page
+    if (screen === 5) {
+      navigate('/create');
+      return;
     }
-  }, [profile]);
-
-  const handleNavigate = (screen: number, symbol?: string) => {
-    // If user is authenticated but needs onboarding, redirect to onboarding
-    if (user && needsOnboarding && screen !== 1) {
-      return; // Stay in onboarding flow
-    }
-
+    
     setCurrentScreen(screen);
     if (symbol) {
       setSearchSymbol(symbol);
     }
-  };
-
-  const handleOnboardingComplete = () => {
-    setHasCompletedOnboarding(true);
-    setCurrentScreen(3); // Go to User Feed after onboarding
-  };
-
-  // Show onboarding flow if user is logged in but hasn't completed onboarding
-  if (user && needsOnboarding) {
-    return <OnboardingFlow onComplete={handleOnboardingComplete} />;
-  }
-
-  const renderCurrentScreen = () => {
-    switch (currentScreen) {
-      case 0:
-        return <LandingPage onNavigate={handleNavigate} />;
-      case 1:
-        return <SignUpPage onNavigate={handleNavigate} />;
-      case 3:
-        return <UserFeed onNavigate={handleNavigate} isDarkMode={isDarkMode} />;
-      case 4:
-        return <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />;
-      case 5:
-        return <ContentCreator onNavigate={handleNavigate} isDarkMode={isDarkMode} />;
-      case 6:
-        return <StockChartData symbol={searchSymbol} onNavigate={handleNavigate} />;
-      default:
-        return <LandingPage onNavigate={handleNavigate} />;
+    if (type) {
+      setUserType(type);
+    }
+    // Reset onboarding flag when navigating normally
+    if (screen !== 3) {
+      setShowOnboarding(false);
     }
   };
 
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(true);
+    setCurrentScreen(3); // Navigate to UserFeed with onboarding flag
+  };
+
+  // Mock data for ShareEarnFlow
+  const mockPost = {
+    title: "Bitcoin Analysis: Market Trends and Future Predictions",
+    creator: "CryptoExpert",
+    estimatedEarnings: "15.2 FPT"
+  };
+
+  const handleShareClose = () => {
+    console.log("Share modal closed");
+  };
+
+  const handleShare = () => {
+    console.log("Content shared");
+  };
+
+  const screens = [
+    <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
+    <SignUpPage key="signup" onNavigate={handleNavigate} isDarkMode={isDarkMode} userType={userType} setUserType={setUserType} />,
+    <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} onComplete={handleOnboardingComplete} userType={userType} />,
+    <UserFeed key="feed" onNavigate={handleNavigate} isDarkMode={isDarkMode} showOnboarding={showOnboarding} />,
+    <Dashboard key="dashboard" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
+    <ContentCreator key="creator" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
+    <StockChartData key="stockchart" symbol={searchSymbol} onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
+    <ShareEarnFlow 
+      key="share" 
+      post={mockPost}
+      onClose={handleShareClose}
+      onShare={handleShare}
+    />,
+    <FinalCTA key="cta" />
+  ];
+
+  const themeClasses = isDarkMode 
+    ? "min-h-screen bg-black"
+    : "min-h-screen bg-gray-50";
+
+  // Don't show Header on Onboarding (screen 2)
+  const showHeader = currentScreen !== 2;
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header 
-        onNavigate={handleNavigate} 
-        currentScreen={currentScreen}
-        isLoggedIn={!!user}
-        userProfile={profile}
-        profileLoading={profileLoading}
-      />
-      {renderCurrentScreen()}
+    <div className={`${themeClasses} w-full overflow-x-hidden`}>
+      {showHeader && (
+        <Header 
+          onNavigate={handleNavigate} 
+          currentScreen={currentScreen}
+          isDarkMode={isDarkMode}
+          onToggleDarkMode={toggleTheme}
+          userProfile={profile}
+          isLoggedIn={!!user}
+        />
+      )}
+      <div className="w-full">
+        {screens[currentScreen]}
+      </div>
     </div>
   );
 };
@@ -88,9 +114,7 @@ const AppContent = () => {
 const Index = () => {
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <AppContent />
-      </ThemeProvider>
+      <IndexContent />
     </AuthProvider>
   );
 };

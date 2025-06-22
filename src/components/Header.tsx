@@ -17,7 +17,6 @@ interface HeaderProps {
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
   userProfile?: UserProfile | null;
-  profileLoading?: boolean;
 }
 
 const Header = ({ 
@@ -28,8 +27,7 @@ const Header = ({
   onToggleDemo,
   isDarkMode: propIsDarkMode,
   onToggleDarkMode: propOnToggleDarkMode,
-  userProfile,
-  profileLoading = false
+  userProfile
 }: HeaderProps) => {
   const [searchValue, setSearchValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
@@ -43,7 +41,7 @@ const Header = ({
   // Determine if user should be shown as logged in based on current screen or actual login status
   const shouldShowLoggedIn = [3, 4, 5, 6].includes(currentScreen) || isLoggedIn;
 
-  // Get user display data (prioritize real profile data over demo data)
+  // Get user display data (real profile data if available, fallback to demo data)
   const getDisplayData = () => {
     // If we have a real logged-in user and profile data
     if (userProfile && isLoggedIn) {
@@ -53,17 +51,6 @@ const Header = ({
         fptBalance: userProfile.fpt_balance || 0,
         imageUrl: userProfile.image_url,
         role: userProfile.role || 'newcomer'
-      };
-    }
-    
-    // Show loading state if user is logged in but profile is still loading
-    if (isLoggedIn && profileLoading) {
-      return {
-        displayName: 'Loading...',
-        username: '@...',
-        fptBalance: 0,
-        imageUrl: null,
-        role: 'newcomer'
       };
     }
     
@@ -80,18 +67,15 @@ const Header = ({
   const { displayName, username, fptBalance, imageUrl, role } = getDisplayData();
 
   const getInitials = (name: string) => {
-    if (name === 'Loading...') return '...';
     return name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
   };
 
   const getRoleBadge = (userRole: string) => {
     switch (userRole) {
       case 'creator':
-        return 'Creator';
+        return 'Creator Newcomer';
       case 'distributor':
         return 'Distributor';
-      case 'newcomer':
-        return 'Newcomer';
       default:
         return 'Newcomer';
     }
