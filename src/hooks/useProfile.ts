@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -88,9 +87,17 @@ export const useProfile = () => {
       .from('profiles')
       .select('username')
       .eq('username', username)
-      .single();
+      .maybeSingle();
 
-    return !data && !error;
+    // If there's an actual error (not just "no rows found"), return false
+    if (error) {
+      console.error('Error checking username availability:', error);
+      return false;
+    }
+
+    // If no data is returned, the username is available
+    // If data is returned, the username is taken
+    return !data;
   };
 
   return {
