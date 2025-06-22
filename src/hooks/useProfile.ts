@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -43,8 +44,34 @@ export const useProfile = () => {
 
     if (!error && data) {
       setProfile(data);
+    } else if (error && error.code === 'PGRST116') {
+      // Profile doesn't exist, create a basic one (auto-recovery)
+      console.log('Profile not found, creating basic profile for user');
+      await createBasicProfile();
     }
     setLoading(false);
+  };
+
+  const createBasicProfile = async () => {
+    if (!user) return { error: 'No user logged in' };
+
+    const basicProfileData = {
+      id: user.id,
+      email: user.email,
+      fpt_balance: 100,
+      role: 'newcomer',
+      topics: []
+    };
+
+    const { error } = await supabase
+      .from('profiles')
+      .upsert(basicProfileData);
+
+    if (!error) {
+      await fetchProfile();
+    }
+
+    return { error };
   };
 
   const updateProfile = async (updates: Partial<UserProfile>) => {

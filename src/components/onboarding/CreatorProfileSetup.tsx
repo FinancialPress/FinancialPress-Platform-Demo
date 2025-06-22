@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +22,7 @@ interface CreatorProfileSetupProps {
 const CreatorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: CreatorProfileSetupProps) => {
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
-  const { createProfile, updateProfile } = useProfile();
+  const { updateProfile } = useProfile();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   
@@ -79,6 +78,7 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: Crea
         image_url: profileImageUrl
       };
 
+      // Use updateProfile since the profile already exists from the trigger
       const { error } = await updateProfile(profileData);
       
       if (error) {
