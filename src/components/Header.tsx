@@ -291,7 +291,11 @@ const Header = ({
                     <div className="hidden sm:flex flex-col">
                       <div className="flex items-center space-x-2">
                         <span className={`${logoTextClasses} font-semibold text-sm`}>{displayName}</span>
-                        <span className={`text-xs font-medium ${logoTextClasses}`}>{fptBalance.toLocaleString()} FPT</span>
+                        {/* Enhanced FPT Balance Display for Live Users */}
+                        <div className="flex items-center space-x-1 bg-yellow-500 text-black px-2 py-1 rounded-full">
+                          <span className="text-xs font-bold">💰</span>
+                          <span className={`text-xs font-bold`}>{fptBalance.toLocaleString()} FPT</span>
+                        </div>
                       </div>
                       <div className="flex items-center space-x-3">
                         <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{username}</span>
@@ -386,7 +390,11 @@ const Header = ({
                         </div>
                         <div className="flex items-center space-x-2">
                           <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{username}</span>
-                          <span className={`text-xs font-medium ${logoTextClasses}`}>{fptBalance.toLocaleString()} FPT</span>
+                          {/* Mobile FPT Balance Display */}
+                          <div className="flex items-center space-x-1 bg-yellow-500 text-black px-1 py-0.5 rounded-full">
+                            <span className="text-xs font-bold">💰</span>
+                            <span className={`text-xs font-bold`}>{fptBalance.toLocaleString()}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
