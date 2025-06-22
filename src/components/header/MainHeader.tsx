@@ -69,7 +69,7 @@ const MainHeader = ({
 
             <div className="h-12 sm:h-14 w-32 sm:w-[200px]">
               <img
-                src={isDarkMode ? '/lovable-Uploads/logo.png' : '/lovable-Uploads/FullLightMode.png'}
+                src={isDarkMode ? '/lovable-uploads/logo.png' : '/lovable-uploads/FullLightMode.png'}
                 alt="FinancialPress Logo"
                 className="h-full w-full object-contain"
               />
