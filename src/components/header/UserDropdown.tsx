@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
 
 interface UserData {
   displayName: string;
@@ -21,6 +22,7 @@ interface UserDropdownProps {
 }
 
 const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) => {
+  const navigate = useNavigate();
   const { displayName, username, imageUrl } = userData;
 
   const getInitials = (name: string) => {
@@ -30,6 +32,10 @@ const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) =
       .join('')
       .toUpperCase()
       .slice(0, 2);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
   };
 
   return (
@@ -71,7 +77,7 @@ const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) =
         }`}
       >
         <DropdownMenuItem
-          onClick={() => onNavigate(7)}
+          onClick={handleProfileClick}
           className={`flex items-center space-x-2 ${
             isDarkMode
               ? 'text-gray-300 hover:bg-gray-800 hover:text-white'

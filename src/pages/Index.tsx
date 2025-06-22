@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { AuthProvider } from '../contexts/AuthContext';
+import { BalanceProvider } from '../contexts/BalanceContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
 import Header from '../components/Header';
@@ -114,7 +115,9 @@ const IndexContent = () => {
 const Index = () => {
   return (
     <AuthProvider>
-      <IndexContent />
+      <BalanceProvider>
+        <IndexContent />
+      </BalanceProvider>
     </AuthProvider>
   );
 };

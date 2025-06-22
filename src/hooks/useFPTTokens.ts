@@ -2,40 +2,14 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBalance } from '@/contexts/BalanceContext';
 import { toast } from 'sonner';
 
 export const useFPTTokens = () => {
   const { user } = useAuth();
-  const [balance, setBalance] = useState<number>(0);
+  const { balance, refreshBalance } = useBalance();
   const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState<any[]>([]);
-
-  const fetchBalance = async () => {
-    if (!user) {
-      setBalance(0);
-      return;
-    }
-
-    try {
-      console.log('Fetching balance for user:', user.id);
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('fpt_balance')
-        .eq('id', user.id)
-        .single();
-
-      if (error) {
-        console.error('Error fetching balance:', error);
-        return;
-      }
-
-      const newBalance = data?.fpt_balance || 0;
-      console.log('Fetched balance:', newBalance);
-      setBalance(newBalance);
-    } catch (error) {
-      console.error('Error fetching balance:', error);
-    }
-  };
 
   const fetchTransactions = async () => {
     if (!user) {
@@ -100,8 +74,8 @@ export const useFPTTokens = () => {
         return false;
       }
 
-      // Refresh balance and transactions immediately
-      await Promise.all([fetchBalance(), fetchTransactions()]);
+      // Refresh balance immediately and fetch transactions
+      await Promise.all([refreshBalance(), fetchTransactions()]);
       
       console.log('Tokens added successfully');
       toast.success(`+${amount} FPT earned!`, {
@@ -137,8 +111,6 @@ export const useFPTTokens = () => {
     }
 
     // Check current balance before attempting to spend
-    await fetchBalance();
-    
     if (balance < amount) {
       console.error('Insufficient balance:', { balance, required: amount });
       toast.error(`Insufficient FPT balance. You have ${balance} FPT, but need ${amount} FPT.`);
@@ -165,8 +137,8 @@ export const useFPTTokens = () => {
         return false;
       }
 
-      // Refresh balance and transactions immediately
-      await Promise.all([fetchBalance(), fetchTransactions()]);
+      // Refresh balance immediately and fetch transactions
+      await Promise.all([refreshBalance(), fetchTransactions()]);
       
       console.log('Tokens spent successfully');
       toast.success(`${amount} FPT spent successfully!`, {
@@ -183,24 +155,22 @@ export const useFPTTokens = () => {
     }
   };
 
-  // Fetch balance when user changes
+  // Fetch transactions when user changes
   useEffect(() => {
     if (user) {
-      fetchBalance();
       fetchTransactions();
     } else {
-      setBalance(0);
       setTransactions([]);
     }
   }, [user]);
 
   return {
-    balance,
+    balance, // Use balance from BalanceContext
     loading,
     transactions,
     addTokens,
     spendTokens,
-    refreshBalance: fetchBalance,
+    refreshBalance,
     refreshTransactions: fetchTransactions
   };
 };

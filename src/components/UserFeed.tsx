@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { useBalance } from '../contexts/BalanceContext';
 import ShareEarnFlow from './ShareEarnFlow';
 import EarningsTracker from './EarningsTracker';
 import TrendingTopics from '@/components/feed/TrendingTopics';
@@ -33,6 +35,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [showTour, setShowTour] = useState(false);
   const [earningsAmount, setEarningsAmount] = useState('0.0');
   const [isFromOnboarding, setIsFromOnboarding] = useState(showOnboarding);
+  const { balance } = useBalance(); // Use centralized balance
   
   // Infinite scroll states
   const [feedItems, setFeedItems] = useState<any[]>([]);
@@ -145,6 +148,13 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   // Add scroll event listener
   useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop 
+          >= document.documentElement.offsetHeight - 1000 && hasMore && !loading) {
+        loadMore();
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [loading, hasMore, feedItems.length]);
@@ -201,7 +211,6 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   // Theme-aware classes
   const bgClasses = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
-  const buttonClasses = isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-100';
 
   const handleShare = (content: any) => {
     setSelectedContent({
@@ -283,7 +292,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Embedded Earnings Tracker */}
+            {/* Embedded Earnings Tracker - Using centralized balance */}
             <div data-tour="earnings-tracker">
               <EarningsTracker
                 isVisible={true}
@@ -291,7 +300,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
                 onNavigate={onNavigate}
                 isEmbedded={true}
                 isDarkMode={isDarkMode}
-                customEarnings={isFromOnboarding ? earningsAmount : undefined}
+                customEarnings={isFromOnboarding ? earningsAmount : balance.toString()}
                 isFromOnboarding={isFromOnboarding}
               />
             </div>

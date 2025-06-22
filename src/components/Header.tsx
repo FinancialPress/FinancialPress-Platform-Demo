@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useBalance } from '../contexts/BalanceContext';
 import { UserProfile } from '../hooks/useProfile';
-import { useFPTTokens } from '../hooks/useFPTTokens';
 import DemoNavigationBar from './header/DemoNavigationBar';
 import TopNavigationBar from './header/TopNavigationBar';
 import MainHeader from './header/MainHeader';
@@ -29,7 +30,7 @@ const Header = ({
   userProfile,
 }: HeaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
-  const { balance: liveFPTBalance, refreshBalance } = useFPTTokens();
+  const { balance } = useBalance(); // Use centralized balance
 
   // Theme handling
   const themeContext = useTheme();
@@ -40,17 +41,6 @@ const Header = ({
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  // Refresh balance periodically to keep it live
-  useEffect(() => {
-    if (isLoggedIn) {
-      const interval = setInterval(() => {
-        refreshBalance();
-      }, 30000); // Refresh every 30 seconds
-
-      return () => clearInterval(interval);
-    }
-  }, [isLoggedIn, refreshBalance]);
 
   if (!isMounted) return null;
 
@@ -64,7 +54,7 @@ const Header = ({
       return {
         displayName: userProfile.display_name || emailName,
         username: userProfile.username ? `@${userProfile.username}` : `@${emailName}`,
-        fptBalance: liveFPTBalance, // Use live balance from Supabase
+        fptBalance: balance, // Use live balance from BalanceContext
         imageUrl: userProfile.image_url,
         role: userProfile.role || 'newcomer',
       };
