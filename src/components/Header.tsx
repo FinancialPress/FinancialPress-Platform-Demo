@@ -43,17 +43,18 @@ const Header = ({
 
   // Get user display data (real profile data if available, fallback to demo data)
   const getDisplayData = () => {
+    // If we have a real logged-in user and profile data
     if (userProfile && isLoggedIn) {
       return {
         displayName: userProfile.display_name || 'User',
-        username: userProfile.display_name ? `@${userProfile.display_name.toLowerCase().replace(/\s+/g, '')}` : '@user',
+        username: userProfile.username ? `@${userProfile.username}` : '@user',
         fptBalance: userProfile.fpt_balance || 0,
         imageUrl: userProfile.image_url,
         role: userProfile.role || 'newcomer'
       };
     }
     
-    // Demo/fallback data
+    // Demo/fallback data for screen navigation
     return {
       displayName: 'John Doe',
       username: '@johndoe',

@@ -136,6 +136,7 @@ export type Database = {
           referred_by: string | null
           role: string | null
           topics: string[] | null
+          username: string | null
           wallet_identifier: string | null
         }
         Insert: {
@@ -150,6 +151,7 @@ export type Database = {
           referred_by?: string | null
           role?: string | null
           topics?: string[] | null
+          username?: string | null
           wallet_identifier?: string | null
         }
         Update: {
@@ -164,6 +166,7 @@ export type Database = {
           referred_by?: string | null
           role?: string | null
           topics?: string[] | null
+          username?: string | null
           wallet_identifier?: string | null
         }
         Relationships: []

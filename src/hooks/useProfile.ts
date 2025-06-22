@@ -7,6 +7,7 @@ export interface UserProfile {
   id: string;
   email: string | null;
   display_name: string | null;
+  username: string | null;
   bio: string | null;
   topics: string[];
   role: string | null;
@@ -80,11 +81,24 @@ export const useProfile = () => {
     return { error };
   };
 
+  const checkUsernameAvailability = async (username: string): Promise<boolean> => {
+    if (!username) return false;
+    
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('username')
+      .eq('username', username)
+      .single();
+
+    return !data && !error;
+  };
+
   return {
     profile,
     loading,
     updateProfile,
     createProfile,
+    checkUsernameAvailability,
     refetch: fetchProfile
   };
 };
