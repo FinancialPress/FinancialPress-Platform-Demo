@@ -69,7 +69,7 @@ const MobileMenu = ({
         <button
           onClick={() => handleNavigation(0)}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 0 ? 'font-bold text-[#FFD700]' : logoTextClasses
+            currentScreen === 0 ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Landing Page
@@ -77,7 +77,7 @@ const MobileMenu = ({
         <button
           onClick={() => handleNavigation(1)}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 1 ? 'font-bold text-[#FFD700]' : logoTextClasses
+            currentScreen === 1 ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Sign Up
@@ -85,7 +85,7 @@ const MobileMenu = ({
         <button
           onClick={() => handleNavigation(3)}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 3 ? 'font-bold text-[#FFD700]' : logoTextClasses
+            currentScreen === 3 ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           User Feed
@@ -93,7 +93,7 @@ const MobileMenu = ({
         <button
           onClick={() => handleNavigation(4)}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 4 ? 'font-bold text-[#FFD700]' : logoTextClasses
+            currentScreen === 4 ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Dashboard
@@ -101,7 +101,7 @@ const MobileMenu = ({
         <button
           onClick={() => handleNavigation(5)}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 5 ? 'font-bold text-[#FFD700]' : logoTextClasses
+            currentScreen === 5 ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Content Creator
@@ -109,7 +109,7 @@ const MobileMenu = ({
         <button
           onClick={() => handleNavigation(6)}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 6 ? 'font-bold text-[#FFD700]' : logoTextClasses
+            currentScreen === 6 ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Stock Chart
@@ -120,7 +120,7 @@ const MobileMenu = ({
             <div className="flex items-center space-x-3">
               <Avatar className="w-8 h-8">
                 <AvatarImage src={imageUrl || undefined} alt="Profile" />
-                <AvatarFallback className="bg-[#FFD700] text-black font-semibold">
+                <AvatarFallback className="bg-fpYellow text-black font-semibold">
                   {getInitials(displayName)}
                 </AvatarFallback>
               </Avatar>
@@ -129,7 +129,7 @@ const MobileMenu = ({
                   <span className={`${logoTextClasses} font-semibold text-sm`}>
                     {displayName}
                   </span>
-                  <Badge className="bg-[#FFD700] text-black text-xs px-1 py-0.5 rounded-full font-semibold">
+                  <Badge className="bg-fpYellow text-black text-xs px-1 py-0.5 rounded-full font-semibold">
                     {getRoleBadge(role)}
                   </Badge>
                 </div>
@@ -139,7 +139,7 @@ const MobileMenu = ({
                   >
                     {username}
                   </span>
-                  <div className="flex items-center space-x-1 bg-[#FFD700] text-black px-1 py-0.5 rounded-full">
+                  <div className="flex items-center space-x-1 bg-fpYellow text-black px-1 py-0.5 rounded-full">
                     <span className="text-xs font-bold">💰</span>
                     <span className="text-xs font-bold">
                       {fptBalance.toLocaleString()}

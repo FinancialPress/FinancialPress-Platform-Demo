@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Search, Sun, Moon, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import Logo from '@/components/ui/logo';
 import SearchForm from './SearchForm';
 import UserDropdown from './UserDropdown';
 import MobileMenu from './MobileMenu';
@@ -68,11 +68,7 @@ const MainHeader = ({
             </Button>
 
             <div className="h-12 sm:h-14 w-32 sm:w-[200px]">
-              <img
-                src={isDarkMode ? '/lovable-uploads/logo.png' : '/lovable-uploads/FullLightMode.png'}
-                alt="FinancialPress Logo"
-                className="h-full w-full object-contain"
-              />
+              <Logo isDarkMode={isDarkMode} />
             </div>
           </div>
 
@@ -97,11 +93,11 @@ const MainHeader = ({
                 <UserDropdown userData={userData} isDarkMode={isDarkMode} onNavigate={onNavigate} />
 
                 <div className="hidden sm:flex items-center space-x-3">
-                  <div className="flex items-center bg-[#FFD700] text-black px-2 py-1 rounded-full space-x-1 font-bold text-sm">
+                  <div className="flex items-center bg-fpYellow text-black px-2 py-1 rounded-full space-x-1 font-bold text-sm">
                     <span>💰</span>
                     <span>{fptBalance.toLocaleString()} FPT</span>
                   </div>
-                  <Badge className="bg-[#FFD700] text-black text-xs px-2 py-0.5 rounded-full font-semibold">
+                  <Badge className="bg-fpYellow text-black text-xs px-2 py-0.5 rounded-full font-semibold">
                     {getRoleBadge(role)}
                   </Badge>
                 </div>
@@ -122,7 +118,7 @@ const MainHeader = ({
                 </Button>
                 <Button
                   size="sm"
-                  className="bg-[#FFD700] hover:bg-[#E5C700] text-black font-semibold px-3 sm:px-6 text-xs sm:text-sm"
+                  className="bg-fpYellow hover:bg-fpYellowDark text-black font-semibold px-3 sm:px-6 text-xs sm:text-sm"
                   onClick={() => onNavigate(1)}
                 >
                   Join Now

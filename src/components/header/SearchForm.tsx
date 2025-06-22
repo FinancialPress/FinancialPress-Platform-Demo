@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,10 +17,6 @@ const SearchForm = ({ onNavigate, isDarkMode }: SearchFormProps) => {
     : 'pl-10 pr-12 bg-gray-50 border-gray-300 text-black placeholder-gray-500';
 
   const searchIconClasses = isDarkMode ? 'text-gray-400' : 'text-gray-500';
-
-  const searchButtonClasses = isDarkMode
-    ? 'bg-[#FFD700] hover:bg-[#E5C700] text-black border-[#FFD700]'
-    : 'bg-[#FFD700] hover:bg-[#E5C700] text-black border-[#FFD700]';
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +43,7 @@ const SearchForm = ({ onNavigate, isDarkMode }: SearchFormProps) => {
       <Button
         type="submit"
         size="icon"
-        className={`absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 sm:h-8 sm:w-8 ${searchButtonClasses} ${
+        className={`absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 sm:h-8 sm:w-8 bg-fpYellow hover:bg-fpYellowDark text-black border-fpYellow ${
           isSearching || !searchValue.trim() ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         disabled={isSearching || !searchValue.trim()}

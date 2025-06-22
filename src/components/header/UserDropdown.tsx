@@ -41,7 +41,7 @@ const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) =
         >
           <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
             <AvatarImage src={imageUrl || undefined} alt="Profile" />
-            <AvatarFallback className="bg-[#FFD700] text-black font-semibold">
+            <AvatarFallback className="bg-fpYellow text-black font-semibold">
               {getInitials(displayName)}
             </AvatarFallback>
           </Avatar>
