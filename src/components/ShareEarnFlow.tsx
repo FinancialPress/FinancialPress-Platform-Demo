@@ -7,6 +7,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { X, Share2, Check, DollarSign, Users } from 'lucide-react';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
+import { useUserMode } from '@/hooks/useUserMode';
+import { toast } from 'sonner';
 
 interface ShareEarnFlowProps {
   post: {
@@ -25,6 +27,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   );
   const [distributeToAll, setDistributeToAll] = useState(false);
   const { addTokens, loading } = useFPTTokens();
+  const { isLiveUser } = useUserMode();
 
   const platforms = [
     { id: 'twitter', name: 'X/Twitter', icon: '𝕏', color: 'bg-gray-800' },
@@ -60,26 +63,49 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   };
 
   const handleShareAndEarn = async () => {
+    if (!isLiveUser) {
+      toast.error('Please sign up to earn FPT for sharing content!');
+      onShare();
+      onClose();
+      return;
+    }
+
+    if (selectedPlatforms.length === 0) {
+      toast.error('Please select at least one platform to share on');
+      return;
+    }
+
     const earningsAmount = parseFloat(calculateTotalEarnings());
     
-    // Add tokens to user's account
-    const success = await addTokens(
-      earningsAmount,
-      'earn_share',
-      `Shared "${post.title}" on ${selectedPlatforms.length} platform${selectedPlatforms.length !== 1 ? 's' : ''}`,
-      {
-        post_title: post.title,
-        creator: post.creator,
-        platforms: selectedPlatforms,
-        message: customMessage
-      }
-    );
+    try {
+      // Add tokens to user's account
+      const success = await addTokens(
+        earningsAmount,
+        'earn_share',
+        `Shared "${post.title}" on ${selectedPlatforms.length} platform${selectedPlatforms.length !== 1 ? 's' : ''}`,
+        {
+          post_title: post.title,
+          creator: post.creator,
+          platforms: selectedPlatforms,
+          message: customMessage
+        }
+      );
 
-    if (success) {
-      // Call the original share handler
-      onShare();
-      // Close the modal
-      onClose();
+      if (success) {
+        // Call the original share handler
+        onShare();
+        // Close the modal
+        onClose();
+        
+        toast.success(`Successfully earned ${earningsAmount} FPT!`, {
+          description: `Shared on ${selectedPlatforms.length} platform${selectedPlatforms.length !== 1 ? 's' : ''}`
+        });
+      } else {
+        toast.error('Token distribution failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Share and earn error:', error);
+      toast.error('Failed to process share earnings');
     }
   };
 
@@ -97,11 +123,11 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
         </div>
 
         <CardContent className="space-y-4 p-4">
-          {/* Post Title - Made Most Prominent */}
+          {/* Post Title */}
           <div className="bg-gradient-to-r from-fpYellow/10 to-orange-500/10 border border-fpYellow/20 rounded-lg p-4">
             <h3 className="text-white font-bold text-xl leading-tight mb-3">{post.title}</h3>
             
-            {/* Creator Profile - Made Secondary */}
+            {/* Creator Profile */}
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-sm">
