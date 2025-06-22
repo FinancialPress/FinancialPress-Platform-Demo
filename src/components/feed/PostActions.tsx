@@ -30,10 +30,8 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
     console.log('handleShareAndEarn called', { postId, isLiveUser });
     
     if (isLiveUser) {
-      // Generate a valid UUID for demo posts or use the provided postId
-      const validPostId = postId?.toString().startsWith('demo-') 
-        ? crypto.randomUUID() 
-        : postId?.toString() || crypto.randomUUID();
+      // Generate a valid UUID for tracking
+      const validPostId = crypto.randomUUID();
       
       console.log('Generated valid postId:', validPostId);
       
@@ -63,49 +61,16 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
   const handleConfirmedTip = async (amount: number, message?: string, postId?: string) => {
     console.log('handleConfirmedTip called', { amount, message, postId, isLiveUser });
     
-    if (isLiveUser) {
-      // Spend tokens for the tip
-      const success = await spendTokens(
-        amount,
-        'spend_tip',
-        `Tipped ${amount} FPT for content`,
-        { post_id: postId, message }
-      );
-
-      if (success) {
-        // Call the original tip handler
-        onTip();
-        setShowSupportModal(false);
-      }
-    } else {
-      // Show demo toast for non-authenticated users
-      showDemoToast('Sign up to tip creators with FPT!');
-      onTip();
-      setShowSupportModal(false);
-    }
+    // The actual spending is handled inside SupportCreatorModal
+    // This callback is called after successful spending
+    onTip();
   };
 
   const handleConfirmedSubscribe = async (postId?: string) => {
-    const subscriptionAmount = 5; // Default subscription amount
-    console.log('handleConfirmedSubscribe called', { subscriptionAmount, postId, isLiveUser });
-
-    if (isLiveUser) {
-      // Spend tokens for the subscription
-      const success = await spendTokens(
-        subscriptionAmount,
-        'spend_subscription',
-        `Subscribed for ${subscriptionAmount} FPT`,
-        { post_id: postId }
-      );
-
-      if (success) {
-        setShowSupportModal(false);
-      }
-    } else {
-      // Show demo toast for non-authenticated users
-      showDemoToast('Sign up to subscribe with FPT!');
-      setShowSupportModal(false);
-    }
+    console.log('handleConfirmedSubscribe called', { postId, isLiveUser });
+    
+    // The actual spending is handled inside SupportCreatorModal
+    // This callback is called after successful spending
   };
 
   return (

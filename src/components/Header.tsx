@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { UserProfile } from '../hooks/useProfile';
@@ -30,7 +29,7 @@ const Header = ({
   userProfile,
 }: HeaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
-  const { balance: liveFPTBalance } = useFPTTokens();
+  const { balance: liveFPTBalance, refreshBalance } = useFPTTokens();
 
   // Theme handling
   const themeContext = useTheme();
@@ -41,6 +40,17 @@ const Header = ({
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Refresh balance periodically to keep it live
+  useEffect(() => {
+    if (isLoggedIn) {
+      const interval = setInterval(() => {
+        refreshBalance();
+      }, 30000); // Refresh every 30 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [isLoggedIn, refreshBalance]);
 
   if (!isMounted) return null;
 

@@ -17,6 +17,7 @@ export const useFPTTokens = () => {
     }
 
     try {
+      console.log('Fetching balance for user:', user.id);
       const { data, error } = await supabase
         .from('profiles')
         .select('fpt_balance')
@@ -28,7 +29,9 @@ export const useFPTTokens = () => {
         return;
       }
 
-      setBalance(data?.fpt_balance || 0);
+      const newBalance = data?.fpt_balance || 0;
+      console.log('Fetched balance:', newBalance);
+      setBalance(newBalance);
     } catch (error) {
       console.error('Error fetching balance:', error);
     }
@@ -73,6 +76,12 @@ export const useFPTTokens = () => {
 
     console.log('addTokens called with:', { amount, transactionType, description, metadata, userId: user.id });
     
+    if (amount <= 0) {
+      console.error('Invalid token amount:', amount);
+      toast.error('Invalid token amount');
+      return false;
+    }
+    
     setLoading(true);
     try {
       const { data, error } = await supabase.rpc('add_fpt_tokens', {
@@ -87,13 +96,12 @@ export const useFPTTokens = () => {
 
       if (error) {
         console.error('Error adding tokens:', error);
-        toast.error('Failed to add tokens: ' + error.message);
+        toast.error(`Failed to add tokens: ${error.message}`);
         return false;
       }
 
-      // Refresh balance and transactions
-      await fetchBalance();
-      await fetchTransactions();
+      // Refresh balance and transactions immediately
+      await Promise.all([fetchBalance(), fetchTransactions()]);
       
       console.log('Tokens added successfully');
       toast.success(`+${amount} FPT earned!`, {
@@ -122,12 +130,22 @@ export const useFPTTokens = () => {
       return false;
     }
 
+    if (amount <= 0) {
+      console.error('Invalid token amount:', amount);
+      toast.error('Invalid token amount');
+      return false;
+    }
+
+    // Check current balance before attempting to spend
+    await fetchBalance();
+    
     if (balance < amount) {
+      console.error('Insufficient balance:', { balance, required: amount });
       toast.error(`Insufficient FPT balance. You have ${balance} FPT, but need ${amount} FPT.`);
       return false;
     }
 
-    console.log('spendTokens called with:', { amount, transactionType, description, metadata, userId: user.id });
+    console.log('spendTokens called with:', { amount, transactionType, description, metadata, userId: user.id, currentBalance: balance });
 
     setLoading(true);
     try {
@@ -143,13 +161,12 @@ export const useFPTTokens = () => {
 
       if (error) {
         console.error('Error spending tokens:', error);
-        toast.error('Failed to spend tokens: ' + error.message);
+        toast.error(`Failed to spend tokens: ${error.message}`);
         return false;
       }
 
-      // Refresh balance and transactions
-      await fetchBalance();
-      await fetchTransactions();
+      // Refresh balance and transactions immediately
+      await Promise.all([fetchBalance(), fetchTransactions()]);
       
       console.log('Tokens spent successfully');
       toast.success(`${amount} FPT spent successfully!`, {
@@ -166,6 +183,7 @@ export const useFPTTokens = () => {
     }
   };
 
+  // Fetch balance when user changes
   useEffect(() => {
     if (user) {
       fetchBalance();

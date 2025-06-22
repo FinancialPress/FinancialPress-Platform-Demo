@@ -41,7 +41,7 @@ const SupportCreatorModal = ({
   const [tipAmount, setTipAmount] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { balance } = useFPTTokens();
+  const { balance, spendTokens, loading: tokenLoading } = useFPTTokens();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -49,11 +49,17 @@ const SupportCreatorModal = ({
       setTipAmount('');
       setMessage('');
       setActiveTab('tip');
+      setIsLoading(false);
     }
   }, [isOpen]);
 
   const handleSubmit = async () => {
-    console.log('SupportCreatorModal handleSubmit called', { activeTab, tipAmount, balance });
+    console.log('SupportCreatorModal handleSubmit called', { activeTab, tipAmount, balance, tokenLoading });
+    
+    if (isLoading || tokenLoading) {
+      console.log('Already processing, skipping...');
+      return;
+    }
     
     if (activeTab === 'tip') {
       const amount = parseFloat(tipAmount);
@@ -74,23 +80,92 @@ const SupportCreatorModal = ({
         });
         return;
       }
-    }
 
-    setIsLoading(true);
-    
-    try {
-      if (activeTab === 'tip') {
-        const amount = parseFloat(tipAmount);
-        console.log('Calling onTip with amount:', amount);
-        await onTip(amount, message || undefined, postId);
-      } else {
-        console.log('Calling onSubscribe');
-        await onSubscribe(postId);
+      setIsLoading(true);
+      
+      try {
+        console.log('Attempting to spend tokens for tip:', amount);
+        const success = await spendTokens(
+          amount,
+          'spend_tip',
+          `Tipped ${amount} FPT to ${creatorHandle}`,
+          { 
+            post_id: postId, 
+            message: message || undefined,
+            creator_handle: creatorHandle,
+            post_title: postTitle
+          }
+        );
+
+        if (success) {
+          console.log('Tip successful, calling onTip callback');
+          onTip(amount, message || undefined, postId);
+          onClose();
+        }
+      } catch (error) {
+        console.error('Tip transaction failed:', error);
+        toast({
+          title: 'Transaction Failed',
+          description: 'Failed to process tip. Please try again.',
+          variant: 'destructive'
+        });
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Transaction failed:', error);
-    } finally {
-      setIsLoading(false);
+    } else {
+      // Subscribe flow
+      const subscriptionAmount = 5;
+      
+      if (subscriptionAmount > balance) {
+        toast({
+          title: 'Insufficient Balance',
+          description: `You have ${balance} FPT but need ${subscriptionAmount} FPT for subscription`,
+          variant: 'destructive'
+        });
+        return;
+      }
+
+      setIsLoading(true);
+      
+      try {
+        console.log('Attempting to spend tokens for subscription:', subscriptionAmount);
+        const success = await spendTokens(
+          subscriptionAmount,
+          'spend_subscription',
+          `Subscribed to ${creatorHandle} for ${subscriptionAmount} FPT`,
+          { 
+            post_id: postId,
+            creator_handle: creatorHandle,
+            subscription_type: 'monthly'
+          }
+        );
+
+        if (success) {
+          console.log('Subscription successful, calling onSubscribe callback');
+          onSubscribe(postId);
+          onClose();
+        }
+      } catch (error) {
+        console.error('Subscription transaction failed:', error);
+        toast({
+          title: 'Transaction Failed',
+          description: 'Failed to process subscription. Please try again.',
+          variant: 'destructive'
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const isSubmitDisabled = () => {
+    if (isLoading || tokenLoading) return true;
+    
+    if (activeTab === 'tip') {
+      const amount = parseFloat(tipAmount);
+      return !amount || amount <= 0 || amount > balance;
+    } else {
+      return balance < 5;
     }
   };
 
@@ -103,7 +178,7 @@ const SupportCreatorModal = ({
         <div className="bg-gray-800 p-4 border-b border-gray-700">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-white">Support Creator</h2>
-            <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
+            <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white" disabled={isLoading}>
               <X className="w-5 h-5" />
             </Button>
           </div>
@@ -143,12 +218,14 @@ const SupportCreatorModal = ({
             <Button
               className={`flex-1 ${activeTab === 'tip' ? 'bg-fpYellow text-black' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
               onClick={() => setActiveTab('tip')}
+              disabled={isLoading}
             >
               Tip
             </Button>
             <Button
               className={`flex-1 ${activeTab === 'subscribe' ? 'bg-fpYellow text-black' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
               onClick={() => setActiveTab('subscribe')}
+              disabled={isLoading}
             >
               Subscribe
             </Button>
@@ -166,6 +243,7 @@ const SupportCreatorModal = ({
                 className="bg-gray-800 border-gray-700 text-white placeholder-gray-400"
                 min="0"
                 step="0.1"
+                disabled={isLoading}
               />
               {tipAmount && parseFloat(tipAmount) > balance && (
                 <p className="text-red-400 text-xs">Insufficient balance</p>
@@ -199,6 +277,7 @@ const SupportCreatorModal = ({
               onChange={(e) => setMessage(e.target.value)}
               className="bg-gray-800 border-gray-700 text-white h-24 resize-none"
               maxLength={500}
+              disabled={isLoading}
             />
             <div className="text-xs text-right text-gray-400">{message.length}/500</div>
           </div>
@@ -214,13 +293,9 @@ const SupportCreatorModal = ({
               Cancel
             </Button>
             <Button
-              className="flex-1 bg-fpYellow hover:bg-fpYellowDark text-black font-bold"
+              className="flex-1 bg-fpYellow hover:bg-fpYellowDark text-black font-bold disabled:opacity-50"
               onClick={handleSubmit}
-              disabled={
-                isLoading || 
-                (activeTab === 'tip' && (!tipAmount || parseFloat(tipAmount) <= 0 || parseFloat(tipAmount) > balance)) ||
-                (activeTab === 'subscribe' && balance < 5)
-              }
+              disabled={isSubmitDisabled()}
             >
               {isLoading ? 'Processing...' : activeTab === 'tip' ? 'Send Tip' : 'Subscribe'}
             </Button>

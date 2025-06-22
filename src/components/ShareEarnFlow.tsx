@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -62,7 +63,12 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   };
 
   const handleShareAndEarn = async () => {
-    console.log('handleShareAndEarn called', { isLiveUser, selectedPlatforms });
+    console.log('handleShareAndEarn called', { isLiveUser, selectedPlatforms, loading });
+    
+    if (loading) {
+      console.log('Already processing, skipping...');
+      return;
+    }
     
     if (!isLiveUser) {
       toast.error('Please sign up to earn FPT for sharing content!');
@@ -77,9 +83,18 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     }
 
     const earningsAmount = parseFloat(calculateTotalEarnings());
+    
+    if (earningsAmount <= 0) {
+      toast.error('Invalid earnings amount');
+      return;
+    }
+
     console.log('Attempting to add tokens:', earningsAmount);
     
     try {
+      // Generate a valid post ID for tracking
+      const postId = crypto.randomUUID();
+      
       // Add tokens to user's account
       const success = await addTokens(
         earningsAmount,
@@ -89,7 +104,8 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
           post_title: post.title,
           creator: post.creator,
           platforms: selectedPlatforms,
-          message: customMessage
+          message: customMessage,
+          post_id: postId
         }
       );
 
@@ -100,12 +116,6 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
         onShare();
         // Close the modal
         onClose();
-        
-        toast.success(`Successfully earned ${earningsAmount} FPT!`, {
-          description: `Shared on ${selectedPlatforms.length} platform${selectedPlatforms.length !== 1 ? 's' : ''}`
-        });
-      } else {
-        toast.error('Token distribution failed. Please try again.');
       }
     } catch (error) {
       console.error('Share and earn error:', error);
@@ -215,13 +225,13 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
 
           {/* Action Buttons */}
           <div className="flex gap-3 pt-2">
-            <Button variant="outline" onClick={onClose} className="flex-1 border-gray-600 text-gray-300">
+            <Button variant="outline" onClick={onClose} className="flex-1 border-gray-600 text-gray-300" disabled={loading}>
               Cancel
             </Button>
             <Button 
               onClick={handleShareAndEarn}
               disabled={selectedPlatforms.length === 0 || loading}
-              className="flex-1 bg-fpYellow hover:bg-fpYellowDark text-black font-bold"
+              className="flex-1 bg-fpYellow hover:bg-fpYellowDark text-black font-bold disabled:opacity-50"
             >
               <Share2 className="w-4 h-4 mr-2" />
               {loading ? 'Processing...' : 'Distribute Now'}
