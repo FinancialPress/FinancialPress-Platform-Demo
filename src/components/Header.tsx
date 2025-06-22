@@ -71,7 +71,7 @@ const Header = ({ onNavigate, currentScreen, isDarkMode, onToggleDarkMode, userP
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Logo className="h-8 w-auto" />
+            <Logo className="h-8 w-auto" isDarkMode={isDarkMode} />
           </div>
 
           {/* Navigation - Desktop */}
