@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -63,6 +62,8 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   };
 
   const handleShareAndEarn = async () => {
+    console.log('handleShareAndEarn called', { isLiveUser, selectedPlatforms });
+    
     if (!isLiveUser) {
       toast.error('Please sign up to earn FPT for sharing content!');
       onShare();
@@ -76,6 +77,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     }
 
     const earningsAmount = parseFloat(calculateTotalEarnings());
+    console.log('Attempting to add tokens:', earningsAmount);
     
     try {
       // Add tokens to user's account
@@ -90,6 +92,8 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
           message: customMessage
         }
       );
+
+      console.log('Add tokens result:', success);
 
       if (success) {
         // Call the original share handler

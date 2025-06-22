@@ -27,12 +27,24 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
   const [showShareEarnModal, setShowShareEarnModal] = useState(false);
 
   const handleShareAndEarn = async () => {
+    console.log('handleShareAndEarn called', { postId, isLiveUser });
+    
     if (isLiveUser) {
-      const postIdString = postId?.toString() || 'demo-post';
+      // Generate a valid UUID for demo posts or use the provided postId
+      const validPostId = postId?.toString().startsWith('demo-') 
+        ? crypto.randomUUID() 
+        : postId?.toString() || crypto.randomUUID();
       
-      // Track engagement and trigger reward for live users
-      await trackEngagement('share', postIdString);
-      await triggerReward('share', postIdString);
+      console.log('Generated valid postId:', validPostId);
+      
+      try {
+        // Track engagement and trigger reward for live users
+        await trackEngagement('share', validPostId);
+        await triggerReward('share', validPostId);
+      } catch (error) {
+        console.error('Error in engagement tracking:', error);
+        // Continue with the flow even if engagement tracking fails
+      }
     } else {
       // Show demo toast for non-authenticated users
       showDemoToast('Sign up to earn FPT for sharing content!');
@@ -43,11 +55,14 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
   };
 
   const handleTipClick = () => {
+    console.log('Tip button clicked - opening modal');
     // Just open the modal - don't spend tokens yet
     setShowSupportModal(true);
   };
 
   const handleConfirmedTip = async (amount: number, message?: string, postId?: string) => {
+    console.log('handleConfirmedTip called', { amount, message, postId, isLiveUser });
+    
     if (isLiveUser) {
       // Spend tokens for the tip
       const success = await spendTokens(
@@ -72,6 +87,7 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
 
   const handleConfirmedSubscribe = async (postId?: string) => {
     const subscriptionAmount = 5; // Default subscription amount
+    console.log('handleConfirmedSubscribe called', { subscriptionAmount, postId, isLiveUser });
 
     if (isLiveUser) {
       // Spend tokens for the subscription

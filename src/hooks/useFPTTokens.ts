@@ -66,10 +66,13 @@ export const useFPTTokens = () => {
     metadata?: any
   ) => {
     if (!user) {
+      console.error('No user found for addTokens');
       toast.error('Please log in to earn tokens');
       return false;
     }
 
+    console.log('addTokens called with:', { amount, transactionType, description, metadata, userId: user.id });
+    
     setLoading(true);
     try {
       const { data, error } = await supabase.rpc('add_fpt_tokens', {
@@ -80,9 +83,11 @@ export const useFPTTokens = () => {
         metadata: metadata || null
       });
 
+      console.log('RPC add_fpt_tokens response:', { data, error });
+
       if (error) {
         console.error('Error adding tokens:', error);
-        toast.error('Failed to add tokens');
+        toast.error('Failed to add tokens: ' + error.message);
         return false;
       }
 
@@ -90,6 +95,7 @@ export const useFPTTokens = () => {
       await fetchBalance();
       await fetchTransactions();
       
+      console.log('Tokens added successfully');
       toast.success(`+${amount} FPT earned!`, {
         description: description || 'Tokens added to your account'
       });
@@ -111,6 +117,7 @@ export const useFPTTokens = () => {
     metadata?: any
   ) => {
     if (!user) {
+      console.error('No user found for spendTokens');
       toast.error('Please log in to spend tokens');
       return false;
     }
@@ -119,6 +126,8 @@ export const useFPTTokens = () => {
       toast.error(`Insufficient FPT balance. You have ${balance} FPT, but need ${amount} FPT.`);
       return false;
     }
+
+    console.log('spendTokens called with:', { amount, transactionType, description, metadata, userId: user.id });
 
     setLoading(true);
     try {
@@ -130,9 +139,11 @@ export const useFPTTokens = () => {
         metadata: metadata || null
       });
 
+      console.log('RPC spend_fpt_tokens response:', { data, error });
+
       if (error) {
         console.error('Error spending tokens:', error);
-        toast.error('Failed to spend tokens');
+        toast.error('Failed to spend tokens: ' + error.message);
         return false;
       }
 
@@ -140,6 +151,7 @@ export const useFPTTokens = () => {
       await fetchBalance();
       await fetchTransactions();
       
+      console.log('Tokens spent successfully');
       toast.success(`${amount} FPT spent successfully!`, {
         description: description || 'Tokens deducted from your account'
       });

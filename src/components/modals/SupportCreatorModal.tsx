@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -53,6 +53,8 @@ const SupportCreatorModal = ({
   }, [isOpen]);
 
   const handleSubmit = async () => {
+    console.log('SupportCreatorModal handleSubmit called', { activeTab, tipAmount, balance });
+    
     if (activeTab === 'tip') {
       const amount = parseFloat(tipAmount);
       if (!amount || amount <= 0) {
@@ -79,8 +81,10 @@ const SupportCreatorModal = ({
     try {
       if (activeTab === 'tip') {
         const amount = parseFloat(tipAmount);
+        console.log('Calling onTip with amount:', amount);
         await onTip(amount, message || undefined, postId);
       } else {
+        console.log('Calling onSubscribe');
         await onSubscribe(postId);
       }
     } catch (error) {
@@ -93,6 +97,8 @@ const SupportCreatorModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-xl max-h-[90vh] overflow-y-auto p-0 [&>button]:hidden">
+        <DialogTitle className="sr-only">Support Creator</DialogTitle>
+        
         {/* Title Section */}
         <div className="bg-gray-800 p-4 border-b border-gray-700">
           <div className="flex items-center justify-between">
