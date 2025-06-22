@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -35,16 +36,27 @@ export const useProfile = () => {
     if (!user) return;
     
     setLoading(true);
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
 
-    if (!error && data) {
-      setProfile(data);
+      if (error) {
+        console.error('Error fetching profile:', error);
+        // If profile doesn't exist, create one
+        if (error.code === 'PGRST116') {
+          console.log('Profile not found, user may need to complete signup process');
+        }
+      } else if (data) {
+        setProfile(data);
+      }
+    } catch (error) {
+      console.error('Unexpected error fetching profile:', error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const updateProfile = async (updates: Partial<UserProfile>) => {

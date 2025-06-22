@@ -45,9 +45,10 @@ const Header = ({
   const getDisplayData = () => {
     // Prioritize real logged-in user profile data
     if (isLoggedIn && userProfile) {
+      const emailName = userProfile.email?.split('@')[0] || 'User';
       return {
-        displayName: userProfile.display_name || userProfile.email?.split('@')[0] || 'User',
-        username: userProfile.username ? `@${userProfile.username}` : '@user',
+        displayName: userProfile.display_name || emailName,
+        username: userProfile.username ? `@${userProfile.username}` : `@${emailName}`,
         fptBalance: userProfile.fpt_balance || 0,
         imageUrl: userProfile.image_url,
         role: userProfile.role || 'newcomer'
