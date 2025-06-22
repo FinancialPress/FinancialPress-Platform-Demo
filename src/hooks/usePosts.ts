@@ -24,6 +24,7 @@ export interface CreateEarnPostData {
   image_url?: string;
   tags?: string[];
   section?: 'stock' | 'crypto';
+  [key: string]: any;
 }
 
 export interface ShareInsightPostData {
@@ -32,6 +33,7 @@ export interface ShareInsightPostData {
   commentary?: string;
   image_url?: string;
   tags?: string[];
+  [key: string]: any;
 }
 
 export const usePosts = () => {
@@ -56,11 +58,15 @@ export const usePosts = () => {
 
       if (error) throw error;
       
-      // Type cast the data to ensure proper typing
+      // Safe type casting with null checks
       const typedPosts = (data || []).map(post => ({
         ...post,
         type: post.type as 'create_earn' | 'share_insight',
-        tags: post.tags || []
+        tags: Array.isArray(post.tags) ? post.tags : [],
+        body: post.body || '',
+        image_url: post.image_url || null,
+        external_url: post.external_url || null,
+        section: post.section || null
       })) as Post[];
       
       setPosts(typedPosts);
@@ -106,8 +112,6 @@ export const usePosts = () => {
         description: "Your Create & Earn post has been published!",
       });
 
-      // Refresh posts
-      await fetchPosts();
       return data;
     } catch (error) {
       console.error('Error creating earn post:', error);
@@ -148,8 +152,6 @@ export const usePosts = () => {
         description: "Your insight has been shared!",
       });
 
-      // Refresh posts
-      await fetchPosts();
       return data;
     } catch (error) {
       console.error('Error sharing insight:', error);
@@ -165,18 +167,31 @@ export const usePosts = () => {
   useEffect(() => {
     fetchPosts();
 
-    // Subscribe to realtime changes
+    // Subscribe to realtime changes with proper error handling
     const channel = supabase
       .channel('posts_changes')
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'INSERT',
           schema: 'public',
           table: 'posts'
         },
-        () => {
-          fetchPosts();
+        (payload) => {
+          console.log('New post received:', payload);
+          if (payload.new) {
+            const newPost = {
+              ...payload.new,
+              type: payload.new.type as 'create_earn' | 'share_insight',
+              tags: Array.isArray(payload.new.tags) ? payload.new.tags : [],
+              body: payload.new.body || '',
+              image_url: payload.new.image_url || null,
+              external_url: payload.new.external_url || null,
+              section: payload.new.section || null
+            } as Post;
+            
+            setPosts(prev => [newPost, ...prev]);
+          }
         }
       )
       .subscribe();

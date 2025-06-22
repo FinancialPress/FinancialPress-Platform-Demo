@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { usePosts } from '@/hooks/usePosts';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
+import { uploadContentImage, getPlaceholderImage } from '@/utils/imageUpload';
 
 interface ContentCreatorProps {
   onNavigate?: (screen: number) => void;
@@ -45,6 +46,9 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
   const [allowWatchLater, setAllowWatchLater] = useState(true);
   const [shareWith, setShareWith] = useState('public');
   const [isPublishing, setIsPublishing] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [isUploading, setIsUploading] = useState(false);
 
   const allTags = {
     stock: ['Stock Market', 'Analysis', 'Trading', 'Investment', 'Market News'],
@@ -68,6 +72,15 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
     return tags;
   };
 
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    }
+  };
+
   const handlePublish = async () => {
     if (!title.trim()) {
       return;
@@ -76,6 +89,18 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
     setIsPublishing(true);
     
     try {
+      let imageUrl = '';
+      
+      // Handle image upload or use placeholder
+      if (selectedFile) {
+        setIsUploading(true);
+        const uploadedUrl = await uploadContentImage(selectedFile);
+        imageUrl = uploadedUrl || getPlaceholderImage(section);
+        setIsUploading(false);
+      } else {
+        imageUrl = getPlaceholderImage(section);
+      }
+
       const tags = getAllTags();
       
       if (contentType === 'create-earn') {
@@ -86,6 +111,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
         const result = await createEarnPost({
           title,
           body: content,
+          image_url: imageUrl,
           tags,
           section
         });
@@ -99,10 +125,12 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
           setContent('');
           setSelectedTags([]);
           setCustomTags('');
+          setSelectedFile(null);
+          setPreviewUrl('');
           
-          // Navigate to landing page
+          // Navigate to UserFeed only
           navigate('/');
-          onNavigate?.(0);
+          onNavigate?.(3);
         }
       } else if (contentType === 'share-insight') {
         if (!linkUrl.trim()) {
@@ -113,6 +141,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
           title,
           external_url: linkUrl,
           commentary,
+          image_url: imageUrl,
           tags
         });
         
@@ -126,14 +155,17 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
           setCommentary('');
           setSelectedTags([]);
           setCustomTags('');
+          setSelectedFile(null);
+          setPreviewUrl('');
           
-          // Navigate to user feed
+          // Navigate to UserFeed only
           navigate('/');
           onNavigate?.(3);
         }
       }
     } finally {
       setIsPublishing(false);
+      setIsUploading(false);
     }
   };
 
@@ -212,11 +244,40 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       <div>
                         <Label className={labelClasses}>Thumbnail Image</Label>
                         <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
-                          <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
-                          <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
-                          <Button size="sm" className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}>
-                            Choose File
-                          </Button>
+                          {previewUrl ? (
+                            <div className="space-y-2">
+                              <img src={previewUrl} alt="Preview" className="w-full h-32 object-cover rounded" />
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  setSelectedFile(null);
+                                  setPreviewUrl('');
+                                }}
+                              >
+                                Remove
+                              </Button>
+                            </div>
+                          ) : (
+                            <>
+                              <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
+                              <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
+                              <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileSelect}
+                                className="hidden"
+                                id="file-upload"
+                              />
+                              <Button 
+                                size="sm" 
+                                className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}
+                                onClick={() => document.getElementById('file-upload')?.click()}
+                              >
+                                Choose File
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -287,6 +348,45 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                         placeholder="Add your thoughts and analysis about this content..."
                         className={`${inputClasses} min-h-[150px] sm:min-h-[200px]`}
                       />
+                    </div>
+                    <div>
+                      <Label className={labelClasses}>Thumbnail Image</Label>
+                      <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
+                        {previewUrl ? (
+                          <div className="space-y-2">
+                            <img src={previewUrl} alt="Preview" className="w-full h-32 object-cover rounded" />
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => {
+                                setSelectedFile(null);
+                                setPreviewUrl('');
+                              }}
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        ) : (
+                          <>
+                            <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
+                            <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleFileSelect}
+                              className="hidden"
+                              id="file-upload-insight"
+                            />
+                            <Button 
+                              size="sm" 
+                              className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}
+                              onClick={() => document.getElementById('file-upload-insight')?.click()}
+                            >
+                              Choose File
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </div>
                     <div>
                       <Label className={`${labelClasses} mb-2 block`}>Tags</Label>
@@ -428,15 +528,14 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   <Button 
                     className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold text-sm"
                     onClick={handlePublish}
-                    disabled={isPublishing || !title.trim() || (contentType === 'create-earn' && !content.trim()) || (contentType === 'share-insight' && !linkUrl.trim())}
+                    disabled={isPublishing || isUploading || !title.trim() || (contentType === 'create-earn' && !content.trim()) || (contentType === 'share-insight' && !linkUrl.trim())}
                   >
-                    {isPublishing ? 'Publishing...' : 'Publish Content'}
+                    {isPublishing ? 'Publishing...' : isUploading ? 'Uploading...' : 'Publish Content'}
                   </Button>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Publishing Options */}
             <Card className={cardClasses}>
               <CardHeader>
                 <CardTitle className={`text-base sm:text-lg ${textClasses} flex items-center`}>
