@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface DemoNavigationBarProps {
   currentScreen: number;
@@ -7,6 +8,8 @@ interface DemoNavigationBarProps {
 }
 
 const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps) => {
+  const navigate = useNavigate();
+  
   const navigationItems = [
     { screen: 0, label: 'Landing Page' },
     { screen: 1, label: 'Sign Up' },
@@ -17,9 +20,9 @@ const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps
   ];
 
   const handleNavigation = (screen: number) => {
-    // For UserFeed, navigate to the /feed route
+    // For UserFeed, navigate to the /feed route using React Router
     if (screen === 3) {
-      window.location.href = '/feed';
+      navigate('/feed');
     } else {
       onNavigate(screen);
     }
