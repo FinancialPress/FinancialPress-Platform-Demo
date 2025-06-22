@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Calendar, Heart, Share, MessageCircle, DollarSign } from 'lucide-react';
 import { Post } from '@/hooks/usePosts';
+import { getPlaceholderImage } from '@/utils/imageUpload';
 
 interface PostItemProps {
   post: Post;
@@ -31,18 +32,10 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
     });
   };
 
-  // Safe fallback for image
+  // Safe fallback for image with null guard
   const getImageUrl = () => {
     if (post.image_url) return post.image_url;
-    
-    // Fallback placeholders based on section or type
-    if (post.section === 'crypto') {
-      return 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&h=300&fit=crop';
-    }
-    if (post.section === 'stock') {
-      return 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop';
-    }
-    return 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop';
+    return getPlaceholderImage(post.section);
   };
 
   return (
@@ -105,7 +98,7 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
             className="w-full h-48 object-cover rounded-lg"
             onError={(e) => {
               // Fallback to a generic placeholder if image fails to load
-              e.currentTarget.src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop';
+              e.currentTarget.src = getPlaceholderImage();
             }}
           />
         </div>
