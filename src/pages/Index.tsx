@@ -2,8 +2,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
-import { AuthProvider } from '../contexts/AuthContext';
-import { BalanceProvider } from '../contexts/BalanceContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
 import Header from '../components/Header';
@@ -19,7 +17,7 @@ import FinalCTA from '../components/FinalCTA';
 
 type UserType = 'demo' | 'live' | null;
 
-const IndexContent = () => {
+const Index = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [searchSymbol, setSearchSymbol] = useState('');
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -109,16 +107,6 @@ const IndexContent = () => {
         {screens[currentScreen]}
       </div>
     </div>
-  );
-};
-
-const Index = () => {
-  return (
-    <AuthProvider>
-      <BalanceProvider>
-        <IndexContent />
-      </BalanceProvider>
-    </AuthProvider>
   );
 };
 
