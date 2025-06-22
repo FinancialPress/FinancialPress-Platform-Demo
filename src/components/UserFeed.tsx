@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { useBalance } from '../contexts/BalanceContext';
 import ShareEarnFlow from './ShareEarnFlow';
@@ -52,7 +52,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
 
-  // Initialize feed with initial posts - simplified
+  // Initialize feed with initial posts - only run once
   useEffect(() => {
     const initializeFeed = () => {
       const initialPosts = [
@@ -131,7 +131,63 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
     };
 
     initializeFeed();
-  }, []); // Empty dependency array - only run once
+  }, []);
+
+  // Stable loadMore function using useCallback
+  const loadMore = useCallback(() => {
+    if (loading) return;
+    
+    setLoading(true);
+    setTimeout(() => {
+      const newItems = Array.from({ length: 5 }, (_, i) => 
+        generateMockFeedItem(feedItems.length + i + 1)
+      );
+      setFeedItems(prev => [...prev, ...newItems]);
+      setPage(prev => prev + 1);
+      setLoading(false);
+      
+      if (feedItems.length > 45) {
+        setHasMore(false);
+      }
+    }, 1000);
+  }, [loading, feedItems.length]);
+
+  // Stable scroll handler using useCallback
+  const handleScroll = useCallback(() => {
+    if (window.innerHeight + document.documentElement.scrollTop 
+        >= document.documentElement.offsetHeight - 1000 && hasMore && !loading) {
+      loadMore();
+    }
+  }, [hasMore, loading, loadMore]);
+
+  // Fixed scroll event listener with stable dependencies
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    // Show welcome modal if this is first time from onboarding
+    if (showOnboarding) {
+      setShowWelcomeModal(true);
+      setIsFromOnboarding(true);
+    } else {
+      setIsFromOnboarding(false);
+    }
+  }, [showOnboarding]);
+
+  useEffect(() => {
+    // Add/remove body class for onboarding
+    if (showTour) {
+      document.body.classList.add('onboarding-active');
+    } else {
+      document.body.classList.remove('onboarding-active');
+    }
+
+    return () => {
+      document.body.classList.remove('onboarding-active');
+    };
+  }, [showTour]);
 
   // Show loading state until initialized
   if (!isInitialized) {
@@ -163,61 +219,6 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       </div>
     );
   }
-
-  // Infinite scroll logic - simplified
-  const loadMore = () => {
-    if (loading) return;
-    
-    setLoading(true);
-    setTimeout(() => {
-      const newItems = Array.from({ length: 5 }, (_, i) => 
-        generateMockFeedItem(feedItems.length + i + 1)
-      );
-      setFeedItems(prev => [...prev, ...newItems]);
-      setPage(prev => prev + 1);
-      setLoading(false);
-      
-      if (feedItems.length > 45) {
-        setHasMore(false);
-      }
-    }, 1000);
-  };
-
-  // Simplified scroll event listener
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop 
-          >= document.documentElement.offsetHeight - 1000 && hasMore && !loading) {
-        loadMore();
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore]); // Simplified dependencies
-
-  useEffect(() => {
-    // Show welcome modal if this is first time from onboarding
-    if (showOnboarding) {
-      setShowWelcomeModal(true);
-      setIsFromOnboarding(true);
-    } else {
-      setIsFromOnboarding(false);
-    }
-  }, [showOnboarding]);
-
-  useEffect(() => {
-    // Add/remove body class for onboarding
-    if (showTour) {
-      document.body.classList.add('onboarding-active');
-    } else {
-      document.body.classList.remove('onboarding-active');
-    }
-
-    return () => {
-      document.body.classList.remove('onboarding-active');
-    };
-  }, [showTour]);
 
   const handleStartTour = () => {
     setShowWelcomeModal(false);
