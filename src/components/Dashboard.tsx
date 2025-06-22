@@ -20,7 +20,7 @@ import {
   UserPlus
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend } from 'recharts';
-import { useFPTTokens } from '@/hooks/useFPTTokens';
+import { useBalance } from '@/contexts/BalanceContext';
 
 interface DashboardProps {
   onNavigate?: (screen: number) => void;
@@ -29,7 +29,7 @@ interface DashboardProps {
 
 const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
   const [contentTab, setContentTab] = useState('content');
-  const { balance: liveFPTBalance, transactions, loading: tokensLoading } = useFPTTokens();
+  const { balance: liveFPTBalance, loading: balanceLoading } = useBalance(); // Use centralized balance
 
   const earningsData = [
     { day: 'Mon', value: 5 },
@@ -113,18 +113,20 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
         <div className="grid grid-cols-12 gap-6">
           {/* Left Column - Main Dashboard */}
           <div className="col-span-8 space-y-6">
-            {/* Key Metrics - Today's Earnings Prominent */}
+            {/* Key Metrics - Today's Earnings shows live balance */}
             <div className="grid grid-cols-4 gap-4">
-              {/* Today's Earnings - Made more prominent */}
+              {/* Today's Earnings - Now shows live FPT balance */}
               <Card className={`${cardClasses} col-span-2 border-2 border-fpYellow`}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className={mutedText + ' text-lg font-medium'}>Today's Earnings</div>
                     <DollarSign className="w-8 h-8 text-fpYellow" />
                   </div>
-                  <div className="text-4xl font-bold text-fpYellow mb-2">18</div>
-                  <div className={mutedText + ' text-base mb-2'}>FP Shares</div>
-                  <div className="text-sm text-green-400 font-medium">+5% vs yesterday</div>
+                  <div className="text-4xl font-bold text-fpYellow mb-2">
+                    {balanceLoading ? '...' : liveFPTBalance.toLocaleString()}
+                  </div>
+                  <div className={mutedText + ' text-base mb-2'}>FPT Balance</div>
+                  <div className="text-sm text-green-400 font-medium">Live Balance</div>
                 </CardContent>
               </Card>
               <Card className={cardClasses}>
@@ -139,7 +141,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                 <CardContent className="p-4">
                   <div className={mutedText + ' text-sm mb-1'}>Wallet Balance</div>
                   <div className="text-2xl font-bold">
-                    {tokensLoading ? '...' : liveFPTBalance.toLocaleString()}
+                    {balanceLoading ? '...' : liveFPTBalance.toLocaleString()}
                   </div>
                   <div className={mutedText + ' text-xs'}>FP Tokens</div>
                   <div className="text-xs text-blue-400">Withdraw</div>

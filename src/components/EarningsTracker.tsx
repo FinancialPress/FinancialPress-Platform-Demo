@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DollarSign, TrendingUp, Eye, BarChart3, X } from 'lucide-react';
+import { useBalance } from '@/contexts/BalanceContext';
 
 interface EarningsTrackerProps {
   isVisible: boolean;
@@ -23,7 +24,8 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
   customEarnings,
   isFromOnboarding = false,
 }) => {
-  const [balance, setBalance] = useState(0);
+  const { balance: liveBalance, loading: balanceLoading } = useBalance(); // Use centralized balance
+  const [displayBalance, setDisplayBalance] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
   // Theme-aware classes
@@ -36,10 +38,10 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
   useEffect(() => {
     if (isFromOnboarding && customEarnings) {
       const targetValue = parseFloat(customEarnings);
-      if (targetValue > balance) {
+      if (targetValue > displayBalance) {
         setIsAnimating(true);
         const interval = setInterval(() => {
-          setBalance((prev) => {
+          setDisplayBalance((prev) => {
             if (prev >= targetValue) {
               clearInterval(interval);
               setIsAnimating(false);
@@ -50,14 +52,14 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
         }, 100);
         return () => clearInterval(interval);
       } else {
-        setBalance(targetValue);
+        setDisplayBalance(targetValue);
       }
-    } else if (!isFromOnboarding) {
-      // Show original earnings when not from onboarding
-      setBalance(5.1);
+    } else {
+      // Use live balance from BalanceContext
+      setDisplayBalance(liveBalance);
       setIsAnimating(false);
     }
-  }, [customEarnings, balance, isFromOnboarding]);
+  }, [customEarnings, liveBalance, isFromOnboarding, displayBalance]);
 
   const earningsData = [
     { platform: 'X/Twitter', shares: 3, earnings: '2.4 FPT', engagement: '1.2K views' },
@@ -79,16 +81,15 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
             </div>
           </div>
 
-          {/* Real-time Balance */}
+          {/* Real-time Balance from BalanceContext */}
           <div className="text-center mb-4">
             <div className={`text-2xl font-bold text-yellow-500 mb-1`}>
-              {balance.toFixed(1)} FPT
+              {balanceLoading ? '...' : displayBalance.toFixed(1)} FPT
             </div>
-            {!isFromOnboarding && balance > 0 && (
-              <Badge className="bg-green-500 text-black text-xs mt-1">✅ You just earned {balance.toFixed(1)} FPT!</Badge>
-            )}
-            {isFromOnboarding && balance > 0 && (
-              <Badge className="bg-green-500 text-black text-xs mt-1">✅ You just earned {balance.toFixed(1)} FPT!</Badge>
+            {displayBalance > 0 && (
+              <Badge className="bg-green-500 text-black text-xs mt-1">
+                ✅ Current Balance: {displayBalance.toFixed(1)} FPT!
+              </Badge>
             )}
           </div>
 
@@ -109,7 +110,7 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
           </div>
 
           {/* Platform Breakdown - only show if not from onboarding or if has earnings */}
-          {(!isFromOnboarding || balance > 0) && (
+          {(!isFromOnboarding || displayBalance > 0) && (
             <div className="space-y-1 mb-3">
               <div className={`${mutedText} text-xs font-medium mb-1`}>Platform Breakdown:</div>
               {earningsData.map((data, index) => (
@@ -160,8 +161,12 @@ const EarningsTracker: React.FC<EarningsTrackerProps> = ({
 
           {/* Real-time Balance */}
           <div className="text-center mb-6">
-            <div className="text-3xl font-bold text-yellow-500 mb-2">{balance.toFixed(1)} FPT</div>
-            <Badge className="bg-green-500 text-black mt-2">✅ You just earned {balance.toFixed(1)} FPT for your first share!</Badge>
+            <div className="text-3xl font-bold text-yellow-500 mb-2">
+              {balanceLoading ? '...' : displayBalance.toFixed(1)} FPT
+            </div>
+            <Badge className="bg-green-500 text-black mt-2">
+              ✅ Current Balance: {displayBalance.toFixed(1)} FPT!
+            </Badge>
           </div>
 
           {/* Quick Stats */}

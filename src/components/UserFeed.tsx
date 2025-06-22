@@ -292,7 +292,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Embedded Earnings Tracker - Using centralized balance */}
+            {/* Embedded Earnings Tracker - Now uses centralized balance */}
             <div data-tour="earnings-tracker">
               <EarningsTracker
                 isVisible={true}
@@ -300,7 +300,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
                 onNavigate={onNavigate}
                 isEmbedded={true}
                 isDarkMode={isDarkMode}
-                customEarnings={isFromOnboarding ? earningsAmount : balance.toString()}
+                customEarnings={isFromOnboarding ? earningsAmount : undefined}
                 isFromOnboarding={isFromOnboarding}
               />
             </div>
