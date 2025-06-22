@@ -45,6 +45,8 @@ export const usePosts = () => {
   const fetchPosts = async (section?: 'stock' | 'crypto') => {
     try {
       setLoading(true);
+      console.log('usePosts: fetchPosts called with section:', section);
+      
       let query = supabase
         .from('posts')
         .select('*')
@@ -56,7 +58,12 @@ export const usePosts = () => {
 
       const { data, error } = await query;
 
-      if (error) throw error;
+      if (error) {
+        console.error('usePosts: fetch error:', error);
+        throw error;
+      }
+      
+      console.log('usePosts: fetched data:', data);
       
       // Safe type casting with null checks
       const typedPosts = (data || []).map(post => ({
@@ -69,6 +76,7 @@ export const usePosts = () => {
         section: post.section || null
       })) as Post[];
       
+      console.log('usePosts: processed posts:', typedPosts.length, 'posts');
       setPosts(typedPosts);
       return typedPosts;
     } catch (error) {
@@ -95,6 +103,8 @@ export const usePosts = () => {
     }
 
     try {
+      console.log('usePosts: creating earn post with data:', postData);
+      
       const { data, error } = await supabase.rpc('create_earn_post', {
         payload: {
           title: postData.title,
@@ -105,12 +115,20 @@ export const usePosts = () => {
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('usePosts: create earn post error:', error);
+        throw error;
+      }
+      
+      console.log('usePosts: earn post created successfully:', data);
       
       toast({
         title: "Success",
         description: "Your Create & Earn post has been published!",
       });
+
+      // Refresh posts to include the new one
+      await fetchPosts();
 
       return data;
     } catch (error) {
@@ -135,6 +153,8 @@ export const usePosts = () => {
     }
 
     try {
+      console.log('usePosts: sharing insight with data:', postData);
+      
       const { data, error } = await supabase.rpc('share_insight_post', {
         payload: {
           title: postData.title,
@@ -145,12 +165,20 @@ export const usePosts = () => {
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('usePosts: share insight error:', error);
+        throw error;
+      }
+      
+      console.log('usePosts: insight shared successfully:', data);
       
       toast({
         title: "Success",
         description: "Your insight has been shared!",
       });
+
+      // Refresh posts to include the new one
+      await fetchPosts();
 
       return data;
     } catch (error) {
@@ -165,6 +193,7 @@ export const usePosts = () => {
   };
 
   useEffect(() => {
+    console.log('usePosts: useEffect triggered, fetching initial posts');
     fetchPosts();
 
     // Subscribe to realtime changes with proper error handling
@@ -178,7 +207,7 @@ export const usePosts = () => {
           table: 'posts'
         },
         (payload) => {
-          console.log('New post received:', payload);
+          console.log('usePosts: New post received via realtime:', payload);
           if (payload.new) {
             const newPost = {
               ...payload.new,
@@ -190,6 +219,7 @@ export const usePosts = () => {
               section: payload.new.section || null
             } as Post;
             
+            console.log('usePosts: Adding new post to state:', newPost);
             setPosts(prev => [newPost, ...prev]);
           }
         }

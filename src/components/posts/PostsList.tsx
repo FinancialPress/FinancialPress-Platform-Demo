@@ -12,7 +12,18 @@ interface PostsListProps {
 const PostsList = ({ isDarkMode }: PostsListProps) => {
   const { posts, loading } = usePosts();
 
+  console.log('PostsList rendering:', { 
+    postsCount: posts.length, 
+    loading, 
+    firstPost: posts[0] ? { 
+      id: posts[0].id, 
+      title: posts[0].title, 
+      type: posts[0].type 
+    } : null 
+  });
+
   if (loading) {
+    console.log('PostsList: showing loading skeletons');
     return (
       <div className="space-y-6">
         {Array.from({ length: 3 }).map((_, index) => (
@@ -30,6 +41,7 @@ const PostsList = ({ isDarkMode }: PostsListProps) => {
   }
 
   if (posts.length === 0) {
+    console.log('PostsList: no posts found');
     return (
       <Card className={isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}>
         <CardContent className="p-6 text-center">
@@ -41,11 +53,38 @@ const PostsList = ({ isDarkMode }: PostsListProps) => {
     );
   }
 
+  console.log('PostsList: rendering posts list with', posts.length, 'posts');
+
   return (
     <div className="space-y-6">
-      {posts.map((post) => (
-        <PostItem key={post.id} post={post} isDarkMode={isDarkMode} />
-      ))}
+      {posts.map((post, index) => {
+        console.log(`PostsList: rendering post ${index}:`, {
+          id: post.id,
+          title: post.title,
+          type: post.type,
+          hasImage: !!post.image_url,
+          hasExternalUrl: !!post.external_url
+        });
+        
+        try {
+          return (
+            <PostItem 
+              key={post.id} 
+              post={post} 
+              isDarkMode={isDarkMode} 
+            />
+          );
+        } catch (error) {
+          console.error('Error rendering PostItem:', error, 'Post data:', post);
+          return (
+            <Card key={post.id} className={isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}>
+              <CardContent className="p-6">
+                <p className="text-red-500">Error rendering post: {post.title}</p>
+              </CardContent>
+            </Card>
+          );
+        }
+      })}
     </div>
   );
 };

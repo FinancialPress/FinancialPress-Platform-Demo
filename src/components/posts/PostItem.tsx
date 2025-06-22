@@ -15,6 +15,28 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
+  // Early return with error boundary if post is invalid
+  if (!post) {
+    console.error('PostItem: post is null or undefined');
+    return (
+      <Card className={isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}>
+        <CardContent className="p-6">
+          <p className="text-red-500">Error: Invalid post data</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  console.log('PostItem rendering:', {
+    id: post.id,
+    title: post.title,
+    type: post.type,
+    hasImage: !!post.image_url,
+    hasExternalUrl: !!post.external_url,
+    hasBody: !!post.body,
+    tags: post.tags
+  });
+
   const cardClasses = isDarkMode 
     ? 'bg-gray-900 border-gray-800 hover:border-gray-700' 
     : 'bg-white border-gray-200 hover:border-gray-300';
@@ -23,13 +45,19 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    if (!dateString) return 'Unknown date';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Invalid date';
+    }
   };
 
   // Safe fallback for image with null guard
@@ -37,6 +65,9 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
     if (post.image_url) return post.image_url;
     return getPlaceholderImage(post.section);
   };
+
+  // Safe array access for tags
+  const safeTags = Array.isArray(post.tags) ? post.tags : [];
 
   return (
     <Card className={`${cardClasses} transition-colors`}>
@@ -60,7 +91,7 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
               )}
             </div>
             <h3 className={`${textClasses} font-semibold text-lg mb-2`}>
-              {post.title}
+              {post.title || 'Untitled Post'}
             </h3>
             {post.body && (
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 line-clamp-3`}>
@@ -72,15 +103,21 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
                 variant="outline"
                 size="sm"
                 className="mb-3"
-                onClick={() => window.open(post.external_url, '_blank')}
+                onClick={() => {
+                  try {
+                    window.open(post.external_url, '_blank');
+                  } catch (error) {
+                    console.error('Error opening external URL:', error);
+                  }
+                }}
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Read More
               </Button>
             )}
-            {post.tags && post.tags.length > 0 && (
+            {safeTags.length > 0 && (
               <div className="flex flex-wrap gap-1 mb-3">
-                {post.tags.map((tag, index) => (
+                {safeTags.map((tag, index) => (
                   <Badge key={index} variant="secondary" className="text-xs">
                     {tag}
                   </Badge>
@@ -94,9 +131,10 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
         <div className="mb-4">
           <img 
             src={getImageUrl()} 
-            alt={post.title} 
+            alt={post.title || 'Post image'} 
             className="w-full h-48 object-cover rounded-lg"
             onError={(e) => {
+              console.log('Image load error, using fallback');
               // Fallback to a generic placeholder if image fails to load
               e.currentTarget.src = getPlaceholderImage();
             }}
