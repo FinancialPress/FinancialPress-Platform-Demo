@@ -43,10 +43,10 @@ const Header = ({
 
   // Get user display data (real profile data if available, fallback to demo data)
   const getDisplayData = () => {
-    // If we have a real logged-in user and profile data
-    if (userProfile && isLoggedIn) {
+    // Prioritize real logged-in user profile data
+    if (isLoggedIn && userProfile) {
       return {
-        displayName: userProfile.display_name || 'User',
+        displayName: userProfile.display_name || userProfile.email?.split('@')[0] || 'User',
         username: userProfile.username ? `@${userProfile.username}` : '@user',
         fptBalance: userProfile.fpt_balance || 0,
         imageUrl: userProfile.image_url,
@@ -54,13 +54,24 @@ const Header = ({
       };
     }
     
-    // Demo/fallback data for screen navigation
+    // Demo/fallback data for screen navigation when not actually logged in
+    if (shouldShowLoggedIn && !isLoggedIn) {
+      return {
+        displayName: 'John Doe',
+        username: '@johndoe',
+        fptBalance: 1247.5,
+        imageUrl: null,
+        role: 'creator'
+      };
+    }
+
+    // Default fallback
     return {
-      displayName: 'John Doe',
-      username: '@johndoe',
-      fptBalance: 1247.5,
+      displayName: 'User',
+      username: '@user',
+      fptBalance: 0,
       imageUrl: null,
-      role: 'creator'
+      role: 'newcomer'
     };
   };
 
@@ -73,9 +84,11 @@ const Header = ({
   const getRoleBadge = (userRole: string) => {
     switch (userRole) {
       case 'creator':
-        return 'Creator Newcomer';
+        return 'Creator';
       case 'distributor':
         return 'Distributor';
+      case 'newcomer':
+        return 'Newcomer';
       default:
         return 'Newcomer';
     }
