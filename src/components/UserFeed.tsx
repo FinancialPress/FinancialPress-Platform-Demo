@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useBalance } from '../contexts/BalanceContext';
@@ -18,7 +17,9 @@ import FeedLoadingSkeleton from '@/components/feed/FeedLoadingSkeleton';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import WelcomeModal from '@/components/modals/WelcomeModal';
 import OnboardingTour from '@/components/modals/OnboardingTour';
+import PostsList from '@/components/posts/PostsList';
 import { generateMockFeedItem } from '@/utils/mockFeedData';
+import { usePosts } from '@/hooks/usePosts';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
@@ -42,6 +43,9 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
+
+  // Add the posts hook
+  const { posts } = usePosts();
 
   // Initialize feed with initial posts
   useEffect(() => {
@@ -259,8 +263,17 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             {/* Feed Header */}
             <FeedHeader textClasses={textClasses} />
 
-            {/* Feed Posts */}
+            {/* Real Posts Section */}
+            {posts.length > 0 && (
+              <div className="space-y-6">
+                <h2 className={`${textClasses} text-xl font-semibold`}>Latest Posts</h2>
+                <PostsList isDarkMode={isDarkMode} />
+              </div>
+            )}
+
+            {/* Mock Feed Posts */}
             <div className="space-y-6">
+              <h2 className={`${textClasses} text-xl font-semibold`}>Community Feed</h2>
               {feedItems.map((post) => (
                 <FeedPost
                   key={post.id}

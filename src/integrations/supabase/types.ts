@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      activities: {
+        Row: {
+          activity_type: string
+          created_at: string
+          id: string
+          metadata: Json | null
+          post_id: string | null
+          user_id: string
+        }
+        Insert: {
+          activity_type: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          post_id?: string | null
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          post_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activities_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           action: string | null
@@ -122,6 +157,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      posts: {
+        Row: {
+          author_id: string
+          body: string | null
+          created_at: string
+          external_url: string | null
+          id: string
+          image_url: string | null
+          section: string | null
+          tags: string[] | null
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          body?: string | null
+          created_at?: string
+          external_url?: string | null
+          id?: string
+          image_url?: string | null
+          section?: string | null
+          tags?: string[] | null
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string | null
+          created_at?: string
+          external_url?: string | null
+          id?: string
+          image_url?: string | null
+          section?: string | null
+          tags?: string[] | null
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -284,9 +361,17 @@ export type Database = {
         }
         Returns: boolean
       }
+      create_earn_post: {
+        Args: { payload: Json }
+        Returns: Json
+      }
       get_user_fpt_balance: {
         Args: { target_user_id: string }
         Returns: number
+      }
+      share_insight_post: {
+        Args: { payload: Json }
+        Returns: Json
       }
       spend_fpt_tokens: {
         Args: {
