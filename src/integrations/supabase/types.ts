@@ -236,12 +236,68 @@ export type Database = {
         }
         Relationships: []
       }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          metadata: Json | null
+          transaction_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          transaction_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          transaction_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_fpt_tokens: {
+        Args: {
+          target_user_id: string
+          token_amount: number
+          transaction_type: string
+          description?: string
+          metadata?: Json
+        }
+        Returns: boolean
+      }
+      get_user_fpt_balance: {
+        Args: { target_user_id: string }
+        Returns: number
+      }
+      spend_fpt_tokens: {
+        Args: {
+          target_user_id: string
+          token_amount: number
+          transaction_type: string
+          description?: string
+          metadata?: Json
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

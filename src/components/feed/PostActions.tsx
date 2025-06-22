@@ -2,6 +2,7 @@
 import React from 'react';
 import { Heart, MessageCircle, Share2, Repeat2, HandCoins } from 'lucide-react';
 import { useEngagement } from '@/hooks/useEngagement';
+import { useFPTTokens } from '@/hooks/useFPTTokens';
 
 interface PostActionsProps {
   engagement: {
@@ -19,6 +20,7 @@ interface PostActionsProps {
 
 const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId }: PostActionsProps) => {
   const { trackEngagement, triggerReward, showDemoToast, isLiveUser } = useEngagement();
+  const { spendTokens } = useFPTTokens();
 
   const handleShareAndEarn = async () => {
     const postIdString = postId?.toString() || 'demo-post';
@@ -34,6 +36,29 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
     
     // Call the original share handler
     onShare();
+  };
+
+  const handleTip = async () => {
+    const tipAmount = 5; // Default tip amount
+
+    if (isLiveUser) {
+      // Spend tokens for the tip
+      const success = await spendTokens(
+        tipAmount,
+        'spend_tip',
+        `Tipped ${tipAmount} FPT for content`,
+        { post_id: postId }
+      );
+
+      if (success) {
+        // Call the original tip handler
+        onTip();
+      }
+    } else {
+      // Show demo toast for non-authenticated users
+      showDemoToast('Sign up to tip creators with FPT!');
+      onTip();
+    }
   };
 
   return (
@@ -54,7 +79,7 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
           <span>{engagement.shares}</span>
         </button>
         <button
-          className={`flex items-center space-x-2 ${mutedText} hover:text-yellow-400 transition-colors`}
+          className={`flex items-center space-x-2 ${mutedText} hover:text-fpYellow transition-colors`}
           onClick={handleShareAndEarn}
         >
           <Share2 className="w-5 h-5" />
@@ -62,10 +87,10 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
         </button>
       </div>
       <button
-        className={`${mutedText} hover:text-yellow-400 transition-colors flex items-center space-x-2`}
+        className={`${mutedText} hover:text-fpYellow transition-colors flex items-center space-x-2`}
         title="Tip"
         aria-label="Tip"
-        onClick={onTip}
+        onClick={handleTip}
       >
         <HandCoins className="w-5 h-5" />
         <span className="text-base">Tip</span>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { UserProfile } from '../hooks/useProfile';
+import { useFPTTokens } from '../hooks/useFPTTokens';
 import DemoNavigationBar from './header/DemoNavigationBar';
 import TopNavigationBar from './header/TopNavigationBar';
 import MainHeader from './header/MainHeader';
@@ -29,6 +30,7 @@ const Header = ({
   userProfile,
 }: HeaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
+  const { balance: liveFPTBalance } = useFPTTokens();
 
   // Theme handling
   const themeContext = useTheme();
@@ -52,7 +54,7 @@ const Header = ({
       return {
         displayName: userProfile.display_name || emailName,
         username: userProfile.username ? `@${userProfile.username}` : `@${emailName}`,
-        fptBalance: userProfile.fpt_balance || 0,
+        fptBalance: liveFPTBalance, // Use live balance from Supabase
         imageUrl: userProfile.image_url,
         role: userProfile.role || 'newcomer',
       };

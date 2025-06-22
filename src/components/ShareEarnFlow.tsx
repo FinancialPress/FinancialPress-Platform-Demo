@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { X, Share2, Check, DollarSign, Users } from 'lucide-react';
+import { useFPTTokens } from '@/hooks/useFPTTokens';
 
 interface ShareEarnFlowProps {
   post: {
@@ -23,6 +24,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     `🚀 Just discovered this insightful analysis: "${post.title}" by @${post.creator}. Worth a read! #Crypto #Finance`
   );
   const [distributeToAll, setDistributeToAll] = useState(false);
+  const { addTokens, loading } = useFPTTokens();
 
   const platforms = [
     { id: 'twitter', name: 'X/Twitter', icon: '𝕏', color: 'bg-gray-800' },
@@ -30,7 +32,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     { id: 'reddit', name: 'Reddit', icon: '🤖', color: 'bg-orange-600' },
     { id: 'discord', name: 'Discord', icon: '💬', color: 'bg-indigo-600' },
     { id: 'linkedin', name: 'LinkedIn', icon: '💼', color: 'bg-blue-700' },
-    { id: 'financialpress', name: 'FinancialPress', icon: '📰', color: 'bg-yellow-600' },
+    { id: 'financialpress', name: 'FinancialPress', icon: '📰', color: 'bg-fpYellow' },
   ];
 
   const handlePlatformToggle = (platformId: string) => {
@@ -57,6 +59,30 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
     return (baseEarnings * multiplier).toFixed(1);
   };
 
+  const handleShareAndEarn = async () => {
+    const earningsAmount = parseFloat(calculateTotalEarnings());
+    
+    // Add tokens to user's account
+    const success = await addTokens(
+      earningsAmount,
+      'earn_share',
+      `Shared "${post.title}" on ${selectedPlatforms.length} platform${selectedPlatforms.length !== 1 ? 's' : ''}`,
+      {
+        post_title: post.title,
+        creator: post.creator,
+        platforms: selectedPlatforms,
+        message: customMessage
+      }
+    );
+
+    if (success) {
+      // Call the original share handler
+      onShare();
+      // Close the modal
+      onClose();
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
       <Card className="bg-gray-900 border-gray-800 w-full max-w-xl max-h-[90vh] overflow-y-auto">
@@ -72,7 +98,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
 
         <CardContent className="space-y-4 p-4">
           {/* Post Title - Made Most Prominent */}
-          <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-lg p-4">
+          <div className="bg-gradient-to-r from-fpYellow/10 to-orange-500/10 border border-fpYellow/20 rounded-lg p-4">
             <h3 className="text-white font-bold text-xl leading-tight mb-3">{post.title}</h3>
             
             {/* Creator Profile - Made Secondary */}
@@ -84,7 +110,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
               </div>
               <div className="flex items-center space-x-4">
                 <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
-                <Badge className="bg-yellow-500 text-black text-xs">Gold</Badge>
+                <Badge className="bg-fpYellow text-black text-xs">Gold</Badge>
                 <span className="text-xs text-gray-400">24.5K followers</span>
                 <span className="text-xs text-green-400">2,340 FPT earned</span>
               </div>
@@ -125,7 +151,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   key={platform.id}
                   className={`flex items-center space-x-3 p-2 rounded-lg border-2 cursor-pointer transition-colors ${
                     selectedPlatforms.includes(platform.id)
-                      ? 'border-yellow-500 bg-yellow-500/10'
+                      ? 'border-fpYellow bg-fpYellow/10'
                       : 'border-gray-700 bg-gray-800 hover:border-gray-600'
                   }`}
                   onClick={() => handlePlatformToggle(platform.id)}
@@ -135,7 +161,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   </div>
                   <span className="text-white font-medium text-sm">{platform.name}</span>
                   {selectedPlatforms.includes(platform.id) && (
-                    <Check className="w-4 h-4 text-yellow-500 ml-auto" />
+                    <Check className="w-4 h-4 text-fpYellow ml-auto" />
                   )}
                 </div>
               ))}
@@ -163,12 +189,12 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
               Cancel
             </Button>
             <Button 
-              onClick={onShare}
-              disabled={selectedPlatforms.length === 0}
-              className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-black font-bold"
+              onClick={handleShareAndEarn}
+              disabled={selectedPlatforms.length === 0 || loading}
+              className="flex-1 bg-fpYellow hover:bg-fpYellowDark text-black font-bold"
             >
               <Share2 className="w-4 h-4 mr-2" />
-              Distribute Now
+              {loading ? 'Processing...' : 'Distribute Now'}
             </Button>
           </div>
         </CardContent>
