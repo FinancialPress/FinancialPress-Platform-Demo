@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, Sun, Moon, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,6 +7,7 @@ import Logo from '@/components/ui/logo';
 import SearchForm from './SearchForm';
 import UserDropdown from './UserDropdown';
 import MobileMenu from './MobileMenu';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface UserData {
   displayName: string;
@@ -33,6 +35,8 @@ const MainHeader = ({
   userData,
 }: MainHeaderProps) => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { fptBalance, role } = userData;
 
@@ -53,6 +57,14 @@ const MainHeader = ({
     }
   };
 
+  const handleFeedClick = () => {
+    navigate('/feed');
+  };
+
+  const handleCreateClick = () => {
+    navigate('/create');
+  };
+
   return (
     <header className={mainHeaderClasses}>
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-1">
@@ -70,6 +82,32 @@ const MainHeader = ({
             <div className="h-12 sm:h-14 w-32 sm:w-[200px]">
               <Logo isDarkMode={isDarkMode} />
             </div>
+
+            {/* Navigation buttons for authenticated users */}
+            {shouldShowLoggedIn && (
+              <div className="hidden md:flex items-center space-x-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`${isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'} ${
+                    location.pathname === '/feed' ? 'bg-fpYellow text-black' : ''
+                  }`}
+                  onClick={handleFeedClick}
+                >
+                  Feed
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`${isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'} ${
+                    location.pathname === '/create' ? 'bg-fpYellow text-black' : ''
+                  }`}
+                  onClick={handleCreateClick}
+                >
+                  Create
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-6">

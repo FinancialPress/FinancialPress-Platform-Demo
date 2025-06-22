@@ -14,8 +14,17 @@ const ContentCreatorPage = ({ onNavigate }: ContentCreatorPageProps) => {
   const { isDarkMode } = useTheme();
 
   const handleClose = () => {
-    // Navigate back to home page which shows the user feed
-    navigate('/');
+    // Navigate to feed page after content creation
+    navigate('/feed');
+  };
+
+  const handleNavigate = (screen: number) => {
+    if (screen === 3) {
+      // Navigate to feed
+      navigate('/feed');
+    } else if (onNavigate) {
+      onNavigate(screen);
+    }
   };
 
   const bgClasses = isDarkMode ? "min-h-screen bg-black text-white" : "min-h-screen bg-gray-50 text-black";
@@ -35,7 +44,7 @@ const ContentCreatorPage = ({ onNavigate }: ContentCreatorPageProps) => {
       </button>
 
       {/* Content Creator Component */}
-      <ContentCreator onNavigate={onNavigate} isDarkMode={isDarkMode} />
+      <ContentCreator onNavigate={handleNavigate} isDarkMode={isDarkMode} />
     </div>
   );
 };

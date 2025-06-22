@@ -1,11 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Calendar, Heart, Share, MessageCircle, DollarSign } from 'lucide-react';
+import { ExternalLink, Calendar, Heart, Share, MessageCircle, DollarSign, Share2, HandCoins } from 'lucide-react';
 import { Post } from '@/hooks/usePosts';
 import { getPlaceholderImage } from '@/utils/imageUpload';
+import ShareEarnFlow from '@/components/ShareEarnFlow';
+import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
+import { useEngagement } from '@/hooks/useEngagement';
 
 interface PostItemProps {
   post: Post;
@@ -14,7 +17,11 @@ interface PostItemProps {
   onTip?: () => void;
 }
 
-const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
+const PostItem = ({ post, isDarkMode }: PostItemProps) => {
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showSupportModal, setShowSupportModal] = useState(false);
+  const { trackEngagement, triggerReward, showDemoToast, isLiveUser } = useEngagement();
+  
   const cardClasses = isDarkMode 
     ? 'bg-gray-900 border-gray-800 hover:border-gray-700' 
     : 'bg-white border-gray-200 hover:border-gray-300';
@@ -32,152 +39,200 @@ const PostItem = ({ post, isDarkMode, onShare, onTip }: PostItemProps) => {
     });
   };
 
+  // Generate mock engagement metrics
+  const generateEngagement = () => ({
+    likes: Math.floor(Math.random() * 1000) + 100,
+    shares: Math.floor(Math.random() * 100) + 10,
+    comments: Math.floor(Math.random() * 50) + 5,
+    views: Math.floor(Math.random() * 5000) + 500,
+  });
+
+  const engagement = generateEngagement();
+
   // Safe fallback for image with null guard
   const getImageUrl = () => {
     if (post.image_url) return post.image_url;
     return getPlaceholderImage(post.section);
   };
 
+  const handleShareAndEarn = async () => {
+    if (isLiveUser) {
+      try {
+        await trackEngagement('share', post.id);
+        await triggerReward('share', post.id);
+      } catch (error) {
+        console.error('Error in engagement tracking:', error);
+      }
+    } else {
+      showDemoToast('Sign up to earn FPT for sharing content!');
+    }
+    
+    setShowShareModal(true);
+  };
+
+  const handleTip = () => {
+    setShowSupportModal(true);
+  };
+
+  const handleShareComplete = () => {
+    setShowShareModal(false);
+  };
+
+  const handleTipComplete = (amount: number, message?: string, postId?: string) => {
+    console.log(`Tip: ${amount} FPT`, { message, postId });
+    setShowSupportModal(false);
+  };
+
+  const handleSubscribe = (postId?: string) => {
+    console.log(`Subscribed`, { postId });
+    setShowSupportModal(false);
+  };
+
   return (
-    <Card className={`${cardClasses} transition-colors`}>
-      <CardContent className="p-6">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <Badge 
-                className={`text-xs ${
-                  post.type === 'create_earn' 
-                    ? 'bg-yellow-500 text-black' 
-                    : 'bg-blue-600 text-white'
-                }`}
-              >
-                {post.type === 'create_earn' ? 'Create & Earn' : 'Share Insight'}
-              </Badge>
-              {post.section && (
-                <Badge variant="outline" className="text-xs">
-                  {post.section.toUpperCase()}
+    <>
+      <Card className={`${cardClasses} transition-colors`}>
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge 
+                  className={`text-xs ${
+                    post.type === 'create_earn' 
+                      ? 'bg-yellow-500 text-black' 
+                      : 'bg-blue-600 text-white'
+                  }`}
+                >
+                  {post.type === 'create_earn' ? 'Create & Earn' : 'Share Insight'}
                 </Badge>
+                {post.section && (
+                  <Badge variant="outline" className="text-xs">
+                    {post.section.toUpperCase()}
+                  </Badge>
+                )}
+              </div>
+              <h3 className={`${textClasses} font-semibold text-lg mb-2`}>
+                {post.title}
+              </h3>
+              {post.body && (
+                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 line-clamp-3`}>
+                  {post.body}
+                </p>
+              )}
+              {post.external_url && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mb-3"
+                  onClick={() => window.open(post.external_url, '_blank')}
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Read More
+                </Button>
+              )}
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {post.tags.map((tag, index) => (
+                    <Badge key={index} variant="secondary" className="text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
               )}
             </div>
-            <h3 className={`${textClasses} font-semibold text-lg mb-2`}>
-              {post.title}
-            </h3>
-            {post.body && (
-              <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 line-clamp-3`}>
-                {post.body}
-              </p>
-            )}
-            {post.external_url && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="mb-3"
-                onClick={() => window.open(post.external_url, '_blank')}
-              >
-                <ExternalLink className="w-4 h-4 mr-2" />
-                Read More
-              </Button>
-            )}
-            {post.tags && post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 mb-3">
-                {post.tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary" className="text-xs">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
           </div>
-        </div>
-        
-        {/* Image with safe fallback */}
-        <div className="mb-4">
-          <img 
-            src={getImageUrl()} 
-            alt={post.title} 
-            className="w-full h-48 object-cover rounded-lg"
-            onError={(e) => {
-              // Fallback to a generic placeholder if image fails to load
-              e.currentTarget.src = getPlaceholderImage();
-            }}
-          />
-        </div>
+          
+          {/* Image with safe fallback */}
+          <div className="mb-4">
+            <img 
+              src={getImageUrl()} 
+              alt={post.title} 
+              className="w-full h-48 object-cover rounded-lg"
+              onError={(e) => {
+                e.currentTarget.src = getPlaceholderImage();
+              }}
+            />
+          </div>
 
-        {/* Engagement Section */}
-        <div className="space-y-3">
           {/* Engagement stats */}
-          <div className={`flex items-center justify-between ${mutedText} text-sm border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} pb-3`}>
+          <div className={`flex items-center justify-between ${mutedText} text-sm mb-4`}>
             <div className="flex items-center space-x-4">
-              <span className="flex items-center">
-                <Heart className="w-4 h-4 mr-1" />
-                {Math.floor(Math.random() * 1000) + 100}
-              </span>
-              <span className="flex items-center">
-                <Share className="w-4 h-4 mr-1" />
-                {Math.floor(Math.random() * 100) + 10}
-              </span>
-              <span className="flex items-center">
-                <MessageCircle className="w-4 h-4 mr-1" />
-                {Math.floor(Math.random() * 50) + 5}
-              </span>
+              <span>{engagement.views.toLocaleString()} views</span>
+              <span>{engagement.comments} comments</span>
+              <span>{engagement.shares} shares</span>
             </div>
-            <span className="text-yellow-400 font-medium">
-              +{post.type === 'create_earn' ? '5' : '3'} FPT
+            <span className="text-green-400 font-semibold">
+              Earned: +{post.type === 'create_earn' ? '5' : '3'} FPT
             </span>
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className={`${mutedText} hover:text-red-500`}
+          <div className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+            <div className="flex items-center space-x-8">
+              <button className={`flex items-center space-x-2 ${mutedText} hover:text-red-400 transition-colors`}>
+                <Heart className="w-5 h-5" />
+                <span>{engagement.likes}</span>
+              </button>
+              <button className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}>
+                <MessageCircle className="w-5 h-5" />
+                <span>{engagement.comments}</span>
+              </button>
+              <button className={`flex items-center space-x-2 ${mutedText} hover:text-green-400 transition-colors`}>
+                <Share className="w-5 h-5" />
+                <span>{engagement.shares}</span>
+              </button>
+              <button
+                className={`flex items-center space-x-2 ${mutedText} hover:text-fpYellow transition-colors`}
+                onClick={handleShareAndEarn}
               >
-                <Heart className="w-4 h-4 mr-1" />
-                Like
-              </Button>
-              {onShare && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`${mutedText} hover:text-blue-500`}
-                  onClick={onShare}
-                >
-                  <Share className="w-4 h-4 mr-1" />
-                  Share
-                </Button>
-              )}
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className={`${mutedText} hover:text-green-500`}
-              >
-                <MessageCircle className="w-4 h-4 mr-1" />
-                Comment
-              </Button>
+                <Share2 className="w-5 h-5" />
+                <span>Share & Earn</span>
+              </button>
             </div>
-            {onTip && (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="text-yellow-500 border-yellow-500 hover:bg-yellow-500 hover:text-black"
-                onClick={onTip}
-              >
-                <DollarSign className="w-4 h-4 mr-1" />
-                Tip
-              </Button>
-            )}
+            <button
+              className={`${mutedText} hover:text-fpYellow transition-colors flex items-center space-x-2`}
+              onClick={handleTip}
+            >
+              <HandCoins className="w-5 h-5" />
+              <span>Tip</span>
+            </button>
           </div>
 
           {/* Date */}
-          <div className={`flex items-center ${mutedText} text-sm pt-2 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+          <div className={`flex items-center ${mutedText} text-sm pt-2 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} mt-2`}>
             <Calendar className="w-4 h-4 mr-1" />
             {formatDate(post.created_at)}
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+      {/* Share & Earn Modal */}
+      {showShareModal && (
+        <ShareEarnFlow
+          post={{
+            title: post.title,
+            creator: 'creator',
+            estimatedEarnings: post.type === 'create_earn' ? '5.0 FPT' : '3.0 FPT'
+          }}
+          onClose={() => setShowShareModal(false)}
+          onShare={handleShareComplete}
+        />
+      )}
+
+      {/* Support Creator Modal */}
+      <SupportCreatorModal
+        creatorHandle="@creator"
+        creatorName="Creator"
+        followerCount="1.2K"
+        isVerified={false}
+        postTitle={post.title}
+        postId={post.id}
+        isOpen={showSupportModal}
+        onClose={() => setShowSupportModal(false)}
+        onTip={handleTipComplete}
+        onSubscribe={handleSubscribe}
+        isDarkMode={isDarkMode}
+      />
+    </>
   );
 };
 
