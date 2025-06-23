@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { useFPTTokens } from '@/hooks/useFPTTokens';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 
 /* ------------------------------------------------------------------ */
@@ -75,6 +76,7 @@ export const usePosts = () => {
   /* ------------- helpers / context -------- */
   const { user } = useAuth();
   const { toast } = useToast();
+  const { addTokens } = useFPTTokens();
 
   /* ---------------------------------------------------------------- */
   /*  CRUD helpers                                                    */
@@ -124,6 +126,8 @@ export const usePosts = () => {
     }
 
     try {
+      console.log('Creating earn post with data:', postData);
+      
       const { data, error } = await supabase.rpc('create_earn_post', {
         payload: {
           title: postData.title,
@@ -133,12 +137,37 @@ export const usePosts = () => {
           section: postData.section ?? 'stock'
         }
       });
-      if (error) throw error;
+      
+      if (error) {
+        console.error('Error creating earn post:', error);
+        throw error;
+      }
+
+      console.log('Post created successfully:', data);
+
+      // Award FPT tokens for publishing content
+      const tokenSuccess = await addTokens(
+        5,
+        'earn_share',
+        'Content creation reward',
+        {
+          post_id: data.id,
+          post_type: 'create_earn',
+          title: postData.title
+        }
+      );
+
+      if (!tokenSuccess) {
+        console.warn('Token award failed but post was created successfully');
+      } else {
+        console.log('FPT tokens awarded successfully');
+      }
 
       toast({
         title: 'Success',
         description: 'Your Create & Earn post has been published!'
       });
+      
       return normalizePost(data);
     } catch (err) {
       console.error('Error creating earn post:', err);
@@ -162,6 +191,8 @@ export const usePosts = () => {
     }
 
     try {
+      console.log('Creating insight post with data:', postData);
+      
       const { data, error } = await supabase.rpc('share_insight_post', {
         payload: {
           title: postData.title,
@@ -171,12 +202,38 @@ export const usePosts = () => {
           tags: postData.tags ?? []
         }
       });
-      if (error) throw error;
+      
+      if (error) {
+        console.error('Error sharing insight post:', error);
+        throw error;
+      }
+
+      console.log('Insight post created successfully:', data);
+
+      // Award FPT tokens for sharing insight
+      const tokenSuccess = await addTokens(
+        5,
+        'earn_share',
+        'Insight sharing reward',
+        {
+          post_id: data.id,
+          post_type: 'share_insight',
+          title: postData.title,
+          external_url: postData.external_url
+        }
+      );
+
+      if (!tokenSuccess) {
+        console.warn('Token award failed but insight was shared successfully');
+      } else {
+        console.log('FPT tokens awarded successfully');
+      }
 
       toast({
         title: 'Success',
         description: 'Your insight has been shared!'
       });
+      
       return normalizePost(data);
     } catch (err) {
       console.error('Error sharing insight:', err);
