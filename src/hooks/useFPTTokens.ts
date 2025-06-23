@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -54,21 +55,13 @@ export const useFPTTokens = () => {
       toast.error('Invalid token amount');
       return false;
     }
-
-    // Map transaction types to valid database values
-    let validTransactionType = transactionType;
-    if (transactionType === 'earn_share' || transactionType === 'content_creation') {
-      validTransactionType = 'post_creation';
-    } else if (transactionType === 'share_insight') {
-      validTransactionType = 'post_creation';
-    }
     
     setLoading(true);
     try {
       const { data, error } = await supabase.rpc('add_fpt_tokens', {
         target_user_id: user.id,
         token_amount: amount,
-        transaction_type: validTransactionType,
+        transaction_type: transactionType,
         description: description || null,
         metadata: metadata || null
       });
