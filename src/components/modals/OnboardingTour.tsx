@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -82,8 +83,8 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
         <div className="absolute inset-0 backdrop-blur-sm bg-black bg-opacity-30" />
       </div>
       
-      {/* Tour Card */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md mx-4">
+      {/* Tour Card - Fixed positioning next to left sidebar */}
+      <div className="fixed left-80 top-1/2 transform -translate-y-1/2 z-50 w-80">
         <Card className={`${cardClasses} shadow-2xl`}>
           <CardContent className="p-6">
             <h3 className="text-lg font-bold mb-3">{stepContent.title}</h3>
