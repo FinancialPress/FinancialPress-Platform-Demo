@@ -14,7 +14,7 @@ const TopNavigationBar = ({ isDarkMode, onToggleDarkMode }: TopNavigationBarProp
     : 'w-full bg-gray-100 border-b border-gray-300';
 
   const topNavTextClasses = isDarkMode
-    ? 'text-gray-300 hover:text-white'
+    ? 'text-black hover:text-fpYellowDark'
     : 'text-gray-600 hover:text-gray-900';
 
   return (
