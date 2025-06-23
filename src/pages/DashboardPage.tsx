@@ -29,7 +29,9 @@ const DashboardPage = () => {
         userProfile={profile}
         isLoggedIn={!!user}
       />
-      <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+      <div className="layout-container">
+        <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+      </div>
     </div>
   );
 };

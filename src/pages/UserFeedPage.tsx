@@ -91,13 +91,15 @@ const UserFeedPage = () => {
         isDarkMode={isDarkMode}
         userProfile={profile}
       />
-      <UserFeedErrorBoundary isDarkMode={isDarkMode}>
-        <UserFeed 
-          onNavigate={handleNavigate}
-          isDarkMode={isDarkMode}
-          showOnboarding={false}
-        />
-      </UserFeedErrorBoundary>
+      <div className="layout-container">
+        <UserFeedErrorBoundary isDarkMode={isDarkMode}>
+          <UserFeed 
+            onNavigate={handleNavigate}
+            isDarkMode={isDarkMode}
+            showOnboarding={false}
+          />
+        </UserFeedErrorBoundary>
+      </div>
     </div>
   );
 };

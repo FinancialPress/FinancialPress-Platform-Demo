@@ -103,7 +103,7 @@ const Index = () => {
           isLoggedIn={!!user}
         />
       )}
-      <div className="w-full">
+      <div className="layout-container">
         {screens[currentScreen]}
       </div>
     </div>

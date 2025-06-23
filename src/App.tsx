@@ -24,20 +24,18 @@ const App = () => (
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <div className="desktop-scale-wrapper">
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/create" element={<ContentCreatorPage />} />
-                  <Route path="/feed" element={<UserFeedPage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/auth" element={<Navigate to="/" replace />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </div>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/create" element={<ContentCreatorPage />} />
+                <Route path="/feed" element={<UserFeedPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/auth" element={<Navigate to="/" replace />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
           </TooltipProvider>
         </BalanceProvider>
       </AuthProvider>
