@@ -44,7 +44,7 @@ const ContentCreatorPage = ({ onNavigate }: ContentCreatorPageProps) => {
       </button>
 
       {/* Content Creator Component */}
-      <div className="layout-container">
+      <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16">
         <ContentCreator onNavigate={handleNavigate} isDarkMode={isDarkMode} />
       </div>
     </div>
