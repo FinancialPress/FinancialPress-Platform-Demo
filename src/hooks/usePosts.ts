@@ -1,8 +1,17 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import type { RealtimeChannel } from '@supabase/supabase-js';
+
+/* ------------------------------------------------------------------ */
+/*  Singleton channel management                                      */
+/* ------------------------------------------------------------------ */
+
+let postsChannel: RealtimeChannel | null = null;
+let listeners = 0;
+let cachedPosts: Post[] = [];
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                             */
@@ -41,6 +50,20 @@ export interface ShareInsightPostData {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Helper: normalize raw DB row to Post                             */
+/* ------------------------------------------------------------------ */
+
+const normalizePost = (rawPost: any): Post => ({
+  ...rawPost,
+  type: rawPost.type as 'create_earn' | 'share_insight',
+  tags: Array.isArray(rawPost.tags) ? rawPost.tags : [],
+  body: rawPost.body || '',
+  image_url: rawPost.image_url || null,
+  external_url: rawPost.external_url || null,
+  section: rawPost.section || null
+});
+
+/* ------------------------------------------------------------------ */
 /*  Hook                                                              */
 /* ------------------------------------------------------------------ */
 
@@ -52,9 +75,6 @@ export const usePosts = () => {
   /* ------------- helpers / context -------- */
   const { user } = useAuth();
   const { toast } = useToast();
-
-  /* ------------- singleton channel -------- */
-  const postsChannelRef = useRef<RealtimeChannel | null>(null);
 
   /* ---------------------------------------------------------------- */
   /*  CRUD helpers                                                    */
@@ -74,16 +94,10 @@ export const usePosts = () => {
       const { data, error } = await query;
       if (error) throw error;
 
-      const typedPosts: Post[] = (data ?? []).map((p) => ({
-        ...p,
-        type: p.type as 'create_earn' | 'share_insight',
-        tags: Array.isArray(p.tags) ? p.tags : [],
-        body: p.body || '',
-        image_url: p.image_url || null,
-        external_url: p.external_url || null,
-        section: p.section || null
-      }));
+      const typedPosts: Post[] = (data ?? []).map(normalizePost);
 
+      // Update both local state and shared cache
+      cachedPosts = typedPosts;
       setPosts(typedPosts);
       return typedPosts;
     } catch (err) {
@@ -125,7 +139,7 @@ export const usePosts = () => {
         title: 'Success',
         description: 'Your Create & Earn post has been published!'
       });
-      return data;
+      return normalizePost(data);
     } catch (err) {
       console.error('Error creating earn post:', err);
       toast({
@@ -163,7 +177,7 @@ export const usePosts = () => {
         title: 'Success',
         description: 'Your insight has been shared!'
       });
-      return data;
+      return normalizePost(data);
     } catch (err) {
       console.error('Error sharing insight:', err);
       toast({
@@ -176,16 +190,16 @@ export const usePosts = () => {
   };
 
   /* ---------------------------------------------------------------- */
-  /*  Effect: initial fetch + realtime subscription                   */
+  /*  Effect: singleton channel + reference counting                  */
   /* ---------------------------------------------------------------- */
 
   useEffect(() => {
-    /* 1️⃣ initial fetch */
-    fetchPosts();
+    // Increment listener count
+    listeners += 1;
 
-    /* 2️⃣ set up realtime channel once */
-    if (!postsChannelRef.current) {
-      postsChannelRef.current = supabase
+    // Create singleton channel if it doesn't exist
+    if (!postsChannel) {
+      postsChannel = supabase
         .channel('posts_changes')
         .on(
           'postgres_changes',
@@ -193,30 +207,37 @@ export const usePosts = () => {
           (payload) => {
             if (!payload?.new) return;
 
-            const newPost: Post = {
-              ...payload.new,
-              type: payload.new.type as 'create_earn' | 'share_insight',
-              tags: Array.isArray(payload.new.tags) ? payload.new.tags : [],
-              body: payload.new.body || '',
-              image_url: payload.new.image_url || null,
-              external_url: payload.new.external_url || null,
-              section: payload.new.section || null
-            };
-
-            setPosts((prev) => [newPost, ...prev]);
+            const newPost = normalizePost(payload.new);
+            
+            // Update shared cache
+            cachedPosts = [newPost, ...cachedPosts];
+            
+            // Update all active components via setPosts callback
+            setPosts([...cachedPosts]);
           }
         );
 
-      postsChannelRef.current
+      postsChannel
         .subscribe()
         .catch((err) => console.error('Realtime subscribe error:', err));
     }
 
-    /* 3️⃣ cleanup */
+    // Initial fetch if cache is empty
+    if (cachedPosts.length === 0) {
+      fetchPosts();
+    } else {
+      // Use cached data
+      setPosts([...cachedPosts]);
+    }
+
+    // Cleanup on unmount
     return () => {
-      if (postsChannelRef.current) {
-        supabase.removeChannel(postsChannelRef.current);
-        postsChannelRef.current = null;
+      listeners -= 1;
+      
+      // Remove channel when no more listeners
+      if (listeners === 0 && postsChannel) {
+        supabase.removeChannel(postsChannel);
+        postsChannel = null;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
