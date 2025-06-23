@@ -215,11 +215,8 @@ export const usePosts = () => {
             // Update all active components via setPosts callback
             setPosts([...cachedPosts]);
           }
-        );
-
-      postsChannel
-        .subscribe()
-        .catch((err) => console.error('Realtime subscribe error:', err));
+        )
+        .subscribe();
     }
 
     // Initial fetch if cache is empty
