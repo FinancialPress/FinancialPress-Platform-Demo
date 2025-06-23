@@ -55,9 +55,10 @@ export const useActivities = () => {
           },
           (payload) => {
             if (payload.new && typeof payload.new === 'object' && 'id' in payload.new) {
+              const newActivity = payload.new as Activity;
               setActivities(prev => {
-                if (prev.find(a => a.id === payload.new.id)) return prev; // dedupe
-                return [payload.new as Activity, ...prev];
+                if (prev.find(a => a.id === newActivity.id)) return prev; // dedupe
+                return [newActivity, ...prev];
               });
             } else {
               fetchActivities();
