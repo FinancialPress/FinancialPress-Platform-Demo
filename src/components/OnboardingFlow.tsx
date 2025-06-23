@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Check, PenTool, Share2, X } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -38,8 +39,11 @@ const OnboardingFlow = ({ userRole = 'creator', userType, onComplete, onLandingP
   };
 
   const handleComplete = () => {
-    // Navigate directly to user feed (screen 3) with onboarding flag
-    onComplete?.();
+    console.log('OnboardingFlow handleComplete called');
+    // Ensure onComplete is called to trigger the tour
+    if (onComplete) {
+      onComplete();
+    }
   };
 
   const renderCurrentStep = () => {

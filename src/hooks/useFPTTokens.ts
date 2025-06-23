@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -56,10 +55,12 @@ export const useFPTTokens = () => {
       return false;
     }
 
-    // Fix the transaction type to match database constraints
+    // Map transaction types to valid database values
     let validTransactionType = transactionType;
-    if (transactionType === 'earn_share') {
-      validTransactionType = 'content_creation';
+    if (transactionType === 'earn_share' || transactionType === 'content_creation') {
+      validTransactionType = 'post_creation';
+    } else if (transactionType === 'share_insight') {
+      validTransactionType = 'post_creation';
     }
     
     setLoading(true);
