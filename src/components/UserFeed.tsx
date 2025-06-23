@@ -228,18 +228,24 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   const handleTourComplete = () => {
     setShowTour(false);
+    // Restore body scroll
+    document.body.style.overflow = '';
+    document.body.classList.remove('onboarding-active');
     // Stop the flashing after tour completes
     setTimeout(() => {
       setEarningsAmount('1.0');
-    }, 5000);
+    }, 1000);
   };
 
   const handleSkipTour = () => {
     setShowTour(false);
+    // Restore body scroll
+    document.body.style.overflow = '';
+    document.body.classList.remove('onboarding-active');
     // Stop the flashing after tour is skipped
     setTimeout(() => {
       setEarningsAmount('1.0');
-    }, 5000);
+    }, 1000);
   };
 
   const handleEarningsUpdate = () => {
@@ -302,22 +308,27 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             {posts.length > 0 && (
               <div className="space-y-6">
                 <h2 className={`${textClasses} text-xl font-semibold`}>Latest Posts</h2>
-                <PostsList isDarkMode={isDarkMode} />
+                <div className="user-post-card">
+                  <PostsList isDarkMode={isDarkMode} />
+                </div>
               </div>
             )}
 
             {/* Mock Feed Posts */}
             <div className="space-y-6">
               <h2 className={`${textClasses} text-xl font-semibold`}>Community Feed</h2>
-              {feedItems.map((post) => (
-                <FeedPost
-                  key={post.id}
-                  post={post}
-                  isDarkMode={isDarkMode}
-                  onShare={() => handleShare(post)}
-                  onTip={() => handleTip(post)}
-                />
-              ))}
+              <div className="user-post-card">
+                {feedItems.map((post) => (
+                  <div key={post.id} className="mb-6">
+                    <FeedPost
+                      post={post}
+                      isDarkMode={isDarkMode}
+                      onShare={() => handleShare(post)}
+                      onTip={() => handleTip(post)}
+                    />
+                  </div>
+                ))}
+              </div>
               
               {/* Loading Skeletons */}
               {loading && (
@@ -341,7 +352,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
           {/* Right Sidebar - Always visible, 1/4 width */}
           <div className="lg:col-span-1 space-y-6 block">
             {/* Embedded Earnings Tracker - Now uses centralized balance */}
-            <div data-tour="earnings-tracker">
+            <div data-tour="earnings-tracker" className="earnings-summary">
               <EarningsTracker
                 isVisible={true}
                 onClose={() => {}}
