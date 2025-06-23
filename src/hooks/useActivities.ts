@@ -54,7 +54,7 @@ export const useActivities = () => {
             filter: `user_id=eq.${user.id}`
           },
           (payload) => {
-            if (payload.new) {
+            if (payload.new && typeof payload.new === 'object' && 'id' in payload.new) {
               setActivities(prev => {
                 if (prev.find(a => a.id === payload.new.id)) return prev; // dedupe
                 return [payload.new as Activity, ...prev];
