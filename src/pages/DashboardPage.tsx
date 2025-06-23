@@ -17,8 +17,8 @@ const DashboardPage = () => {
   };
 
   const themeClasses = isDarkMode 
-    ? "min-h-screen bg-black"
-    : "min-h-screen bg-gray-50";
+    ? "page-background bg-black"
+    : "page-background bg-gray-50";
 
   return (
     <div className={`${themeClasses} w-full overflow-x-hidden`}>

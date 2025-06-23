@@ -125,120 +125,122 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
-      <Card className="bg-gray-900 border-gray-800 w-full max-w-xl max-h-[90vh] overflow-y-auto">
-        {/* Title Section */}
-        <div className="bg-gray-800 p-4 border-b border-gray-700">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
-            <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
-              <X className="w-5 h-5" />
-            </Button>
-          </div>
-        </div>
-
-        <CardContent className="space-y-4 p-4">
-          {/* Post Title */}
-          <div className="bg-gradient-to-r from-fpYellow/10 to-orange-500/10 border border-fpYellow/20 rounded-lg p-4">
-            <h3 className="text-white font-bold text-xl leading-tight mb-3">{post.title}</h3>
-            
-            {/* Creator Profile */}
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">
-                  {post.creator.charAt(0).toUpperCase()}
-                </span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
-                <Badge className="bg-fpYellow text-black text-xs">Gold</Badge>
-                <span className="text-xs text-gray-400">24.5K followers</span>
-                <span className="text-xs text-green-400">2,340 FPT earned</span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Custom Message */}
-          <div>
-            <label className="block text-gray-300 mb-1 font-medium text-sm">Customize your message</label>
-            <Textarea
-              value={customMessage}
-              onChange={(e) => setCustomMessage(e.target.value)}
-              className="bg-gray-800 border-gray-700 text-white min-h-[80px] text-sm"
-              placeholder="Write your share message..."
-            />
-            <div className="text-right text-gray-400 text-xs mt-1">
-              {customMessage.length}/280 characters
-            </div>
-          </div>
-
-          {/* Platform Selection */}
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <label className="block text-gray-300 font-medium text-sm">Select platforms to share</label>
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  checked={distributeToAll}
-                  onCheckedChange={handleDistributeAll}
-                  className="border-gray-600"
-                />
-                <span className="text-gray-300 text-xs">Distribute to all</span>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 gap-2">
-              {platforms.map((platform) => (
-                <div
-                  key={platform.id}
-                  className={`flex items-center space-x-3 p-2 rounded-lg border-2 cursor-pointer transition-colors ${
-                    selectedPlatforms.includes(platform.id)
-                      ? 'border-fpYellow bg-fpYellow/10'
-                      : 'border-gray-700 bg-gray-800 hover:border-gray-600'
-                  }`}
-                  onClick={() => handlePlatformToggle(platform.id)}
-                >
-                  <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-white text-xs`}>
-                    {platform.icon}
-                  </div>
-                  <span className="text-white font-medium text-sm">{platform.name}</span>
-                  {selectedPlatforms.includes(platform.id) && (
-                    <Check className="w-4 h-4 text-fpYellow ml-auto" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Earnings Preview */}
-          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
+      <div className="modal-centered w-full max-w-xl max-h-[90vh] overflow-y-auto">
+        <Card className="bg-gray-900 border-gray-800 w-full">
+          {/* Title Section */}
+          <div className="bg-gray-800 p-4 border-b border-gray-700">
             <div className="flex items-center justify-between">
-              <div>
-                <div className="text-green-400 font-semibold text-sm">Total Estimated Earnings</div>
-                <div className="text-gray-300 text-xs">
-                  {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
-                </div>
-              </div>
-              <div className="text-xl font-bold text-green-400">
-                {calculateTotalEarnings()} FPT
-              </div>
+              <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
+              <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </Button>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-3 pt-2">
-            <Button variant="outline" onClick={onClose} className="flex-1 border-gray-600 text-gray-300" disabled={loading}>
-              Cancel
-            </Button>
-            <Button 
-              onClick={handleShareAndEarn}
-              disabled={selectedPlatforms.length === 0 || loading}
-              className="flex-1 bg-fpYellow hover:bg-fpYellowDark text-black font-bold disabled:opacity-50"
-            >
-              <Share2 className="w-4 h-4 mr-2" />
-              {loading ? 'Processing...' : 'Distribute Now'}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          <CardContent className="space-y-4 p-4">
+            {/* Post Title */}
+            <div className="bg-gradient-to-r from-fpYellow/10 to-orange-500/10 border border-fpYellow/20 rounded-lg p-4">
+              <h3 className="text-white font-bold text-xl leading-tight mb-3">{post.title}</h3>
+              
+              {/* Creator Profile */}
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">
+                    {post.creator.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
+                  <Badge className="bg-fpYellow text-black text-xs">Gold</Badge>
+                  <span className="text-xs text-gray-400">24.5K followers</span>
+                  <span className="text-xs text-green-400">2,340 FPT earned</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Custom Message */}
+            <div>
+              <label className="block text-gray-300 mb-1 font-medium text-sm">Customize your message</label>
+              <Textarea
+                value={customMessage}
+                onChange={(e) => setCustomMessage(e.target.value)}
+                className="bg-gray-800 border-gray-700 text-white min-h-[80px] text-sm"
+                placeholder="Write your share message..."
+              />
+              <div className="text-right text-gray-400 text-xs mt-1">
+                {customMessage.length}/280 characters
+              </div>
+            </div>
+
+            {/* Platform Selection */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <label className="block text-gray-300 font-medium text-sm">Select platforms to share</label>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    checked={distributeToAll}
+                    onCheckedChange={handleDistributeAll}
+                    className="border-gray-600"
+                  />
+                  <span className="text-gray-300 text-xs">Distribute to all</span>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-2">
+                {platforms.map((platform) => (
+                  <div
+                    key={platform.id}
+                    className={`flex items-center space-x-3 p-2 rounded-lg border-2 cursor-pointer transition-colors ${
+                      selectedPlatforms.includes(platform.id)
+                        ? 'border-fpYellow bg-fpYellow/10'
+                        : 'border-gray-700 bg-gray-800 hover:border-gray-600'
+                    }`}
+                    onClick={() => handlePlatformToggle(platform.id)}
+                  >
+                    <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-white text-xs`}>
+                      {platform.icon}
+                    </div>
+                    <span className="text-white font-medium text-sm">{platform.name}</span>
+                    {selectedPlatforms.includes(platform.id) && (
+                      <Check className="w-4 h-4 text-fpYellow ml-auto" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Earnings Preview */}
+            <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-green-400 font-semibold text-sm">Total Estimated Earnings</div>
+                  <div className="text-gray-300 text-xs">
+                    {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
+                  </div>
+                </div>
+                <div className="text-xl font-bold text-green-400">
+                  {calculateTotalEarnings()} FPT
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-2">
+              <Button variant="outline" onClick={onClose} className="flex-1 border-gray-600 text-gray-300" disabled={loading}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleShareAndEarn}
+                disabled={selectedPlatforms.length === 0 || loading}
+                className="flex-1 bg-fpYellow hover:bg-fpYellowDark text-black font-bold disabled:opacity-50"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                {loading ? 'Processing...' : 'Distribute Now'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

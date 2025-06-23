@@ -146,7 +146,7 @@
   }
 }
 
-/* Global 80% Desktop Scale with proper centering */
+/* Global 80% Desktop Scale with proper centering and full-width backgrounds */
 @media (min-width: 1024px) {
   .desktop-scale-wrapper {
     transform: scale(0.8);
@@ -158,8 +158,8 @@
   }
 }
 
-/* Ensure all page backgrounds extend edge-to-edge */
-.min-h-screen {
+/* Full-width background containers while keeping content centered */
+.full-width-bg {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
@@ -167,8 +167,35 @@
   padding-right: calc(50vw - 50%);
 }
 
-/* Content containers stay centered within 80% constraint */
-.max-w-\[1440px\] {
+/* Content containers stay centered within constraint */
+.content-container {
+  max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .content-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Ensure page backgrounds extend edge-to-edge */
+.page-background {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  min-height: 100vh;
+}
+
+/* Center modal positioning for Share & Earn */
+.modal-centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 60;
 }

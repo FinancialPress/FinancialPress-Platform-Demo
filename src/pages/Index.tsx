@@ -85,8 +85,8 @@ const Index = () => {
   ];
 
   const themeClasses = isDarkMode 
-    ? "min-h-screen bg-black"
-    : "min-h-screen bg-gray-50";
+    ? "page-background bg-black"
+    : "page-background bg-gray-50";
 
   // Don't show Header on Onboarding (screen 2)
   const showHeader = currentScreen !== 2;
