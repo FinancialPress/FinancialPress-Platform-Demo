@@ -79,13 +79,21 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
   return (
     <>
       {/* Blur Overlay - everything except focused element */}
-      <div className="fixed inset-0 z-40">
+      <div className="fixed inset-0 z-[9998]">
         <div className="absolute inset-0 backdrop-blur-sm bg-black bg-opacity-30" />
       </div>
       
-      {/* Tour Card - Fixed positioning next to left sidebar */}
-      <div className="fixed left-80 top-1/2 transform -translate-y-1/2 z-50 w-80">
-        <Card className={`${cardClasses} shadow-2xl`}>
+      {/* Tour Card - Fixed positioning with high z-index */}
+      <div 
+        className="fixed z-[9999] w-80"
+        style={{
+          left: '20rem', // 320px - positioned next to left sidebar
+          top: '50%',
+          transform: 'translateY(-50%)',
+          pointerEvents: 'auto'
+        }}
+      >
+        <Card className={`${cardClasses} shadow-2xl border-2`}>
           <CardContent className="p-6">
             <h3 className="text-lg font-bold mb-3">{stepContent.title}</h3>
             <p className={`text-sm mb-4 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -124,7 +132,7 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
         {`
           ${stepContent.selector} {
             position: relative;
-            z-index: 45;
+            z-index: 9997;
             filter: none !important;
             backdrop-filter: none !important;
           }
