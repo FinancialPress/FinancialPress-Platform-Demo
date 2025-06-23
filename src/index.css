@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -97,6 +98,7 @@
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden; /* Prevent horizontal scroll */
   }
 }
 
@@ -133,12 +135,15 @@
   }
 }
 
-/* Global 80% Desktop Scale */
+/* Global 80% Desktop Scale - Fixed to prevent horizontal scroll */
 @media (min-width: 1024px) {
   .desktop-scale-wrapper {
     transform: scale(0.8);
     transform-origin: top center;
     width: 125%; /* 1/0.8 = 1.25 to compensate for scaled width */
+    max-width: 100vw; /* Prevent overflow */
+    margin: 0 auto; /* Center horizontally */
     image-rendering: auto; /* Keep images crisp */
+    overflow-x: hidden; /* Prevent horizontal scroll */
   }
 }
