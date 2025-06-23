@@ -71,53 +71,22 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
 
   const engagement = generateEngagement();
 
-  // Harmonize data shapes with null guards
-  const getPostTitle = () => {
-    return post?.title || post?.content || 'Untitled Post';
-  };
-
-  const getPostBody = () => {
-    return post?.body || post?.description || '';
-  };
-
-  const getPostImageUrl = () => {
-    const imageUrl = post?.image_url || post?.image;
-    if (imageUrl) return imageUrl;
-    return getPlaceholderImage(post?.section || 'default');
-  };
-
-  const getPostTags = () => {
-    const tags = post?.tags;
-    if (!tags) return [];
-    if (Array.isArray(tags)) return tags;
-    return [];
-  };
-
-  const getPostExternalUrl = () => {
-    return post?.external_url || null;
-  };
-
-  const getPostSection = () => {
-    return post?.section || 'general';
-  };
-
-  const getPostType = () => {
-    return post?.type || 'create_earn';
-  };
-
-  const getPostCreatedAt = () => {
-    return post?.created_at || new Date().toISOString();
-  };
-
-  const getPostId = () => {
-    return post?.id || 'unknown';
-  };
+  // Safe data extraction with proper fallbacks using correct Post interface properties
+  const title = post?.title || '(untitled)';
+  const body = post?.body || '';
+  const imageUrl = post?.image_url || getPlaceholderImage(post?.section || 'default');
+  const tags = Array.isArray(post?.tags) ? post.tags : [];
+  const externalUrl = post?.external_url || null;
+  const section = post?.section || 'general';
+  const type = post?.type || 'create_earn';
+  const createdAt = post?.created_at || new Date().toISOString();
+  const postId = post?.id || 'unknown';
 
   const handleShareAndEarn = async () => {
     if (mockEngagement.isLiveUser) {
       try {
-        await mockEngagement.trackEngagement('share', getPostId());
-        await mockEngagement.triggerReward('share', getPostId());
+        await mockEngagement.trackEngagement('share', postId);
+        await mockEngagement.triggerReward('share', postId);
       } catch (error) {
         console.error('Error in engagement tracking:', error);
       }
@@ -145,17 +114,6 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
     console.log(`Subscribed`, { postId });
     setShowSupportModal(false);
   };
-
-  // Safe variables with harmonized data
-  const title = getPostTitle();
-  const body = getPostBody();
-  const imageUrl = getPostImageUrl();
-  const tags = getPostTags();
-  const externalUrl = getPostExternalUrl();
-  const section = getPostSection();
-  const type = getPostType();
-  const createdAt = getPostCreatedAt();
-  const postId = getPostId();
 
   return (
     <>
@@ -217,7 +175,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
               alt={title} 
               className="w-full h-48 object-cover rounded-lg"
               onError={(e) => {
-                e.currentTarget.src = getPlaceholderImage();
+                e.currentTarget.src = getPlaceholderImage(section);
               }}
             />
           </div>
