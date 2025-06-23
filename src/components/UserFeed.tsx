@@ -195,7 +195,8 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black'}`}>
         <section className="max-w-[1440px] mx-auto px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-1">
+            {/* Ensure sidebar space is allocated during loading */}
+            <div className="lg:col-span-1 block">
               <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-4 rounded-lg`}>
                 <div className="animate-pulse space-y-4">
                   <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
@@ -206,7 +207,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             <div className="lg:col-span-2">
               <FeedLoadingSkeleton isDarkMode={isDarkMode} count={3} />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 block">
               <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-4 rounded-lg`}>
                 <div className="animate-pulse space-y-4">
                   <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
@@ -285,10 +286,10 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   return (
     <div className={`min-h-screen ${bgClasses}`}>
       <section className="max-w-[1440px] mx-auto px-8 py-8">
-        {/* Main grid with sidebar */}
+        {/* Main grid with sidebar - Ensure sidebar is always visible */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - 1/4 width */}
-          <div className="lg:col-span-1" data-tour="start-creating">
+          {/* Left Sidebar - Always visible, 1/4 width */}
+          <div className="lg:col-span-1 block" data-tour="start-creating">
             <FeedSidebar isDarkMode={isDarkMode} onNavigate={onNavigate} />
           </div>
 
@@ -337,8 +338,8 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             </div>
           </div>
 
-          {/* Right Sidebar - 1/4 width */}
-          <div className="lg:col-span-1 space-y-6">
+          {/* Right Sidebar - Always visible, 1/4 width */}
+          <div className="lg:col-span-1 space-y-6 block">
             {/* Embedded Earnings Tracker - Now uses centralized balance */}
             <div data-tour="earnings-tracker">
               <EarningsTracker

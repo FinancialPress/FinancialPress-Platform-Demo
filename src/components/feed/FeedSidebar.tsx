@@ -59,7 +59,7 @@ const FeedSidebar = ({ isDarkMode = true, onNavigate }: FeedSidebarProps) => {
     : "hover:bg-gray-50";
 
   return (
-    <div className="w-64 space-y-6 sticky top-8">
+    <div className="w-64 space-y-6 sticky top-8 block">
       {/* Create Content CTA - Moved to top */}
       <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 border-0">
         <CardContent className="p-4 text-center">
