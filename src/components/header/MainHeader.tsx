@@ -67,7 +67,7 @@ const MainHeader = ({
 
   return (
     <header className={mainHeaderClasses}>
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-1">
+      <div className="fp-container px-4 sm:px-8 py-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4 sm:space-x-8">
             <Button
