@@ -149,10 +149,10 @@ export const usePosts = () => {
       const postResult = data as any;
       const postId = postResult?.id;
 
-      // Award FPT tokens for publishing content - using "content_creation" as transaction type
+      // Award FPT tokens for publishing content
       const tokenSuccess = await addTokens(
         5,
-        'content_creation',
+        'earn_share',
         'Content creation reward',
         {
           post_id: postId,
@@ -218,10 +218,10 @@ export const usePosts = () => {
       const postResult = data as any;
       const postId = postResult?.id;
 
-      // Award FPT tokens for sharing insight - using "content_creation" as transaction type
+      // Award FPT tokens for sharing insight
       const tokenSuccess = await addTokens(
         5,
-        'content_creation',
+        'earn_share',
         'Insight sharing reward',
         {
           post_id: postId,

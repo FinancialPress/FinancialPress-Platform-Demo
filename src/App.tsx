@@ -11,7 +11,6 @@ import Index from "./pages/Index";
 import ProfilePage from "./pages/ProfilePage";
 import ContentCreatorPage from "./pages/ContentCreatorPage";
 import UserFeedPage from "./pages/UserFeedPage";
-import DashboardPage from "./pages/DashboardPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,7 +30,6 @@ const App = () => (
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/create" element={<ContentCreatorPage />} />
                   <Route path="/feed" element={<UserFeedPage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
                   <Route path="/auth" element={<Navigate to="/" replace />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

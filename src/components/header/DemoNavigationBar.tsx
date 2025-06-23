@@ -23,12 +23,7 @@ const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps
     // For UserFeed, navigate to the /feed route using React Router
     if (screen === 3) {
       navigate('/feed');
-    } 
-    // For Dashboard, navigate to the /dashboard route using React Router
-    else if (screen === 4) {
-      navigate('/dashboard');
-    }
-    else {
+    } else {
       onNavigate(screen);
     }
   };
