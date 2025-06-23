@@ -85,14 +85,14 @@ const Index = () => {
   ];
 
   const themeClasses = isDarkMode 
-    ? "page-background bg-black"
-    : "page-background bg-gray-50";
+    ? "bg-black"
+    : "bg-gray-50";
 
   // Don't show Header on Onboarding (screen 2)
   const showHeader = currentScreen !== 2;
 
   return (
-    <div className={`${themeClasses} w-full overflow-x-hidden`}>
+    <div className={`page-background ${themeClasses} w-full overflow-x-hidden`}>
       {showHeader && (
         <Header 
           onNavigate={handleNavigate} 
@@ -103,7 +103,7 @@ const Index = () => {
           isLoggedIn={!!user}
         />
       )}
-      <div className="w-full">
+      <div className="page-content">
         {screens[currentScreen]}
       </div>
     </div>

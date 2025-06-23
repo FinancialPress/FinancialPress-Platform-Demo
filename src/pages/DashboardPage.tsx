@@ -17,11 +17,11 @@ const DashboardPage = () => {
   };
 
   const themeClasses = isDarkMode 
-    ? "page-background bg-black"
-    : "page-background bg-gray-50";
+    ? "bg-black"
+    : "bg-gray-50";
 
   return (
-    <div className={`${themeClasses} w-full overflow-x-hidden`}>
+    <div className={`page-background ${themeClasses} w-full overflow-x-hidden`}>
       <Header 
         onNavigate={handleNavigate} 
         currentScreen={4}
@@ -29,7 +29,9 @@ const DashboardPage = () => {
         userProfile={profile}
         isLoggedIn={!!user}
       />
-      <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+      <div className="page-content">
+        <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+      </div>
     </div>
   );
 };

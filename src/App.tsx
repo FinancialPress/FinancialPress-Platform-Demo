@@ -32,6 +32,8 @@ const App = () => (
                   <Route path="/create" element={<ContentCreatorPage />} />
                   <Route path="/feed" element={<UserFeedPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/signup" element={<Index />} />
+                  <Route path="/stock-chart" element={<Index />} />
                   <Route path="/auth" element={<Navigate to="/" replace />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
