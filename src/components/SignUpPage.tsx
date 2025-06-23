@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -23,12 +24,14 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   const [referralCode, setReferralCode] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { signUp } = useAuth();
   const { toast } = useToast();
 
   const handleDemoFlow = (provider: string) => {
-    // Set user type to demo and navigate to onboarding
+    // Set user type to demo and navigate to onboarding using React Router
     setUserType?.('demo');
+    // Use onNavigate for compatibility with Index.tsx, but could also use navigate directly
     onNavigate?.(2, undefined, 'demo');
   };
 

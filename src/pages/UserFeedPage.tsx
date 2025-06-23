@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
@@ -53,9 +53,14 @@ class UserFeedErrorBoundary extends React.Component<
 
 const UserFeedPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const { profile } = useProfile();
+
+  // Check for onboarding state from navigation
+  const locationState = location.state as { showOnboarding?: boolean; fromOnboarding?: boolean } | null;
+  const showOnboarding = locationState?.showOnboarding || false;
 
   const handleNavigate = (screen: number, symbol?: string) => {
     switch (screen) {
@@ -98,7 +103,7 @@ const UserFeedPage = () => {
               <UserFeed 
                 onNavigate={handleNavigate}
                 isDarkMode={isDarkMode}
-                showOnboarding={false}
+                showOnboarding={showOnboarding}
               />
             </UserFeedErrorBoundary>
           </div>
