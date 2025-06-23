@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -131,5 +130,15 @@
 @layer utilities {
   .bg-gradient-radial {
     background-image: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+}
+
+/* Global 80% Desktop Scale */
+@media (min-width: 1024px) {
+  .desktop-scale-wrapper {
+    transform: scale(0.8);
+    transform-origin: top center;
+    width: 125%; /* 1/0.8 = 1.25 to compensate for scaled width */
+    image-rendering: auto; /* Keep images crisp */
   }
 }
