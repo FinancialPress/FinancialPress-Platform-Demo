@@ -146,16 +146,15 @@
   }
 }
 
-/* Global 80% Desktop Scale with edge-to-edge backgrounds */
+/* Global 80% Desktop Scale with proper centering */
 @media (min-width: 1024px) {
   .desktop-scale-wrapper {
     transform: scale(0.8);
     transform-origin: top center;
-    width: 125%; /* 1/0.8 = 1.25 to compensate for scaled width */
-    max-width: none; /* Allow full expansion for edge-to-edge backgrounds */
+    width: 100%;
     margin: 0 auto;
     image-rendering: auto;
-    overflow-x: visible; /* Allow backgrounds to extend beyond content */
+    overflow-x: hidden;
   }
 }
 
