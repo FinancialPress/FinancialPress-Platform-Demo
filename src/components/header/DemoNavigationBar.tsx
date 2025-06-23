@@ -38,7 +38,7 @@ const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps
                 key={screen}
                 onClick={() => handleNavigation(screen)}
                 className={`transition-colors whitespace-nowrap 
-                  text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 
+                  text-black hover:text-gray-700 
                   ${currentScreen === screen ? 'font-bold underline' : ''}`}
               >
                 {label}
