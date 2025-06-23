@@ -17,25 +17,19 @@ const DashboardPage = () => {
   };
 
   const themeClasses = isDarkMode 
-    ? "bg-black"
-    : "bg-gray-50";
+    ? "page-background bg-black"
+    : "page-background bg-gray-50";
 
   return (
-    <div className="desktop-scale-wrapper">
-      <div className={`page-background ${themeClasses}`}>
-        <Header 
-          onNavigate={handleNavigate} 
-          currentScreen={4}
-          isDarkMode={isDarkMode}
-          userProfile={profile}
-          isLoggedIn={!!user}
-        />
-        <div className="desktop-scale-content">
-          <div className="page-content">
-            <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
-          </div>
-        </div>
-      </div>
+    <div className={`${themeClasses} w-full overflow-x-hidden`}>
+      <Header 
+        onNavigate={handleNavigate} 
+        currentScreen={4}
+        isDarkMode={isDarkMode}
+        userProfile={profile}
+        isLoggedIn={!!user}
+      />
+      <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
     </div>
   );
 };

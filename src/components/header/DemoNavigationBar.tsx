@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface DemoNavigationBarProps {
   currentScreen: number;
@@ -9,56 +9,42 @@ interface DemoNavigationBarProps {
 
 const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
   
   const navigationItems = [
-    { screen: 0, label: 'Landing Page', route: '/' },
-    { screen: 1, label: 'Sign Up', route: '/signup' },
-    { screen: 3, label: 'User Feed', route: '/feed' },
-    { screen: 4, label: 'Dashboard', route: '/dashboard' },
-    { screen: 5, label: 'Content Creator', route: '/create' },
-    { screen: 6, label: 'Stock Chart', route: '/stock-chart' },
+    { screen: 0, label: 'Landing Page' },
+    { screen: 1, label: 'Sign Up' },
+    { screen: 3, label: 'User Feed' },
+    { screen: 4, label: 'Dashboard' },
+    { screen: 5, label: 'Content Creator' },
+    { screen: 6, label: 'Stock Chart' },
   ];
 
-  const handleNavigation = (screen: number, route: string) => {
-    // Use React Router navigation for all routes
-    if (route === '/') {
-      navigate('/');
-    } else if (route === '/feed') {
+  const handleNavigation = (screen: number) => {
+    // For UserFeed, navigate to the /feed route using React Router
+    if (screen === 3) {
       navigate('/feed');
-    } else if (route === '/dashboard') {
+    } 
+    // For Dashboard, navigate to the /dashboard route using React Router
+    else if (screen === 4) {
       navigate('/dashboard');
-    } else if (route === '/create') {
-      navigate('/create');
-    } else if (route === '/signup') {
-      // For signup, use the onNavigate prop to show the signup screen
-      onNavigate(1);
-    } else if (route === '/stock-chart') {
-      // For stock chart, use the onNavigate prop
-      onNavigate(6);
-    } else {
-      navigate(route);
+    }
+    else {
+      onNavigate(screen);
     }
   };
 
-  const isCurrentRoute = (route: string) => {
-    if (route === '/' && location.pathname === '/') return true;
-    if (route !== '/' && location.pathname === route) return true;
-    return false;
-  };
-
   return (
-    <div className="full-width-background bg-fpYellow border-b border-fpYellow hidden md:block">
-      <div className="content-container py-2">
+    <div className="w-full bg-fpYellow border-b border-fpYellow hidden md:block">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6 text-sm overflow-x-auto">
-            {navigationItems.map(({ screen, label, route }) => (
+            {navigationItems.map(({ screen, label }) => (
               <button
                 key={screen}
-                onClick={() => handleNavigation(screen, route)}
+                onClick={() => handleNavigation(screen)}
                 className={`transition-colors whitespace-nowrap 
                   text-black hover:text-gray-700 
-                  ${isCurrentRoute(route) ? 'font-bold underline' : ''}`}
+                  ${currentScreen === screen ? 'font-bold underline' : ''}`}
               >
                 {label}
               </button>

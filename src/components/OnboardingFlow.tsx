@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Check, PenTool, Share2, X } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import SocialChannelConnection from './onboarding/SocialChannelConnection';
@@ -18,7 +17,6 @@ interface OnboardingFlowProps {
 
 const OnboardingFlow = ({ userRole = 'creator', userType, onComplete, onLandingPage }: OnboardingFlowProps) => {
   const { isDarkMode } = useTheme();
-  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedCreators, setSelectedCreators] = useState<string[]>([]);
@@ -40,11 +38,8 @@ const OnboardingFlow = ({ userRole = 'creator', userType, onComplete, onLandingP
   };
 
   const handleComplete = () => {
-    // Navigate to feed page with onboarding completion state
-    navigate('/feed', { 
-      state: { showOnboarding: true, fromOnboarding: true },
-      replace: true 
-    });
+    // Navigate directly to user feed (screen 3) with onboarding flag
+    onComplete?.();
   };
 
   const renderCurrentStep = () => {

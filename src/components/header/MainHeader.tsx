@@ -41,8 +41,8 @@ const MainHeader = ({
   const { fptBalance, role } = userData;
 
   const mainHeaderClasses = isDarkMode
-    ? 'bg-black border-b border-gray-800'
-    : 'bg-white border-b border-gray-200';
+    ? 'w-full bg-black border-b border-gray-800'
+    : 'w-full bg-white border-b border-gray-200';
 
   const getRoleBadge = (userRole: string) => {
     switch (userRole) {
@@ -66,8 +66,8 @@ const MainHeader = ({
   };
 
   return (
-    <header className={`full-width-background ${mainHeaderClasses}`}>
-      <div className="content-container py-1">
+    <header className={mainHeaderClasses}>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4 sm:space-x-8">
             <Button

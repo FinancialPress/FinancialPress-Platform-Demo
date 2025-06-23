@@ -195,8 +195,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black'}`}>
         <section className="max-w-[1440px] mx-auto px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Ensure sidebar space is allocated during loading */}
-            <div className="lg:col-span-1 block">
+            <div className="lg:col-span-1">
               <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-4 rounded-lg`}>
                 <div className="animate-pulse space-y-4">
                   <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
@@ -207,7 +206,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             <div className="lg:col-span-2">
               <FeedLoadingSkeleton isDarkMode={isDarkMode} count={3} />
             </div>
-            <div className="lg:col-span-1 block">
+            <div className="lg:col-span-1">
               <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-4 rounded-lg`}>
                 <div className="animate-pulse space-y-4">
                   <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
@@ -228,24 +227,18 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   const handleTourComplete = () => {
     setShowTour(false);
-    // Restore body scroll
-    document.body.style.overflow = '';
-    document.body.classList.remove('onboarding-active');
     // Stop the flashing after tour completes
     setTimeout(() => {
       setEarningsAmount('1.0');
-    }, 1000);
+    }, 5000);
   };
 
   const handleSkipTour = () => {
     setShowTour(false);
-    // Restore body scroll
-    document.body.style.overflow = '';
-    document.body.classList.remove('onboarding-active');
     // Stop the flashing after tour is skipped
     setTimeout(() => {
       setEarningsAmount('1.0');
-    }, 1000);
+    }, 5000);
   };
 
   const handleEarningsUpdate = () => {
@@ -292,10 +285,10 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   return (
     <div className={`min-h-screen ${bgClasses}`}>
       <section className="max-w-[1440px] mx-auto px-8 py-8">
-        {/* Main grid with sidebar - Ensure sidebar is always visible */}
+        {/* Main grid with sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - Always visible, 1/4 width */}
-          <div className="lg:col-span-1 block" data-tour="start-creating">
+          {/* Left Sidebar - 1/4 width */}
+          <div className="lg:col-span-1" data-tour="start-creating">
             <FeedSidebar isDarkMode={isDarkMode} onNavigate={onNavigate} />
           </div>
 
@@ -308,27 +301,22 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             {posts.length > 0 && (
               <div className="space-y-6">
                 <h2 className={`${textClasses} text-xl font-semibold`}>Latest Posts</h2>
-                <div className="user-post-card">
-                  <PostsList isDarkMode={isDarkMode} />
-                </div>
+                <PostsList isDarkMode={isDarkMode} />
               </div>
             )}
 
             {/* Mock Feed Posts */}
             <div className="space-y-6">
               <h2 className={`${textClasses} text-xl font-semibold`}>Community Feed</h2>
-              <div className="user-post-card">
-                {feedItems.map((post) => (
-                  <div key={post.id} className="mb-6">
-                    <FeedPost
-                      post={post}
-                      isDarkMode={isDarkMode}
-                      onShare={() => handleShare(post)}
-                      onTip={() => handleTip(post)}
-                    />
-                  </div>
-                ))}
-              </div>
+              {feedItems.map((post) => (
+                <FeedPost
+                  key={post.id}
+                  post={post}
+                  isDarkMode={isDarkMode}
+                  onShare={() => handleShare(post)}
+                  onTip={() => handleTip(post)}
+                />
+              ))}
               
               {/* Loading Skeletons */}
               {loading && (
@@ -349,10 +337,10 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             </div>
           </div>
 
-          {/* Right Sidebar - Always visible, 1/4 width */}
-          <div className="lg:col-span-1 space-y-6 block">
+          {/* Right Sidebar - 1/4 width */}
+          <div className="lg:col-span-1 space-y-6">
             {/* Embedded Earnings Tracker - Now uses centralized balance */}
-            <div data-tour="earnings-tracker" className="earnings-summary">
+            <div data-tour="earnings-tracker">
               <EarningsTracker
                 isVisible={true}
                 onClose={() => {}}

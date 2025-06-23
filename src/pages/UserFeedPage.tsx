@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
@@ -53,14 +53,9 @@ class UserFeedErrorBoundary extends React.Component<
 
 const UserFeedPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const { profile } = useProfile();
-
-  // Check for onboarding state from navigation
-  const locationState = location.state as { showOnboarding?: boolean; fromOnboarding?: boolean } | null;
-  const showOnboarding = locationState?.showOnboarding || false;
 
   const handleNavigate = (screen: number, symbol?: string) => {
     switch (screen) {
@@ -85,30 +80,24 @@ const UserFeedPage = () => {
     }
   };
 
-  const bgClasses = isDarkMode ? "bg-black text-white" : "bg-gray-50 text-black";
+  const bgClasses = isDarkMode ? "min-h-screen bg-black text-white" : "min-h-screen bg-gray-50 text-black";
 
   return (
-    <div className="desktop-scale-wrapper">
-      <div className={`page-background ${bgClasses} min-h-screen`}>
-        <Header
+    <div className={bgClasses}>
+      <Header
+        onNavigate={handleNavigate}
+        currentScreen={3}
+        isLoggedIn={!!user}
+        isDarkMode={isDarkMode}
+        userProfile={profile}
+      />
+      <UserFeedErrorBoundary isDarkMode={isDarkMode}>
+        <UserFeed 
           onNavigate={handleNavigate}
-          currentScreen={3}
-          isLoggedIn={!!user}
           isDarkMode={isDarkMode}
-          userProfile={profile}
+          showOnboarding={false}
         />
-        <div className="desktop-scale-content">
-          <div className="page-content">
-            <UserFeedErrorBoundary isDarkMode={isDarkMode}>
-              <UserFeed 
-                onNavigate={handleNavigate}
-                isDarkMode={isDarkMode}
-                showOnboarding={showOnboarding}
-              />
-            </UserFeedErrorBoundary>
-          </div>
-        </div>
-      </div>
+      </UserFeedErrorBoundary>
     </div>
   );
 };
