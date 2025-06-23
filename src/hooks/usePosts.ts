@@ -145,13 +145,17 @@ export const usePosts = () => {
 
       console.log('Post created successfully:', data);
 
+      // Safely extract the post data and id
+      const postResult = data as any;
+      const postId = postResult?.id;
+
       // Award FPT tokens for publishing content
       const tokenSuccess = await addTokens(
         5,
         'earn_share',
         'Content creation reward',
         {
-          post_id: data.id,
+          post_id: postId,
           post_type: 'create_earn',
           title: postData.title
         }
@@ -168,7 +172,7 @@ export const usePosts = () => {
         description: 'Your Create & Earn post has been published!'
       });
       
-      return normalizePost(data);
+      return normalizePost(postResult);
     } catch (err) {
       console.error('Error creating earn post:', err);
       toast({
@@ -210,13 +214,17 @@ export const usePosts = () => {
 
       console.log('Insight post created successfully:', data);
 
+      // Safely extract the post data and id
+      const postResult = data as any;
+      const postId = postResult?.id;
+
       // Award FPT tokens for sharing insight
       const tokenSuccess = await addTokens(
         5,
         'earn_share',
         'Insight sharing reward',
         {
-          post_id: data.id,
+          post_id: postId,
           post_type: 'share_insight',
           title: postData.title,
           external_url: postData.external_url
@@ -234,7 +242,7 @@ export const usePosts = () => {
         description: 'Your insight has been shared!'
       });
       
-      return normalizePost(data);
+      return normalizePost(postResult);
     } catch (err) {
       console.error('Error sharing insight:', err);
       toast({
