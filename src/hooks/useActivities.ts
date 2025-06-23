@@ -26,7 +26,8 @@ export const useActivities = () => {
         .from('activities')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(50);
 
       if (error) throw error;
       setActivities(data || []);
@@ -52,8 +53,15 @@ export const useActivities = () => {
             table: 'activities',
             filter: `user_id=eq.${user.id}`
           },
-          () => {
-            fetchActivities();
+          (payload) => {
+            if (payload.new) {
+              setActivities(prev => {
+                if (prev.find(a => a.id === payload.new.id)) return prev; // dedupe
+                return [payload.new as Activity, ...prev];
+              });
+            } else {
+              fetchActivities();
+            }
           }
         )
         .subscribe();
