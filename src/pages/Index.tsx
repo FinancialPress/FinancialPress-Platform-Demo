@@ -92,19 +92,23 @@ const Index = () => {
   const showHeader = currentScreen !== 2;
 
   return (
-    <div className={`page-background ${themeClasses} w-full overflow-x-hidden`}>
-      {showHeader && (
-        <Header 
-          onNavigate={handleNavigate} 
-          currentScreen={currentScreen}
-          isDarkMode={isDarkMode}
-          onToggleDarkMode={toggleTheme}
-          userProfile={profile}
-          isLoggedIn={!!user}
-        />
-      )}
-      <div className="page-content">
-        {screens[currentScreen]}
+    <div className="desktop-scale-wrapper">
+      <div className={`page-background ${themeClasses}`}>
+        {showHeader && (
+          <Header 
+            onNavigate={handleNavigate} 
+            currentScreen={currentScreen}
+            isDarkMode={isDarkMode}
+            onToggleDarkMode={toggleTheme}
+            userProfile={profile}
+            isLoggedIn={!!user}
+          />
+        )}
+        <div className="desktop-scale-content">
+          <div className="page-content">
+            {screens[currentScreen]}
+          </div>
+        </div>
       </div>
     </div>
   );

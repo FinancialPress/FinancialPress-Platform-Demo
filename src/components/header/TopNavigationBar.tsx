@@ -18,7 +18,7 @@ const TopNavigationBar = ({ isDarkMode, onToggleDarkMode }: TopNavigationBarProp
     : 'text-gray-600 hover:text-gray-900';
 
   return (
-    <div className={`full-width-bg ${topNavClasses} hidden sm:block`}>
+    <div className={`full-width-background ${topNavClasses} hidden sm:block`}>
       <div className="content-container py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8 text-sm">

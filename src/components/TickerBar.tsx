@@ -78,7 +78,7 @@ const TickerBar = ({ isDarkMode = true }: TickerBarProps) => {
   const duplicatedData = [...tickerData, ...tickerData];
 
   return (
-    <div className="full-width-bg sticky top-0 z-50">
+    <div className="full-width-background sticky top-0 z-50">
       <div className={`w-full h-14 ${backgroundClasses} border-b overflow-hidden`}>
         <div className="flex items-center h-full">
           <div className="animate-ticker-scroll">

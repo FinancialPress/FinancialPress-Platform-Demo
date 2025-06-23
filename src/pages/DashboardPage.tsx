@@ -21,16 +21,20 @@ const DashboardPage = () => {
     : "bg-gray-50";
 
   return (
-    <div className={`page-background ${themeClasses} w-full overflow-x-hidden`}>
-      <Header 
-        onNavigate={handleNavigate} 
-        currentScreen={4}
-        isDarkMode={isDarkMode}
-        userProfile={profile}
-        isLoggedIn={!!user}
-      />
-      <div className="page-content">
-        <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+    <div className="desktop-scale-wrapper">
+      <div className={`page-background ${themeClasses}`}>
+        <Header 
+          onNavigate={handleNavigate} 
+          currentScreen={4}
+          isDarkMode={isDarkMode}
+          userProfile={profile}
+          isLoggedIn={!!user}
+        />
+        <div className="desktop-scale-content">
+          <div className="page-content">
+            <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+          </div>
+        </div>
       </div>
     </div>
   );

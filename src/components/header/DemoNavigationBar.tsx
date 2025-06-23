@@ -48,7 +48,7 @@ const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps
   };
 
   return (
-    <div className="full-width-bg bg-fpYellow border-b border-fpYellow hidden md:block">
+    <div className="full-width-background bg-fpYellow border-b border-fpYellow hidden md:block">
       <div className="content-container py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6 text-sm overflow-x-auto">

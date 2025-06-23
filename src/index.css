@@ -146,23 +146,31 @@
   }
 }
 
-/* Global 80% Desktop Scale with proper centering and full-width backgrounds */
+/* Root container for scaling */
+.desktop-scale-wrapper {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Desktop scaling applied only to content, not backgrounds */
 @media (min-width: 1024px) {
-  .desktop-scale-wrapper {
+  .desktop-scale-content {
     transform: scale(0.8);
     transform-origin: top center;
-    width: 100%;
-    margin: 0 auto;
     image-rendering: auto;
-    overflow-x: hidden;
   }
 }
 
-/* Edge-to-edge background containers */
-.full-width-bg {
+/* Full-width background system */
+.full-width-background {
+  position: relative;
   width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 /* Content containers stay centered within constraint */
@@ -172,6 +180,7 @@
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+  width: 100%;
 }
 
 @media (min-width: 640px) {
@@ -183,18 +192,30 @@
 
 /* Page backgrounds extend edge-to-edge */
 .page-background {
+  position: relative;
   width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   min-height: 100vh;
 }
 
-/* Constrained content wrapper for 80% width */
+/* Constrained content wrapper for centered content */
 .page-content {
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
   position: relative;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 /* Center modal positioning for Share & Earn */

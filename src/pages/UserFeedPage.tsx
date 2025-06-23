@@ -80,24 +80,30 @@ const UserFeedPage = () => {
     }
   };
 
-  const bgClasses = isDarkMode ? "min-h-screen bg-black text-white" : "min-h-screen bg-gray-50 text-black";
+  const bgClasses = isDarkMode ? "bg-black text-white" : "bg-gray-50 text-black";
 
   return (
-    <div className={bgClasses}>
-      <Header
-        onNavigate={handleNavigate}
-        currentScreen={3}
-        isLoggedIn={!!user}
-        isDarkMode={isDarkMode}
-        userProfile={profile}
-      />
-      <UserFeedErrorBoundary isDarkMode={isDarkMode}>
-        <UserFeed 
+    <div className="desktop-scale-wrapper">
+      <div className={`page-background ${bgClasses} min-h-screen`}>
+        <Header
           onNavigate={handleNavigate}
+          currentScreen={3}
+          isLoggedIn={!!user}
           isDarkMode={isDarkMode}
-          showOnboarding={false}
+          userProfile={profile}
         />
-      </UserFeedErrorBoundary>
+        <div className="desktop-scale-content">
+          <div className="page-content">
+            <UserFeedErrorBoundary isDarkMode={isDarkMode}>
+              <UserFeed 
+                onNavigate={handleNavigate}
+                isDarkMode={isDarkMode}
+                showOnboarding={false}
+              />
+            </UserFeedErrorBoundary>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
