@@ -30,7 +30,7 @@ const DemoNavigationBar = ({ currentScreen, onNavigate }: DemoNavigationBarProps
 
   return (
     <div className="w-full bg-fpYellow border-b border-fpYellow hidden md:block">
-      <div className="fp-container px-4 sm:px-8 py-2">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6 text-sm overflow-x-auto">
             {navigationItems.map(({ screen, label }) => (

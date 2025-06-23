@@ -14,12 +14,12 @@ const TopNavigationBar = ({ isDarkMode, onToggleDarkMode }: TopNavigationBarProp
     : 'w-full bg-gray-100 border-b border-gray-300';
 
   const topNavTextClasses = isDarkMode
-    ? 'text-gray-400 hover:text-gray-200'
-    : 'text-gray-600 hover:text-gray-800';
+    ? 'text-gray-300 hover:text-white'
+    : 'text-gray-600 hover:text-gray-900';
 
   return (
     <div className={`${topNavClasses} hidden sm:block`}>
-      <div className="fp-container px-4 sm:px-8 py-2">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8 text-sm">
             <a href="#" className={`${topNavTextClasses} transition-colors`}>

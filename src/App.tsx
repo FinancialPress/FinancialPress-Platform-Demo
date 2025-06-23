@@ -23,8 +23,8 @@ const App = () => (
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
-              <div className="fp-container">
+            <div className="desktop-scale-wrapper">
+              <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/profile" element={<ProfilePage />} />
@@ -34,8 +34,8 @@ const App = () => (
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </div>
-            </BrowserRouter>
+              </BrowserRouter>
+            </div>
           </TooltipProvider>
         </BalanceProvider>
       </AuthProvider>
