@@ -83,13 +83,13 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
         <div className="absolute inset-0 backdrop-blur-sm bg-black bg-opacity-30" />
       </div>
       
-      {/* Tour Card - Fixed positioning with high z-index */}
+      {/* Tour Card - Centered positioning */}
       <div 
         className="fixed z-[9999] w-80"
         style={{
-          left: '20rem', // 320px - positioned next to left sidebar
+          left: '50%',
           top: '50%',
-          transform: 'translateY(-50%)',
+          transform: 'translateX(-50%) translateY(-50%)',
           pointerEvents: 'auto'
         }}
       >
