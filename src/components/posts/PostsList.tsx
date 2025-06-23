@@ -43,16 +43,9 @@ const PostsList = ({ isDarkMode }: PostsListProps) => {
 
   return (
     <div className="space-y-6">
-      {posts.map((post) => {
-        try {
-          return (
-            <PostItem key={post.id} post={post} isDarkMode={isDarkMode} />
-          );
-        } catch (e) {
-          console.error('Bad post', e, post);
-          return null;
-        }
-      })}
+      {posts.map((post) => (
+        <PostItem key={post.id} post={post} isDarkMode={isDarkMode} />
+      ))}
     </div>
   );
 };
