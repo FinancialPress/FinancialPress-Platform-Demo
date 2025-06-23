@@ -55,13 +55,19 @@ export const useFPTTokens = () => {
       toast.error('Invalid token amount');
       return false;
     }
+
+    // Fix the transaction type to match database constraints
+    let validTransactionType = transactionType;
+    if (transactionType === 'earn_share') {
+      validTransactionType = 'content_creation';
+    }
     
     setLoading(true);
     try {
       const { data, error } = await supabase.rpc('add_fpt_tokens', {
         target_user_id: user.id,
         token_amount: amount,
-        transaction_type: transactionType,
+        transaction_type: validTransactionType,
         description: description || null,
         metadata: metadata || null
       });
