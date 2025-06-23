@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -41,6 +41,7 @@ export const usePosts = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
+  const postsChannelRef = useRef<any>(null);
 
   const fetchPosts = async (section?: 'stock' | 'crypto') => {
     try {
@@ -167,37 +168,46 @@ export const usePosts = () => {
   useEffect(() => {
     fetchPosts();
 
-    // Subscribe to realtime changes with proper error handling
-    const channel = supabase
-      .channel('posts_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'posts'
-        },
-        (payload) => {
-          console.log('New post received:', payload);
-          if (payload.new) {
-            const newPost = {
-              ...payload.new,
-              type: payload.new.type as 'create_earn' | 'share_insight',
-              tags: Array.isArray(payload.new.tags) ? payload.new.tags : [],
-              body: payload.new.body || '',
-              image_url: payload.new.image_url || null,
-              external_url: payload.new.external_url || null,
-              section: payload.new.section || null
-            } as Post;
-            
-            setPosts(prev => [newPost, ...prev]);
+    // Only create channel if it doesn't exist
+    if (!postsChannelRef.current) {
+      postsChannelRef.current = supabase
+        .channel('posts_changes')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'posts'
+          },
+          (payload) => {
+            console.log('New post received:', payload);
+            if (payload.new) {
+              const newPost = {
+                ...payload.new,
+                type: payload.new.type as 'create_earn' | 'share_insight',
+                tags: Array.isArray(payload.new.tags) ? payload.new.tags : [],
+                body: payload.new.body || '',
+                image_url: payload.new.image_url || null,
+                external_url: payload.new.external_url || null,
+                section: payload.new.section || null
+              } as Post;
+              
+              setPosts(prev => [newPost, ...prev]);
+            }
           }
-        }
-      )
-      .subscribe();
+        );
+
+      // Only subscribe if not already joined
+      if (postsChannelRef.current.state !== 'joined') {
+        postsChannelRef.current.subscribe();
+      }
+    }
 
     return () => {
-      supabase.removeChannel(channel);
+      if (postsChannelRef.current) {
+        supabase.removeChannel(postsChannelRef.current);
+        postsChannelRef.current = null;
+      }
     };
   }, []);
 
