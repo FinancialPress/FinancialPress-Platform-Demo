@@ -96,9 +96,16 @@
     @apply border-border;
   }
 
+  html {
+    overflow-x: hidden; /* Prevent horizontal scroll on html */
+  }
+
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden; /* Prevent horizontal scroll */
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    width: 100vw; /* Ensure full viewport width */
   }
 }
 
