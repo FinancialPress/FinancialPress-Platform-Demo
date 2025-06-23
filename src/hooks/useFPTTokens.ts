@@ -44,7 +44,6 @@ export const useFPTTokens = () => {
   ) => {
     if (!user) {
       console.error('No user found for addTokens');
-      toast.error('Please log in to earn tokens');
       return false;
     }
 
@@ -52,7 +51,6 @@ export const useFPTTokens = () => {
     
     if (amount <= 0) {
       console.error('Invalid token amount:', amount);
-      toast.error('Invalid token amount');
       return false;
     }
     
@@ -70,7 +68,8 @@ export const useFPTTokens = () => {
 
       if (error) {
         console.error('Error adding tokens:', error);
-        toast.error(`Failed to add tokens: ${error.message}`);
+        // Log token error but don't show error toast to user
+        console.warn(`Token reward failed: ${error.message}. Main action was successful.`);
         return false;
       }
 
@@ -85,7 +84,8 @@ export const useFPTTokens = () => {
       return true;
     } catch (error) {
       console.error('Error adding tokens:', error);
-      toast.error('Failed to add tokens');
+      // Log token error but don't show error toast to user
+      console.warn('Token reward failed. Main action was successful.');
       return false;
     } finally {
       setLoading(false);
