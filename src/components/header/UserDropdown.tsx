@@ -6,6 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast';
 
 interface UserData {
   displayName: string;
@@ -23,6 +24,7 @@ interface UserDropdownProps {
 
 const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { displayName, username, imageUrl } = userData;
 
   const getInitials = (name: string) => {
@@ -36,6 +38,37 @@ const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) =
 
   const handleProfileClick = () => {
     navigate('/profile');
+  };
+
+  const handleSettingsClick = () => {
+    // For now, navigate to profile since settings page might not exist
+    navigate('/profile');
+  };
+
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to sign out. Please try again.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: "You have been signed out successfully.",
+        });
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Sign out error:', error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred during sign out.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -78,7 +111,7 @@ const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) =
       >
         <DropdownMenuItem
           onClick={handleProfileClick}
-          className={`flex items-center space-x-2 ${
+          className={`flex items-center space-x-2 cursor-pointer ${
             isDarkMode
               ? 'text-gray-300 hover:bg-gray-800 hover:text-white'
               : 'text-gray-600 hover:bg-gray-100 hover:text-black'
@@ -88,8 +121,8 @@ const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) =
           <span>Profile</span>
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => onNavigate(8)}
-          className={`flex items-center space-x-2 ${
+          onClick={handleSettingsClick}
+          className={`flex items-center space-x-2 cursor-pointer ${
             isDarkMode
               ? 'text-gray-300 hover:bg-gray-800 hover:text-white'
               : 'text-gray-600 hover:bg-gray-100 hover:text-black'
@@ -99,11 +132,8 @@ const UserDropdown = ({ userData, isDarkMode, onNavigate }: UserDropdownProps) =
           <span>Settings</span>
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={async () => {
-            await supabase.auth.signOut();
-            onNavigate(0);
-          }}
-          className={`flex items-center space-x-2 ${
+          onClick={handleSignOut}
+          className={`flex items-center space-x-2 cursor-pointer ${
             isDarkMode
               ? 'text-red-500 hover:bg-gray-800'
               : 'text-red-500 hover:bg-gray-100'

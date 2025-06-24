@@ -6,6 +6,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
+import { useProfile } from '@/hooks/useProfile';
 import ImageCropUpload from './ImageCropUpload';
 
 interface ProfilePictureUploadProps {
@@ -26,6 +27,7 @@ const ProfilePictureUpload = ({
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { forceUpdate } = useProfile();
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl);
 
@@ -77,6 +79,17 @@ const ProfilePictureUpload = ({
       setPreviewUrl(publicUrl);
       onImageChange(publicUrl);
 
+      // Update profile in database and force global refresh
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ image_url: publicUrl })
+        .eq('id', user.id);
+
+      if (!updateError) {
+        // Force immediate global profile update
+        await forceUpdate();
+      }
+
       toast({
         title: "Success",
         description: "Profile picture uploaded successfully",
@@ -93,9 +106,26 @@ const ProfilePictureUpload = ({
     }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     setPreviewUrl(null);
     onImageChange(null);
+
+    // For live users, also update the database
+    if (userType === 'live' && user) {
+      try {
+        const { error } = await supabase
+          .from('profiles')
+          .update({ image_url: null })
+          .eq('id', user.id);
+
+        if (!error) {
+          // Force immediate global profile update
+          await forceUpdate();
+        }
+      } catch (error) {
+        console.error('Error removing profile image:', error);
+      }
+    }
   };
 
   const getInitials = (name?: string) => {

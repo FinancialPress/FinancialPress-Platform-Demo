@@ -65,6 +65,18 @@ const MainHeader = ({
     navigate('/create');
   };
 
+  const handleDashboardClick = () => {
+    navigate('/dashboard');
+  };
+
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
+  const handleAuthClick = () => {
+    navigate('/auth');
+  };
+
   return (
     <header className={mainHeaderClasses}>
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-1">
@@ -79,7 +91,7 @@ const MainHeader = ({
               <Menu className="w-5 h-5" />
             </Button>
 
-            <div className="h-12 sm:h-14 w-32 sm:w-[200px]">
+            <div className="h-12 sm:h-14 w-32 sm:w-[200px] cursor-pointer" onClick={handleHomeClick}>
               <Logo isDarkMode={isDarkMode} />
             </div>
 
@@ -106,6 +118,16 @@ const MainHeader = ({
                 >
                   Create
                 </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`${isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'} ${
+                    location.pathname === '/dashboard' ? 'bg-fpYellow text-black' : ''
+                  }`}
+                  onClick={handleDashboardClick}
+                >
+                  Dashboard
+                </Button>
               </div>
             )}
           </div>
@@ -120,6 +142,15 @@ const MainHeader = ({
               onClick={() => onNavigate(6)}
             >
               <Search className="w-5 h-5" />
+            </Button>
+
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className={`hidden sm:flex ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
+              onClick={onToggleDarkMode}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
 
             <Button variant="ghost" size="icon" className="sm:hidden" onClick={onToggleDarkMode}>
@@ -150,14 +181,14 @@ const MainHeader = ({
                       ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700 hover:text-white font-semibold px-4 sm:px-6'
                       : 'border-gray-300 bg-white text-gray-900 hover:bg-gray-50 font-semibold px-4 sm:px-6'
                   }`}
-                  onClick={() => onNavigate(1)}
+                  onClick={handleAuthClick}
                 >
                   Sign In
                 </Button>
                 <Button
                   size="sm"
                   className="bg-fpYellow hover:bg-fpYellowDark text-black font-semibold px-3 sm:px-6 text-xs sm:text-sm"
-                  onClick={() => onNavigate(1)}
+                  onClick={handleAuthClick}
                 >
                   Join Now
                 </Button>

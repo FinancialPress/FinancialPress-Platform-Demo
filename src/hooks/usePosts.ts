@@ -13,6 +13,7 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
 let postsChannel: RealtimeChannel | null = null;
 let listeners = 0;
 let cachedPosts: Post[] = [];
+let updateCallbacks: Set<(posts: Post[]) => void> = new Set();
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                             */
@@ -65,6 +66,20 @@ const normalizePost = (rawPost: any): Post => ({
 });
 
 /* ------------------------------------------------------------------ */
+/*  Helper: notify all components                                     */
+/* ------------------------------------------------------------------ */
+
+const notifyAllComponents = (posts: Post[]) => {
+  updateCallbacks.forEach(callback => {
+    try {
+      callback(posts);
+    } catch (error) {
+      console.error('Error in post update callback:', error);
+    }
+  });
+};
+
+/* ------------------------------------------------------------------ */
 /*  Hook                                                              */
 /* ------------------------------------------------------------------ */
 
@@ -77,6 +92,22 @@ export const usePosts = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const { addTokens } = useFPTTokens();
+
+  /* ---------------------------------------------------------------- */
+  /*  Register/unregister update callback                             */
+  /* ---------------------------------------------------------------- */
+
+  useEffect(() => {
+    const updateCallback = (newPosts: Post[]) => {
+      setPosts([...newPosts]);
+    };
+
+    updateCallbacks.add(updateCallback);
+
+    return () => {
+      updateCallbacks.delete(updateCallback);
+    };
+  }, []);
 
   /* ---------------------------------------------------------------- */
   /*  CRUD helpers                                                    */
@@ -101,6 +132,7 @@ export const usePosts = () => {
       // Update both local state and shared cache
       cachedPosts = typedPosts;
       setPosts(typedPosts);
+      notifyAllComponents(typedPosts);
       return typedPosts;
     } catch (err) {
       console.error('Error fetching posts:', err);
@@ -148,8 +180,13 @@ export const usePosts = () => {
       // Safely extract the post data and id
       const postResult = data as any;
       const postId = postResult?.id;
+      const newPost = normalizePost(postResult);
 
-      // Award FPT tokens for publishing content - using "content_creation" as transaction type
+      // Optimistically update the cache and notify all components
+      cachedPosts = [newPost, ...cachedPosts];
+      notifyAllComponents(cachedPosts);
+
+      // Award FPT tokens for publishing content
       const tokenSuccess = await addTokens(
         5,
         'content_creation',
@@ -172,7 +209,12 @@ export const usePosts = () => {
         description: 'Your Create & Earn post has been published!'
       });
       
-      return normalizePost(postResult);
+      // Fetch fresh data as fallback
+      setTimeout(() => {
+        fetchPosts();
+      }, 1000);
+      
+      return newPost;
     } catch (err) {
       console.error('Error creating earn post:', err);
       toast({
@@ -217,8 +259,13 @@ export const usePosts = () => {
       // Safely extract the post data and id
       const postResult = data as any;
       const postId = postResult?.id;
+      const newPost = normalizePost(postResult);
 
-      // Award FPT tokens for sharing insight - using "content_creation" as transaction type
+      // Optimistically update the cache and notify all components
+      cachedPosts = [newPost, ...cachedPosts];
+      notifyAllComponents(cachedPosts);
+
+      // Award FPT tokens for sharing insight
       const tokenSuccess = await addTokens(
         5,
         'content_creation',
@@ -242,7 +289,12 @@ export const usePosts = () => {
         description: 'Your insight has been shared!'
       });
       
-      return normalizePost(postResult);
+      // Fetch fresh data as fallback
+      setTimeout(() => {
+        fetchPosts();
+      }, 1000);
+      
+      return newPost;
     } catch (err) {
       console.error('Error sharing insight:', err);
       toast({
@@ -277,8 +329,25 @@ export const usePosts = () => {
             // Update shared cache
             cachedPosts = [newPost, ...cachedPosts];
             
-            // Update all active components via setPosts callback
-            setPosts([...cachedPosts]);
+            // Notify all components
+            notifyAllComponents(cachedPosts);
+          }
+        )
+        .on(
+          'postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'posts' },
+          (payload) => {
+            if (!payload?.new) return;
+
+            const updatedPost = normalizePost(payload.new);
+            
+            // Update shared cache
+            cachedPosts = cachedPosts.map(post => 
+              post.id === updatedPost.id ? updatedPost : post
+            );
+            
+            // Notify all components
+            notifyAllComponents(cachedPosts);
           }
         )
         .subscribe();
@@ -300,6 +369,8 @@ export const usePosts = () => {
       if (listeners === 0 && postsChannel) {
         supabase.removeChannel(postsChannel);
         postsChannel = null;
+        cachedPosts = [];
+        updateCallbacks.clear();
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

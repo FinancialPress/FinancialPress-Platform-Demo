@@ -19,16 +19,45 @@ export interface UserProfile {
   instance_id: string | null;
 }
 
+// Global profile state for immediate updates across all components
+let globalProfile: UserProfile | null = null;
+let profileListeners: Set<(profile: UserProfile | null) => void> = new Set();
+
+const notifyProfileListeners = (profile: UserProfile | null) => {
+  globalProfile = profile;
+  profileListeners.forEach(listener => {
+    try {
+      listener(profile);
+    } catch (error) {
+      console.error('Error in profile update listener:', error);
+    }
+  });
+};
+
 export const useProfile = () => {
   const { user } = useAuth();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(globalProfile);
   const [loading, setLoading] = useState(false);
+
+  // Register listener for global profile updates
+  useEffect(() => {
+    const updateListener = (newProfile: UserProfile | null) => {
+      setProfile(newProfile);
+    };
+
+    profileListeners.add(updateListener);
+
+    return () => {
+      profileListeners.delete(updateListener);
+    };
+  }, []);
 
   useEffect(() => {
     if (user) {
       fetchProfile();
     } else {
       setProfile(null);
+      notifyProfileListeners(null);
     }
   }, [user]);
 
@@ -51,6 +80,7 @@ export const useProfile = () => {
         }
       } else if (data) {
         setProfile(data);
+        notifyProfileListeners(data);
       }
     } catch (error) {
       console.error('Unexpected error fetching profile:', error);
@@ -112,12 +142,18 @@ export const useProfile = () => {
     return !data;
   };
 
+  // Force immediate update of global profile state
+  const forceProfileUpdate = async () => {
+    await fetchProfile();
+  };
+
   return {
     profile,
     loading,
     updateProfile,
     createProfile,
     checkUsernameAvailability,
-    refetch: fetchProfile
+    refetch: fetchProfile,
+    forceUpdate: forceProfileUpdate
   };
 };
