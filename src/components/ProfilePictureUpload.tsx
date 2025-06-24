@@ -1,13 +1,12 @@
 
-import React, { useState, useRef } from 'react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-import { Camera, Upload, X, Loader2 } from 'lucide-react';
+import ImageCropUpload from './ImageCropUpload';
 
 interface ProfilePictureUploadProps {
   currentImageUrl?: string | null;
@@ -27,36 +26,14 @@ const ProfilePictureUpload = ({
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl);
 
-  const handleFileSelect = async (file: File) => {
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      toast({
-        title: "Invalid file type",
-        description: "Please select an image file",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast({
-        title: "File too large",
-        description: "Please select an image under 5MB",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // For demo users, just create a preview URL
+  const handleImageCropped = async (croppedImageUrl: string) => {
+    // For demo users, just use the cropped image URL directly
     if (userType === 'demo') {
-      const objectUrl = URL.createObjectURL(file);
-      setPreviewUrl(objectUrl);
-      onImageChange(objectUrl);
+      setPreviewUrl(croppedImageUrl);
+      onImageChange(croppedImageUrl);
       return;
     }
 
@@ -73,14 +50,17 @@ const ProfilePictureUpload = ({
     setUploading(true);
     
     try {
+      // Convert data URL to blob for upload
+      const response = await fetch(croppedImageUrl);
+      const blob = await response.blob();
+      
       // Create unique filename
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}/profile-${Date.now()}.${fileExt}`;
+      const fileName = `${user.id}/profile-${Date.now()}.jpg`;
 
       // Upload to Supabase storage
       const { data, error } = await supabase.storage
         .from('profile-images')
-        .upload(fileName, file, {
+        .upload(fileName, blob, {
           cacheControl: '3600',
           upsert: false
         });
@@ -113,19 +93,9 @@ const ProfilePictureUpload = ({
     }
   };
 
-  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      handleFileSelect(file);
-    }
-  };
-
   const handleRemoveImage = () => {
     setPreviewUrl(null);
     onImageChange(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
   };
 
   const getInitials = (name?: string) => {
@@ -134,11 +104,7 @@ const ProfilePictureUpload = ({
   };
 
   // Theme-aware styling
-  const containerClass = isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200';
   const labelClass = isDarkMode ? 'text-gray-300' : 'text-gray-700';
-  const buttonClass = isDarkMode 
-    ? 'bg-gray-700 hover:bg-gray-600 text-gray-300 border-gray-600' 
-    : 'bg-white hover:bg-gray-50 text-gray-700 border-gray-300';
 
   return (
     <div className="space-y-4">
@@ -153,52 +119,22 @@ const ProfilePictureUpload = ({
         </Avatar>
 
         <div className="flex flex-col space-y-2">
-          <div className="flex space-x-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={disabled || uploading}
-              className={buttonClass}
-            >
-              {uploading ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Camera className="w-4 h-4 mr-2" />
-              )}
-              {uploading ? 'Uploading...' : previewUrl ? 'Change' : 'Upload'}
-            </Button>
-
-            {previewUrl && (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={handleRemoveImage}
-                disabled={disabled || uploading}
-                className={buttonClass}
-              >
-                <X className="w-4 h-4 mr-2" />
-                Remove
-              </Button>
-            )}
-          </div>
+          <ImageCropUpload
+            onImageCropped={handleImageCropped}
+            aspectRatio={1} // Square aspect ratio for profile pictures
+            currentImageUrl={previewUrl}
+            disabled={disabled || uploading}
+            userType={userType}
+            buttonText={previewUrl ? 'Change Photo' : 'Upload Photo'}
+            showRemove={!!previewUrl}
+            onRemove={handleRemoveImage}
+          />
 
           <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            JPG, PNG or GIF. Max 5MB.
+            JPG, PNG or GIF. Max 5MB. Image will be cropped to square.
           </p>
         </div>
       </div>
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileInputChange}
-        className="hidden"
-        disabled={disabled || uploading}
-      />
     </div>
   );
 };

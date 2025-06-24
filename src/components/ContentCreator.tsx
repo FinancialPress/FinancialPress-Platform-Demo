@@ -22,6 +22,7 @@ import {
 import { usePosts } from '@/hooks/usePosts';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
 import { uploadContentImage, getPlaceholderImage } from '@/utils/imageUpload';
+import ImageCropUpload from './ImageCropUpload';
 
 interface ContentCreatorProps {
   onNavigate?: (screen: number) => void;
@@ -46,7 +47,6 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
   const [allowWatchLater, setAllowWatchLater] = useState(true);
   const [shareWith, setShareWith] = useState('public');
   const [isPublishing, setIsPublishing] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
 
@@ -72,13 +72,12 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
     return tags;
   };
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-    }
+  const handleImageCropped = (croppedImageUrl: string) => {
+    setPreviewUrl(croppedImageUrl);
+  };
+
+  const handleRemoveImage = () => {
+    setPreviewUrl('');
   };
 
   const handlePublish = async () => {
@@ -91,12 +90,9 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
     try {
       let imageUrl = '';
       
-      // Handle image upload or use placeholder
-      if (selectedFile) {
-        setIsUploading(true);
-        const uploadedUrl = await uploadContentImage(selectedFile);
-        imageUrl = uploadedUrl || getPlaceholderImage(section);
-        setIsUploading(false);
+      // Use the cropped preview URL or placeholder
+      if (previewUrl) {
+        imageUrl = previewUrl;
       } else {
         imageUrl = getPlaceholderImage(section);
       }
@@ -125,7 +121,6 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
           setContent('');
           setSelectedTags([]);
           setCustomTags('');
-          setSelectedFile(null);
           setPreviewUrl('');
           
           // Navigate to UserFeed only
@@ -155,7 +150,6 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
           setCommentary('');
           setSelectedTags([]);
           setCustomTags('');
-          setSelectedFile(null);
           setPreviewUrl('');
           
           // Navigate to UserFeed only
@@ -243,40 +237,42 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       </div>
                       <div>
                         <Label className={labelClasses}>Thumbnail Image</Label>
-                        <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
+                        <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4`}>
                           {previewUrl ? (
                             <div className="space-y-2">
-                              <img src={previewUrl} alt="Preview" className="w-full h-32 object-cover rounded" />
-                              <Button 
-                                size="sm" 
-                                variant="outline"
-                                onClick={() => {
-                                  setSelectedFile(null);
-                                  setPreviewUrl('');
-                                }}
-                              >
-                                Remove
-                              </Button>
+                              <img 
+                                src={previewUrl} 
+                                alt="Preview" 
+                                className="w-full h-32 object-cover rounded" 
+                                style={{ aspectRatio: '16/9' }}
+                              />
+                              <div className="flex justify-center">
+                                <ImageCropUpload
+                                  onImageCropped={handleImageCropped}
+                                  aspectRatio={16/9} // Landscape aspect ratio for thumbnails
+                                  currentImageUrl={previewUrl}
+                                  disabled={isPublishing}
+                                  buttonText="Change Image"
+                                  showRemove={true}
+                                  onRemove={handleRemoveImage}
+                                  className="justify-center"
+                                />
+                              </div>
                             </div>
                           ) : (
-                            <>
+                            <div className="text-center">
                               <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
-                              <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
-                              <Input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileSelect}
-                                className="hidden"
-                                id="file-upload"
+                              <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail (16:9 recommended)</p>
+                              <ImageCropUpload
+                                onImageCropped={handleImageCropped}
+                                aspectRatio={16/9} // Landscape aspect ratio for thumbnails
+                                currentImageUrl={previewUrl}
+                                disabled={isPublishing}
+                                buttonText="Choose File"
+                                showRemove={false}
+                                className="justify-center"
                               />
-                              <Button 
-                                size="sm" 
-                                className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}
-                                onClick={() => document.getElementById('file-upload')?.click()}
-                              >
-                                Choose File
-                              </Button>
-                            </>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -351,40 +347,42 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                     </div>
                     <div>
                       <Label className={labelClasses}>Thumbnail Image</Label>
-                      <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4 text-center`}>
+                      <div className={`border-2 border-dashed ${borderClasses} rounded-lg p-4`}>
                         {previewUrl ? (
                           <div className="space-y-2">
-                            <img src={previewUrl} alt="Preview" className="w-full h-32 object-cover rounded" />
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              onClick={() => {
-                                setSelectedFile(null);
-                                setPreviewUrl('');
-                              }}
-                            >
-                              Remove
-                            </Button>
+                            <img 
+                              src={previewUrl} 
+                              alt="Preview" 
+                              className="w-full h-32 object-cover rounded" 
+                              style={{ aspectRatio: '16/9' }}
+                            />
+                            <div className="flex justify-center">
+                              <ImageCropUpload
+                                onImageCropped={handleImageCropped}
+                                aspectRatio={16/9}
+                                currentImageUrl={previewUrl}
+                                disabled={isPublishing}
+                                buttonText="Change Image"
+                                showRemove={true}
+                                onRemove={handleRemoveImage}
+                                className="justify-center"
+                              />
+                            </div>
                           </div>
                         ) : (
-                          <>
+                          <div className="text-center">
                             <ImageIcon className={`w-8 h-8 ${mutedText} mx-auto mb-2`} />
-                            <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail</p>
-                            <Input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleFileSelect}
-                              className="hidden"
-                              id="file-upload-insight"
+                            <p className={`${labelClasses} text-sm mb-2`}>Upload thumbnail (16:9 recommended)</p>
+                            <ImageCropUpload
+                              onImageCropped={handleImageCropped}
+                              aspectRatio={16/9}
+                              currentImageUrl={previewUrl}
+                              disabled={isPublishing}
+                              buttonText="Choose File"
+                              showRemove={false}
+                              className="justify-center"
                             />
-                            <Button 
-                              size="sm" 
-                              className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} text-xs`}
-                              onClick={() => document.getElementById('file-upload-insight')?.click()}
-                            >
-                              Choose File
-                            </Button>
-                          </>
+                          </div>
                         )}
                       </div>
                     </div>
