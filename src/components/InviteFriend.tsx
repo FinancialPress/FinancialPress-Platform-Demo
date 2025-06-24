@@ -39,16 +39,25 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
 
     setLoading(true);
     try {
+      console.log('Starting invite process for email:', email);
+      
       // Simulate sending invite (backend functionality)
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Add 20 FPT reward
+      console.log('Adding 20 FPT reward for invite');
       const success = await addTokens(
         20,
         'invite_reward',
         `Friend invitation sent to ${email}`,
-        { invited_email: email, timestamp: new Date().toISOString() }
+        { 
+          invited_email: email, 
+          timestamp: new Date().toISOString(),
+          action: 'friend_invite'
+        }
       );
+
+      console.log('Token addition result:', success);
 
       if (success) {
         toast.success('Invite sent successfully! You earned 20 FPT!', {
@@ -56,7 +65,8 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
         });
         setEmail(''); // Clear the form
       } else {
-        toast.error('Failed to process invite reward. Please try again.');
+        console.error('Failed to add tokens for invite reward');
+        toast.error('Invite sent but failed to process reward. Please contact support.');
       }
     } catch (error) {
       console.error('Error sending invite:', error);

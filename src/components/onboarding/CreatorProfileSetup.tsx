@@ -1,256 +1,270 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { Card } from '@/components/ui/card';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useProfile } from '@/hooks/useProfile';
 import { useAuth } from '@/contexts/AuthContext';
+import { useProfile } from '@/hooks/useProfile';
 import { useToast } from '@/components/ui/use-toast';
-import { useUsernameValidation } from '@/hooks/useUsernameValidation';
-import { Loader2, Check, X } from 'lucide-react';
+import { PenTool } from 'lucide-react';
 import ProfilePictureUpload from '../ProfilePictureUpload';
 
 interface CreatorProfileSetupProps {
-  onContinue: () => void;
+  onContinue?: () => void;
   userType?: 'demo' | 'live' | null;
-  selectedTopics?: string[];
+  selectedTopics: string[];
 }
 
-const CreatorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: CreatorProfileSetupProps) => {
+const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorProfileSetupProps) => {
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
-  const { createProfile, updateProfile } = useProfile();
+  const { profile, updateProfile, checkUsernameAvailability } = useProfile();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
-  
+
   const [displayName, setDisplayName] = useState('');
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [usernameChecking, setUsernameChecking] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const usernameValidation = useUsernameValidation(username, displayName);
-
-  const handleContinue = async () => {
-    if (userType === 'demo') {
-      onContinue();
-      return;
+  useEffect(() => {
+    if (profile) {
+      setDisplayName(profile.display_name || '');
+      setUsername(profile.username || '');
+      setBio(profile.bio || '');
+      setProfileImageUrl(profile.image_url || null);
     }
+  }, [profile]);
 
-    if (!user) {
-      toast({
-        title: "Error",
-        description: "You must be logged in to continue",
-        variant: "destructive",
-      });
-      return;
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUsername = e.target.value;
+    setUsername(newUsername);
+    setUsernameError(null); // Clear any previous errors
+  };
+
+  const handleUsernameBlur = async () => {
+    if (!username.trim()) return;
+
+    setUsernameChecking(true);
+    try {
+      const isAvailable = await checkUsernameAvailability(username);
+      if (!isAvailable) {
+        setUsernameError('Username is already taken');
+      }
+    } finally {
+      setUsernameChecking(false);
     }
+  };
+
+  const handleSave = async () => {
+    console.log('Saving creator profile...', { 
+      displayName, 
+      username, 
+      bio, 
+      profileImageUrl,
+      userType,
+      selectedTopics 
+    });
 
     if (!displayName.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a display name",
-        variant: "destructive",
-      });
+      toast.error('Display name is required');
       return;
     }
 
-    if (!username.trim() || !usernameValidation.isValid) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid username",
-        variant: "destructive",
-      });
+    if (!username.trim()) {
+      toast.error('Username is required');
       return;
     }
 
-    setLoading(true);
-    
+    setSaving(true);
+
     try {
-      const profileData = {
-        display_name: displayName.trim(),
-        username: username.trim(),
-        bio: bio.trim() || null,
-        topics: selectedTopics,
-        role: 'creator',
-        image_url: profileImageUrl
-      };
+      if (userType === 'live') {
+        if (!user) {
+          toast.error('You must be logged in to save your profile');
+          setSaving(false);
+          return;
+        }
 
-      const { error } = await updateProfile(profileData);
-      
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to save profile. Please try again.",
-          variant: "destructive",
+        // Check username availability before saving
+        console.log('Checking username availability for:', username);
+        const isUsernameAvailable = await checkUsernameAvailability(username);
+        
+        if (!isUsernameAvailable) {
+          setUsernameError('Username is already taken');
+          setSaving(false);
+          return;
+        }
+
+        // Update profile for live users
+        console.log('Updating live user profile...');
+        const { error } = await updateProfile({
+          display_name: displayName,
+          username: username,
+          bio: bio,
+          image_url: profileImageUrl,
+          topics: selectedTopics || [],
+          role: 'creator'
         });
+
+        if (error) {
+          console.error('Profile update error:', error);
+          toast.error('Failed to save profile');
+          setSaving(false);
+          return;
+        }
+
+        console.log('Profile updated successfully');
+        toast.success('Profile saved successfully!');
       } else {
-        toast({
-          title: "Profile Created!",
-          description: "Welcome to FinancialPress! Your account is ready.",
-        });
-        onContinue();
+        // For demo users, just store locally or simulate
+        console.log('Demo user profile saved locally');
+        toast.success('Demo profile saved!');
       }
+
+      // Small delay to show success message, then continue
+      setTimeout(() => {
+        console.log('Continuing onboarding flow...');
+        onContinue?.();
+      }, 1000);
+
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred",
-        variant: "destructive",
-      });
+      console.error('Error saving profile:', error);
+      toast.error('Failed to save profile');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
   // Theme-aware styling
-  const cardClass = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
+  const backgroundClass = isDarkMode ? 'bg-black' : 'bg-gray-50';
   const textClass = isDarkMode ? 'text-white' : 'text-black';
-  const labelClass = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+  const mutedTextClass = isDarkMode ? 'text-gray-400' : 'text-gray-600';
+  const cardClass = isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-300';
   const inputClass = isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className={`text-3xl font-bold mb-2 ${textClass}`}>Complete Your Profile</h2>
-        <p className={`text-lg ${labelClass}`}>
-          {userType === 'live' ? 'Set up your creator profile to start earning' : 'Tell us about yourself'}
+    <div className={`max-w-4xl mx-auto ${textClass}`}>
+      {/* Header */}
+      <div className="text-center mb-12">
+        <PenTool className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
+        <h1 className="text-4xl font-bold mb-4">Set Up Your Creator Profile</h1>
+        <p className={`text-xl ${mutedTextClass}`}>
+          Tell your audience who you are and what you bring to the financial community.
         </p>
       </div>
 
-      <Card className={cardClass}>
-        <CardHeader>
-          <CardTitle className={`text-xl ${textClass}`}>Creator Profile</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <ProfilePictureUpload
-            currentImageUrl={profileImageUrl}
-            displayName={displayName}
-            onImageChange={setProfileImageUrl}
-            userType={userType}
-            disabled={loading}
-          />
+      {/* Profile Setup Form */}
+      <div className={`${cardClass} p-8 rounded-2xl border shadow-xl max-w-2xl mx-auto`}>
+        <div className="space-y-8">
+          {/* Profile Picture */}
+          <div className="text-center">
+            <ProfilePictureUpload
+              currentImageUrl={profileImageUrl}
+              displayName={displayName}
+              onImageChange={setProfileImageUrl}
+              userType={userType}
+              disabled={saving}
+            />
+          </div>
 
+          {/* Display Name */}
           <div>
-            <Label htmlFor="display-name" className={labelClass}>Display Name *</Label>
+            <Label className={`block text-sm font-medium ${textClass} mb-2`}>
+              Display Name *
+            </Label>
             <Input
-              id="display-name"
-              placeholder="Your display name"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
+              placeholder="Your full name"
               className={inputClass}
-              disabled={loading}
+              disabled={saving}
             />
           </div>
 
+          {/* Username */}
           <div>
-            <Label htmlFor="username" className={labelClass}>Username *</Label>
+            <Label className={`block text-sm font-medium ${textClass} mb-2`}>
+              Username *
+            </Label>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">@</div>
+              <span className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${mutedTextClass}`}>
+                @
+              </span>
               <Input
-                id="username"
-                placeholder="your_username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value.toLowerCase())}
-                className={`pl-8 ${inputClass} ${
-                  username && !usernameValidation.isValid 
-                    ? 'border-red-500' 
-                    : username && usernameValidation.isValid 
-                      ? 'border-green-500' 
-                      : ''
-                }`}
-                disabled={loading}
+                onChange={handleUsernameChange}
+                onBlur={handleUsernameBlur}
+                placeholder="username"
+                className={`${inputClass} pl-8 ${usernameError ? 'border-red-500' : ''}`}
+                disabled={saving}
               />
-              {username && (
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  {usernameValidation.isChecking ? (
-                    <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-                  ) : usernameValidation.isValid ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <X className="w-4 h-4 text-red-500" />
-                  )}
-                </div>
-              )}
             </div>
-            {usernameValidation.error && (
-              <p className="text-red-500 text-sm mt-1">{usernameValidation.error}</p>
+            {usernameError && (
+              <p className="text-red-500 text-sm mt-1">{usernameError}</p>
             )}
-            {usernameValidation.suggestions.length > 0 && (
-              <div className="mt-2">
-                <p className={`text-xs ${labelClass} mb-1`}>Suggestions:</p>
-                <div className="flex gap-2 flex-wrap">
-                  {usernameValidation.suggestions.map((suggestion) => (
-                    <button
-                      key={suggestion}
-                      onClick={() => setUsername(suggestion)}
-                      className="text-xs bg-yellow-500 text-black px-2 py-1 rounded hover:bg-yellow-600 transition-colors"
-                      disabled={loading}
-                    >
-                      @{suggestion}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            {usernameChecking && (
+              <p className={`${mutedTextClass} text-sm mt-1`}>Checking availability...</p>
             )}
           </div>
 
+          {/* Bio */}
           <div>
-            <Label htmlFor="bio" className={labelClass}>Bio</Label>
+            <Label className={`block text-sm font-medium ${textClass} mb-2`}>
+              Bio
+            </Label>
             <Textarea
-              id="bio"
-              placeholder="Tell us about your expertise and interests..."
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className={inputClass}
-              rows={4}
-              disabled={loading}
+              placeholder="Tell your audience about your expertise, background, and what makes your financial insights valuable..."
+              className={`${inputClass} min-h-[100px]`}
+              disabled={saving}
             />
+            <p className={`text-sm ${mutedTextClass} mt-1`}>
+              {bio.length}/500 characters
+            </p>
           </div>
 
-          {selectedTopics.length > 0 && (
+          {/* Topics Preview */}
+          {selectedTopics && selectedTopics.length > 0 && (
             <div>
-              <Label className={labelClass}>Selected Interests</Label>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {selectedTopics.map((topic) => (
-                  <Badge key={topic} variant="secondary" className="bg-yellow-500 text-black">
+              <Label className={`block text-sm font-medium ${textClass} mb-2`}>
+                Your Topics
+              </Label>
+              <div className="flex flex-wrap gap-2">
+                {selectedTopics.map((topic, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-sm"
+                  >
                     {topic}
-                  </Badge>
+                  </span>
                 ))}
               </div>
             </div>
           )}
 
-          {userType === 'live' && (
-            <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-              <h4 className={`font-semibold mb-2 ${textClass}`}>Account Benefits</h4>
-              <ul className={`text-sm ${labelClass} space-y-1`}>
-                <li>• 100 FPT welcome bonus</li>
-                <li>• Unique referral code for earning bonuses</li>
-                <li>• Secure wallet for crypto earnings</li>
-                <li>• Real-time earnings tracking</li>
-              </ul>
-            </div>
-          )}
-
-          <Button 
-            onClick={handleContinue} 
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
-            disabled={loading || (username && !usernameValidation.isValid)}
+          {/* Save Button */}
+          <Button
+            onClick={handleSave}
+            disabled={saving || !displayName.trim() || !username.trim() || !!usernameError}
+            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 text-lg"
           >
-            {loading ? (
-              <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                {userType === 'live' ? 'Creating Profile...' : 'Continuing...'}
-              </>
+            {saving ? (
+              <div className="flex items-center space-x-2">
+                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                <span>Saving Profile...</span>
+              </div>
             ) : (
-              userType === 'live' ? 'Complete Setup' : 'Continue to Feed'
+              'Save Profile & Continue'
             )}
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

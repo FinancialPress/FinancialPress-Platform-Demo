@@ -5,7 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { useProfile } from '@/hooks/useProfile';
 import ImageCropUpload from './ImageCropUpload';
 
@@ -31,11 +31,14 @@ const ProfilePictureUpload = ({
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl);
 
-  const handleImageCropped = async (croppedImageUrl: string) => {
+  const handleImageCropped = async (croppedImageDataUrl: string) => {
+    console.log('Processing cropped image, user type:', userType);
+    
     // For demo users, just use the cropped image URL directly
     if (userType === 'demo') {
-      setPreviewUrl(croppedImageUrl);
-      onImageChange(croppedImageUrl);
+      console.log('Demo user - using cropped image directly');
+      setPreviewUrl(croppedImageDataUrl);
+      onImageChange(croppedImageDataUrl);
       return;
     }
 
@@ -52,12 +55,17 @@ const ProfilePictureUpload = ({
     setUploading(true);
     
     try {
+      console.log('Live user - uploading to Supabase');
+      
       // Convert data URL to blob for upload
-      const response = await fetch(croppedImageUrl);
+      const response = await fetch(croppedImageDataUrl);
       const blob = await response.blob();
+      
+      console.log('Blob created, size:', blob.size);
       
       // Create unique filename
       const fileName = `${user.id}/profile-${Date.now()}.jpg`;
+      console.log('Uploading to filename:', fileName);
 
       // Upload to Supabase storage
       const { data, error } = await supabase.storage
@@ -68,13 +76,18 @@ const ProfilePictureUpload = ({
         });
 
       if (error) {
+        console.error('Storage upload error:', error);
         throw error;
       }
+
+      console.log('Upload successful:', data);
 
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
         .from('profile-images')
         .getPublicUrl(fileName);
+
+      console.log('Public URL generated:', publicUrl);
 
       setPreviewUrl(publicUrl);
       onImageChange(publicUrl);
@@ -85,14 +98,17 @@ const ProfilePictureUpload = ({
         .update({ image_url: publicUrl })
         .eq('id', user.id);
 
-      if (!updateError) {
+      if (updateError) {
+        console.error('Profile update error:', updateError);
+      } else {
+        console.log('Profile updated successfully');
         // Force immediate global profile update
         await forceUpdate();
       }
 
       toast({
         title: "Success",
-        description: "Profile picture uploaded successfully",
+        description: "Profile picture uploaded and cropped successfully",
       });
     } catch (error) {
       console.error('Upload error:', error);
@@ -107,6 +123,7 @@ const ProfilePictureUpload = ({
   };
 
   const handleRemoveImage = async () => {
+    console.log('Removing profile image');
     setPreviewUrl(null);
     onImageChange(null);
 
@@ -121,6 +138,9 @@ const ProfilePictureUpload = ({
         if (!error) {
           // Force immediate global profile update
           await forceUpdate();
+          console.log('Profile image removed from database');
+        } else {
+          console.error('Error removing profile image from database:', error);
         }
       } catch (error) {
         console.error('Error removing profile image:', error);

@@ -4,7 +4,7 @@ import ReactCrop, { Crop, PixelCrop, centerCrop, makeAspectCrop } from 'react-im
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Camera, Upload, X, Loader2, RotateCcw } from 'lucide-react';
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -67,7 +67,9 @@ const ImageCropUpload = ({
 
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        setImageSrc(reader.result?.toString() || '');
+        const imageUrl = reader.result?.toString() || '';
+        console.log('Image loaded for cropping:', imageUrl.substring(0, 50) + '...');
+        setImageSrc(imageUrl);
         setShowCropDialog(true);
       });
       reader.readAsDataURL(file);
@@ -76,11 +78,13 @@ const ImageCropUpload = ({
 
   const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const { width, height } = e.currentTarget;
+    console.log('Image dimensions for cropping:', { width, height, aspectRatio });
+    
     const crop = centerCrop(
       makeAspectCrop(
         {
           unit: '%',
-          width: 90,
+          width: 80,
         },
         aspectRatio,
         width,
@@ -89,16 +93,20 @@ const ImageCropUpload = ({
       width,
       height
     );
+    
+    console.log('Initial crop set:', crop);
     setCrop(crop);
   }, [aspectRatio]);
 
   const getCroppedImg = useCallback(
-    (image: HTMLImageElement, crop: PixelCrop): Promise<Blob> => {
+    (image: HTMLImageElement, crop: PixelCrop): Promise<string> => {
+      console.log('Starting image crop process with crop:', crop);
+      
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
       if (!ctx) {
-        throw new Error('No 2d context');
+        throw new Error('No 2d context available');
       }
 
       const scaleX = image.naturalWidth / image.width;
@@ -106,6 +114,9 @@ const ImageCropUpload = ({
 
       canvas.width = crop.width;
       canvas.height = crop.height;
+
+      console.log('Canvas dimensions:', { width: canvas.width, height: canvas.height });
+      console.log('Scale factors:', { scaleX, scaleY });
 
       ctx.drawImage(
         image,
@@ -125,7 +136,14 @@ const ImageCropUpload = ({
             if (!blob) {
               throw new Error('Canvas is empty');
             }
-            resolve(blob);
+            
+            const reader = new FileReader();
+            reader.onload = () => {
+              const dataUrl = reader.result as string;
+              console.log('Cropped image created, size:', dataUrl.length);
+              resolve(dataUrl);
+            };
+            reader.readAsDataURL(blob);
           },
           'image/jpeg',
           0.9
@@ -137,33 +155,24 @@ const ImageCropUpload = ({
 
   const handleCropComplete = async () => {
     if (!imgRef.current || !completedCrop) {
+      console.error('Missing image ref or completed crop');
       return;
     }
 
+    console.log('Processing crop completion...');
     setUploading(true);
 
     try {
-      const croppedImageBlob = await getCroppedImg(imgRef.current, completedCrop);
+      const croppedImageDataUrl = await getCroppedImg(imgRef.current, completedCrop);
+      console.log('Crop completed successfully');
       
-      if (userType === 'demo') {
-        const objectUrl = URL.createObjectURL(croppedImageBlob);
-        onImageCropped(objectUrl);
-      } else {
-        // For live users, we'll convert to a data URL for now
-        // In a real implementation, you'd upload to Supabase here
-        const reader = new FileReader();
-        reader.onload = () => {
-          onImageCropped(reader.result as string);
-        };
-        reader.readAsDataURL(croppedImageBlob);
-      }
-
+      onImageCropped(croppedImageDataUrl);
       setShowCropDialog(false);
       setImageSrc('');
       
       toast({
         title: "Success",
-        description: "Image uploaded successfully",
+        description: "Image cropped and uploaded successfully",
       });
     } catch (error) {
       console.error('Error cropping image:', error);
@@ -178,8 +187,11 @@ const ImageCropUpload = ({
   };
 
   const handleCancel = () => {
+    console.log('Crop dialog cancelled');
     setShowCropDialog(false);
     setImageSrc('');
+    setCrop(undefined);
+    setCompletedCrop(undefined);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -191,6 +203,7 @@ const ImageCropUpload = ({
     : 'bg-white hover:bg-gray-50 text-gray-700 border-gray-300';
 
   const dialogClass = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
+  const cropContainerClass = isDarkMode ? 'bg-gray-800' : 'bg-gray-100';
 
   return (
     <>
@@ -245,14 +258,21 @@ const ImageCropUpload = ({
           
           <div className="space-y-4">
             {imageSrc && (
-              <div className="flex justify-center">
+              <div className={`flex justify-center p-4 rounded-lg ${cropContainerClass}`}>
                 <ReactCrop
                   crop={crop}
-                  onChange={(_, percentCrop) => setCrop(percentCrop)}
-                  onComplete={(c) => setCompletedCrop(c)}
+                  onChange={(_, percentCrop) => {
+                    console.log('Crop changed:', percentCrop);
+                    setCrop(percentCrop);
+                  }}
+                  onComplete={(c) => {
+                    console.log('Crop completed:', c);
+                    setCompletedCrop(c);
+                  }}
                   aspect={aspectRatio}
                   minWidth={50}
                   minHeight={aspectRatio === 1 ? 50 : 50 / aspectRatio}
+                  className="max-w-full"
                 >
                   <img
                     ref={imgRef}
@@ -260,6 +280,7 @@ const ImageCropUpload = ({
                     src={imageSrc}
                     onLoad={onImageLoad}
                     className="max-w-full max-h-96 object-contain"
+                    style={{ maxHeight: '400px' }}
                   />
                 </ReactCrop>
               </div>
