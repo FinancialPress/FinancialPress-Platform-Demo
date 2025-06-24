@@ -5,8 +5,10 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
 import { useBalance } from '../contexts/BalanceContext';
+import { useUserMode } from '../hooks/useUserMode';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '../components/Header';
+import InviteFriend from '../components/InviteFriend';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -32,6 +34,7 @@ const ProfilePage = () => {
   const { user } = useAuth();
   const { profile, updateProfile, refetch } = useProfile();
   const { balance } = useBalance();
+  const { isLiveUser } = useUserMode();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -57,7 +60,6 @@ const ProfilePage = () => {
     }
   }, [profile]);
 
-  // Fetch user transactions for activity feed
   useEffect(() => {
     if (user) {
       fetchTransactions();
@@ -149,6 +151,8 @@ const ProfilePage = () => {
         return '🎁';
       case 'subscription':
         return '⭐';
+      case 'invite_reward':
+        return '🎉';
       default:
         return '💰';
     }
@@ -282,6 +286,11 @@ const ProfilePage = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Invite Friend Section - Only for live users */}
+            {isLiveUser && (
+              <InviteFriend isDarkMode={isDarkMode} />
+            )}
 
             {/* Performance Stats */}
             <Card className={cardClasses}>

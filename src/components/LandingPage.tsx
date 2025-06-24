@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +12,8 @@ import LiveFeedSection from '@/components/feed/LiveFeedSection';
 import MarketOverview from '@/components/MarketOverview';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
+import { useAuth } from '@/contexts/AuthContext';
+import { useUserMode } from '@/hooks/useUserMode';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
@@ -20,11 +21,17 @@ interface LandingPageProps {
 }
 
 const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
+  const { user } = useAuth();
+  const { isLiveUser } = useUserMode();
   const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState<any>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedContent, setSelectedContent] = useState<any>(null);
+
+  // Determine if hero section should be shown
+  // Show hero section only for unauthenticated users or demo users (not real logged-in users)
+  const showHeroSection = !user || !isLiveUser;
 
   // Latest News Content by Sector
   const latestNewsBySector = {
@@ -766,28 +773,30 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
 
   return (
     <div className={`${themeClasses} w-full overflow-x-hidden`}>
-      {/* Hero Section */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 pt-4 sm:pt-6 pb-4">
-        <div className="text-center mb-2">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4 px-4">
-            Join FinancialPress
-          </h1>
-          <p className={heroTextClasses}>
-            Real-time insights. Verified contributors. Tokenized rewards.
-          </p>
-          <div className="flex justify-center mb-4 px-4">
-            <Button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base"
-              onClick={() => onNavigate?.(1)}
-            >
-              Get Started
-            </Button>
+      {/* Hero Section - Only show for unauthenticated users or demo users */}
+      {showHeroSection && (
+        <section className="max-w-[1440px] mx-auto px-4 sm:px-8 pt-4 sm:pt-6 pb-4">
+          <div className="text-center mb-2">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-4 px-4">
+              Join FinancialPress
+            </h1>
+            <p className={heroTextClasses}>
+              Real-time insights. Verified contributors. Tokenized rewards.
+            </p>
+            <div className="flex justify-center mb-4 px-4">
+              <Button 
+                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base"
+                onClick={() => onNavigate?.(1)}
+              >
+                Get Started
+              </Button>
+            </div>
+            <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2 px-4">
+              Post. Stream. Share. Earn.
+            </p>
           </div>
-          <p className="text-sm sm:text-base font-medium text-gray-400 mt-2 mb-2 px-4">
-            Post. Stream. Share. Earn.
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Content Layout */}
       <div className="max-w-[1440px] mx-auto px-0 sm:px-8">
