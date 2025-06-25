@@ -186,10 +186,10 @@ export const usePosts = () => {
       cachedPosts = [newPost, ...cachedPosts];
       notifyAllComponents(cachedPosts);
 
-      // Award FPT tokens for publishing content
+      // Award FPT tokens for publishing content - use 'bonus' type which is allowed
       const tokenSuccess = await addTokens(
         5,
-        'content_creation',
+        'bonus',
         'Content creation reward',
         {
           post_id: postId,
@@ -265,10 +265,10 @@ export const usePosts = () => {
       cachedPosts = [newPost, ...cachedPosts];
       notifyAllComponents(cachedPosts);
 
-      // Award FPT tokens for sharing insight
+      // Award FPT tokens for sharing insight - use 'bonus' type which is allowed
       const tokenSuccess = await addTokens(
         5,
-        'content_creation',
+        'bonus',
         'Insight sharing reward',
         {
           post_id: postId,

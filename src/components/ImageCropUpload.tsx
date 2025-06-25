@@ -80,11 +80,17 @@ const ImageCropUpload = ({
     const { width, height } = e.currentTarget;
     console.log('Image dimensions for cropping:', { width, height, aspectRatio });
     
+    // Calculate crop size to fit within image while maintaining aspect ratio
+    const cropSize = Math.min(width, height) * 0.8; // Use 80% of smaller dimension
+    const cropWidth = aspectRatio >= 1 ? cropSize : cropSize * aspectRatio;
+    const cropHeight = aspectRatio >= 1 ? cropSize / aspectRatio : cropSize;
+    
     const crop = centerCrop(
       makeAspectCrop(
         {
           unit: '%',
-          width: 80,
+          width: (cropWidth / width) * 100,
+          height: (cropHeight / height) * 100,
         },
         aspectRatio,
         width,
@@ -112,22 +118,32 @@ const ImageCropUpload = ({
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
 
-      canvas.width = crop.width;
-      canvas.height = crop.height;
+      // Calculate the exact crop dimensions
+      const cropX = crop.x * scaleX;
+      const cropY = crop.y * scaleY;
+      const cropWidth = crop.width * scaleX;
+      const cropHeight = crop.height * scaleY;
+
+      // Set canvas size to match the crop dimensions exactly
+      canvas.width = cropWidth;
+      canvas.height = cropHeight;
 
       console.log('Canvas dimensions:', { width: canvas.width, height: canvas.height });
       console.log('Scale factors:', { scaleX, scaleY });
+      console.log('Crop coordinates:', { cropX, cropY, cropWidth, cropHeight });
 
+      // Clear canvas and draw the cropped portion
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(
         image,
-        crop.x * scaleX,
-        crop.y * scaleY,
-        crop.width * scaleX,
-        crop.height * scaleY,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
         0,
         0,
-        crop.width,
-        crop.height
+        cropWidth,
+        cropHeight
       );
 
       return new Promise((resolve) => {
@@ -146,7 +162,7 @@ const ImageCropUpload = ({
             reader.readAsDataURL(blob);
           },
           'image/jpeg',
-          0.9
+          0.95 // Higher quality for better crop results
         );
       });
     },
@@ -273,6 +289,8 @@ const ImageCropUpload = ({
                   minWidth={50}
                   minHeight={aspectRatio === 1 ? 50 : 50 / aspectRatio}
                   className="max-w-full"
+                  keepSelection={true}
+                  ruleOfThirds={true}
                 >
                   <img
                     ref={imgRef}

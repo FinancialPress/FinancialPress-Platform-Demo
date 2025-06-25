@@ -22,7 +22,7 @@ export const useLikes = (postId: string) => {
   
   const { user } = useAuth();
   const { trackEngagement, isLiveUser } = useEngagement();
-  const { addTokens } = useFPTTokens();
+  const { addTokens, refreshBalance } = useFPTTokens();
   const realtimeManager = useRealtimeManager();
 
   // Generate a valid UUID for mock post IDs - more robust conversion
@@ -150,10 +150,12 @@ export const useLikes = (postId: string) => {
             console.log('addTokens returned:', success);
             
             if (success) {
+              // Force refresh balance immediately after successful token addition
+              await refreshBalance();
               toast.success('+0.01 FPT earned!', {
                 description: 'For liking content'
               });
-              console.log('0.01 FPT added successfully for like');
+              console.log('0.01 FPT added successfully for like and balance refreshed');
             } else {
               console.warn('Failed to add FPT tokens for like');
               toast.error('Failed to award FPT tokens');
@@ -175,7 +177,7 @@ export const useLikes = (postId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [user, isLiked, loading, validPostId, trackEngagement, isLiveUser, addTokens]);
+  }, [user, isLiked, loading, validPostId, trackEngagement, isLiveUser, addTokens, refreshBalance]);
 
   // Set up realtime subscription
   useEffect(() => {

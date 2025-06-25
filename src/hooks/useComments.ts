@@ -31,7 +31,7 @@ export const useComments = (postId: string) => {
   
   const { user } = useAuth();
   const { trackEngagement, isLiveUser } = useEngagement();
-  const { addTokens } = useFPTTokens();
+  const { addTokens, refreshBalance } = useFPTTokens();
   const realtimeManager = useRealtimeManager();
 
   // Generate a valid UUID for mock post IDs - more robust conversion
@@ -167,10 +167,12 @@ export const useComments = (postId: string) => {
           console.log('addTokens returned:', success);
           
           if (success) {
+            // Force refresh balance immediately after successful token addition
+            await refreshBalance();
             toast.success('+0.05 FPT earned!', {
               description: 'For commenting on content'
             });
-            console.log('0.05 FPT added successfully for comment');
+            console.log('0.05 FPT added successfully for comment and balance refreshed');
           } else {
             console.warn('Failed to add FPT tokens for comment');
             toast.error('Failed to award FPT tokens');
@@ -189,7 +191,7 @@ export const useComments = (postId: string) => {
     } finally {
       setSubmitting(false);
     }
-  }, [user, validPostId, trackEngagement, isLiveUser, addTokens]);
+  }, [user, validPostId, trackEngagement, isLiveUser, addTokens, refreshBalance]);
 
   // Set up realtime subscription
   useEffect(() => {
