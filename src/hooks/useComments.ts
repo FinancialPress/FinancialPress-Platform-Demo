@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -130,7 +131,7 @@ export const useComments = (postId: string) => {
         .from('comments')
         .insert({
           post_id: validPostId,
-          user_id: user.id,
+          user_id: String(user.id),
           content: content.trim()
         });
 
@@ -141,14 +142,17 @@ export const useComments = (postId: string) => {
 
       console.log('Comment added successfully');
 
-      // Award FPT tokens for commenting - use direct addTokens function
+      // Award FPT tokens for commenting - use direct addTokens function with string UUIDs
       if (isLiveUser) {
         try {
           console.log('Tracking comment engagement and adding 0.05 FPT reward...');
           await trackEngagement('comment', validPostId);
           
-          // Directly add tokens using the addTokens function
-          const success = await addTokens(0.05, 'comment', 'Earned for commenting on a post', { postId: validPostId });
+          // Directly add tokens using the addTokens function with string UUIDs
+          const success = await addTokens(0.05, 'comment', 'Earned for commenting on a post', { 
+            postId: String(validPostId),
+            userId: String(user.id)
+          });
           
           if (success) {
             toast.success('+0.05 FPT earned!', {
@@ -166,7 +170,7 @@ export const useComments = (postId: string) => {
       return true;
     } catch (error) {
       console.error('Error adding comment:', error);
-      toast.error('Failed to add comment. Please try again.');
+      toast.error('Failed to submit comment. Please try again.');
       return false;
     } finally {
       setSubmitting(false);

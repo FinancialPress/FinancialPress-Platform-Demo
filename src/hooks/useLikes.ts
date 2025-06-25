@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -99,7 +100,7 @@ export const useLikes = (postId: string) => {
           .from('likes')
           .delete()
           .eq('post_id', validPostId)
-          .eq('user_id', user.id);
+          .eq('user_id', String(user.id));
 
         if (error) {
           console.error('Error unliking post:', error);
@@ -107,13 +108,14 @@ export const useLikes = (postId: string) => {
         }
         
         console.log('Post unliked successfully');
+        toast.info('Like removed');
       } else {
         // Like
         const { error } = await supabase
           .from('likes')
           .insert({
             post_id: validPostId,
-            user_id: user.id
+            user_id: String(user.id)
           });
 
         if (error) {
@@ -123,14 +125,17 @@ export const useLikes = (postId: string) => {
 
         console.log('Post liked successfully');
 
-        // Award FPT tokens for liking - use direct addTokens function
-        if (isLiveUser) {
+        // Award FPT tokens for liking - only on first like (not unlike)
+        if (!wasLiked && isLiveUser) {
           try {
             console.log('Tracking like engagement and adding 0.01 FPT reward...');
             await trackEngagement('like', validPostId);
             
-            // Directly add tokens using the addTokens function
-            const success = await addTokens(0.01, 'like', 'Earned for liking a post', { postId: validPostId });
+            // Directly add tokens using the addTokens function with string UUIDs
+            const success = await addTokens(0.01, 'like', 'Earned for liking a post', { 
+              postId: String(validPostId),
+              userId: String(user.id)
+            });
             
             if (success) {
               toast.success('+0.01 FPT earned!', {
@@ -152,7 +157,7 @@ export const useLikes = (postId: string) => {
       setIsLiked(wasLiked);
       setLikesCount(prev => wasLiked ? prev + 1 : prev - 1);
       
-      toast.error('Failed to update like. Please try again.');
+      toast.error('Failed to like post. Please try again.');
     } finally {
       setLoading(false);
     }
