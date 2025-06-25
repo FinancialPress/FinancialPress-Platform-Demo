@@ -146,15 +146,10 @@ export const useComments = (postId: string) => {
           console.log('Tracking comment engagement and triggering reward...');
           await trackEngagement('comment', validPostId);
           
-          // Use the same reward mechanism as Share & Earn but with custom amount
-          const success = await triggerReward('comment', validPostId, 0.05);
+          // Use triggerReward but pass correct parameters - it handles success internally
+          triggerReward('comment', validPostId);
           
-          if (success) {
-            toast.success('You earned 0.05 FPT for commenting on this post!');
-            console.log('FPT tokens added successfully for comment');
-          } else {
-            console.warn('Failed to add FPT tokens for comment');
-          }
+          console.log('Comment reward triggered successfully');
         } catch (tokenError) {
           console.warn('Token reward failed:', tokenError);
         }

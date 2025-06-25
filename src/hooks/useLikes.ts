@@ -128,15 +128,10 @@ export const useLikes = (postId: string) => {
             console.log('Tracking like engagement and triggering reward...');
             await trackEngagement('like', validPostId);
             
-            // Use the same reward mechanism as Share & Earn but with custom amount
-            const success = await triggerReward('like', validPostId, 0.01);
+            // Use triggerReward but pass correct parameters - it handles success internally
+            triggerReward('like', validPostId);
             
-            if (success) {
-              toast.success('You earned 0.01 FPT for liking this post!');
-              console.log('FPT tokens added successfully for like');
-            } else {
-              console.warn('Failed to add FPT tokens for like');
-            }
+            console.log('Like reward triggered successfully');
           } catch (tokenError) {
             console.warn('Token reward failed:', tokenError);
           }
