@@ -44,7 +44,7 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
       // Simulate sending invite (backend functionality)
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Add 20 FPT reward
+      // Add 20 FPT reward - ensure this happens after successful invite
       console.log('Adding 20 FPT reward for invite');
       const success = await addTokens(
         20,
@@ -65,8 +65,9 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
         });
         setEmail(''); // Clear the form
       } else {
-        console.error('Failed to add tokens for invite reward');
+        // If token addition fails, still show invite was sent but mention the reward issue
         toast.error('Invite sent but failed to process reward. Please contact support.');
+        console.error('Failed to add tokens for invite reward');
       }
     } catch (error) {
       console.error('Error sending invite:', error);
