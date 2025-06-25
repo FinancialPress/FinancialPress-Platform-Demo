@@ -145,14 +145,26 @@ export const useComments = (postId: string) => {
       // Award FPT tokens for commenting - use direct addTokens function with string UUIDs
       if (isLiveUser) {
         try {
-          console.log('Tracking comment engagement and adding 0.05 FPT reward...');
+          console.log('About to track engagement and add 0.05 FPT reward...');
           await trackEngagement('comment', validPostId);
           
+          console.log('Calling addTokens with parameters:', {
+            amount: 0.05,
+            type: 'comment',
+            description: 'Earned for commenting on a post',
+            metadata: { 
+              postId: String(validPostId),
+              userId: String(user.id)
+            }
+          });
+
           // Directly add tokens using the addTokens function with string UUIDs
           const success = await addTokens(0.05, 'comment', 'Earned for commenting on a post', { 
             postId: String(validPostId),
             userId: String(user.id)
           });
+          
+          console.log('addTokens returned:', success);
           
           if (success) {
             toast.success('+0.05 FPT earned!', {
@@ -161,9 +173,11 @@ export const useComments = (postId: string) => {
             console.log('0.05 FPT added successfully for comment');
           } else {
             console.warn('Failed to add FPT tokens for comment');
+            toast.error('Failed to award FPT tokens');
           }
         } catch (tokenError) {
-          console.warn('Token reward failed:', tokenError);
+          console.error('Token reward failed:', tokenError);
+          toast.error('Failed to award FPT tokens');
         }
       }
 

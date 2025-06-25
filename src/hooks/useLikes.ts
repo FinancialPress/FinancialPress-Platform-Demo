@@ -128,14 +128,26 @@ export const useLikes = (postId: string) => {
         // Award FPT tokens for liking - only on first like (not unlike)
         if (!wasLiked && isLiveUser) {
           try {
-            console.log('Tracking like engagement and adding 0.01 FPT reward...');
+            console.log('About to track engagement and add 0.01 FPT reward...');
             await trackEngagement('like', validPostId);
             
+            console.log('Calling addTokens with parameters:', {
+              amount: 0.01,
+              type: 'like',
+              description: 'Earned for liking a post',
+              metadata: { 
+                postId: String(validPostId),
+                userId: String(user.id)
+              }
+            });
+
             // Directly add tokens using the addTokens function with string UUIDs
             const success = await addTokens(0.01, 'like', 'Earned for liking a post', { 
               postId: String(validPostId),
               userId: String(user.id)
             });
+            
+            console.log('addTokens returned:', success);
             
             if (success) {
               toast.success('+0.01 FPT earned!', {
@@ -144,9 +156,11 @@ export const useLikes = (postId: string) => {
               console.log('0.01 FPT added successfully for like');
             } else {
               console.warn('Failed to add FPT tokens for like');
+              toast.error('Failed to award FPT tokens');
             }
           } catch (tokenError) {
-            console.warn('Token reward failed:', tokenError);
+            console.error('Token reward failed:', tokenError);
+            toast.error('Failed to award FPT tokens');
           }
         }
       }

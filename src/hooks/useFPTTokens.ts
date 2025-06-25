@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -47,7 +46,14 @@ export const useFPTTokens = () => {
       return false;
     }
 
-    console.log('addTokens called with:', { amount, transactionType, description, metadata, userId: user.id });
+    console.log('addTokens called with:', { 
+      amount, 
+      transactionType, 
+      description, 
+      metadata, 
+      userId: user.id,
+      userIdType: typeof user.id 
+    });
     
     if (amount <= 0) {
       console.error('Invalid token amount:', amount);
@@ -56,8 +62,16 @@ export const useFPTTokens = () => {
     
     setLoading(true);
     try {
+      console.log('Calling add_fpt_tokens RPC with parameters:', {
+        target_user_id: String(user.id),
+        token_amount: amount,
+        transaction_type: transactionType,
+        description: description || null,
+        metadata: metadata || null
+      });
+
       const { data, error } = await supabase.rpc('add_fpt_tokens', {
-        target_user_id: user.id,
+        target_user_id: String(user.id),
         token_amount: amount,
         transaction_type: transactionType,
         description: description || null,
@@ -67,17 +81,19 @@ export const useFPTTokens = () => {
       console.log('RPC add_fpt_tokens response:', { data, error });
 
       if (error) {
-        console.error('Error adding tokens:', error);
+        console.error('Error adding tokens (RPC failed):', error);
+        toast.error(`Failed to add tokens: ${error.message}`);
         return false;
       }
 
       // Refresh balance immediately and fetch transactions
       await Promise.all([refreshBalance(), fetchTransactions()]);
       
-      console.log('Tokens added successfully');
+      console.log('Tokens added successfully, balance refreshed');
       return true;
     } catch (error) {
-      console.error('Error adding tokens:', error);
+      console.error('Error adding tokens (exception):', error);
+      toast.error('Failed to add tokens due to network error');
       return false;
     } finally {
       setLoading(false);
