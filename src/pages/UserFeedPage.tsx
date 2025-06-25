@@ -91,7 +91,7 @@ const UserFeedPage = () => {
         isDarkMode={isDarkMode}
         userProfile={profile}
       />
-      <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16">
+      <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 pt-6">
         <UserFeedErrorBoundary isDarkMode={isDarkMode}>
           <UserFeed 
             onNavigate={handleNavigate}
