@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { useFPTTokens } from '@/hooks/useFPTTokens';
+import { useEngagement } from '@/hooks/useEngagement';
 import { useRealtimeManager } from './useRealtimeManager';
 import { toast } from 'sonner';
 
@@ -29,7 +29,7 @@ export const useComments = (postId: string) => {
   const [submitting, setSubmitting] = useState(false);
   
   const { user } = useAuth();
-  const { addTokens } = useFPTTokens();
+  const { trackEngagement, triggerReward, isLiveUser } = useEngagement();
   const realtimeManager = useRealtimeManager();
 
   // Generate a valid UUID for mock post IDs - more robust conversion
@@ -140,24 +140,24 @@ export const useComments = (postId: string) => {
 
       console.log('Comment added successfully');
 
-      // Award FPT tokens for commenting - only after successful comment submission
-      try {
-        console.log('Attempting to add FPT tokens for comment...');
-        const success = await addTokens(
-          0.05,
-          'engagement',
-          'Comment reward',
-          { post_id: validPostId, action: 'comment' }
-        );
-        
-        if (success) {
-          toast.success('You earned 0.05 FPT for commenting on this post!');
-          console.log('FPT tokens added successfully for comment');
-        } else {
-          console.warn('Failed to add FPT tokens for comment');
+      // Award FPT tokens for commenting - using same pattern as Share & Earn
+      if (isLiveUser) {
+        try {
+          console.log('Tracking comment engagement and triggering reward...');
+          await trackEngagement('comment', validPostId);
+          
+          // Use the same reward mechanism as Share & Earn but with custom amount
+          const success = await triggerReward('comment', validPostId, 0.05);
+          
+          if (success) {
+            toast.success('You earned 0.05 FPT for commenting on this post!');
+            console.log('FPT tokens added successfully for comment');
+          } else {
+            console.warn('Failed to add FPT tokens for comment');
+          }
+        } catch (tokenError) {
+          console.warn('Token reward failed:', tokenError);
         }
-      } catch (tokenError) {
-        console.warn('Token reward failed:', tokenError);
       }
 
       return true;
@@ -168,7 +168,7 @@ export const useComments = (postId: string) => {
     } finally {
       setSubmitting(false);
     }
-  }, [user, validPostId, addTokens]);
+  }, [user, validPostId, trackEngagement, triggerReward, isLiveUser]);
 
   // Set up realtime subscription
   useEffect(() => {
