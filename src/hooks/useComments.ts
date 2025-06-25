@@ -32,15 +32,30 @@ export const useComments = (postId: string) => {
   const { addTokens } = useFPTTokens();
   const realtimeManager = useRealtimeManager();
 
+  // Generate a valid UUID for mock post IDs
+  const getValidPostId = useCallback((id: string): string => {
+    if (id.includes('feed-') || id.includes('post-')) {
+      // Convert mock IDs to deterministic UUIDs
+      const hash = id.split('-')[1] || '1';
+      const paddedHash = hash.padStart(8, '0');
+      return `${paddedHash}-0000-4000-8000-000000000000`;
+    }
+    return id;
+  }, []);
+
+  const validPostId = getValidPostId(postId);
+
   // Fetch comments with profile data
   const fetchComments = useCallback(async () => {
+    if (!validPostId) return;
+
     try {
       setLoading(true);
       
       const { data: commentsData, error } = await supabase
         .from('comments')
         .select('*')
-        .eq('post_id', postId)
+        .eq('post_id', validPostId)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
@@ -69,7 +84,7 @@ export const useComments = (postId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [postId]);
+  }, [validPostId]);
 
   // Add new comment
   const addComment = useCallback(async (content: string) => {
@@ -83,32 +98,40 @@ export const useComments = (postId: string) => {
       return false;
     }
 
+    if (!validPostId) {
+      toast.error('Invalid post');
+      return false;
+    }
+
     setSubmitting(true);
 
     try {
       const { error } = await supabase
         .from('comments')
         .insert({
-          post_id: postId,
+          post_id: validPostId,
           user_id: user.id,
           content: content.trim()
         });
 
       if (error) throw error;
 
-      // Award FPT tokens for commenting
+      // Award FPT tokens for commenting - only after successful comment submission
       try {
-        await addTokens(
+        const success = await addTokens(
           0.05,
           'engagement',
           'Comment reward',
-          { post_id: postId, action: 'comment' }
+          { post_id: validPostId, action: 'comment' }
         );
+        
+        if (success) {
+          toast.success('You earned 0.05 FPT for commenting on this post!');
+        }
       } catch (tokenError) {
         console.warn('Token reward failed:', tokenError);
       }
 
-      toast.success('Comment added successfully');
       return true;
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -117,7 +140,7 @@ export const useComments = (postId: string) => {
     } finally {
       setSubmitting(false);
     }
-  }, [user, postId, addTokens]);
+  }, [user, validPostId, addTokens]);
 
   // Set up realtime subscription
   useEffect(() => {
@@ -127,14 +150,14 @@ export const useComments = (postId: string) => {
       'comments',
       'comments',
       (payload) => {
-        if (payload.new?.post_id === postId || payload.old?.post_id === postId) {
+        if (payload.new?.post_id === validPostId || payload.old?.post_id === validPostId) {
           fetchComments();
         }
       }
     );
 
     return unsubscribe;
-  }, [fetchComments, postId, realtimeManager]);
+  }, [fetchComments, validPostId, realtimeManager]);
 
   return {
     comments,

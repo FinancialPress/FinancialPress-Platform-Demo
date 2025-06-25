@@ -23,13 +23,28 @@ export const useLikes = (postId: string) => {
   const { addTokens } = useFPTTokens();
   const realtimeManager = useRealtimeManager();
 
+  // Generate a valid UUID for mock post IDs
+  const getValidPostId = useCallback((id: string): string => {
+    if (id.includes('feed-') || id.includes('post-')) {
+      // Convert mock IDs to deterministic UUIDs
+      const hash = id.split('-')[1] || '1';
+      const paddedHash = hash.padStart(8, '0');
+      return `${paddedHash}-0000-4000-8000-000000000000`;
+    }
+    return id;
+  }, []);
+
+  const validPostId = getValidPostId(postId);
+
   // Fetch initial likes
   const fetchLikes = useCallback(async () => {
+    if (!validPostId) return;
+
     try {
       const { data, error } = await supabase
         .from('likes')
         .select('*')
-        .eq('post_id', postId);
+        .eq('post_id', validPostId);
 
       if (error) throw error;
 
@@ -42,7 +57,7 @@ export const useLikes = (postId: string) => {
     } catch (error) {
       console.error('Error fetching likes:', error);
     }
-  }, [postId, user]);
+  }, [validPostId, user]);
 
   // Toggle like with optimistic UI
   const toggleLike = useCallback(async () => {
@@ -51,7 +66,7 @@ export const useLikes = (postId: string) => {
       return;
     }
 
-    if (loading) return;
+    if (loading || !validPostId) return;
     setLoading(true);
 
     // Optimistic UI update
@@ -65,7 +80,7 @@ export const useLikes = (postId: string) => {
         const { error } = await supabase
           .from('likes')
           .delete()
-          .eq('post_id', postId)
+          .eq('post_id', validPostId)
           .eq('user_id', user.id);
 
         if (error) throw error;
@@ -74,20 +89,24 @@ export const useLikes = (postId: string) => {
         const { error } = await supabase
           .from('likes')
           .insert({
-            post_id: postId,
+            post_id: validPostId,
             user_id: user.id
           });
 
         if (error) throw error;
 
-        // Award FPT tokens for liking
+        // Award FPT tokens for liking - only for new likes
         try {
-          await addTokens(
+          const success = await addTokens(
             0.01,
             'engagement',
             'Like reward',
-            { post_id: postId, action: 'like' }
+            { post_id: validPostId, action: 'like' }
           );
+          
+          if (success) {
+            toast.success('You earned 0.01 FPT for liking this post!');
+          }
         } catch (tokenError) {
           console.warn('Token reward failed:', tokenError);
         }
@@ -103,7 +122,7 @@ export const useLikes = (postId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [user, isLiked, loading, postId, addTokens]);
+  }, [user, isLiked, loading, validPostId, addTokens]);
 
   // Set up realtime subscription
   useEffect(() => {
@@ -113,14 +132,14 @@ export const useLikes = (postId: string) => {
       'likes',
       'likes',
       (payload) => {
-        if (payload.new?.post_id === postId || payload.old?.post_id === postId) {
+        if (payload.new?.post_id === validPostId || payload.old?.post_id === validPostId) {
           fetchLikes();
         }
       }
     );
 
     return unsubscribe;
-  }, [fetchLikes, postId, realtimeManager]);
+  }, [fetchLikes, validPostId, realtimeManager]);
 
   return {
     likes,
