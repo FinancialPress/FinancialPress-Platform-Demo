@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -37,16 +36,6 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
   const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-gray-300';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
-
-  // Generate a consistent UUID for mock posts based on their ID
-  const generateConsistentUUID = (id: number) => {
-    // Create a consistent UUID-like string based on the post ID
-    const baseUUID = '00000000-0000-4000-8000-000000000000';
-    const idStr = id.toString().padStart(12, '0');
-    return baseUUID.substring(0, 24) + idStr;
-  };
-
-  const postId = generateConsistentUUID(post.id);
 
   return (
     <Card className={`${cardClasses} transition-colors`}>
@@ -117,8 +106,6 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
           isDarkMode={isDarkMode}
           onShare={onShare}
           onTip={onTip}
-          postId={postId}
-          postTitle={post.content}
         />
       </CardContent>
     </Card>

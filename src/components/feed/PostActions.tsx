@@ -1,12 +1,10 @@
 
 import React, { useState } from 'react';
-import { Share2, Repeat2, HandCoins } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Repeat2, HandCoins } from 'lucide-react';
 import { useEngagement } from '@/hooks/useEngagement';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
-import LikeButton from './LikeButton';
-import CommentButton from './CommentButton';
 
 interface PostActionsProps {
   engagement: {
@@ -20,18 +18,9 @@ interface PostActionsProps {
   onShare: () => void;
   onTip: () => void;
   postId?: string | number;
-  postTitle?: string;
 }
 
-const PostActions = ({ 
-  engagement, 
-  mutedText, 
-  isDarkMode, 
-  onShare, 
-  onTip, 
-  postId,
-  postTitle = "Sample Post Title"
-}: PostActionsProps) => {
+const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId }: PostActionsProps) => {
   const { trackEngagement, triggerReward, showDemoToast, isLiveUser } = useEngagement();
   const { spendTokens } = useFPTTokens();
   const [showSupportModal, setShowSupportModal] = useState(false);
@@ -41,8 +30,8 @@ const PostActions = ({
     console.log('handleShareAndEarn called', { postId, isLiveUser });
     
     if (isLiveUser) {
-      // Generate a valid UUID for tracking if postId is not a valid UUID
-      const validPostId = typeof postId === 'string' && postId.length === 36 ? postId : crypto.randomUUID();
+      // Generate a valid UUID for tracking
+      const validPostId = crypto.randomUUID();
       
       console.log('Generated valid postId:', validPostId);
       
@@ -84,34 +73,20 @@ const PostActions = ({
     // This callback is called after successful spending
   };
 
-  // Convert postId to string for database operations, ensure it's a valid UUID format
-  const stringPostId = (() => {
-    if (typeof postId === 'string') {
-      // Check if it's a valid UUID format (36 characters with hyphens)
-      if (postId.length === 36 && postId.includes('-')) {
-        return postId;
-      }
-    }
-    // Generate a new UUID for mock posts or invalid IDs
-    return crypto.randomUUID();
-  })();
-
   return (
     <>
       <div
         className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}
       >
         <div className="flex items-center space-x-8">
-          <LikeButton 
-            postId={stringPostId}
-            mutedText={mutedText}
-          />
-          <CommentButton
-            postId={stringPostId}
-            postTitle={postTitle}
-            mutedText={mutedText}
-            isDarkMode={isDarkMode}
-          />
+          <button className={`flex items-center space-x-2 ${mutedText} hover:text-red-400 transition-colors`}>
+            <Heart className="w-5 h-5" />
+            <span>{engagement.likes}</span>
+          </button>
+          <button className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}>
+            <MessageCircle className="w-5 h-5" />
+            <span>{engagement.comments}</span>
+          </button>
           <button className={`flex items-center space-x-2 ${mutedText} hover:text-green-400 transition-colors`}>
             <Repeat2 className="w-5 h-5" />
             <span>{engagement.shares}</span>
@@ -141,8 +116,8 @@ const PostActions = ({
         creatorName="Creator"
         followerCount="1.2K"
         isVerified={false}
-        postTitle={postTitle}
-        postId={stringPostId}
+        postTitle="Sample Post Title"
+        postId={postId?.toString()}
         isOpen={showSupportModal}
         onClose={() => setShowSupportModal(false)}
         onTip={handleConfirmedTip}
@@ -154,7 +129,7 @@ const PostActions = ({
       {showShareEarnModal && (
         <ShareEarnFlow
           post={{
-            title: postTitle,
+            title: "Sample Post Title",
             creator: "creator",
             estimatedEarnings: "5.0 FPT"
           }}
