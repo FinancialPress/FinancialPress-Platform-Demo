@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +8,7 @@ import { Card } from '@/components/ui/card';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProfile } from '@/hooks/useProfile';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { PenTool } from 'lucide-react';
 import ProfilePictureUpload from '../ProfilePictureUpload';
 
@@ -21,7 +22,6 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const { profile, updateProfile, checkUsernameAvailability } = useProfile();
-  const { toast } = useToast();
 
   const [displayName, setDisplayName] = useState('');
   const [username, setUsername] = useState('');
