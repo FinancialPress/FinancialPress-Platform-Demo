@@ -8,8 +8,19 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useProfile } from '@/hooks/useProfile';
 import { useComments } from '@/hooks/useComments';
 import { Loader2, Send, Smile } from 'lucide-react';
-import data from '@emoji-mart/data';
-import Picker from '@emoji-mart/react';
+
+// Graceful emoji picker imports with fallback
+let Picker: any = null;
+let data: any = null;
+
+try {
+  const emojiMart = require('@emoji-mart/react');
+  const emojiData = require('@emoji-mart/data');
+  Picker = emojiMart.default || emojiMart;
+  data = emojiData.default || emojiData;
+} catch (error) {
+  console.warn('Emoji picker not available:', error);
+}
 
 interface CommentModalProps {
   isOpen: boolean;
@@ -29,6 +40,7 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, isDarkMode }: Commen
 
   const maxLength = 1000;
   const remainingChars = maxLength - commentText.length;
+  const emojiPickerAvailable = !!(Picker && data);
 
   useEffect(() => {
     if (isOpen && textareaRef.current) {
@@ -52,6 +64,8 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, isDarkMode }: Commen
   };
 
   const handleEmojiSelect = (emoji: any) => {
+    if (!emojiPickerAvailable) return;
+    
     const textarea = textareaRef.current;
     if (textarea) {
       const start = textarea.selectionStart;
@@ -140,16 +154,19 @@ const CommentModal = ({ isOpen, onClose, postId, postTitle, isDarkMode }: Commen
                     maxLength={maxLength}
                   />
                   <div className="absolute bottom-2 right-2 flex items-center space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                      className={`p-1 rounded hover:bg-gray-200 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
-                    >
-                      <Smile className="w-4 h-4" />
-                    </button>
+                    {emojiPickerAvailable && (
+                      <button
+                        type="button"
+                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                        className={`p-1 rounded hover:bg-gray-200 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+                        title="Add emoji"
+                      >
+                        <Smile className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                   
-                  {showEmojiPicker && (
+                  {emojiPickerAvailable && showEmojiPicker && (
                     <div className="absolute bottom-full right-0 mb-2 z-50">
                       <Picker
                         data={data}
