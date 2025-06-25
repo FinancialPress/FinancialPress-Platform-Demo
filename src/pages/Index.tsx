@@ -90,6 +90,9 @@ const Index = () => {
 
   // Don't show Header on Onboarding (screen 2)
   const showHeader = currentScreen !== 2;
+  
+  // Add extra spacing when user is signed in and on landing page
+  const isSignedInOnLanding = !!user && currentScreen === 0;
 
   return (
     <div className={`${themeClasses} w-full overflow-x-hidden`}>
@@ -103,7 +106,7 @@ const Index = () => {
           isLoggedIn={!!user}
         />
       )}
-      <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16">
+      <div className={`max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 ${isSignedInOnLanding ? 'mt-8' : ''}`}>
         {screens[currentScreen]}
       </div>
     </div>
