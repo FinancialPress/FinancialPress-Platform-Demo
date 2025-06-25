@@ -1,8 +1,8 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEngagement } from '@/hooks/useEngagement';
+import { useFPTTokens } from '@/hooks/useFPTTokens';
 import { useRealtimeManager } from './useRealtimeManager';
 import { toast } from 'sonner';
 
@@ -20,7 +20,8 @@ export const useLikes = (postId: string) => {
   const [loading, setLoading] = useState(false);
   
   const { user } = useAuth();
-  const { trackEngagement, triggerReward, isLiveUser } = useEngagement();
+  const { trackEngagement, isLiveUser } = useEngagement();
+  const { addTokens } = useFPTTokens();
   const realtimeManager = useRealtimeManager();
 
   // Generate a valid UUID for mock post IDs - more robust conversion
@@ -122,16 +123,23 @@ export const useLikes = (postId: string) => {
 
         console.log('Post liked successfully');
 
-        // Award FPT tokens for liking - using same pattern as Share & Earn
+        // Award FPT tokens for liking - use direct addTokens function
         if (isLiveUser) {
           try {
-            console.log('Tracking like engagement and triggering reward...');
+            console.log('Tracking like engagement and adding 0.01 FPT reward...');
             await trackEngagement('like', validPostId);
             
-            // Use triggerReward but pass correct parameters - it handles success internally
-            triggerReward('like', validPostId);
+            // Directly add tokens using the addTokens function
+            const success = await addTokens(0.01, 'like', 'Earned for liking a post', { postId: validPostId });
             
-            console.log('Like reward triggered successfully');
+            if (success) {
+              toast.success('+0.01 FPT earned!', {
+                description: 'For liking content'
+              });
+              console.log('0.01 FPT added successfully for like');
+            } else {
+              console.warn('Failed to add FPT tokens for like');
+            }
           } catch (tokenError) {
             console.warn('Token reward failed:', tokenError);
           }
@@ -148,7 +156,7 @@ export const useLikes = (postId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [user, isLiked, loading, validPostId, trackEngagement, triggerReward, isLiveUser]);
+  }, [user, isLiked, loading, validPostId, trackEngagement, isLiveUser, addTokens]);
 
   // Set up realtime subscription
   useEffect(() => {
