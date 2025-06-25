@@ -23,15 +23,25 @@ export const useLikes = (postId: string) => {
   const { addTokens } = useFPTTokens();
   const realtimeManager = useRealtimeManager();
 
-  // Generate a valid UUID for mock post IDs
+  // Generate a valid UUID for mock post IDs - more robust conversion
   const getValidPostId = useCallback((id: string): string => {
+    if (!id) return '';
+    
+    // If it's already a valid UUID, return it
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) {
+      return id;
+    }
+    
+    // Convert feed- or post- prefixed IDs to deterministic UUIDs
     if (id.includes('feed-') || id.includes('post-')) {
-      // Convert mock IDs to deterministic UUIDs
       const hash = id.split('-')[1] || '1';
       const paddedHash = hash.padStart(8, '0');
       return `${paddedHash}-0000-4000-8000-000000000000`;
     }
-    return id;
+    
+    // For any other string, create a deterministic UUID
+    const hash = id.replace(/[^a-zA-Z0-9]/g, '').padStart(8, '0').substring(0, 8);
+    return `${hash}-0000-4000-8000-000000000000`;
   }, []);
 
   const validPostId = getValidPostId(postId);
@@ -41,13 +51,18 @@ export const useLikes = (postId: string) => {
     if (!validPostId) return;
 
     try {
+      console.log('Fetching likes for post:', validPostId);
       const { data, error } = await supabase
         .from('likes')
         .select('*')
         .eq('post_id', validPostId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching likes:', error);
+        return;
+      }
 
+      console.log('Likes fetched:', data);
       setLikes(data || []);
       setLikesCount(data?.length || 0);
       
@@ -59,7 +74,7 @@ export const useLikes = (postId: string) => {
     }
   }, [validPostId, user]);
 
-  // Toggle like with optimistic UI
+  // Toggle like with optimistic UI and proper error handling
   const toggleLike = useCallback(async () => {
     if (!user) {
       toast.info('Please sign in to like posts');
@@ -75,6 +90,8 @@ export const useLikes = (postId: string) => {
     setLikesCount(prev => wasLiked ? prev - 1 : prev + 1);
 
     try {
+      console.log('Toggling like for post:', validPostId, 'wasLiked:', wasLiked);
+      
       if (wasLiked) {
         // Unlike
         const { error } = await supabase
@@ -83,7 +100,12 @@ export const useLikes = (postId: string) => {
           .eq('post_id', validPostId)
           .eq('user_id', user.id);
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error unliking post:', error);
+          throw error;
+        }
+        
+        console.log('Post unliked successfully');
       } else {
         // Like
         const { error } = await supabase
@@ -93,10 +115,16 @@ export const useLikes = (postId: string) => {
             user_id: user.id
           });
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error liking post:', error);
+          throw error;
+        }
+
+        console.log('Post liked successfully');
 
         // Award FPT tokens for liking - only for new likes
         try {
+          console.log('Attempting to add FPT tokens for like...');
           const success = await addTokens(
             0.01,
             'engagement',
@@ -106,6 +134,9 @@ export const useLikes = (postId: string) => {
           
           if (success) {
             toast.success('You earned 0.01 FPT for liking this post!');
+            console.log('FPT tokens added successfully for like');
+          } else {
+            console.warn('Failed to add FPT tokens for like');
           }
         } catch (tokenError) {
           console.warn('Token reward failed:', tokenError);
@@ -118,7 +149,7 @@ export const useLikes = (postId: string) => {
       setIsLiked(wasLiked);
       setLikesCount(prev => wasLiked ? prev + 1 : prev - 1);
       
-      toast.error('Failed to update like');
+      toast.error('Failed to update like. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -126,12 +157,15 @@ export const useLikes = (postId: string) => {
 
   // Set up realtime subscription
   useEffect(() => {
+    if (!validPostId) return;
+
     fetchLikes();
 
     const unsubscribe = realtimeManager.subscribe(
       'likes',
       'likes',
       (payload) => {
+        console.log('Realtime likes update:', payload);
         if (payload.new?.post_id === validPostId || payload.old?.post_id === validPostId) {
           fetchLikes();
         }

@@ -18,6 +18,23 @@ interface CreatorProfileSetupProps {
   selectedTopics: string[];
 }
 
+// Username validation function to match database constraints
+const validateUsername = (username: string): { isValid: boolean; error?: string } => {
+  if (!username || username.length < 3) {
+    return { isValid: false, error: 'Username must be at least 3 characters long' };
+  }
+  if (username.length > 20) {
+    return { isValid: false, error: 'Username must be 20 characters or less' };
+  }
+  if (!/^[a-z0-9_]+$/.test(username)) {
+    return { isValid: false, error: 'Username can only contain lowercase letters, numbers, and underscores' };
+  }
+  if (username.startsWith('_') || username.endsWith('_')) {
+    return { isValid: false, error: 'Username cannot start or end with underscore' };
+  }
+  return { isValid: true };
+};
+
 const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorProfileSetupProps) => {
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
@@ -41,13 +58,25 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
   }, [profile]);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newUsername = e.target.value;
+    const newUsername = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
     setUsername(newUsername);
-    setUsernameError(null); // Clear any previous errors
+    setUsernameError(null);
+    
+    // Validate format immediately
+    const validation = validateUsername(newUsername);
+    if (!validation.isValid && newUsername.length > 0) {
+      setUsernameError(validation.error || 'Invalid username format');
+    }
   };
 
   const handleUsernameBlur = async () => {
     if (!username.trim()) return;
+
+    const validation = validateUsername(username);
+    if (!validation.isValid) {
+      setUsernameError(validation.error || 'Invalid username format');
+      return;
+    }
 
     setUsernameChecking(true);
     try {
@@ -55,6 +84,9 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
       if (!isAvailable) {
         setUsernameError('Username is already taken');
       }
+    } catch (error) {
+      console.error('Error checking username:', error);
+      setUsernameError('Error checking username availability');
     } finally {
       setUsernameChecking(false);
     }
@@ -80,6 +112,14 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
       return;
     }
 
+    // Final username validation
+    const validation = validateUsername(username);
+    if (!validation.isValid) {
+      setUsernameError(validation.error || 'Invalid username format');
+      toast.error(validation.error || 'Invalid username format');
+      return;
+    }
+
     setSaving(true);
 
     try {
@@ -96,6 +136,7 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
         
         if (!isUsernameAvailable) {
           setUsernameError('Username is already taken');
+          toast.error('Username is already taken');
           setSaving(false);
           return;
         }
@@ -113,7 +154,7 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
 
         if (error) {
           console.error('Profile update error:', error);
-          toast.error('Failed to save profile');
+          toast.error('Failed to save profile. Please check your username format.');
           setSaving(false);
           return;
         }
@@ -146,6 +187,8 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
   const mutedTextClass = isDarkMode ? 'text-gray-400' : 'text-gray-600';
   const cardClass = isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-300';
   const inputClass = isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
+
+  const isUsernameValid = username.length > 0 && validateUsername(username).isValid && !usernameError;
 
   return (
     <div className={`max-w-4xl mx-auto ${textClass}`}>
@@ -200,7 +243,7 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
                 onChange={handleUsernameChange}
                 onBlur={handleUsernameBlur}
                 placeholder="username"
-                className={`${inputClass} pl-8 ${usernameError ? 'border-red-500' : ''}`}
+                className={`${inputClass} pl-8 ${usernameError ? 'border-red-500' : isUsernameValid ? 'border-green-500' : ''}`}
                 disabled={saving}
               />
             </div>
@@ -210,6 +253,9 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
             {usernameChecking && (
               <p className={`${mutedTextClass} text-sm mt-1`}>Checking availability...</p>
             )}
+            <p className={`text-xs ${mutedTextClass} mt-1`}>
+              Username must be 3-20 characters, lowercase letters, numbers, and underscores only
+            </p>
           </div>
 
           {/* Bio */}
@@ -251,7 +297,7 @@ const CreatorProfileSetup = ({ onContinue, userType, selectedTopics }: CreatorPr
           {/* Save Button */}
           <Button
             onClick={handleSave}
-            disabled={saving || !displayName.trim() || !username.trim() || !!usernameError}
+            disabled={saving || !displayName.trim() || !username.trim() || !!usernameError || usernameChecking}
             className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 text-lg"
           >
             {saving ? (

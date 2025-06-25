@@ -32,15 +32,25 @@ export const useComments = (postId: string) => {
   const { addTokens } = useFPTTokens();
   const realtimeManager = useRealtimeManager();
 
-  // Generate a valid UUID for mock post IDs
+  // Generate a valid UUID for mock post IDs - more robust conversion
   const getValidPostId = useCallback((id: string): string => {
+    if (!id) return '';
+    
+    // If it's already a valid UUID, return it
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) {
+      return id;
+    }
+    
+    // Convert feed- or post- prefixed IDs to deterministic UUIDs
     if (id.includes('feed-') || id.includes('post-')) {
-      // Convert mock IDs to deterministic UUIDs
       const hash = id.split('-')[1] || '1';
       const paddedHash = hash.padStart(8, '0');
       return `${paddedHash}-0000-4000-8000-000000000000`;
     }
-    return id;
+    
+    // For any other string, create a deterministic UUID
+    const hash = id.replace(/[^a-zA-Z0-9]/g, '').padStart(8, '0').substring(0, 8);
+    return `${hash}-0000-4000-8000-000000000000`;
   }, []);
 
   const validPostId = getValidPostId(postId);
@@ -51,6 +61,7 @@ export const useComments = (postId: string) => {
 
     try {
       setLoading(true);
+      console.log('Fetching comments for post:', validPostId);
       
       const { data: commentsData, error } = await supabase
         .from('comments')
@@ -58,7 +69,13 @@ export const useComments = (postId: string) => {
         .eq('post_id', validPostId)
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching comments:', error);
+        setComments([]);
+        return;
+      }
+
+      console.log('Comments fetched:', commentsData);
 
       if (commentsData && commentsData.length > 0) {
         // Fetch profiles for comment authors
@@ -106,6 +123,8 @@ export const useComments = (postId: string) => {
     setSubmitting(true);
 
     try {
+      console.log('Adding comment to post:', validPostId, 'content:', content.trim());
+      
       const { error } = await supabase
         .from('comments')
         .insert({
@@ -114,10 +133,16 @@ export const useComments = (postId: string) => {
           content: content.trim()
         });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error adding comment:', error);
+        throw error;
+      }
+
+      console.log('Comment added successfully');
 
       // Award FPT tokens for commenting - only after successful comment submission
       try {
+        console.log('Attempting to add FPT tokens for comment...');
         const success = await addTokens(
           0.05,
           'engagement',
@@ -127,6 +152,9 @@ export const useComments = (postId: string) => {
         
         if (success) {
           toast.success('You earned 0.05 FPT for commenting on this post!');
+          console.log('FPT tokens added successfully for comment');
+        } else {
+          console.warn('Failed to add FPT tokens for comment');
         }
       } catch (tokenError) {
         console.warn('Token reward failed:', tokenError);
@@ -135,7 +163,7 @@ export const useComments = (postId: string) => {
       return true;
     } catch (error) {
       console.error('Error adding comment:', error);
-      toast.error('Failed to add comment');
+      toast.error('Failed to add comment. Please try again.');
       return false;
     } finally {
       setSubmitting(false);
@@ -144,12 +172,15 @@ export const useComments = (postId: string) => {
 
   // Set up realtime subscription
   useEffect(() => {
+    if (!validPostId) return;
+
     fetchComments();
 
     const unsubscribe = realtimeManager.subscribe(
       'comments',
       'comments',
       (payload) => {
+        console.log('Realtime comments update:', payload);
         if (payload.new?.post_id === validPostId || payload.old?.post_id === validPostId) {
           fetchComments();
         }

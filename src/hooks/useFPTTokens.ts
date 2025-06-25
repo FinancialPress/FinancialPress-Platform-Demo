@@ -68,8 +68,6 @@ export const useFPTTokens = () => {
 
       if (error) {
         console.error('Error adding tokens:', error);
-        // Log token error but don't show error toast to user
-        console.warn(`Token reward failed: ${error.message}. Main action was successful.`);
         return false;
       }
 
@@ -77,15 +75,9 @@ export const useFPTTokens = () => {
       await Promise.all([refreshBalance(), fetchTransactions()]);
       
       console.log('Tokens added successfully');
-      toast.success(`+${amount} FPT earned!`, {
-        description: description || 'Tokens added to your account'
-      });
-      
       return true;
     } catch (error) {
       console.error('Error adding tokens:', error);
-      // Log token error but don't show error toast to user
-      console.warn('Token reward failed. Main action was successful.');
       return false;
     } finally {
       setLoading(false);

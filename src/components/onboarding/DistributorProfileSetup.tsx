@@ -20,10 +20,27 @@ interface DistributorProfileSetupProps {
   selectedTopics?: string[];
 }
 
+// Username validation function to match database constraints
+const validateUsername = (username: string): { isValid: boolean; error?: string } => {
+  if (!username || username.length < 3) {
+    return { isValid: false, error: 'Username must be at least 3 characters long' };
+  }
+  if (username.length > 20) {
+    return { isValid: false, error: 'Username must be 20 characters or less' };
+  }
+  if (!/^[a-z0-9_]+$/.test(username)) {
+    return { isValid: false, error: 'Username can only contain lowercase letters, numbers, and underscores' };
+  }
+  if (username.startsWith('_') || username.endsWith('_')) {
+    return { isValid: false, error: 'Username cannot start or end with underscore' };
+  }
+  return { isValid: true };
+};
+
 const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: DistributorProfileSetupProps) => {
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
-  const { createProfile, updateProfile } = useProfile();
+  const { createProfile, updateProfile, checkUsernameAvailability } = useProfile();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   
@@ -31,8 +48,43 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [usernameChecking, setUsernameChecking] = useState(false);
 
-  const usernameValidation = useUsernameValidation(username, displayName);
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUsername = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
+    setUsername(newUsername);
+    setUsernameError(null);
+    
+    // Validate format immediately
+    const validation = validateUsername(newUsername);
+    if (!validation.isValid && newUsername.length > 0) {
+      setUsernameError(validation.error || 'Invalid username format');
+    }
+  };
+
+  const handleUsernameBlur = async () => {
+    if (!username.trim()) return;
+
+    const validation = validateUsername(username);
+    if (!validation.isValid) {
+      setUsernameError(validation.error || 'Invalid username format');
+      return;
+    }
+
+    setUsernameChecking(true);
+    try {
+      const isAvailable = await checkUsernameAvailability(username);
+      if (!isAvailable) {
+        setUsernameError('Username is already taken');
+      }
+    } catch (error) {
+      console.error('Error checking username:', error);
+      setUsernameError('Error checking username availability');
+    } finally {
+      setUsernameChecking(false);
+    }
+  };
 
   const handleContinue = async () => {
     if (userType === 'demo') {
@@ -58,10 +110,22 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
       return;
     }
 
-    if (!username.trim() || !usernameValidation.isValid) {
+    if (!username.trim()) {
       toast({
         title: "Error",
-        description: "Please enter a valid username",
+        description: "Please enter a username",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Final username validation
+    const validation = validateUsername(username);
+    if (!validation.isValid) {
+      setUsernameError(validation.error || 'Invalid username format');
+      toast({
+        title: "Error",
+        description: validation.error || 'Invalid username format',
         variant: "destructive",
       });
       return;
@@ -70,6 +134,20 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
     setLoading(true);
     
     try {
+      // Check username availability before saving
+      const isUsernameAvailable = await checkUsernameAvailability(username);
+      
+      if (!isUsernameAvailable) {
+        setUsernameError('Username is already taken');
+        toast({
+          title: "Error",
+          description: "Username is already taken",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       const profileData = {
         display_name: displayName.trim(),
         username: username.trim(),
@@ -84,7 +162,7 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
       if (error) {
         toast({
           title: "Error",
-          description: "Failed to save profile. Please try again.",
+          description: "Failed to save profile. Please check your username format.",
           variant: "destructive",
         });
       } else {
@@ -110,6 +188,8 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
   const textClass = isDarkMode ? 'text-white' : 'text-black';
   const labelClass = isDarkMode ? 'text-gray-300' : 'text-gray-700';
   const inputClass = isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
+
+  const isUsernameValid = username.length > 0 && validateUsername(username).isValid && !usernameError;
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -153,11 +233,12 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
                 id="username"
                 placeholder="your_username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value.toLowerCase())}
+                onChange={handleUsernameChange}
+                onBlur={handleUsernameBlur}
                 className={`pl-8 ${inputClass} ${
-                  username && !usernameValidation.isValid 
+                  usernameError 
                     ? 'border-red-500' 
-                    : username && usernameValidation.isValid 
+                    : isUsernameValid 
                       ? 'border-green-500' 
                       : ''
                 }`}
@@ -165,36 +246,22 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
               />
               {username && (
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  {usernameValidation.isChecking ? (
+                  {usernameChecking ? (
                     <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-                  ) : usernameValidation.isValid ? (
+                  ) : isUsernameValid ? (
                     <Check className="w-4 h-4 text-green-500" />
-                  ) : (
+                  ) : username.length > 0 ? (
                     <X className="w-4 h-4 text-red-500" />
-                  )}
+                  ) : null}
                 </div>
               )}
             </div>
-            {usernameValidation.error && (
-              <p className="text-red-500 text-sm mt-1">{usernameValidation.error}</p>
+            {usernameError && (
+              <p className="text-red-500 text-sm mt-1">{usernameError}</p>
             )}
-            {usernameValidation.suggestions.length > 0 && (
-              <div className="mt-2">
-                <p className={`text-xs ${labelClass} mb-1`}>Suggestions:</p>
-                <div className="flex gap-2 flex-wrap">
-                  {usernameValidation.suggestions.map((suggestion) => (
-                    <button
-                      key={suggestion}
-                      onClick={() => setUsername(suggestion)}
-                      className="text-xs bg-yellow-500 text-black px-2 py-1 rounded hover:bg-yellow-600 transition-colors"
-                      disabled={loading}
-                    >
-                      @{suggestion}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
+            <p className={`text-xs ${labelClass} mt-1`}>
+              Username must be 3-20 characters, lowercase letters, numbers, and underscores only
+            </p>
           </div>
 
           <div>
@@ -238,7 +305,7 @@ const DistributorProfileSetup = ({ onContinue, userType, selectedTopics = [] }: 
           <Button 
             onClick={handleContinue} 
             className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
-            disabled={loading || (username && !usernameValidation.isValid)}
+            disabled={loading || !displayName.trim() || !username.trim() || !!usernameError || usernameChecking}
           >
             {loading ? (
               <>
