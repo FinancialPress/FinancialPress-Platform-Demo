@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
+import { useUserMode } from '@/hooks/useUserMode';
 import { toast } from 'sonner';
 import { Users, Gift } from 'lucide-react';
 
@@ -15,6 +16,7 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const { addTokens } = useFPTTokens();
+  const { isLiveUser } = useUserMode();
 
   const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
@@ -37,6 +39,16 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
       return;
     }
 
+    if (!isLiveUser) {
+      toast.error('Please sign up to earn FPT for inviting friends!');
+      return;
+    }
+
+    if (loading) {
+      console.log('Already processing, skipping...');
+      return;
+    }
+
     setLoading(true);
     try {
       console.log('Starting invite process for email:', email);
@@ -44,14 +56,15 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
       // Simulate sending invite (backend functionality)
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Add 20 FPT reward - ensure this happens after successful invite
-      console.log('Adding 20 FPT reward for invite');
+      console.log('Attempting to add 20 FPT reward for invite');
+      
+      // Add 20 FPT reward using the exact same pattern as Share & Earn
       const success = await addTokens(
         20,
-        'invite_reward',
-        `Friend invitation sent to ${email}`,
-        { 
-          invited_email: email, 
+        'earn_invite', // Use consistent naming pattern like 'earn_share'
+        `Invited friend: ${email}`,
+        {
+          invited_email: email,
           timestamp: new Date().toISOString(),
           action: 'friend_invite'
         }
@@ -65,12 +78,11 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
         });
         setEmail(''); // Clear the form
       } else {
-        // If token addition fails, still show invite was sent but mention the reward issue
-        toast.error('Invite sent but failed to process reward. Please contact support.');
         console.error('Failed to add tokens for invite reward');
+        toast.error('Failed to send invite. Please try again.');
       }
     } catch (error) {
-      console.error('Error sending invite:', error);
+      console.error('Error in invite process:', error);
       toast.error('Failed to send invite. Please try again.');
     } finally {
       setLoading(false);
