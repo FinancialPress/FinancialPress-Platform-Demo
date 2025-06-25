@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -106,6 +107,8 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
           isDarkMode={isDarkMode}
           onShare={onShare}
           onTip={onTip}
+          postId={`feed-${post.id}`}
+          postTitle={post.content}
         />
       </CardContent>
     </Card>

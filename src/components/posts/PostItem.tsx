@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Calendar, Heart, Share, MessageCircle, DollarSign, Share2, HandCoins } from 'lucide-react';
+import { ExternalLink, Calendar, Heart, Share, MessageCircle, Share2, HandCoins } from 'lucide-react';
 import { Post } from '@/hooks/usePosts';
 import { getPlaceholderImage } from '@/utils/imageUpload';
+import { useLikes } from '@/hooks/useLikes';
+import { useComments } from '@/hooks/useComments';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
+import CommentModal from '@/components/modals/CommentModal';
 import { toast } from 'sonner';
 
 interface PostItemProps {
@@ -20,25 +23,11 @@ interface PostItemProps {
 const PostItem = ({ post, isDarkMode }: PostItemProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSupportModal, setShowSupportModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
   
-  // Simple mock engagement functionality to prevent crashes
-  const mockEngagement = {
-    trackEngagement: async (eventType: string, postId: string) => {
-      console.log(`Mock tracking: ${eventType} for post ${postId}`);
-    },
-    triggerReward: async (eventType: string, postId: string) => {
-      console.log(`Mock reward: ${eventType} for post ${postId}`);
-      toast.success(`+0.5 FPT earned!`, {
-        description: `For ${eventType}ing content`
-      });
-    },
-    showDemoToast: (message: string) => {
-      toast.info(message, {
-        description: "Join FinancialPress to start earning!",
-      });
-    },
-    isLiveUser: true // Assume live user for now
-  };
+  // Use real like and comment data
+  const { likesCount, isLiked, toggleLike } = useLikes(post.id);
+  const { commentsCount } = useComments(post.id);
   
   const cardClasses = isDarkMode 
     ? 'bg-gray-900 border-gray-800 hover:border-gray-700' 
@@ -61,17 +50,15 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
     }
   };
 
-  // Generate mock engagement metrics
+  // Generate mock engagement metrics for display
   const generateEngagement = () => ({
-    likes: Math.floor(Math.random() * 1000) + 100,
     shares: Math.floor(Math.random() * 100) + 10,
-    comments: Math.floor(Math.random() * 50) + 5,
     views: Math.floor(Math.random() * 5000) + 500,
   });
 
   const engagement = generateEngagement();
 
-  // Safe data extraction with proper fallbacks using correct Post interface properties
+  // Safe data extraction with proper fallbacks
   const title = post?.title || '(untitled)';
   const body = post?.body || '';
   const imageUrl = post?.image_url || getPlaceholderImage(post?.section || 'default');
@@ -83,17 +70,6 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
   const postId = post?.id || 'unknown';
 
   const handleShareAndEarn = async () => {
-    if (mockEngagement.isLiveUser) {
-      try {
-        await mockEngagement.trackEngagement('share', postId);
-        await mockEngagement.triggerReward('share', postId);
-      } catch (error) {
-        console.error('Error in engagement tracking:', error);
-      }
-    } else {
-      mockEngagement.showDemoToast('Sign up to earn FPT for sharing content!');
-    }
-    
     setShowShareModal(true);
   };
 
@@ -184,7 +160,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
           <div className={`flex items-center justify-between ${mutedText} text-sm mb-4`}>
             <div className="flex items-center space-x-4">
               <span>{engagement.views.toLocaleString()} views</span>
-              <span>{engagement.comments} comments</span>
+              <span>{commentsCount} comments</span>
               <span>{engagement.shares} shares</span>
             </div>
             <span className="text-green-400 font-semibold">
@@ -195,13 +171,23 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
           {/* Action buttons */}
           <div className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
             <div className="flex items-center space-x-8">
-              <button className={`flex items-center space-x-2 ${mutedText} hover:text-red-400 transition-colors`}>
-                <Heart className="w-5 h-5" />
-                <span>{engagement.likes}</span>
+              <button 
+                className={`flex items-center space-x-2 transition-colors ${
+                  isLiked 
+                    ? 'text-red-500 hover:text-red-600' 
+                    : `${mutedText} hover:text-red-400`
+                }`}
+                onClick={toggleLike}
+              >
+                <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
+                <span>{likesCount}</span>
               </button>
-              <button className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}>
+              <button 
+                className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}
+                onClick={() => setShowCommentModal(true)}
+              >
                 <MessageCircle className="w-5 h-5" />
-                <span>{engagement.comments}</span>
+                <span>{commentsCount}</span>
               </button>
               <button className={`flex items-center space-x-2 ${mutedText} hover:text-green-400 transition-colors`}>
                 <Share className="w-5 h-5" />
@@ -257,6 +243,15 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
         onClose={() => setShowSupportModal(false)}
         onTip={handleTipComplete}
         onSubscribe={handleSubscribe}
+        isDarkMode={isDarkMode}
+      />
+
+      {/* Comment Modal */}
+      <CommentModal
+        isOpen={showCommentModal}
+        onClose={() => setShowCommentModal(false)}
+        postId={postId}
+        postTitle={title}
         isDarkMode={isDarkMode}
       />
     </>

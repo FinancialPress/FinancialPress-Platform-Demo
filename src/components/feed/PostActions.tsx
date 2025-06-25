@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import { Heart, MessageCircle, Share2, Repeat2, HandCoins } from 'lucide-react';
 import { useEngagement } from '@/hooks/useEngagement';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
+import { useLikes } from '@/hooks/useLikes';
+import { useComments } from '@/hooks/useComments';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
+import CommentModal from '@/components/modals/CommentModal';
 
 interface PostActionsProps {
   engagement: {
@@ -18,59 +21,77 @@ interface PostActionsProps {
   onShare: () => void;
   onTip: () => void;
   postId?: string | number;
+  postTitle?: string;
 }
 
-const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId }: PostActionsProps) => {
+const PostActions = ({ 
+  engagement, 
+  mutedText, 
+  isDarkMode, 
+  onShare, 
+  onTip, 
+  postId,
+  postTitle = "Post"
+}: PostActionsProps) => {
   const { trackEngagement, triggerReward, showDemoToast, isLiveUser } = useEngagement();
   const { spendTokens } = useFPTTokens();
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [showShareEarnModal, setShowShareEarnModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
+
+  // Use actual like/comment data if postId is provided
+  const { likesCount, isLiked, toggleLike } = useLikes(postId?.toString() || '');
+  const { commentsCount } = useComments(postId?.toString() || '');
+
+  // Use real data if available, otherwise fall back to mock engagement data
+  const displayLikesCount = postId ? likesCount : engagement.likes;
+  const displayCommentsCount = postId ? commentsCount : engagement.comments;
 
   const handleShareAndEarn = async () => {
     console.log('handleShareAndEarn called', { postId, isLiveUser });
     
     if (isLiveUser) {
-      // Generate a valid UUID for tracking
       const validPostId = crypto.randomUUID();
       
       console.log('Generated valid postId:', validPostId);
       
       try {
-        // Track engagement and trigger reward for live users
         await trackEngagement('share', validPostId);
         await triggerReward('share', validPostId);
       } catch (error) {
         console.error('Error in engagement tracking:', error);
-        // Continue with the flow even if engagement tracking fails
       }
     } else {
-      // Show demo toast for non-authenticated users
       showDemoToast('Sign up to earn FPT for sharing content!');
     }
     
-    // Show the ShareEarnFlow modal
     setShowShareEarnModal(true);
   };
 
   const handleTipClick = () => {
     console.log('Tip button clicked - opening modal');
-    // Just open the modal - don't spend tokens yet
     setShowSupportModal(true);
   };
 
   const handleConfirmedTip = async (amount: number, message?: string, postId?: string) => {
     console.log('handleConfirmedTip called', { amount, message, postId, isLiveUser });
-    
-    // The actual spending is handled inside SupportCreatorModal
-    // This callback is called after successful spending
     onTip();
   };
 
   const handleConfirmedSubscribe = async (postId?: string) => {
     console.log('handleConfirmedSubscribe called', { postId, isLiveUser });
-    
-    // The actual spending is handled inside SupportCreatorModal
-    // This callback is called after successful spending
+  };
+
+  const handleLikeClick = () => {
+    if (postId) {
+      toggleLike();
+    }
+  };
+
+  const handleCommentClick = () => {
+    if (postId) {
+      setShowCommentModal(true);
+    }
   };
 
   return (
@@ -79,13 +100,25 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
         className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}
       >
         <div className="flex items-center space-x-8">
-          <button className={`flex items-center space-x-2 ${mutedText} hover:text-red-400 transition-colors`}>
-            <Heart className="w-5 h-5" />
-            <span>{engagement.likes}</span>
+          <button 
+            className={`flex items-center space-x-2 transition-colors ${
+              postId && isLiked 
+                ? 'text-red-500 hover:text-red-600' 
+                : `${mutedText} hover:text-red-400`
+            }`}
+            onClick={handleLikeClick}
+            disabled={!postId}
+          >
+            <Heart className={`w-5 h-5 ${postId && isLiked ? 'fill-current' : ''}`} />
+            <span>{displayLikesCount}</span>
           </button>
-          <button className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}>
+          <button 
+            className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}
+            onClick={handleCommentClick}
+            disabled={!postId}
+          >
             <MessageCircle className="w-5 h-5" />
-            <span>{engagement.comments}</span>
+            <span>{displayCommentsCount}</span>
           </button>
           <button className={`flex items-center space-x-2 ${mutedText} hover:text-green-400 transition-colors`}>
             <Repeat2 className="w-5 h-5" />
@@ -116,7 +149,7 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
         creatorName="Creator"
         followerCount="1.2K"
         isVerified={false}
-        postTitle="Sample Post Title"
+        postTitle={postTitle}
         postId={postId?.toString()}
         isOpen={showSupportModal}
         onClose={() => setShowSupportModal(false)}
@@ -129,7 +162,7 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
       {showShareEarnModal && (
         <ShareEarnFlow
           post={{
-            title: "Sample Post Title",
+            title: postTitle,
             creator: "creator",
             estimatedEarnings: "5.0 FPT"
           }}
@@ -138,6 +171,17 @@ const PostActions = ({ engagement, mutedText, isDarkMode, onShare, onTip, postId
             onShare();
             setShowShareEarnModal(false);
           }}
+        />
+      )}
+
+      {/* Comment Modal */}
+      {postId && (
+        <CommentModal
+          isOpen={showCommentModal}
+          onClose={() => setShowCommentModal(false)}
+          postId={postId.toString()}
+          postTitle={postTitle}
+          isDarkMode={isDarkMode}
         />
       )}
     </>
