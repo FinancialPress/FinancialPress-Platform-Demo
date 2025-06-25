@@ -15,6 +15,8 @@ export const useComments = (postId: string) => {
   const [submitting, setSubmitting] = useState(false);
 
   const fetchComments = async () => {
+    if (!postId) return;
+    
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -30,10 +32,18 @@ export const useComments = (postId: string) => {
         .eq('post_id', postId)
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching comments:', error);
+        // Graceful fallback - set empty array instead of throwing
+        setComments([]);
+        return;
+      }
+      
       setComments(data || []);
     } catch (error) {
       console.error('Error fetching comments:', error);
+      // Graceful fallback
+      setComments([]);
     } finally {
       setLoading(false);
     }
@@ -97,7 +107,7 @@ export const useComments = (postId: string) => {
     }
   }, [postId]);
 
-  // Subscribe to realtime changes
+  // Subscribe to realtime changes with error handling
   useEffect(() => {
     if (!postId) return;
 

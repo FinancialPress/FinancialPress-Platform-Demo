@@ -41,8 +41,8 @@ const PostActions = ({
     console.log('handleShareAndEarn called', { postId, isLiveUser });
     
     if (isLiveUser) {
-      // Generate a valid UUID for tracking
-      const validPostId = crypto.randomUUID();
+      // Generate a valid UUID for tracking if postId is not a valid UUID
+      const validPostId = typeof postId === 'string' && postId.length === 36 ? postId : crypto.randomUUID();
       
       console.log('Generated valid postId:', validPostId);
       
@@ -84,8 +84,17 @@ const PostActions = ({
     // This callback is called after successful spending
   };
 
-  // Convert postId to string for database operations
-  const stringPostId = postId?.toString() || crypto.randomUUID();
+  // Convert postId to string for database operations, ensure it's a valid UUID format
+  const stringPostId = (() => {
+    if (typeof postId === 'string') {
+      // Check if it's a valid UUID format (36 characters with hyphens)
+      if (postId.length === 36 && postId.includes('-')) {
+        return postId;
+      }
+    }
+    // Generate a new UUID for mock posts or invalid IDs
+    return crypto.randomUUID();
+  })();
 
   return (
     <>

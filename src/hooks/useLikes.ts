@@ -16,13 +16,22 @@ export const useLikes = (postId: string) => {
   const [loading, setLoading] = useState(false);
 
   const fetchLikes = async () => {
+    if (!postId) return;
+    
     try {
       const { data, error } = await supabase
         .from('likes')
         .select('*')
         .eq('post_id', postId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching likes:', error);
+        // Graceful fallback
+        setLikes([]);
+        setLikesCount(0);
+        setIsLiked(false);
+        return;
+      }
 
       setLikes(data || []);
       setLikesCount(data?.length || 0);
@@ -33,6 +42,10 @@ export const useLikes = (postId: string) => {
       }
     } catch (error) {
       console.error('Error fetching likes:', error);
+      // Graceful fallback
+      setLikes([]);
+      setLikesCount(0);
+      setIsLiked(false);
     }
   };
 
@@ -98,7 +111,7 @@ export const useLikes = (postId: string) => {
     }
   }, [postId, user]);
 
-  // Subscribe to realtime changes
+  // Subscribe to realtime changes with error handling
   useEffect(() => {
     if (!postId) return;
 

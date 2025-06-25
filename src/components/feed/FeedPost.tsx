@@ -38,6 +38,16 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
 
+  // Generate a consistent UUID for mock posts based on their ID
+  const generateConsistentUUID = (id: number) => {
+    // Create a consistent UUID-like string based on the post ID
+    const baseUUID = '00000000-0000-4000-8000-000000000000';
+    const idStr = id.toString().padStart(12, '0');
+    return baseUUID.substring(0, 24) + idStr;
+  };
+
+  const postId = generateConsistentUUID(post.id);
+
   return (
     <Card className={`${cardClasses} transition-colors`}>
       <CardContent className="p-6">
@@ -107,7 +117,7 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
           isDarkMode={isDarkMode}
           onShare={onShare}
           onTip={onTip}
-          postId={post.id}
+          postId={postId}
           postTitle={post.content}
         />
       </CardContent>
