@@ -148,23 +148,30 @@ export const useComments = (postId: string) => {
     }
   }, [postId]);
 
-  // Subscribe to realtime changes with error handling
+  // Subscribe to realtime changes with proper cleanup and unique channel naming
   useEffect(() => {
     if (!postId) return;
 
+    // Create a unique channel name to avoid conflicts
+    const channelName = `comments-realtime-${postId}-${Date.now()}`;
+    
     const channel = supabase
-      .channel(`comments-${postId}`)
+      .channel(channelName)
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'comments',
         filter: `post_id=eq.${postId}`
       }, () => {
+        console.log('Comment change detected, refetching...');
         fetchComments();
       })
-      .subscribe();
+      .subscribe((status) => {
+        console.log(`Comments subscription status for ${postId}:`, status);
+      });
 
     return () => {
+      console.log(`Cleaning up comments subscription for ${postId}`);
       supabase.removeChannel(channel);
     };
   }, [postId]);

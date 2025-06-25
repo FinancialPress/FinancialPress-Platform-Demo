@@ -111,23 +111,30 @@ export const useLikes = (postId: string) => {
     }
   }, [postId, user]);
 
-  // Subscribe to realtime changes with error handling
+  // Subscribe to realtime changes with proper cleanup and unique channel naming
   useEffect(() => {
     if (!postId) return;
 
+    // Create a unique channel name to avoid conflicts
+    const channelName = `likes-realtime-${postId}-${Date.now()}`;
+    
     const channel = supabase
-      .channel(`likes-${postId}`)
+      .channel(channelName)
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'likes',
         filter: `post_id=eq.${postId}`
       }, () => {
+        console.log('Like change detected, refetching...');
         fetchLikes();
       })
-      .subscribe();
+      .subscribe((status) => {
+        console.log(`Likes subscription status for ${postId}:`, status);
+      });
 
     return () => {
+      console.log(`Cleaning up likes subscription for ${postId}`);
       supabase.removeChannel(channel);
     };
   }, [postId]);
