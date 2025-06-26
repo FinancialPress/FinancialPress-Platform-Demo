@@ -1,5 +1,5 @@
+
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Check, PenTool, Share2, X } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import SocialChannelConnection from './onboarding/SocialChannelConnection';
@@ -15,9 +15,7 @@ interface OnboardingFlowProps {
   onLandingPage?: () => void;
 }
 
-const OnboardingFlow = ({ userRole = 'creator', userType: propUserType, onComplete, onLandingPage }: OnboardingFlowProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+const OnboardingFlow = ({ userRole = 'creator', userType, onComplete, onLandingPage }: OnboardingFlowProps) => {
   const { isDarkMode } = useTheme();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
@@ -39,16 +37,9 @@ const OnboardingFlow = ({ userRole = 'creator', userType: propUserType, onComple
     );
   };
 
-  // Get userType from props or router state
-  const userType = propUserType || location.state?.userType;
-
   const handleComplete = () => {
-    // Navigate directly to user feed
-    navigate('/feed');
-  };
-
-  const handleReturnToLanding = () => {
-    navigate('/');
+    // Navigate directly to user feed (screen 3) with onboarding flag
+    onComplete?.();
   };
 
   const renderCurrentStep = () => {
@@ -104,7 +95,7 @@ const OnboardingFlow = ({ userRole = 'creator', userType: propUserType, onComple
       <button
         className={`absolute top-6 right-8 z-20 rounded-full p-2 transition-colors ${closeButtonClass}`}
         title="Return to landing page"
-        onClick={handleReturnToLanding}
+        onClick={onLandingPage}
         aria-label="Close"
       >
         <X className="w-6 h-6" />
