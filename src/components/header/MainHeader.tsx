@@ -79,11 +79,7 @@ const MainHeader = ({
   };
 
   const handleDashboardClick = () => {
-    if (shouldShowLoggedIn) {
-      navigate('/dashboard');
-    } else {
-      navigate('/demo-dashboard');
-    }
+    navigate('/dashboard');
   };
 
   // Always route to landing page regardless of current state

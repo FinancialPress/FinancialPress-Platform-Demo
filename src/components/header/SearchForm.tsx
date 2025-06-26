@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchFormProps {
   onNavigate: (screen: number, symbol?: string) => void;
@@ -11,6 +13,7 @@ interface SearchFormProps {
 const SearchForm = ({ onNavigate, isDarkMode }: SearchFormProps) => {
   const [searchValue, setSearchValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const navigate = useNavigate();
 
   const searchClasses = isDarkMode
     ? 'pl-10 pr-12 bg-gray-900 border-gray-700 text-white placeholder-gray-400'
@@ -23,7 +26,8 @@ const SearchForm = ({ onNavigate, isDarkMode }: SearchFormProps) => {
     if (!searchValue.trim()) return;
     setIsSearching(true);
     setTimeout(() => {
-      onNavigate(6, searchValue.trim().toUpperCase());
+      const symbol = searchValue.trim().toUpperCase();
+      navigate(`/stockchartdata?symbol=${symbol}`);
       setIsSearching(false);
     }, 300);
   };
