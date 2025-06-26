@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
@@ -93,10 +92,6 @@ const Index = () => {
     <FinalCTA key="cta" />
   ];
 
-  const themeClasses = isDarkMode 
-    ? "page-background bg-black"
-    : "page-background bg-gray-50";
-
   // Don't show Header on Onboarding (screen 2)
   const showHeader = currentScreen !== 2;
   
@@ -104,8 +99,8 @@ const Index = () => {
   const isSignedInOnLanding = !!user && currentScreen === 0;
 
   return (
-    <div className={`${themeClasses} w-full overflow-x-hidden`}>
-      {showHeader && (
+    <>
+      {showHeader && currentScreen !== 0 && (
         <Header 
           onNavigate={handleNavigate} 
           currentScreen={currentScreen}
@@ -115,10 +110,12 @@ const Index = () => {
           isLoggedIn={!!user}
         />
       )}
-      <div className={`max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 ${isSignedInOnLanding ? 'mt-8' : ''}`}>
-        {screens[currentScreen]}
+      <div className={`${isSignedInOnLanding ? 'mt-8' : ''}`}>
+        <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16">
+          {screens[currentScreen]}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BalanceProvider } from "./contexts/BalanceContext";
+import AppLayout from "./components/layout/AppLayout";
 import Index from "./pages/Index";
 import ProfilePage from "./pages/ProfilePage";
 import ContentCreatorPage from "./pages/ContentCreatorPage";
@@ -26,14 +27,16 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/create" element={<ContentCreatorPage />} />
-                <Route path="/feed" element={<UserFeedPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/auth" element={<Navigate to="/" replace />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
+                <Route path="/" element={<AppLayout />}>
+                  <Route index element={<Index />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/create" element={<ContentCreatorPage />} />
+                  <Route path="/feed" element={<UserFeedPage />} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/auth" element={<Navigate to="/" replace />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Route>
               </Routes>
             </BrowserRouter>
           </TooltipProvider>
