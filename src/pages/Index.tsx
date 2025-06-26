@@ -1,6 +1,6 @@
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
@@ -23,9 +23,18 @@ const Index = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [userType, setUserType] = useState<UserType>(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { isDarkMode, toggleTheme } = useTheme();
   const { user } = useAuth();
   const { profile } = useProfile();
+
+  // Reset to landing page when navigated to root path
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setCurrentScreen(0);
+      setShowOnboarding(false);
+    }
+  }, [location.pathname]);
 
   const handleNavigate = (screen: number, symbol?: string, type?: UserType) => {
     // Special handling for Content Creator - navigate to dedicated page

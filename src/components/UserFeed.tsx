@@ -339,19 +339,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Embedded Earnings Tracker - Now uses centralized balance */}
-            <div data-tour="earnings-tracker">
-              <EarningsTracker
-                isVisible={true}
-                onClose={() => {}}
-                onNavigate={onNavigate}
-                isEmbedded={true}
-                isDarkMode={isDarkMode}
-                customEarnings={isFromOnboarding ? earningsAmount : undefined}
-                isFromOnboarding={isFromOnboarding}
-              />
-            </div>
-
+            
             <UserInterests isDarkMode={isDarkMode} />
 
             {/* New Who to Follow panel */}

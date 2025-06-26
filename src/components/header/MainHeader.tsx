@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Sun, Moon, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -71,7 +70,7 @@ const MainHeader = ({
     if (shouldShowLoggedIn) {
       navigate('/feed');
     } else {
-      navigate('/userfeed');
+      navigate('/feed'); // Changed from '/userfeed' to '/feed' for demo mode
     }
   };
 
