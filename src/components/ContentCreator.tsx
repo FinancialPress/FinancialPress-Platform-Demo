@@ -113,8 +113,8 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
         });
         
         if (result) {
-          // Award 5 FPT tokens for posting
-          await addTokens(5, 'content_creation', 'Create & Earn post published');
+          // Award 5 FPT tokens for posting - using 'bonus' which is a valid transaction type
+          await addTokens(5, 'bonus', 'Create & Earn post published');
           
           // Reset form
           setTitle('');
@@ -141,8 +141,8 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
         });
         
         if (result) {
-          // Award 3 FPT tokens for sharing insight
-          await addTokens(3, 'content_sharing', 'Share Insight post published');
+          // Award 3 FPT tokens for sharing insight - using 'bonus' which is a valid transaction type
+          await addTokens(3, 'bonus', 'Share Insight post published');
           
           // Reset form
           setTitle('');

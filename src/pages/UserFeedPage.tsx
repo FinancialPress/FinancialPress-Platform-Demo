@@ -1,8 +1,8 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import UserFeed from '../components/UserFeed';
-import PageWrapper from '../components/layout/PageWrapper';
 
 // Error boundary wrapper for UserFeed
 class UserFeedErrorBoundary extends React.Component<
@@ -76,15 +76,13 @@ const UserFeedPage = () => {
   };
 
   return (
-    <PageWrapper className="pt-6">
-      <UserFeedErrorBoundary isDarkMode={isDarkMode}>
-        <UserFeed 
-          onNavigate={handleNavigate}
-          isDarkMode={isDarkMode}
-          showOnboarding={false}
-        />
-      </UserFeedErrorBoundary>
-    </PageWrapper>
+    <UserFeedErrorBoundary isDarkMode={isDarkMode}>
+      <UserFeed 
+        onNavigate={handleNavigate}
+        isDarkMode={isDarkMode}
+        showOnboarding={false}
+      />
+    </UserFeedErrorBoundary>
   );
 };
 
