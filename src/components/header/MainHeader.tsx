@@ -91,6 +91,10 @@ const MainHeader = ({
     navigate('/auth');
   };
 
+  const handleMobileSearchClick = () => {
+    navigate('/stockchartdata');
+  };
+
   const getActiveButtonClasses = (path: string) => {
     const isActive = location.pathname === path;
     return isActive 
@@ -190,7 +194,7 @@ const MainHeader = ({
                 variant="ghost"
                 size="icon"
                 className="sm:hidden"
-                onClick={() => onNavigate(6)}
+                onClick={handleMobileSearchClick}
               >
                 <Search className="w-5 h-5" />
               </Button>
