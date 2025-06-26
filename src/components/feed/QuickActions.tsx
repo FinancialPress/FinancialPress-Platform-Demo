@@ -31,8 +31,12 @@ const QuickActions = ({ isDarkMode: propIsDarkMode, onNavigate }: QuickActionsPr
     navigate('/create');
   };
 
-  const handleViewDashboard = () => {
-    onNavigate?.(4); // Navigate to Dashboard screen
+  const handleManageProfile = () => {
+    navigate('/profile');
+  };
+
+  const handleViewAnalytics = () => {
+    navigate('/dashboard');
   };
 
   return (
@@ -49,14 +53,14 @@ const QuickActions = ({ isDarkMode: propIsDarkMode, onNavigate }: QuickActionsPr
           <Button
             variant="outline"
             className={`w-full text-sm ${outlineButtonClasses}`}
-            onClick={() => onNavigate?.(2)} // Onboarding
+            onClick={handleManageProfile}
           >
             Manage Profile
           </Button>
           <Button
             variant="outline"
             className={`w-full text-sm ${outlineButtonClasses}`}
-            onClick={handleViewDashboard}
+            onClick={handleViewAnalytics}
           >
             View Analytics
           </Button>
