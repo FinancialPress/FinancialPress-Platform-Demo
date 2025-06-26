@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useBalance } from '../contexts/BalanceContext';
 import { UserProfile } from '../hooks/useProfile';
@@ -29,6 +30,7 @@ const Header = ({
 }: HeaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const { balance } = useBalance(); // Use centralized balance
+  const location = useLocation();
 
   // Theme handling
   const themeContext = useTheme();
@@ -42,8 +44,23 @@ const Header = ({
 
   if (!isMounted) return null;
 
-  // Determine logged-in state
-  const shouldShowLoggedIn = [3, 4, 5, 6].includes(currentScreen) || isLoggedIn;
+  // Determine logged-in state based on route
+  const loggedInRoutes = ['/feed', '/dashboard', '/create', '/stockchartdata'];
+  const shouldShowLoggedIn = loggedInRoutes.includes(location.pathname) || isLoggedIn;
+
+  // Map routes to screen numbers for legacy compatibility
+  const getScreenFromPath = (path: string) => {
+    switch (path) {
+      case '/': return 0;
+      case '/feed': return 3;
+      case '/dashboard': return 4;
+      case '/create': return 5;
+      case '/stockchartdata': return 6;
+      default: return currentScreen;
+    }
+  };
+
+  const currentScreenFromRoute = getScreenFromPath(location.pathname);
 
   // User display data
   const getDisplayData = () => {
@@ -85,7 +102,7 @@ const Header = ({
     <>
       <MainHeader
         onNavigate={handleNavigate}
-        currentScreen={currentScreen}
+        currentScreen={currentScreenFromRoute}
         isDarkMode={isDarkMode}
         onToggleDarkMode={onToggleDarkMode}
         shouldShowLoggedIn={shouldShowLoggedIn}

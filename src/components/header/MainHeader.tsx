@@ -68,28 +68,27 @@ const MainHeader = ({
   };
 
   const handleFeedClick = () => {
-    onNavigate(3);
+    navigate('/feed');
   };
 
   const handleCreateClick = () => {
-    onNavigate(5);
+    navigate('/create');
   };
 
   const handleDashboardClick = () => {
-    onNavigate(4);
+    navigate('/dashboard');
   };
 
-  // Navigate to landing page using onNavigate
   const handleHomeClick = () => {
-    onNavigate(0);
+    navigate('/');
   };
 
   const handleAuthClick = () => {
     navigate('/auth');
   };
 
-  const getActiveButtonClasses = (screenNumber: number) => {
-    const isActive = currentScreen === screenNumber;
+  const getActiveButtonClasses = (path: string) => {
+    const isActive = location.pathname === path;
     return isActive 
       ? 'bg-fpYellow text-black rounded-md px-3 py-1 font-bold'
       : `${topBarTextClasses} transition-colors font-bold`;
@@ -104,19 +103,19 @@ const MainHeader = ({
             <div className="flex items-center space-x-8 text-sm">
               <button 
                 onClick={handleFeedClick}
-                className={getActiveButtonClasses(3)}
+                className={getActiveButtonClasses('/feed')}
               >
                 Feed
               </button>
               <button 
                 onClick={handleCreateClick}
-                className={getActiveButtonClasses(5)}
+                className={getActiveButtonClasses('/create')}
               >
                 Create
               </button>
               <button 
                 onClick={handleDashboardClick}
-                className={getActiveButtonClasses(4)}
+                className={getActiveButtonClasses('/dashboard')}
               >
                 Dashboard
               </button>
@@ -187,7 +186,7 @@ const MainHeader = ({
                 variant="ghost"
                 size="icon"
                 className="sm:hidden"
-                onClick={() => onNavigate(6)}
+                onClick={() => navigate('/stockchartdata')}
               >
                 <Search className="w-5 h-5" />
               </Button>

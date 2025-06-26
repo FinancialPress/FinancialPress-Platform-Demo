@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LogoProps {
   isDarkMode: boolean;
@@ -10,6 +11,7 @@ interface LogoProps {
 const Logo = ({ isDarkMode, className = "h-full w-full object-contain", onNavigate }: LogoProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const navigate = useNavigate();
 
   // Preload both images on component mount
   useEffect(() => {
@@ -50,9 +52,7 @@ const Logo = ({ isDarkMode, className = "h-full w-full object-contain", onNaviga
   };
 
   const handleLogoClick = () => {
-    if (onNavigate) {
-      onNavigate(0);
-    }
+    navigate('/');
   };
 
   if (hasError) {
