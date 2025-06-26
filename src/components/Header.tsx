@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useBalance } from '../contexts/BalanceContext';
 import { UserProfile } from '../hooks/useProfile';
-import DemoNavigationBar from './header/DemoNavigationBar';
-import TopNavigationBar from './header/TopNavigationBar';
 import MainHeader from './header/MainHeader';
 import TickerBar from './TickerBar';
 
@@ -85,8 +83,6 @@ const Header = ({
 
   return (
     <>
-      <DemoNavigationBar currentScreen={currentScreen} onNavigate={handleNavigate} />
-      <TopNavigationBar isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
       <MainHeader
         onNavigate={handleNavigate}
         currentScreen={currentScreen}
