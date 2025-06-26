@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LogoProps {
   isDarkMode: boolean;
@@ -9,6 +10,7 @@ interface LogoProps {
 const Logo = ({ isDarkMode, className = "h-full w-full object-contain" }: LogoProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const navigate = useNavigate();
 
   // Preload both images on component mount
   useEffect(() => {
@@ -48,9 +50,16 @@ const Logo = ({ isDarkMode, className = "h-full w-full object-contain" }: LogoPr
     setIsLoaded(true);
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   if (hasError) {
     return (
-      <div className={`${className} flex items-center justify-center bg-fpYellow text-black font-bold text-lg`}>
+      <div 
+        className={`${className} flex items-center justify-center bg-fpYellow text-black font-bold text-lg cursor-pointer`}
+        onClick={handleLogoClick}
+      >
         FinancialPress
       </div>
     );
@@ -60,10 +69,12 @@ const Logo = ({ isDarkMode, className = "h-full w-full object-contain" }: LogoPr
     <img
       src={currentSrc}
       alt="FinancialPress Logo"
-      className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}
+      className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200 cursor-pointer`}
       loading="eager"
       onLoad={handleImageLoad}
       onError={handleImageError}
+      onClick={handleLogoClick}
+      style={{ transition: 'opacity 0.2s' }}
     />
   );
 };

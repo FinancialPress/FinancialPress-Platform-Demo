@@ -23,6 +23,7 @@ import { usePosts } from '@/hooks/usePosts';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
 import { uploadContentImage, getPlaceholderImage } from '@/utils/imageUpload';
 import ImageCropUpload from './ImageCropUpload';
+import { useToast } from '@/hooks/use-toast';
 
 interface ContentCreatorProps {
   onNavigate?: (screen: number) => void;
@@ -33,6 +34,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
   const navigate = useNavigate();
   const { createEarnPost, shareInsightPost } = usePosts();
   const { addTokens } = useFPTTokens();
+  const { toast } = useToast();
   
   const [contentType, setContentType] = useState('create-earn');
   const [title, setTitle] = useState('');
@@ -113,8 +115,14 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
         });
         
         if (result) {
-          // Award 5 FPT tokens for posting
-          await addTokens(5, 'content_creation', 'Create & Earn post published');
+          // Award 5 FPT tokens for posting with correct transaction type
+          await addTokens(5, 'publish_post', 'Reward for publishing content');
+          
+          // Show success toast
+          toast({
+            title: "🎉 You earned 5 FPT for publishing!",
+            description: "Your content has been published successfully.",
+          });
           
           // Reset form
           setTitle('');
@@ -141,8 +149,14 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
         });
         
         if (result) {
-          // Award 3 FPT tokens for sharing insight
-          await addTokens(3, 'content_sharing', 'Share Insight post published');
+          // Award 3 FPT tokens for sharing insight with correct transaction type
+          await addTokens(3, 'publish_post', 'Reward for sharing insight');
+          
+          // Show success toast
+          toast({
+            title: "🎉 You earned 3 FPT for sharing!",
+            description: "Your insight has been shared successfully.",
+          });
           
           // Reset form
           setTitle('');
@@ -173,7 +187,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
   const borderClasses = isDarkMode ? 'border-gray-700' : 'border-gray-300';
 
   return (
-    <div className={`min-h-screen ${bgClasses}`}>
+    <div className={`min-h-screen ${bgClasses}`} style={{ transition: 'none' }}>
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-4 sm:py-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 space-y-4 sm:space-y-0">
