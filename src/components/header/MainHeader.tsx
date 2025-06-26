@@ -71,7 +71,7 @@ const MainHeader = ({
     if (shouldShowLoggedIn) {
       navigate('/feed');
     } else {
-      navigate('/demo-feed');
+      navigate('/userfeed');
     }
   };
 
@@ -87,6 +87,7 @@ const MainHeader = ({
     }
   };
 
+  // Always route to landing page regardless of current state
   const handleHomeClick = () => {
     navigate('/');
   };

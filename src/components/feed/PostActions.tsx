@@ -5,9 +5,11 @@ import { useEngagement } from '@/hooks/useEngagement';
 import { useFPTTokens } from '@/hooks/useFPTTokens';
 import { useLikes } from '@/hooks/useLikes';
 import { useComments } from '@/hooks/useComments';
+import { useUserMode } from '@/hooks/useUserMode';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
 import CommentModal from '@/components/modals/CommentModal';
+import { toast } from 'sonner';
 
 interface PostActionsProps {
   engagement: {
@@ -35,6 +37,7 @@ const PostActions = ({
 }: PostActionsProps) => {
   const { trackEngagement, triggerReward, showDemoToast, isLiveUser } = useEngagement();
   const { spendTokens } = useFPTTokens();
+  const { isLiveUser: userModeIsLive } = useUserMode();
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [showShareEarnModal, setShowShareEarnModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -83,12 +86,22 @@ const PostActions = ({
   };
 
   const handleLikeClick = () => {
+    if (!userModeIsLive) {
+      toast.info('Please sign in to interact with content and earn rewards.');
+      return;
+    }
+    
     if (postId) {
       toggleLike();
     }
   };
 
   const handleCommentClick = () => {
+    if (!userModeIsLive) {
+      toast.info('Please sign in to interact with content and earn rewards.');
+      return;
+    }
+    
     if (postId) {
       setShowCommentModal(true);
     }
@@ -107,7 +120,6 @@ const PostActions = ({
                 : `${mutedText} hover:text-red-400`
             }`}
             onClick={handleLikeClick}
-            disabled={!postId}
           >
             <Heart className={`w-5 h-5 ${postId && isLiked ? 'fill-current' : ''}`} />
             <span>{displayLikesCount}</span>
@@ -115,7 +127,6 @@ const PostActions = ({
           <button 
             className={`flex items-center space-x-2 ${mutedText} hover:text-blue-400 transition-colors`}
             onClick={handleCommentClick}
-            disabled={!postId}
           >
             <MessageCircle className="w-5 h-5" />
             <span>{displayCommentsCount}</span>
