@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import ContentCreator from '../components/ContentCreator';
-import PageWrapper from '../components/layout/PageWrapper';
 
 interface ContentCreatorPageProps {
   onNavigate?: (screen: number) => void;
@@ -28,11 +27,12 @@ const ContentCreatorPage = ({ onNavigate }: ContentCreatorPageProps) => {
     }
   };
 
+  const bgClasses = isDarkMode ? "min-h-screen bg-black text-white" : "min-h-screen bg-gray-50 text-black";
   const buttonClasses = isDarkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300";
   const iconClasses = isDarkMode ? "text-gray-300" : "text-gray-700";
 
   return (
-    <div className="relative">
+    <div className={`${bgClasses} relative`}>
       {/* Close button - fixed positioning with higher z-index */}
       <button
         className={`fixed top-6 right-8 z-50 ${buttonClasses} rounded-full p-3 transition-colors shadow-lg`}
@@ -44,9 +44,9 @@ const ContentCreatorPage = ({ onNavigate }: ContentCreatorPageProps) => {
       </button>
 
       {/* Content Creator Component */}
-      <PageWrapper>
+      <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16">
         <ContentCreator onNavigate={handleNavigate} isDarkMode={isDarkMode} />
-      </PageWrapper>
+      </div>
     </div>
   );
 };

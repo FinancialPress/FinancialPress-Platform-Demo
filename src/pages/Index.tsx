@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
@@ -22,18 +23,9 @@ const Index = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [userType, setUserType] = useState<UserType>(null);
   const navigate = useNavigate();
-  const location = useLocation();
   const { isDarkMode, toggleTheme } = useTheme();
   const { user } = useAuth();
   const { profile } = useProfile();
-
-  // Reset to landing page when navigated to root path
-  useEffect(() => {
-    if (location.pathname === '/') {
-      setCurrentScreen(0);
-      setShowOnboarding(false);
-    }
-  }, [location.pathname]);
 
   const handleNavigate = (screen: number, symbol?: string, type?: UserType) => {
     // Special handling for Content Creator - navigate to dedicated page
@@ -92,6 +84,10 @@ const Index = () => {
     <FinalCTA key="cta" />
   ];
 
+  const themeClasses = isDarkMode 
+    ? "page-background bg-black"
+    : "page-background bg-gray-50";
+
   // Don't show Header on Onboarding (screen 2)
   const showHeader = currentScreen !== 2;
   
@@ -99,8 +95,8 @@ const Index = () => {
   const isSignedInOnLanding = !!user && currentScreen === 0;
 
   return (
-    <>
-      {showHeader && currentScreen !== 0 && (
+    <div className={`${themeClasses} w-full overflow-x-hidden`}>
+      {showHeader && (
         <Header 
           onNavigate={handleNavigate} 
           currentScreen={currentScreen}
@@ -110,12 +106,10 @@ const Index = () => {
           isLoggedIn={!!user}
         />
       )}
-      <div className={`${isSignedInOnLanding ? 'mt-8' : ''}`}>
-        <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16">
-          {screens[currentScreen]}
-        </div>
+      <div className={`max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 ${isSignedInOnLanding ? 'mt-8' : ''}`}>
+        {screens[currentScreen]}
       </div>
-    </>
+    </div>
   );
 };
 

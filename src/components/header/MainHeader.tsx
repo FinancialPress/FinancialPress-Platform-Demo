@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, Sun, Moon, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -70,7 +71,7 @@ const MainHeader = ({
     if (shouldShowLoggedIn) {
       navigate('/feed');
     } else {
-      navigate('/feed'); // Changed from '/userfeed' to '/feed' for demo mode
+      navigate('/userfeed');
     }
   };
 
@@ -79,7 +80,11 @@ const MainHeader = ({
   };
 
   const handleDashboardClick = () => {
-    navigate('/dashboard');
+    if (shouldShowLoggedIn) {
+      navigate('/dashboard');
+    } else {
+      navigate('/demo-dashboard');
+    }
   };
 
   // Always route to landing page regardless of current state
@@ -89,10 +94,6 @@ const MainHeader = ({
 
   const handleAuthClick = () => {
     navigate('/auth');
-  };
-
-  const handleMobileSearchClick = () => {
-    navigate('/stockchartdata');
   };
 
   const getActiveButtonClasses = (path: string) => {
@@ -194,7 +195,7 @@ const MainHeader = ({
                 variant="ghost"
                 size="icon"
                 className="sm:hidden"
-                onClick={handleMobileSearchClick}
+                onClick={() => onNavigate(6)}
               >
                 <Search className="w-5 h-5" />
               </Button>

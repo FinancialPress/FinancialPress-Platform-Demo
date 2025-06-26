@@ -2,6 +2,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useProfile } from '../hooks/useProfile';
+import Header from '../components/Header';
 import UserFeed from '../components/UserFeed';
 
 // Error boundary wrapper for UserFeed
@@ -51,6 +54,8 @@ class UserFeedErrorBoundary extends React.Component<
 const UserFeedPage = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const { user } = useAuth();
+  const { profile } = useProfile();
 
   const handleNavigate = (screen: number, symbol?: string) => {
     switch (screen) {
@@ -75,14 +80,27 @@ const UserFeedPage = () => {
     }
   };
 
+  const bgClasses = isDarkMode ? "min-h-screen bg-black text-white" : "min-h-screen bg-gray-50 text-black";
+
   return (
-    <UserFeedErrorBoundary isDarkMode={isDarkMode}>
-      <UserFeed 
+    <div className={bgClasses}>
+      <Header
         onNavigate={handleNavigate}
+        currentScreen={3}
+        isLoggedIn={!!user}
         isDarkMode={isDarkMode}
-        showOnboarding={false}
+        userProfile={profile}
       />
-    </UserFeedErrorBoundary>
+      <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 pt-6">
+        <UserFeedErrorBoundary isDarkMode={isDarkMode}>
+          <UserFeed 
+            onNavigate={handleNavigate}
+            isDarkMode={isDarkMode}
+            showOnboarding={false}
+          />
+        </UserFeedErrorBoundary>
+      </div>
+    </div>
   );
 };
 

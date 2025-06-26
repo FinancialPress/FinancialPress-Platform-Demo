@@ -186,7 +186,7 @@ export const usePosts = () => {
       cachedPosts = [newPost, ...cachedPosts];
       notifyAllComponents(cachedPosts);
 
-      // Award FPT tokens for publishing content - use 'bonus' type which is allowed in database constraints
+      // Award FPT tokens for publishing content - use 'bonus' type which is allowed
       const tokenSuccess = await addTokens(
         5,
         'bonus',
@@ -265,7 +265,7 @@ export const usePosts = () => {
       cachedPosts = [newPost, ...cachedPosts];
       notifyAllComponents(cachedPosts);
 
-      // Award FPT tokens for sharing insight - use 'bonus' type which is allowed in database constraints
+      // Award FPT tokens for sharing insight - use 'bonus' type which is allowed
       const tokenSuccess = await addTokens(
         5,
         'bonus',
