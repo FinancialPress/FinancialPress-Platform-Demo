@@ -95,7 +95,7 @@ const Index = () => {
   const isSignedInOnLanding = !!user && currentScreen === 0;
 
   return (
-    <div className={`${themeClasses} w-full overflow-x-hidden`} style={{ transition: 'none' }}>
+    <div className={`${themeClasses} w-full overflow-x-hidden`}>
       {showHeader && (
         <Header 
           onNavigate={handleNavigate} 
@@ -106,7 +106,7 @@ const Index = () => {
           isLoggedIn={!!user}
         />
       )}
-      <div className={`max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 ${isSignedInOnLanding ? 'mt-8' : ''}`} style={{ transition: 'none' }}>
+      <div className={`max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 ${isSignedInOnLanding ? 'mt-8' : ''}`}>
         {screens[currentScreen]}
       </div>
     </div>

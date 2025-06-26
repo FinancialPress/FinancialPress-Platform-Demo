@@ -68,11 +68,7 @@ const MainHeader = ({
   };
 
   const handleFeedClick = () => {
-    if (shouldShowLoggedIn) {
-      navigate('/feed');
-    } else {
-      navigate('/userfeed');
-    }
+    navigate('/feed');
   };
 
   const handleCreateClick = () => {
@@ -80,11 +76,7 @@ const MainHeader = ({
   };
 
   const handleDashboardClick = () => {
-    if (shouldShowLoggedIn) {
-      navigate('/dashboard');
-    } else {
-      navigate('/demo-dashboard');
-    }
+    navigate('/dashboard');
   };
 
   // Always route to landing page regardless of current state
