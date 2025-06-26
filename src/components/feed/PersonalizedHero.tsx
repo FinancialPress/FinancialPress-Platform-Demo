@@ -1,5 +1,5 @@
+
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -9,19 +9,9 @@ interface PersonalizedHeroProps {
 }
 
 const PersonalizedHero = ({ onNavigate }: PersonalizedHeroProps) => {
-  const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   
   const textClasses = isDarkMode ? 'text-gray-300' : 'text-gray-600';
-
-  const handleCreateContent = () => {
-    navigate('/create');
-  };
-
-  const handleCustomizeFeed = () => {
-    // Keep existing customize feed logic if it exists
-    onNavigate?.(2);
-  };
 
   return (
     <div className="text-center mb-6">
@@ -34,15 +24,11 @@ const PersonalizedHero = ({ onNavigate }: PersonalizedHeroProps) => {
       <div className="flex gap-3 justify-center mb-6">
         <Button 
           className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-5 py-2"
-          onClick={handleCreateContent}
+          onClick={() => onNavigate?.(4)}
         >
           Create Content
         </Button>
-        <Button 
-          variant="outline" 
-          className="font-bold px-5 py-2"
-          onClick={handleCustomizeFeed}
-        >
+        <Button variant="outline" className="font-bold px-5 py-2">
           <Settings className="w-4 h-4 mr-2" />
           Customize Feed
         </Button>

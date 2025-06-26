@@ -13,8 +13,6 @@ import UserFeed from "./components/UserFeed";
 import Dashboard from "./components/Dashboard";
 import ContentCreator from "./components/ContentCreator";
 import StockChartData from "./components/StockChartData";
-import SignUpPage from "./components/SignUpPage";
-import OnboardingFlow from "./components/OnboardingFlow";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import { useTheme } from "./contexts/ThemeContext";
@@ -50,8 +48,6 @@ const AppLayout = () => {
       <div className="max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16">
         <Routes>
           <Route path="/" element={<LandingPage onNavigate={handleNavigate} isDarkMode={isDarkMode} />} />
-          <Route path="/signup" element={<SignUpPage onNavigate={handleNavigate} isDarkMode={isDarkMode} />} />
-          <Route path="/onboarding" element={<OnboardingFlow onNavigate={handleNavigate} isDarkMode={isDarkMode} />} />
           <Route path="/feed" element={<UserFeed onNavigate={handleNavigate} isDarkMode={isDarkMode} showOnboarding={false} />} />
           <Route path="/dashboard" element={<Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />} />
           <Route path="/create" element={<ContentCreator onNavigate={handleNavigate} isDarkMode={isDarkMode} />} />

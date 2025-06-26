@@ -1,5 +1,5 @@
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,6 @@ interface SignUpPageProps {
 }
 
 const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: SignUpPageProps) => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [referralCode, setReferralCode] = useState('');
@@ -30,7 +29,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   const handleDemoFlow = (provider: string) => {
     // Set user type to demo and navigate to onboarding
     setUserType?.('demo');
-    navigate('/onboarding', { state: { userType: 'demo' } });
+    onNavigate?.(2, undefined, 'demo');
   };
 
   const handleLiveSignUp = async () => {
@@ -70,7 +69,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
         });
         // Set user type to live and navigate to onboarding
         setUserType?.('live');
-        navigate('/onboarding', { state: { userType: 'live' } });
+        onNavigate?.(2, undefined, 'live');
       }
     } catch (error) {
       toast({
