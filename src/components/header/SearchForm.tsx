@@ -24,6 +24,7 @@ const SearchForm = ({ onNavigate, isDarkMode }: SearchFormProps) => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchValue.trim()) return;
+    
     setIsSearching(true);
     setTimeout(() => {
       const symbol = searchValue.trim().toUpperCase();

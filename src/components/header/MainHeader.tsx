@@ -7,7 +7,7 @@ import Logo from '@/components/ui/logo';
 import SearchForm from './SearchForm';
 import UserDropdown from './UserDropdown';
 import MobileMenu from './MobileMenu';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface UserData {
   displayName: string;
@@ -36,7 +36,6 @@ const MainHeader = ({
 }: MainHeaderProps) => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const { fptBalance, role } = userData;
 
@@ -85,7 +84,7 @@ const MainHeader = ({
   };
 
   const handleAuthClick = () => {
-    navigate('/auth');
+    navigate('/signup');
   };
 
   const getActiveButtonClasses = (screenNumber: number) => {
