@@ -13,6 +13,8 @@ import UserFeed from "./components/UserFeed";
 import Dashboard from "./components/Dashboard";
 import ContentCreator from "./components/ContentCreator";
 import StockChartData from "./components/StockChartData";
+import SignUpPage from "./components/SignUpPage";
+import OnboardingFlow from "./components/OnboardingFlow";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import { useTheme } from "./contexts/ThemeContext";
@@ -83,7 +85,20 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <AppLayout />
+              <div className="w-full overflow-x-hidden">
+                <Routes>
+                  <Route path="/" element={<AppLayout />} />
+                  <Route path="/feed" element={<AppLayout />} />
+                  <Route path="/dashboard" element={<AppLayout />} />
+                  <Route path="/create" element={<AppLayout />} />
+                  <Route path="/stockchartdata" element={<AppLayout />} />
+                  <Route path="/profile" element={<AppLayout />} />
+                  <Route path="/signup" element={<SignUpPage />} />
+                  <Route path="/onboarding" element={<OnboardingFlow />} />
+                  <Route path="/auth" element={<Navigate to="/" replace />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
             </BrowserRouter>
           </TooltipProvider>
         </BalanceProvider>

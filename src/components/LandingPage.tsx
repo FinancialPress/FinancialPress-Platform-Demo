@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -21,6 +22,7 @@ interface LandingPageProps {
 }
 
 const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { isLiveUser } = useUserMode();
   const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
@@ -786,7 +788,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
             <div className="flex justify-center mb-4 px-4">
               <Button 
                 className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base"
-                onClick={() => onNavigate?.(1)}
+                onClick={() => navigate('/signup')}
               >
                 Get Started
               </Button>
