@@ -67,23 +67,6 @@ const Index = () => {
     console.log("Content shared");
   };
 
-  const screens = [
-    <LandingPage key="landing" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <SignUpPage key="signup" onNavigate={handleNavigate} isDarkMode={isDarkMode} userType={userType} setUserType={setUserType} />,
-    <OnboardingFlow key="onboarding" onLandingPage={() => setCurrentScreen(0)} onComplete={handleOnboardingComplete} userType={userType} />,
-    <UserFeed key="feed" onNavigate={handleNavigate} isDarkMode={isDarkMode} showOnboarding={showOnboarding} />,
-    <Dashboard key="dashboard" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <ContentCreator key="creator" onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <StockChartData key="stockchart" symbol={searchSymbol} onNavigate={handleNavigate} isDarkMode={isDarkMode} />,
-    <ShareEarnFlow 
-      key="share" 
-      post={mockPost}
-      onClose={handleShareClose}
-      onShare={handleShare}
-    />,
-    <FinalCTA key="cta" />
-  ];
-
   const themeClasses = isDarkMode 
     ? "page-background bg-black"
     : "page-background bg-gray-50";
@@ -107,7 +90,54 @@ const Index = () => {
         />
       )}
       <div className={`max-w-[1350px] mx-auto px-6 sm:px-10 lg:px-16 ${isSignedInOnLanding ? 'mt-8' : ''}`}>
-        {screens[currentScreen]}
+        {/* Screen 0 - Landing Page */}
+        <div className={currentScreen === 0 ? 'block' : 'hidden'}>
+          <LandingPage onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+        </div>
+
+        {/* Screen 1 - Sign Up Page */}
+        <div className={currentScreen === 1 ? 'block' : 'hidden'}>
+          <SignUpPage onNavigate={handleNavigate} isDarkMode={isDarkMode} userType={userType} setUserType={setUserType} />
+        </div>
+
+        {/* Screen 2 - Onboarding Flow */}
+        <div className={currentScreen === 2 ? 'block' : 'hidden'}>
+          <OnboardingFlow onLandingPage={() => setCurrentScreen(0)} onComplete={handleOnboardingComplete} userType={userType} />
+        </div>
+
+        {/* Screen 3 - User Feed */}
+        <div className={currentScreen === 3 ? 'block' : 'hidden'}>
+          <UserFeed onNavigate={handleNavigate} isDarkMode={isDarkMode} showOnboarding={showOnboarding} />
+        </div>
+
+        {/* Screen 4 - Dashboard */}
+        <div className={currentScreen === 4 ? 'block' : 'hidden'}>
+          <Dashboard onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+        </div>
+
+        {/* Screen 5 - Content Creator */}
+        <div className={currentScreen === 5 ? 'block' : 'hidden'}>
+          <ContentCreator onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+        </div>
+
+        {/* Screen 6 - Stock Chart Data */}
+        <div className={currentScreen === 6 ? 'block' : 'hidden'}>
+          <StockChartData symbol={searchSymbol} onNavigate={handleNavigate} isDarkMode={isDarkMode} />
+        </div>
+
+        {/* Screen 7 - Share Earn Flow */}
+        <div className={currentScreen === 7 ? 'block' : 'hidden'}>
+          <ShareEarnFlow 
+            post={mockPost}
+            onClose={handleShareClose}
+            onShare={handleShare}
+          />
+        </div>
+
+        {/* Screen 8 - Final CTA */}
+        <div className={currentScreen === 8 ? 'block' : 'hidden'}>
+          <FinalCTA />
+        </div>
       </div>
     </div>
   );

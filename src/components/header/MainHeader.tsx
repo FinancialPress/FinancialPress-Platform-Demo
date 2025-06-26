@@ -68,28 +68,28 @@ const MainHeader = ({
   };
 
   const handleFeedClick = () => {
-    navigate('/feed');
+    onNavigate(3);
   };
 
   const handleCreateClick = () => {
-    navigate('/create');
+    onNavigate(5);
   };
 
   const handleDashboardClick = () => {
-    navigate('/dashboard');
+    onNavigate(4);
   };
 
-  // Always route to landing page regardless of current state
+  // Navigate to landing page using onNavigate
   const handleHomeClick = () => {
-    navigate('/');
+    onNavigate(0);
   };
 
   const handleAuthClick = () => {
     navigate('/auth');
   };
 
-  const getActiveButtonClasses = (path: string) => {
-    const isActive = location.pathname === path;
+  const getActiveButtonClasses = (screenNumber: number) => {
+    const isActive = currentScreen === screenNumber;
     return isActive 
       ? 'bg-fpYellow text-black rounded-md px-3 py-1 font-bold'
       : `${topBarTextClasses} transition-colors font-bold`;
@@ -104,19 +104,19 @@ const MainHeader = ({
             <div className="flex items-center space-x-8 text-sm">
               <button 
                 onClick={handleFeedClick}
-                className={getActiveButtonClasses('/feed')}
+                className={getActiveButtonClasses(3)}
               >
                 Feed
               </button>
               <button 
                 onClick={handleCreateClick}
-                className={getActiveButtonClasses('/create')}
+                className={getActiveButtonClasses(5)}
               >
                 Create
               </button>
               <button 
                 onClick={handleDashboardClick}
-                className={getActiveButtonClasses('/dashboard')}
+                className={getActiveButtonClasses(4)}
               >
                 Dashboard
               </button>
