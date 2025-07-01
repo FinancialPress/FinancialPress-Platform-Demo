@@ -48,20 +48,19 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     return icons[iconIndex];
   };
 
-  // Generate current date/time for articles
-  const getCurrentDateTime = () => {
-    const currentDate = new Date();
-    const dateString = currentDate.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-    const timeString = currentDate.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-    return { dateString, timeString };
+  // Generate static date/time for articles in the format "Jun 28, 2025, 03:55 PM"
+  const getStaticDateTime = (itemId: number) => {
+    // Generate different dates for variety
+    const dates = [
+      "Jun 28, 2025, 03:55 PM",
+      "Jun 28, 2025, 02:30 PM", 
+      "Jun 28, 2025, 01:15 PM",
+      "Jun 28, 2025, 12:45 PM",
+      "Jun 28, 2025, 11:20 PM",
+      "Jun 27, 2025, 10:30 PM"
+    ];
+    
+    return dates[itemId % dates.length];
   };
 
   // Latest News Content by Sector
@@ -706,7 +705,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     : "text-lg sm:text-xl font-bold text-black";
 
   const renderContentCard = (item: any) => {
-    const { dateString, timeString } = getCurrentDateTime();
+    const staticDateTime = getStaticDateTime(item.id);
     const originatorIcon = getOriginatorIcon(item.id);
     const isFinancialPressPost = item.id % 4 === 0; // Every 4th post uses Financial Press logo
 
@@ -754,7 +753,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                   {item.badge.split(' ')[0]}
                 </Badge>
               </div>
-              <span className={`text-xs ${textClasses} flex-shrink-0`}>{dateString}</span>
+              <span className={`text-xs ${textClasses} flex-shrink-0`}>{item.timeAgo}</span>
             </div>
 
             <h3 className={`font-semibold text-xs sm:text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
@@ -803,11 +802,10 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
               </button>
             </div>
 
-            {/* Date and Time Strip */}
+            {/* Date and Time Strip - Updated format */}
             <div className={`mt-3 pt-2 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} text-xs ${textClasses}`}>
-              <div className="flex items-center justify-between">
-                <span>Published: {dateString} at {timeString}</span>
-                <span>Updated: {timeString}</span>
+              <div className="text-center">
+                <span>{staticDateTime}</span>
               </div>
             </div>
           </div>
