@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Chrome, Mail, Loader2 } from 'lucide-react';
+import { Chrome, Mail, Loader2, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -82,6 +82,10 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
     }
   };
 
+  const handleClose = () => {
+    onNavigate?.(0); // Return to landing page
+  };
+
   // Theme-aware utility classes
   const background = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
   const card = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
@@ -91,7 +95,17 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   const dividerTextBg = isDarkMode ? 'bg-gray-900 text-gray-400' : 'bg-white text-gray-600';
 
   return (
-    <div className={`min-h-screen ${background}`}>
+    <div className={`min-h-screen ${background} relative`}>
+      {/* Close button */}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleClose}
+        className="absolute top-4 right-4 z-10"
+      >
+        <X className="w-5 h-5" />
+      </Button>
+
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">

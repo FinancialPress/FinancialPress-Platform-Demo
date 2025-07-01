@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, HandCoins, MoreHorizontal, Play } from 'lucide-react';
+import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, HandCoins, Play, Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
@@ -33,6 +33,37 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   // Show hero section only for unauthenticated users or demo users (not real logged-in users)
   const showHeroSection = !user || !isLiveUser;
 
+  // Get originator icon for articles
+  const getOriginatorIcon = (itemId: number) => {
+    const icons = [
+      { icon: Chrome, name: 'Web' },
+      { icon: Facebook, name: 'Facebook' },
+      { icon: Twitter, name: 'Twitter' },
+      { icon: Instagram, name: 'Instagram' },
+      { icon: Linkedin, name: 'LinkedIn' },
+      { icon: Youtube, name: 'YouTube' },
+    ];
+    
+    const iconIndex = itemId % icons.length;
+    return icons[iconIndex];
+  };
+
+  // Generate current date/time for articles
+  const getCurrentDateTime = () => {
+    const currentDate = new Date();
+    const dateString = currentDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    const timeString = currentDate.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+    return { dateString, timeString };
+  };
+
   // Latest News Content by Sector
   const latestNewsBySector = {
     stockMarket: [
@@ -44,7 +75,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
         author: "Sarah Chen",
         handle: "@sarahchen",
         badge: "Gold Creator",
-        timeAgo: "1h",
+        timeAgo: "2h",
         views: "24.5K",
         comments: 67,
         shares: 134,
@@ -674,88 +705,116 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     ? "text-lg sm:text-xl font-bold text-white"
     : "text-lg sm:text-xl font-bold text-black";
 
-  const renderContentCard = (item: any) => (
-    <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors w-full`}>
-      <CardContent className="p-0">
-        <div className="relative">
-          <img 
-            src={item.image}
-            alt={item.title}
-            className="w-full h-24 sm:h-32 object-cover"
-          />
-          <Badge className={`absolute top-1 sm:top-2 left-1 sm:left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
-            {item.category}
-          </Badge>
-          {item.isVideo && (
-            <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-black bg-opacity-60 rounded-full p-1">
-              <Play className="w-2 h-2 sm:w-3 sm:h-3 text-white" fill="white" />
-            </div>
-          )}
-        </div>
-        <div className="p-2 sm:p-3">
-          {/* Author Header - Compact */}
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center space-x-1 min-w-0 flex-1">
-              <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-black font-bold text-xs">{item.author.charAt(0)}</span>
+  const renderContentCard = (item: any) => {
+    const { dateString, timeString } = getCurrentDateTime();
+    const originatorIcon = getOriginatorIcon(item.id);
+    const isFinancialPressPost = item.id % 4 === 0; // Every 4th post uses Financial Press logo
+
+    return (
+      <Card key={item.id} className={`${cardClasses} hover:border-gray-700 transition-colors w-full`}>
+        <CardContent className="p-0">
+          <div className="relative">
+            <img 
+              src={item.image}
+              alt={item.title}
+              className="w-full h-24 sm:h-32 object-cover"
+            />
+            <Badge className={`absolute top-1 sm:top-2 left-1 sm:left-2 ${getCategoryColor(item.category)} text-white text-xs`}>
+              {item.category}
+            </Badge>
+            {item.isVideo && (
+              <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-black bg-opacity-60 rounded-full p-1">
+                <Play className="w-2 h-2 sm:w-3 sm:h-3 text-white" fill="white" />
               </div>
-              <span className={`font-medium text-xs truncate ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.author}</span>
-              <Badge className={`text-xs hidden sm:inline-block ${getBadgeColor(item.badge)}`}>
-                {item.badge.split(' ')[0]}
-              </Badge>
-            </div>
-            <span className={`text-xs ${textClasses} flex-shrink-0`}>{item.timeAgo}</span>
-          </div>
-
-          <h3 className={`font-semibold text-xs sm:text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
-          
-          {/* Engagement Stats */}
-          <div className={`flex items-center justify-between text-xs mb-2 ${textClasses}`}>
-            <div className="flex items-center space-x-2">
-              <span className="truncate">{item.views} views</span>
-            </div>
-            <div className="text-green-400 font-semibold text-center flex-shrink-0">
-              <span className="text-xs sm:text-sm">{item.earnings} FPT Earned</span>
+            )}
+            {/* Originator Icon */}
+            <div className="absolute bottom-1 sm:bottom-2 right-1 sm:right-2">
+              {isFinancialPressPost ? (
+                <img 
+                  src="/lovable-uploads/36c32632-76d5-49c6-bb65-079fe61ba5f0.png" 
+                  alt="Financial Press" 
+                  className="w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full p-1"
+                />
+              ) : (
+                <div className="bg-white rounded-full p-1">
+                  <originatorIcon.icon className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
+                </div>
+              )}
             </div>
           </div>
+          <div className="p-2 sm:p-3">
+            {/* Author Header - Compact */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-1 min-w-0 flex-1">
+                <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-black font-bold text-xs">{item.author.charAt(0)}</span>
+                </div>
+                <span className={`font-medium text-xs truncate ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.author}</span>
+                <Badge className={`text-xs hidden sm:inline-block ${getBadgeColor(item.badge)}`}>
+                  {item.badge.split(' ')[0]}
+                </Badge>
+              </div>
+              <span className={`text-xs ${textClasses} flex-shrink-0`}>{dateString}</span>
+            </div>
 
-          {/* Action Buttons - Compact */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 sm:space-x-3 overflow-x-auto">
-              <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors flex-shrink-0`}>
-                <Heart className="w-3 h-3" />
-                <span className="text-xs hidden sm:inline">{item.likes}</span>
-              </button>
-              <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors flex-shrink-0`}>
-                <MessageCircle className="w-3 h-3" />
-                <span className="text-xs hidden sm:inline">{item.comments}</span>
-              </button>
-              <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors flex-shrink-0`}>
-                <Repeat2 className="w-3 h-3" />
-                <span className="text-xs hidden sm:inline">{item.shares}</span>
-              </button>
+            <h3 className={`font-semibold text-xs sm:text-sm mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.title}</h3>
+            
+            {/* Engagement Stats */}
+            <div className={`flex items-center justify-between text-xs mb-2 ${textClasses}`}>
+              <div className="flex items-center space-x-2">
+                <span className="truncate">{item.views} views</span>
+              </div>
+              <div className="text-green-400 font-semibold text-center flex-shrink-0">
+                <span className="text-xs sm:text-sm">{item.earnings} FPT Earned</span>
+              </div>
+            </div>
+
+            {/* Action Buttons - Compact */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2 sm:space-x-3 overflow-x-auto">
+                <button className={`flex items-center space-x-1 ${textClasses} hover:text-red-400 transition-colors flex-shrink-0`}>
+                  <Heart className="w-3 h-3" />
+                  <span className="text-xs hidden sm:inline">{item.likes}</span>
+                </button>
+                <button className={`flex items-center space-x-1 ${textClasses} hover:text-blue-400 transition-colors flex-shrink-0`}>
+                  <MessageCircle className="w-3 h-3" />
+                  <span className="text-xs hidden sm:inline">{item.comments}</span>
+                </button>
+                <button className={`flex items-center space-x-1 ${textClasses} hover:text-green-400 transition-colors flex-shrink-0`}>
+                  <Repeat2 className="w-3 h-3" />
+                  <span className="text-xs hidden sm:inline">{item.shares}</span>
+                </button>
+                <button 
+                  className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors flex-shrink-0`}
+                  onClick={() => handleShare(item)}
+                >
+                  <Share2 className="w-3 h-3" />
+                  <span className="text-xs hidden sm:inline">Share</span>
+                </button>
+              </div>
               <button 
                 className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors flex-shrink-0`}
-                onClick={() => handleShare(item)}
+                title="Tip"
+                aria-label="Tip"
+                onClick={() => handleTip(item, item.title)}
               >
-                <Share2 className="w-3 h-3" />
-                <span className="text-xs hidden sm:inline">Share</span>
+                <HandCoins className="w-3 h-3" />
+                <span className="text-xs hidden sm:inline">Tip</span>
               </button>
             </div>
-            <button 
-              className={`flex items-center space-x-1 ${textClasses} hover:text-yellow-400 transition-colors flex-shrink-0`}
-              title="Tip"
-              aria-label="Tip"
-              onClick={() => handleTip(item, item.title)}
-            >
-              <HandCoins className="w-3 h-3" />
-              <span className="text-xs hidden sm:inline">Tip</span>
-            </button>
+
+            {/* Date and Time Strip */}
+            <div className={`mt-3 pt-2 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} text-xs ${textClasses}`}>
+              <div className="flex items-center justify-between">
+                <span>Published: {dateString} at {timeString}</span>
+                <span>Updated: {timeString}</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+        </CardContent>
+      </Card>
+    );
+  };
 
   const renderSection = (title: string, posts: any[]) => (
     <div className="mb-6 sm:mb-8">

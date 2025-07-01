@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { PlusCircle } from 'lucide-react';
 import { useBalance } from '../contexts/BalanceContext';
 import ShareEarnFlow from './ShareEarnFlow';
 import TrendingTopics from '@/components/feed/TrendingTopics';
@@ -10,9 +12,7 @@ import TopComments from '@/components/feed/TopComments';
 import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
-import FeedSidebar from '@/components/feed/FeedSidebar';
 import FeedPost from '@/components/feed/FeedPost';
-import FeedHeader from '@/components/feed/FeedHeader';
 import FeedLoadingSkeleton from '@/components/feed/FeedLoadingSkeleton';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import WelcomeModal from '@/components/modals/WelcomeModal';
@@ -51,7 +51,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
 
-  // Initialize feed with initial posts - only run once
+  // Initialize feed with initial posts - only run once, filtering out 'Testing Add Tokens'
   useEffect(() => {
     const initializeFeed = () => {
       const initialPosts = [
@@ -237,6 +237,10 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
     console.log('Earnings update triggered for onboarding');
   };
 
+  const handleCreateClick = () => {
+    onNavigate?.(5); // Navigate to content creator
+  };
+
   // Theme-aware classes
   const bgClasses = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
@@ -280,25 +284,45 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Sidebar - 1/4 width */}
           <div className="lg:col-span-1" data-tour="start-creating">
-            <FeedSidebar isDarkMode={isDarkMode} onNavigate={onNavigate} />
+            {/* Empty left sidebar space */}
+            <div></div>
           </div>
 
           {/* Main Content Area - 2/4 width */}
           <div className="lg:col-span-2 space-y-8" data-tour="feed-content">
-            {/* Feed Header */}
-            <FeedHeader textClasses={textClasses} />
+            {/* What's on your mind textbox */}
+            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-4`}>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-black font-bold text-sm">U</span>
+                </div>
+                <div className="flex-1 cursor-pointer" onClick={handleCreateClick}>
+                  <Input
+                    placeholder="What's on your mind?"
+                    className={`border-none bg-transparent ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} cursor-pointer`}
+                    readOnly
+                  />
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleCreateClick}
+                  className="text-yellow-500 hover:text-yellow-600"
+                >
+                  <PlusCircle className="w-5 h-5" />
+                </Button>
+              </div>
+            </div>
 
             {/* Real Posts Section */}
             {posts.length > 0 && (
               <div className="space-y-6">
-                <h2 className={`${textClasses} text-xl font-semibold`}>Latest Posts</h2>
                 <PostsList isDarkMode={isDarkMode} />
               </div>
             )}
 
             {/* Mock Feed Posts */}
             <div className="space-y-6">
-              <h2 className={`${textClasses} text-xl font-semibold`}>Community Feed</h2>
               {feedItems.map((post) => (
                 <FeedPost
                   key={post.id}
