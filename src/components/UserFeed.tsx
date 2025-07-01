@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Home, Bell, Bookmark, User, Settings, HelpCircle } from 'lucide-react';
 import { useBalance } from '../contexts/BalanceContext';
 import ShareEarnFlow from './ShareEarnFlow';
 import TrendingTopics from '@/components/feed/TrendingTopics';
@@ -281,10 +281,36 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         {/* Main grid with sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - 1/4 width */}
+          {/* Left Sidebar - Navigation Menu */}
           <div className="lg:col-span-1 space-y-6" data-tour="start-creating">
-            <UserInterests isDarkMode={isDarkMode} />
-            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} isDarkMode={isDarkMode} />
+            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-6`}>
+              <nav className="space-y-4">
+                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-black'}`}>
+                  <Home className="w-5 h-5" />
+                  <span className="font-medium">Home</span>
+                </a>
+                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
+                  <Bell className="w-5 h-5" />
+                  <span>Notifications</span>
+                </a>
+                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
+                  <Bookmark className="w-5 h-5" />
+                  <span>Bookmarks</span>
+                </a>
+                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
+                  <User className="w-5 h-5" />
+                  <span>Profile</span>
+                </a>
+                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
+                  <Settings className="w-5 h-5" />
+                  <span>Settings</span>
+                </a>
+                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
+                  <HelpCircle className="w-5 h-5" />
+                  <span>Help</span>
+                </a>
+              </nav>
+            </div>
           </div>
 
           {/* Main Content Area - 2/4 width */}
@@ -353,6 +379,8 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
+            <UserInterests isDarkMode={isDarkMode} />
+            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} isDarkMode={isDarkMode} />
             <WhoToFollow isDarkMode={isDarkMode} />
             <TopCreators isDarkMode={isDarkMode} />
             <TopSharers isDarkMode={isDarkMode} />
