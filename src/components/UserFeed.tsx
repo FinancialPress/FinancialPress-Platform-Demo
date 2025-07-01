@@ -1,8 +1,8 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { useBalance } from '../contexts/BalanceContext';
 import ShareEarnFlow from './ShareEarnFlow';
-import EarningsTracker from './EarningsTracker';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
@@ -34,7 +34,6 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [selectedCreator, setSelectedCreator] = useState<any>(null);
   const [showWelcomeModal, setShowWelcomeModal] = useState(showOnboarding);
   const [showTour, setShowTour] = useState(false);
-  const [earningsAmount, setEarningsAmount] = useState('0.0');
   const [isFromOnboarding, setIsFromOnboarding] = useState(showOnboarding);
   const [isInitialized, setIsInitialized] = useState(false);
   
@@ -227,23 +226,15 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   const handleTourComplete = () => {
     setShowTour(false);
-    // Stop the flashing after tour completes
-    setTimeout(() => {
-      setEarningsAmount('1.0');
-    }, 5000);
   };
 
   const handleSkipTour = () => {
     setShowTour(false);
-    // Stop the flashing after tour is skipped
-    setTimeout(() => {
-      setEarningsAmount('1.0');
-    }, 5000);
   };
 
   const handleEarningsUpdate = () => {
-    // Animate earnings from 0.0 to 1.0
-    setEarningsAmount('1.0');
+    // This will trigger the earnings animation in the header
+    console.log('Earnings update triggered for onboarding');
   };
 
   // Theme-aware classes
@@ -339,19 +330,6 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Embedded Earnings Tracker - Now uses centralized balance */}
-            <div data-tour="earnings-tracker">
-              <EarningsTracker
-                isVisible={true}
-                onClose={() => {}}
-                onNavigate={onNavigate}
-                isEmbedded={true}
-                isDarkMode={isDarkMode}
-                customEarnings={isFromOnboarding ? earningsAmount : undefined}
-                isFromOnboarding={isFromOnboarding}
-              />
-            </div>
-
             <UserInterests isDarkMode={isDarkMode} />
 
             {/* New Who to Follow panel */}

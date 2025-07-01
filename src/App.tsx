@@ -13,6 +13,7 @@ import ContentCreatorPage from "./pages/ContentCreatorPage";
 import UserFeedPage from "./pages/UserFeedPage";
 import DashboardPage from "./pages/DashboardPage";
 import StockChartDataPage from "./pages/StockChartDataPage";
+import SignUpPage from "./pages/SignUpPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/create" element={<ContentCreatorPage />} />
                 <Route path="/feed" element={<UserFeedPage />} />

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -59,9 +60,9 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
         };
       case 3:
         return {
-          title: "Step 3 - Live Earnings",
-          content: "Keep tabs on your earnings here. And to get you started, we've already added 1.0 FPT to your wallet for being one of our earliest adopters.",
-          selector: "[data-tour='earnings-tracker']"
+          title: "Step 3 - Your Earnings",
+          content: "Keep tabs on your earnings in the header next to your profile. And to get you started, we've already added 1.0 FPT to your wallet for being one of our earliest adopters.",
+          selector: ".flex.items-center.bg-fpYellow"
         };
       default:
         return null;
