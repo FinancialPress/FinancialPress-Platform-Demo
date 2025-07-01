@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +8,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Chrome, Mail, Loader2, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
-import { X } from 'lucide-react';
 
 interface SignUpPageProps {
   onNavigate?: (screen: number, symbol?: string, userType?: 'demo' | 'live') => void;
