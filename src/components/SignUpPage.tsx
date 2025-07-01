@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Chrome, Mail, Loader2, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
+import { X } from 'lucide-react';
 
 interface SignUpPageProps {
   onNavigate?: (screen: number, symbol?: string, userType?: 'demo' | 'live') => void;
@@ -97,14 +98,14 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   return (
     <div className={`min-h-screen ${background} relative`}>
       {/* Close button */}
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={handleClose}
-        className="absolute top-4 right-4 z-10"
-      >
-        <X className="w-5 h-5" />
-      </Button>
+      <button
+  className={`fixed top-6 right-8 z-50 ${isDarkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} rounded-full p-3 transition-colors shadow-lg`}
+  title="Close and return to landing page"
+  onClick={handleClose}
+  aria-label="Close"
+>
+  <X className={`w-6 h-6 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`} />
+</button>
 
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         <div className="text-center mb-12">
