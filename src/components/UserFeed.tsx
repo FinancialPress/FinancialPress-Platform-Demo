@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { useBalance } from '../contexts/BalanceContext';
@@ -9,13 +10,14 @@ import TopComments from '@/components/feed/TopComments';
 import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
+import FeedSidebar from '@/components/feed/FeedSidebar';
 import FeedPost from '@/components/feed/FeedPost';
+import FeedHeader from '@/components/feed/FeedHeader';
 import FeedLoadingSkeleton from '@/components/feed/FeedLoadingSkeleton';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import WelcomeModal from '@/components/modals/WelcomeModal';
 import OnboardingTour from '@/components/modals/OnboardingTour';
 import PostsList from '@/components/posts/PostsList';
-import CreatePostPrompt from '@/components/feed/CreatePostPrompt';
 import { generateMockFeedItem } from '@/utils/mockFeedData';
 import { usePosts } from '@/hooks/usePosts';
 
@@ -49,7 +51,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
 
-  // Initialize feed with initial posts - only run once, but remove "Testing Add Tokens" article
+  // Initialize feed with initial posts - only run once
   useEffect(() => {
     const initializeFeed = () => {
       const initialPosts = [
@@ -276,28 +278,27 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         {/* Main grid with sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - 1/4 width - Remove FeedSidebar */}
-          <div className="lg:col-span-1">
-            <UserInterests isDarkMode={isDarkMode} />
-            <div className="mt-6">
-              <WhoToFollow isDarkMode={isDarkMode} />
-            </div>
+          {/* Left Sidebar - 1/4 width */}
+          <div className="lg:col-span-1" data-tour="start-creating">
+            <FeedSidebar isDarkMode={isDarkMode} onNavigate={onNavigate} />
           </div>
 
           {/* Main Content Area - 2/4 width */}
           <div className="lg:col-span-2 space-y-8" data-tour="feed-content">
-            {/* Create Post Prompt */}
-            <CreatePostPrompt isDarkMode={isDarkMode} onNavigate={onNavigate} />
+            {/* Feed Header */}
+            <FeedHeader textClasses={textClasses} />
 
-            {/* Real Posts Section - Remove "Latest Posts" heading */}
+            {/* Real Posts Section */}
             {posts.length > 0 && (
               <div className="space-y-6">
+                <h2 className={`${textClasses} text-xl font-semibold`}>Latest Posts</h2>
                 <PostsList isDarkMode={isDarkMode} />
               </div>
             )}
 
-            {/* Mock Feed Posts - Remove "Community Feed" heading */}
+            {/* Mock Feed Posts */}
             <div className="space-y-6">
+              <h2 className={`${textClasses} text-xl font-semibold`}>Community Feed</h2>
               {feedItems.map((post) => (
                 <FeedPost
                   key={post.id}
@@ -329,6 +330,11 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
+            <UserInterests isDarkMode={isDarkMode} />
+
+            {/* New Who to Follow panel */}
+            <WhoToFollow isDarkMode={isDarkMode} />
+
             <TopCreators isDarkMode={isDarkMode} />
             <TopSharers isDarkMode={isDarkMode} />
             <TopComments isDarkMode={isDarkMode} />

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -5,7 +6,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { MoreHorizontal } from 'lucide-react';
 import PostEngagement from './PostEngagement';
 import PostActions from './PostActions';
-import OriginatorIcon from '@/components/ui/originator-icon';
 
 interface FeedPostProps {
   post: {
@@ -37,10 +37,6 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
   const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-gray-300';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
-
-  // Generate random originator for demo
-  const originators = ['facebook', 'twitter', 'linkedin', 'financial-press', 'original'];
-  const randomOriginator = originators[post.id % originators.length];
 
   return (
     <Card className={`${cardClasses} transition-colors`}>
@@ -78,7 +74,6 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <OriginatorIcon source={randomOriginator as any} isDarkMode={isDarkMode} />
             <Button variant="ghost" size="sm" className={`${mutedText}`}>
               <MoreHorizontal className="w-4 h-4" />
             </Button>

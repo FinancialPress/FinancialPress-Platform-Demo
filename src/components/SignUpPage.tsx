@@ -1,128 +1,222 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { X, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Chrome, Mail, Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/components/ui/use-toast';
 
 interface SignUpPageProps {
+  onNavigate?: (screen: number, symbol?: string, userType?: 'demo' | 'live') => void;
   isDarkMode?: boolean;
+  userType?: 'demo' | 'live' | null;
+  setUserType?: (type: 'demo' | 'live' | null) => void;
 }
 
-const SignUpPage = ({ isDarkMode = true }: SignUpPageProps) => {
-  const navigate = useNavigate();
+const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: SignUpPageProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [referralCode, setReferralCode] = useState('');
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { signUp } = useAuth();
+  const { toast } = useToast();
 
-  const handleClose = () => {
-    navigate('/');
+  const handleDemoFlow = (provider: string) => {
+    // Set user type to demo and navigate to onboarding
+    setUserType?.('demo');
+    onNavigate?.(2, undefined, 'demo');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle sign up logic here
-    console.log('Sign up attempt:', { email, password });
+  const handleLiveSignUp = async () => {
+    if (!email || !password) {
+      toast({
+        title: "Error",
+        description: "Please enter both email and password",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!agreeToTerms) {
+      toast({
+        title: "Error", 
+        description: "Please agree to the Terms and Conditions",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      const { error } = await signUp(email, password, referralCode || undefined);
+      
+      if (error) {
+        toast({
+          title: "Signup Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Account Created!",
+          description: "Please check your email to verify your account.",
+        });
+        // Set user type to live and navigate to onboarding
+        setUserType?.('live');
+        onNavigate?.(2, undefined, 'live');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const bgClasses = isDarkMode ? 'min-h-screen bg-black text-white' : 'min-h-screen bg-gray-50 text-black';
-  const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
+  // Theme-aware utility classes
+  const background = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
+  const card = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200';
+  const label = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+  const input = isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
+  const separator = isDarkMode ? 'bg-gray-700' : 'bg-gray-300';
+  const dividerTextBg = isDarkMode ? 'bg-gray-900 text-gray-400' : 'bg-white text-gray-600';
 
   return (
-    <div className={bgClasses}>
-      {/* Close button */}
-      <div className="absolute top-4 right-4 z-10">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleClose}
-          className={`${isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}`}
-        >
-          <X className="w-5 h-5" />
-        </Button>
-      </div>
+    <div className={`min-h-screen ${background}`}>
+      <div className="max-w-[1440px] mx-auto px-8 py-20">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+            Join FinancialPress
+          </h1>
+          <p className={`text-xl ${label}`}>
+            Start earning crypto by creating and sharing quality financial content
+          </p>
+        </div>
 
-      <div className="flex items-center justify-center min-h-screen p-4">
-        <Card className={`w-full max-w-md ${cardClasses}`}>
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Join FlowPost</CardTitle>
-            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-2`}>
-              Create your account and start earning from your content
-            </p>
+        {/* Sign Up Form */}
+        <Card className={`${card} max-w-md mx-auto`}>
+          <CardHeader>
+            <CardTitle className={`text-2xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              Create Your Account
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Input
-                  type="email"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className={isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}
-                />
-              </div>
-              <div>
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className={isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}
-                />
-              </div>
-              <div>
-                <Input
-                  type="password"
-                  placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className={isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full bg-fpYellow hover:bg-fpYellowDark text-black font-semibold"
-              >
-                Create Account
-              </Button>
-            </form>
+          <CardContent className="space-y-6">
+            {/* Social Sign Up Options - Demo Flow */}
+            <Button 
+              className="w-full bg-white text-black hover:bg-gray-100 font-semibold py-3"
+              onClick={() => handleDemoFlow('google')}
+              disabled={loading}
+            >
+              <Chrome className="w-5 h-5 mr-2" />
+              Continue with Google
+            </Button>
+            <Button 
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
+              onClick={() => handleDemoFlow('twitter')}
+              disabled={loading}
+            >
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              Connect with X/Twitter
+            </Button>
+            <Button
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
+              onClick={() => handleDemoFlow('reown')}
+              disabled={loading}
+            >
+              <img
+                src="/reown-brandmark-negative.svg"
+                alt="Reown"
+                className="w-5 h-5 mr-2"
+                style={{ display: 'inline-block', verticalAlign: 'middle' }}
+              />
+              Connect with Reown
+            </Button>
 
-            <div className="mt-6">
-              <div className={`text-center text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
-                Connect your social channels
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className={`w-full ${separator}`} />
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                <Button variant="outline" size="sm" className="flex items-center justify-center p-2">
-                  <Facebook className="w-5 h-5 text-blue-600" />
-                </Button>
-                <Button variant="outline" size="sm" className="flex items-center justify-center p-2">
-                  <Twitter className="w-5 h-5 text-blue-400" />
-                </Button>
-                <Button variant="outline" size="sm" className="flex items-center justify-center p-2">
-                  <Instagram className="w-5 h-5 text-pink-500" />
-                </Button>
-                <Button variant="outline" size="sm" className="flex items-center justify-center p-2">
-                  <Linkedin className="w-5 h-5 text-blue-700" />
-                </Button>
-                <Button variant="outline" size="sm" className="flex items-center justify-center p-2">
-                  <Youtube className="w-5 h-5 text-red-600" />
-                </Button>
-                <Button variant="outline" size="sm" className="flex items-center justify-center p-2">
-                  <img src="/lovable-uploads/2b7e8aa6-713f-47ff-ae55-2171a9e67aba.png" alt="Financial Press" className="w-5 h-5" />
-                </Button>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className={`px-2 ${dividerTextBg}`}>Or</span>
               </div>
             </div>
 
-            <div className={`text-center text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-6`}>
-              Already have an account?{' '}
-              <button className="text-fpYellow hover:underline">
-                Sign in
-              </button>
+            {/* Email Sign Up - Live Flow */}
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="email" className={label}>Email</Label>
+                <Input 
+                  id="email" 
+                  type="email" 
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={input}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <Label htmlFor="password" className={label}>Password</Label>
+                <Input 
+                  id="password" 
+                  type="password" 
+                  placeholder="Create a password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={input}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <Label htmlFor="referral" className={label}>Referral Code (Optional)</Label>
+                <Input 
+                  id="referral" 
+                  type="text" 
+                  placeholder="Enter referral code (FPX-XXXXXX)"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value)}
+                  className={input}
+                  disabled={loading}
+                />
+              </div>
+
+              {/* Terms and Conditions Checkbox */}
+              <div className="flex items-center space-x-2 pt-4">
+                <Checkbox 
+                  id="agree-terms" 
+                  checked={agreeToTerms}
+                  onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
+                  disabled={loading}
+                />
+                <Label htmlFor="agree-terms" className={`${label} text-sm`}>
+                  I agree to the Terms and Conditions
+                </Label>
+              </div>
+
+              <Button 
+                className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3"
+                onClick={handleLiveSignUp}
+                disabled={loading}
+              >
+                {loading ? (
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                ) : (
+                  <Mail className="w-5 h-5 mr-2" />
+                )}
+                {loading ? 'Creating Account...' : 'Create Account'}
+              </Button>
             </div>
           </CardContent>
         </Card>
