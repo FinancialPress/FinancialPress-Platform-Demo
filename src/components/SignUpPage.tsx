@@ -82,7 +82,12 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   };
 
   const handleClose = () => {
-    onNavigate?.(0); // Return to landing page
+    console.log("Close button clicked, navigating to screen 0");
+    if (onNavigate) {
+      onNavigate(0); // Return to landing page
+    } else {
+      console.log("onNavigate function not available");
+    }
   };
 
   // Theme-aware utility classes
@@ -97,13 +102,13 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
     <div className={`min-h-screen ${background} relative`}>
       {/* Close button */}
       <button
-  className={`fixed top-6 right-8 z-50 ${isDarkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} rounded-full p-3 transition-colors shadow-lg`}
-  title="Close and return to landing page"
-  onClick={handleClose}
-  aria-label="Close"
->
-  <X className={`w-6 h-6 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`} />
-</button>
+        className={`fixed top-6 right-8 z-50 ${isDarkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} rounded-full p-3 transition-colors shadow-lg`}
+        title="Close and return to landing page"
+        onClick={handleClose}
+        aria-label="Close"
+      >
+        <X className={`w-6 h-6 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`} />
+      </button>
 
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         <div className="text-center mb-12">

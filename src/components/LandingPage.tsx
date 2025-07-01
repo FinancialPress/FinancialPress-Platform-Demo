@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, HandCoins, Play, Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { TrendingUp, Users, Award, DollarSign, Star, MessageCircle, Share2, Eye, Clock, ArrowUp, Heart, Repeat2, HandCoins, Play, Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube, Calendar } from 'lucide-react';
 import TrendingTopics from '@/components/feed/TrendingTopics';
 import TopCreators from '@/components/feed/TopCreators';
 import TopSharers from '@/components/feed/TopSharers';
@@ -802,9 +802,10 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
               </button>
             </div>
 
-            {/* Date and Time Strip - Updated format */}
+            {/* Date and Time Strip - Updated format with calendar icon and left-aligned */}
             <div className={`mt-3 pt-2 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} text-xs ${textClasses}`}>
-              <div className="text-center">
+              <div className="flex items-center space-x-1">
+                <Calendar className="w-3 h-3" />
                 <span>{staticDateTime}</span>
               </div>
             </div>
