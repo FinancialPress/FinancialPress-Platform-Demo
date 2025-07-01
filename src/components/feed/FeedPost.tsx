@@ -3,7 +3,9 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube, Calendar, Share2, HandCoins } from 'lucide-react';
+import { Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube, Calendar } from 'lucide-react';
+import PostEngagement from './PostEngagement';
+import PostActions from './PostActions';
 
 interface FeedPostProps {
   post: {
@@ -129,36 +131,29 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
           </div>
         )}
 
-        {/* Earnings Display */}
-        <div className="mb-4">
-          <span className="text-green-400 font-semibold">
-            Earned: {post.earnings}
-          </span>
-        </div>
+        {/* Engagement Stats */}
+        <PostEngagement 
+          engagement={post.engagement}
+          earnings={post.earnings}
+          mutedText={mutedText}
+        />
 
-        {/* Date, Share & Earn, and Tip on same line */}
-        <div className={`flex items-center justify-between pt-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+        {/* Action Buttons */}
+        <PostActions
+          engagement={post.engagement}
+          mutedText={mutedText}
+          isDarkMode={isDarkMode}
+          onShare={onShare}
+          onTip={onTip}
+          postId={`feed-${post.id}`}
+          postTitle={post.content}
+        />
+
+        {/* Date and Time Strip */}
+        <div className={`mt-4 pt-3 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
           <div className="flex items-center space-x-2">
             <Calendar className={`w-4 h-4 ${mutedText}`} />
-            <span className={`text-sm ${mutedText}`}>{dateString}, {timeString}</span>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <button
-              className={`flex items-center space-x-2 ${mutedText} hover:text-fpYellow transition-colors`}
-              onClick={onShare}
-            >
-              <Share2 className="w-5 h-5" />
-              <span>Share & Earn</span>
-            </button>
-            
-            <button
-              className={`${mutedText} hover:text-fpYellow transition-colors flex items-center space-x-2`}
-              onClick={onTip}
-            >
-              <HandCoins className="w-5 h-5" />
-              <span>Tip</span>
-            </button>
+            <span className={`text-sm ${mutedText}`}>{dateString} at {timeString}</span>
           </div>
         </div>
       </CardContent>
