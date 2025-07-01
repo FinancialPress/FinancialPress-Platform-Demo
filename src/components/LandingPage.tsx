@@ -282,7 +282,7 @@ const LandingPage = ({ onNavigate, isDarkMode = false }: LandingPageProps) => {
       </section>
 
       {/* Final CTA */}
-      <FinalCTA isDarkMode={isDarkMode} />
+      <FinalCTA />
     </div>
   );
 };
