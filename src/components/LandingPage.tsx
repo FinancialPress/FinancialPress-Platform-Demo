@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -175,7 +176,7 @@ const LandingPage = ({ onNavigate, isDarkMode = false }: LandingPageProps) => {
               <div className="flex items-center space-x-2">
                 <Calendar className={`w-4 h-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
                 <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {dateString} at {timeString}
+                  {dateString}, {timeString}
                 </span>
               </div>
             </div>
@@ -258,7 +259,7 @@ const LandingPage = ({ onNavigate, isDarkMode = false }: LandingPageProps) => {
       </section>
 
       {/* Market Overview */}
-      <MarketOverview isDarkMode={isDarkMode} onNavigate={onNavigate} />
+      <MarketOverview isDarkMode={isDarkMode} />
 
       {/* Breaking News Section */}
       <section className="max-w-[1440px] mx-auto px-8 py-16">
@@ -281,7 +282,7 @@ const LandingPage = ({ onNavigate, isDarkMode = false }: LandingPageProps) => {
       </section>
 
       {/* Final CTA */}
-      <FinalCTA onNavigate={onNavigate} isDarkMode={isDarkMode} />
+      <FinalCTA isDarkMode={isDarkMode} />
     </div>
   );
 };

@@ -96,15 +96,17 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
 
   return (
     <div className={`min-h-screen ${background} relative`}>
-      {/* Close button */}
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={handleClose}
-        className="absolute top-4 right-4 z-10"
-      >
-        <X className="w-5 h-5" />
-      </Button>
+      {/* Close button - matching the Create page style */}
+      <div className="absolute top-6 right-6 z-10">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleClose}
+          className={`w-10 h-10 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-white' : 'hover:bg-gray-100 text-gray-600 hover:text-black'}`}
+        >
+          <X className="w-5 h-5" />
+        </Button>
+      </div>
 
       <div className="max-w-[1440px] mx-auto px-8 py-20">
         <div className="text-center mb-12">

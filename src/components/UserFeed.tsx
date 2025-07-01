@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PlusCircle, Home, Bell, Bookmark, User, Settings, HelpCircle } from 'lucide-react';
+import { PlusCircle, Home, Bell, Bookmark, User, Settings, HelpCircle, Search, Mail, MoreHorizontal } from 'lucide-react';
 import { useBalance } from '../contexts/BalanceContext';
 import ShareEarnFlow from './ShareEarnFlow';
 import TrendingTopics from '@/components/feed/TrendingTopics';
@@ -281,35 +282,49 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       <section className="max-w-[1440px] mx-auto px-8 py-8">
         {/* Main grid with sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - Navigation Menu */}
+          {/* Left Sidebar - Twitter-style Navigation Menu */}
           <div className="lg:col-span-1 space-y-6" data-tour="start-creating">
             <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-6`}>
-              <nav className="space-y-4">
-                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-black'}`}>
-                  <Home className="w-5 h-5" />
-                  <span className="font-medium">Home</span>
+              <nav className="space-y-2">
+                <a href="#" className={`flex items-center space-x-4 p-3 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-black'} font-bold text-xl`}>
+                  <Home className="w-7 h-7" />
+                  <span>Home</span>
                 </a>
-                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
-                  <Bell className="w-5 h-5" />
+                <a href="#" className={`flex items-center space-x-4 p-3 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'} text-xl`}>
+                  <Search className="w-7 h-7" />
+                  <span>Explore</span>
+                </a>
+                <a href="#" className={`flex items-center space-x-4 p-3 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'} text-xl`}>
+                  <Bell className="w-7 h-7" />
                   <span>Notifications</span>
                 </a>
-                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
-                  <Bookmark className="w-5 h-5" />
+                <a href="#" className={`flex items-center space-x-4 p-3 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'} text-xl`}>
+                  <Mail className="w-7 h-7" />
+                  <span>Messages</span>
+                </a>
+                <a href="#" className={`flex items-center space-x-4 p-3 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'} text-xl`}>
+                  <Bookmark className="w-7 h-7" />
                   <span>Bookmarks</span>
                 </a>
-                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
-                  <User className="w-5 h-5" />
+                <a href="#" className={`flex items-center space-x-4 p-3 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'} text-xl`}>
+                  <User className="w-7 h-7" />
                   <span>Profile</span>
                 </a>
-                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
-                  <Settings className="w-5 h-5" />
-                  <span>Settings</span>
-                </a>
-                <a href="#" className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
-                  <HelpCircle className="w-5 h-5" />
-                  <span>Help</span>
+                <a href="#" className={`flex items-center space-x-4 p-3 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'} text-xl`}>
+                  <MoreHorizontal className="w-7 h-7" />
+                  <span>More</span>
                 </a>
               </nav>
+              
+              {/* Post Button */}
+              <div className="mt-8">
+                <Button
+                  onClick={() => onNavigate?.(5)}
+                  className="w-full bg-fpYellow hover:bg-fpYellowDark text-black font-bold text-lg py-3 rounded-full"
+                >
+                  Post
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -322,20 +337,12 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
                   <span className="text-white font-bold text-lg">JD</span>
                 </div>
                 <div className="flex-1 cursor-pointer" onClick={() => onNavigate?.(5)}>
-                  <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'} border rounded-full px-4 py-3 transition-colors cursor-pointer`}>
-                    <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-lg`}>
-                      What's on your mind, JD?
+                  <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'} border rounded-full px-6 py-4 transition-colors cursor-pointer`}>
+                    <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-xl`}>
+                      What's happening?
                     </span>
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onNavigate?.(5)}
-                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-full p-2"
-                >
-                  <PlusCircle className="w-6 h-6" />
-                </Button>
               </div>
             </div>
 
