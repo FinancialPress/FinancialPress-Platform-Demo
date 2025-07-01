@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
 
 interface UserData {
   displayName: string;
@@ -30,6 +30,7 @@ const MobileMenu = ({
   userData,
   isDarkMode,
 }: MobileMenuProps) => {
+  const navigate = useNavigate();
   const { displayName, username, fptBalance, imageUrl, role } = userData;
 
   const logoTextClasses = isDarkMode ? 'text-white' : 'text-black';
@@ -56,8 +57,8 @@ const MobileMenu = ({
     }
   };
 
-  const handleNavigation = (screen: number) => {
-    onNavigate(screen);
+  const handleNavigation = (path: string) => {
+    navigate(path);
     onClose();
   };
 
@@ -67,49 +68,49 @@ const MobileMenu = ({
     <div className="md:hidden mt-4 pb-4 border-t border-gray-700">
       <div className="flex flex-col space-y-3 pt-4">
         <button
-          onClick={() => handleNavigation(0)}
+          onClick={() => handleNavigation('/')}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 0 ? 'font-bold text-fpYellow' : logoTextClasses
+            window.location.pathname === '/' ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Landing Page
         </button>
         <button
-          onClick={() => handleNavigation(1)}
+          onClick={() => handleNavigation('/signup')}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 1 ? 'font-bold text-fpYellow' : logoTextClasses
+            window.location.pathname === '/signup' ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Sign Up
         </button>
         <button
-          onClick={() => handleNavigation(3)}
+          onClick={() => handleNavigation('/feed')}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 3 ? 'font-bold text-fpYellow' : logoTextClasses
+            window.location.pathname === '/feed' ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           User Feed
         </button>
         <button
-          onClick={() => handleNavigation(4)}
+          onClick={() => handleNavigation('/dashboard')}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 4 ? 'font-bold text-fpYellow' : logoTextClasses
+            window.location.pathname === '/dashboard' ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Dashboard
         </button>
         <button
-          onClick={() => handleNavigation(5)}
+          onClick={() => handleNavigation('/create')}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 5 ? 'font-bold text-fpYellow' : logoTextClasses
+            window.location.pathname === '/create' ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Content Creator
         </button>
         <button
-          onClick={() => handleNavigation(6)}
+          onClick={() => handleNavigation('/stockchartdata')}
           className={`text-left px-4 py-2 text-sm ${
-            currentScreen === 6 ? 'font-bold text-fpYellow' : logoTextClasses
+            window.location.pathname === '/stockchartdata' ? 'font-bold text-fpYellow' : logoTextClasses
           }`}
         >
           Stock Chart
