@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,9 +27,27 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   const { toast } = useToast();
 
   const handleDemoFlow = (provider: string) => {
+    console.log(`Demo flow started with ${provider}`);
     // Set user type to demo and navigate to onboarding
     setUserType?.('demo');
-    onNavigate?.(2, undefined, 'demo');
+    
+    // Show toast to indicate demo mode
+    toast({
+      title: "Demo Mode",
+      description: `Starting demo flow with ${provider}. No real authentication required.`,
+    });
+    
+    // Navigate to onboarding flow
+    if (onNavigate) {
+      onNavigate(2, undefined, 'demo');
+    } else {
+      console.error('onNavigate function not available');
+      toast({
+        title: "Navigation Error",
+        description: "Unable to navigate. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleLiveSignUp = async () => {
@@ -68,7 +87,9 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
         });
         // Set user type to live and navigate to onboarding
         setUserType?.('live');
-        onNavigate?.(2, undefined, 'live');
+        if (onNavigate) {
+          onNavigate(2, undefined, 'live');
+        }
       }
     } catch (error) {
       toast({
@@ -82,7 +103,14 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   };
 
   const handleClose = () => {
-    navigate('/'); // This will always navigate to the landing page
+    console.log('Close button clicked - navigating to landing page');
+    if (onNavigate) {
+      onNavigate(0); // Navigate to landing page (screen 0)
+    } else {
+      console.error('onNavigate function not available');
+      // Fallback: reload the page to go to landing
+      window.location.href = '/';
+    }
   };
 
   // Theme-aware utility classes
@@ -126,7 +154,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
             {/* Social Sign Up Options - Demo Flow */}
             <Button 
               className="w-full bg-white text-black hover:bg-gray-100 font-semibold py-3"
-              onClick={() => handleDemoFlow('google')}
+              onClick={() => handleDemoFlow('Google')}
               disabled={loading}
             >
               <Chrome className="w-5 h-5 mr-2" />
@@ -134,7 +162,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
             </Button>
             <Button 
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
-              onClick={() => handleDemoFlow('twitter')}
+              onClick={() => handleDemoFlow('X/Twitter')}
               disabled={loading}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
@@ -144,7 +172,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
             </Button>
             <Button
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3"
-              onClick={() => handleDemoFlow('reown')}
+              onClick={() => handleDemoFlow('Reown')}
               disabled={loading}
             >
               <img
