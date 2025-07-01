@@ -97,7 +97,7 @@ const Index = () => {
 
         {/* Screen 1 - Sign Up Page */}
         <div className={currentScreen === 1 ? 'block' : 'hidden'}>
-          <SignUpPage onNavigate={handleNavigate} isDarkMode={isDarkMode} userType={userType} setUserType={setUserType} />
+          <SignUpPage isDarkMode={isDarkMode} />
         </div>
 
         {/* Screen 2 - Onboarding Flow */}
