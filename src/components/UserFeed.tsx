@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -283,33 +282,33 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
         {/* Main grid with sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Sidebar - 1/4 width */}
-          <div className="lg:col-span-1" data-tour="start-creating">
-            {/* Empty left sidebar space */}
-            <div></div>
+          <div className="lg:col-span-1 space-y-6" data-tour="start-creating">
+            <UserInterests isDarkMode={isDarkMode} />
+            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} isDarkMode={isDarkMode} />
           </div>
 
           {/* Main Content Area - 2/4 width */}
           <div className="lg:col-span-2 space-y-8" data-tour="feed-content">
             {/* What's on your mind textbox */}
-            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-4`}>
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-black font-bold text-sm">U</span>
+            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-6 shadow-sm`}>
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-white font-bold text-lg">JD</span>
                 </div>
-                <div className="flex-1 cursor-pointer" onClick={handleCreateClick}>
-                  <Input
-                    placeholder="What's on your mind?"
-                    className={`border-none bg-transparent ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} cursor-pointer`}
-                    readOnly
-                  />
+                <div className="flex-1 cursor-pointer" onClick={() => onNavigate?.(5)}>
+                  <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'} border rounded-full px-4 py-3 transition-colors cursor-pointer`}>
+                    <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-lg`}>
+                      What's on your mind, JD?
+                    </span>
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={handleCreateClick}
-                  className="text-yellow-500 hover:text-yellow-600"
+                  onClick={() => onNavigate?.(5)}
+                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-full p-2"
                 >
-                  <PlusCircle className="w-5 h-5" />
+                  <PlusCircle className="w-6 h-6" />
                 </Button>
               </div>
             </div>
@@ -341,7 +340,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
               {/* End of feed message */}
               {!hasMore && (
                 <div className="text-center py-8">
-                  <p className={`${textClasses} text-lg font-medium`}>
+                  <p className={`${isDarkMode ? 'text-white' : 'text-black'} text-lg font-medium`}>
                     You've reached the end of your feed
                   </p>
                   <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mt-2`}>
@@ -354,18 +353,11 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
           {/* Right Sidebar - 1/4 width */}
           <div className="lg:col-span-1 space-y-6">
-            <UserInterests isDarkMode={isDarkMode} />
-
-            {/* New Who to Follow panel */}
             <WhoToFollow isDarkMode={isDarkMode} />
-
             <TopCreators isDarkMode={isDarkMode} />
             <TopSharers isDarkMode={isDarkMode} />
             <TopComments isDarkMode={isDarkMode} />
             <TrendingTopics isDarkMode={isDarkMode} />
-
-            {/* UserStats moved to bottom */}
-            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} isDarkMode={isDarkMode} />
           </div>
         </div>
       </section>

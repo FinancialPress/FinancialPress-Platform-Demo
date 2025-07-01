@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube, Calendar } from 'lucide-react';
 import PostEngagement from './PostEngagement';
 import PostActions from './PostActions';
 
@@ -100,8 +100,6 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
               <div className={`flex items-center space-x-2 ${mutedText} text-sm`}>
                 <span>{post.handle}</span>
                 <span>•</span>
-                <span>{dateString}</span>
-                <span>•</span>
                 <Badge className="bg-blue-600 text-white text-xs">{post.category}</Badge>
               </div>
             </div>
@@ -115,7 +113,7 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
                 className="w-5 h-5"
               />
             ) : (
-              <originatorIcon.icon className={`w-5 h-5 ${mutedText}`} title={`From ${originatorIcon.name}`} />
+              <originatorIcon.icon className={`w-5 h-5 ${mutedText}`} />
             )}
           </div>
         </div>
@@ -152,10 +150,10 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
         />
 
         {/* Date and Time Strip */}
-        <div className={`mt-4 pt-3 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} text-xs ${mutedText}`}>
-          <div className="flex items-center justify-between">
-            <span>Published: {dateString} at {timeString}</span>
-            <span>Updated: {timeString}</span>
+        <div className={`mt-4 pt-3 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+          <div className="flex items-center space-x-2">
+            <Calendar className={`w-4 h-4 ${mutedText}`} />
+            <span className={`text-sm ${mutedText}`}>{dateString} at {timeString}</span>
           </div>
         </div>
       </CardContent>
