@@ -148,9 +148,6 @@ const tabButtonClasses = (isActive: boolean) => {
                           <Badge className="bg-yellow-500 text-black text-xs">Gold Creator</Badge>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-                      </div>
                     </div>
 
                     {/* Content */}
