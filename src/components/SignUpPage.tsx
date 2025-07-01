@@ -82,12 +82,7 @@ const SignUpPage = ({ onNavigate, isDarkMode = true, userType, setUserType }: Si
   };
 
   const handleClose = () => {
-    console.log("Close button clicked, navigating to screen 0");
-    if (onNavigate) {
-      onNavigate(0); // Return to landing page
-    } else {
-      console.log("onNavigate function not available");
-    }
+    navigate('/'); // This will always navigate to the landing page
   };
 
   // Theme-aware utility classes
