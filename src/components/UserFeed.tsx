@@ -11,6 +11,7 @@ import TopComments from '@/components/feed/TopComments';
 import UserInterests from '@/components/feed/UserInterests';
 import UserStats from '@/components/feed/UserStats';
 import WhoToFollow from '@/components/feed/WhoToFollow';
+import LeftNavigation from '@/components/feed/LeftNavigation';
 import FeedPost from '@/components/feed/FeedPost';
 import FeedLoadingSkeleton from '@/components/feed/FeedLoadingSkeleton';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
@@ -279,16 +280,15 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   return (
     <div className={`min-h-screen ${bgClasses}`}>
       <section className="max-w-[1440px] mx-auto px-8 py-8">
-        {/* Main grid with sidebar */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - 1/4 width */}
-          <div className="lg:col-span-1 space-y-6" data-tour="start-creating">
-            <UserInterests isDarkMode={isDarkMode} />
-            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} isDarkMode={isDarkMode} />
+        {/* Main layout with proper 3-column structure */}
+        <div className="flex gap-8">
+          {/* Left Navigation - Fixed width */}
+          <div className="w-64 flex-shrink-0">
+            <LeftNavigation isDarkMode={isDarkMode} onNavigate={onNavigate} />
           </div>
 
-          {/* Main Content Area - 2/4 width */}
-          <div className="lg:col-span-2 space-y-8" data-tour="feed-content">
+          {/* Main Content Area - Flexible width */}
+          <div className="flex-1 max-w-2xl space-y-8" data-tour="feed-content">
             {/* What's on your mind textbox */}
             <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-6 shadow-sm`}>
               <div className="flex items-center space-x-4">
@@ -351,13 +351,15 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             </div>
           </div>
 
-          {/* Right Sidebar - 1/4 width */}
-          <div className="lg:col-span-1 space-y-6">
+          {/* Right Sidebar - Fixed width */}
+          <div className="w-80 flex-shrink-0 space-y-6" data-tour="start-creating">
+            <UserInterests isDarkMode={isDarkMode} />
             <WhoToFollow isDarkMode={isDarkMode} />
             <TopCreators isDarkMode={isDarkMode} />
             <TopSharers isDarkMode={isDarkMode} />
             <TopComments isDarkMode={isDarkMode} />
             <TrendingTopics isDarkMode={isDarkMode} />
+            <UserStats showStats={['Following', 'Content Shared', 'Tips Received']} isDarkMode={isDarkMode} />
           </div>
         </div>
       </section>
