@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -56,6 +56,7 @@ const UserFeedPage = () => {
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const { profile } = useProfile();
+  const [isOnboardingActive, setIsOnboardingActive] = useState(false);
 
   const handleNavigate = (screen: number, symbol?: string) => {
     switch (screen) {
@@ -90,6 +91,7 @@ const UserFeedPage = () => {
         isLoggedIn={!!user}
         isDarkMode={isDarkMode}
         userProfile={profile}
+        hideTickerBar={isOnboardingActive}
       />
       <div className="max-w-[1350px] mx-auto px-2 sm:px-4 lg:px-6 xl:px-8 pt-4 sm:pt-6">
         <UserFeedErrorBoundary isDarkMode={isDarkMode}>
@@ -97,6 +99,7 @@ const UserFeedPage = () => {
             onNavigate={handleNavigate}
             isDarkMode={isDarkMode}
             showOnboarding={false}
+            onTourStateChange={setIsOnboardingActive}
           />
         </UserFeedErrorBoundary>
       </div>

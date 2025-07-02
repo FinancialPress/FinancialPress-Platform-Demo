@@ -25,9 +25,10 @@ interface UserFeedProps {
   onNavigate?: (screen: number) => void;
   isDarkMode: boolean;
   showOnboarding?: boolean;
+  onTourStateChange?: (isActive: boolean) => void;
 }
 
-const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedProps) => {
+const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateChange }: UserFeedProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedContent, setSelectedContent] = useState<any>(null);
   const [showSupportModal, setShowSupportModal] = useState(false);
@@ -183,10 +184,13 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
       document.body.classList.remove('onboarding-active');
     }
 
+    // Notify parent component about tour state
+    onTourStateChange?.(showTour);
+
     return () => {
       document.body.classList.remove('onboarding-active');
     };
-  }, [showTour]);
+  }, [showTour, onTourStateChange]);
 
   // Show loading state until initialized
   if (!isInitialized) {
@@ -278,7 +282,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
   };
 
   return (
-    <div className={`min-h-screen ${bgClasses}`}>
+    <div className={`min-h-screen ${bgClasses}`} data-onboarding-active={showTour}>
       <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 xl:px-8 py-4 sm:py-8">
         {/* Main layout with responsive structure */}
         <div className="flex gap-4 lg:gap-8">

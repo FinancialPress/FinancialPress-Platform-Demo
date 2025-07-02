@@ -15,6 +15,7 @@ interface HeaderProps {
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
   userProfile?: UserProfile | null;
+  hideTickerBar?: boolean;
 }
 
 const Header = ({
@@ -26,6 +27,7 @@ const Header = ({
   isDarkMode: propIsDarkMode,
   onToggleDarkMode: propOnToggleDarkMode,
   userProfile,
+  hideTickerBar = false,
 }: HeaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const { balance } = useBalance(); // Use centralized balance
@@ -91,7 +93,7 @@ const Header = ({
         shouldShowLoggedIn={shouldShowLoggedIn}
         userData={userData}
       />
-      <TickerBar isDarkMode={isDarkMode} />
+      {!hideTickerBar && <TickerBar isDarkMode={isDarkMode} />}
     </>
   );
 };
