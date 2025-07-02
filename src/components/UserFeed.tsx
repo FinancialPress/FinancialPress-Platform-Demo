@@ -247,15 +247,19 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
     onNavigate?.(5); // Navigate to content creator
   };
 
+  // Detect demo mode
+  const isDemoUser = profile?.username?.toLowerCase() === 'johndoe';
+
   // Get user avatar and display name
   const getUserAvatar = () => {
-    if (profile?.image_url) {
+    if (!isDemoUser && profile?.image_url) {
       return profile.image_url;
     }
     return null;
   };
 
   const getUserInitial = () => {
+    if (isDemoUser) return 'J';
     if (profile?.display_name) {
       return profile.display_name.charAt(0).toUpperCase();
     }
@@ -266,6 +270,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
   };
 
   const getUserDisplayName = () => {
+    if (isDemoUser) return 'JD';
     return profile?.display_name || profile?.username || 'User';
   };
 
