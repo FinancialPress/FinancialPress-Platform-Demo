@@ -410,6 +410,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_profiles: {
+        Row: {
+          created_at: string | null
+          id: string
+          onboarded: boolean | null
+          referral_code: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          onboarded?: boolean | null
+          referral_code?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          onboarded?: boolean | null
+          referral_code?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
