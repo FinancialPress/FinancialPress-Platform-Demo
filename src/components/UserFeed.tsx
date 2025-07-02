@@ -294,7 +294,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
           {/* Main Content Area - Full width on mobile, constrained on desktop */}
           <div className="flex-1 w-full lg:max-w-2xl space-y-6 lg:space-y-8" data-tour="feed-content">
             {/* What's on your mind textbox */}
-            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-4 sm:p-6 shadow-sm`}>
+            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-4 sm:p-6 shadow-sm`} data-tour="whats-on-mind">
               <div className="flex items-center space-x-3 sm:space-x-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-bold text-sm sm:text-lg">JD</span>

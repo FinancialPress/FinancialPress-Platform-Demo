@@ -49,8 +49,8 @@ const OnboardingTour = ({ isActive, onComplete, onSkip, isDarkMode = true, onEar
       case 1:
         return {
           title: "Step 1 - Start Creating",
-          content: "This is your creative hub. Start your own posts, share from your other platforms, or even go live. However you want to share, it starts here.",
-          selector: "[data-tour='start-creating']"
+          content: "This is where you start creating content. Click here to share your thoughts, insights, or content from your other platforms.",
+          selector: "[data-tour='whats-on-mind']"
         };
       case 2:
         return {
