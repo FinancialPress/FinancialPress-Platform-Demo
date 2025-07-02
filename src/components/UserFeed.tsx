@@ -279,7 +279,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   return (
     <div className={`min-h-screen ${bgClasses}`}>
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 xl:px-8 py-4 sm:py-8">
         {/* Main layout with responsive structure */}
         <div className="flex gap-4 lg:gap-8">
           {/* Left Navigation - Hidden on mobile, visible on desktop */}
