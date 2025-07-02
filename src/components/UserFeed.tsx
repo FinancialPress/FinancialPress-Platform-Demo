@@ -279,25 +279,25 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
 
   return (
     <div className={`min-h-screen ${bgClasses}`}>
-      <section className="max-w-[1440px] mx-auto px-8 py-8">
-        {/* Main layout with proper 3-column structure */}
-        <div className="flex gap-8">
-          {/* Left Navigation - Fixed width */}
-          <div className="w-64 flex-shrink-0">
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Main layout with responsive structure */}
+        <div className="flex gap-4 lg:gap-8">
+          {/* Left Navigation - Hidden on mobile, visible on desktop */}
+          <div className="hidden lg:block lg:w-64 flex-shrink-0">
             <LeftNavigation isDarkMode={isDarkMode} onNavigate={onNavigate} />
           </div>
 
-          {/* Main Content Area - Flexible width */}
-          <div className="flex-1 max-w-2xl space-y-8" data-tour="feed-content">
+          {/* Main Content Area - Full width on mobile, constrained on desktop */}
+          <div className="flex-1 w-full lg:max-w-2xl space-y-6 lg:space-y-8" data-tour="feed-content">
             {/* What's on your mind textbox */}
-            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-6 shadow-sm`}>
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-bold text-lg">JD</span>
+            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-4 sm:p-6 shadow-sm`}>
+              <div className="flex items-center space-x-3 sm:space-x-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-white font-bold text-sm sm:text-lg">JD</span>
                 </div>
                 <div className="flex-1 cursor-pointer" onClick={() => onNavigate?.(5)}>
-                  <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'} border rounded-full px-4 py-3 transition-colors cursor-pointer`}>
-                    <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-lg`}>
+                  <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'} border rounded-full px-3 py-2 sm:px-4 sm:py-3 transition-colors cursor-pointer`}>
+                    <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-base sm:text-lg`}>
                       What's on your mind, JD?
                     </span>
                   </div>
@@ -306,9 +306,9 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
                   variant="ghost"
                   size="sm"
                   onClick={() => onNavigate?.(5)}
-                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-full p-2"
+                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-full p-1 sm:p-2"
                 >
-                  <PlusCircle className="w-6 h-6" />
+                  <PlusCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                 </Button>
               </div>
             </div>
@@ -351,8 +351,8 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false }: UserFeedPr
             </div>
           </div>
 
-          {/* Right Sidebar - Fixed width */}
-          <div className="w-80 flex-shrink-0 space-y-6" data-tour="start-creating">
+          {/* Right Sidebar - Hidden on mobile/tablet, visible on large screens */}
+          <div className="hidden xl:block xl:w-80 flex-shrink-0 space-y-6" data-tour="start-creating">
             <UserInterests isDarkMode={isDarkMode} />
             <WhoToFollow isDarkMode={isDarkMode} />
             <TopCreators isDarkMode={isDarkMode} />
