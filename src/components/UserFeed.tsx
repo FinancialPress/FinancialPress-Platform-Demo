@@ -20,6 +20,7 @@ import OnboardingTour from '@/components/modals/OnboardingTour';
 import PostsList from '@/components/posts/PostsList';
 import { generateMockFeedItem } from '@/utils/mockFeedData';
 import { usePosts } from '@/hooks/usePosts';
+import { useProfile } from '@/hooks/useProfile';
 
 interface UserFeedProps {
   onNavigate?: (screen: number) => void;
@@ -41,6 +42,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
   // Always call hooks at top level - no conditional calls
   const balanceContext = useBalance();
   const postsHook = usePosts();
+  const { profile } = useProfile();
   
   // Safe access with fallbacks
   const balance = balanceContext?.balance || 0;
@@ -245,6 +247,28 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
     onNavigate?.(5); // Navigate to content creator
   };
 
+  // Get user avatar and display name
+  const getUserAvatar = () => {
+    if (profile?.image_url) {
+      return profile.image_url;
+    }
+    return null;
+  };
+
+  const getUserInitial = () => {
+    if (profile?.display_name) {
+      return profile.display_name.charAt(0).toUpperCase();
+    }
+    if (profile?.username) {
+      return profile.username.charAt(0).toUpperCase();
+    }
+    return 'U'; // Default fallback
+  };
+
+  const getUserDisplayName = () => {
+    return profile?.display_name || profile?.username || 'User';
+  };
+
   // Theme-aware classes
   const bgClasses = isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
@@ -296,13 +320,21 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
             {/* What's on your mind textbox */}
             <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-4 sm:p-6 shadow-sm`} data-tour="whats-on-mind">
               <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-bold text-sm sm:text-lg">JD</span>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  {getUserAvatar() ? (
+                    <img 
+                      src={getUserAvatar()!} 
+                      alt="User avatar" 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-white font-bold text-sm sm:text-lg">{getUserInitial()}</span>
+                  )}
                 </div>
                 <div className="flex-1 cursor-pointer" onClick={() => onNavigate?.(5)}>
                   <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'} border rounded-full px-3 py-2 sm:px-4 sm:py-3 transition-colors cursor-pointer`}>
                     <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-base sm:text-lg`}>
-                      What's on your mind, JD?
+                      What's on your mind, {getUserDisplayName()}?
                     </span>
                   </div>
                 </div>
@@ -386,7 +418,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
 
       {/* Share Modal */}
       {showShareModal && selectedContent && (
-        <ShareEarnFlow post={selectedContent} onClose={() => setShowShareModal(false)} onShare={handleShareComplete} />
+        <ShareEarnFlow post={selectedContent} onClose={() => setShowShareModal(false)} onShare={handleShareComplete} isDarkMode={isDarkMode} />
       )}
 
       {/* Support Modal */}

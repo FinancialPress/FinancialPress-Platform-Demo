@@ -18,9 +18,10 @@ interface ShareEarnFlowProps {
   };
   onClose: () => void;
   onShare: () => void;
+  isDarkMode?: boolean;
 }
 
-const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare }) => {
+const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare, isDarkMode = true }) => {
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
   const [customMessage, setCustomMessage] = useState(
     `🚀 Just discovered this insightful analysis: "${post.title}" by @${post.creator}. Worth a read! #Crypto #Finance`
@@ -124,14 +125,14 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+    <div className={`fixed inset-0 ${isDarkMode ? 'bg-black bg-opacity-50' : 'bg-gray-900 bg-opacity-50'} flex items-center justify-center z-[60] p-4`}>
       <div className="modal-centered w-full max-w-xl max-h-[90vh] overflow-y-auto">
-        <Card className="bg-gray-900 border-gray-800 w-full">
+        <Card className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} w-full`}>
           {/* Title Section */}
-          <div className="bg-gray-800 p-4 border-b border-gray-700">
+          <div className={`${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-gray-100 border-b border-gray-200'} p-4`}>
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">Share & Earn</h2>
-              <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-white">
+              <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Share & Earn</h2>
+              <Button variant="ghost" size="sm" onClick={onClose} className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>
                 <X className="w-5 h-5" />
               </Button>
             </div>
@@ -140,7 +141,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
           <CardContent className="space-y-4 p-4">
             {/* Post Title */}
             <div className="bg-gradient-to-r from-fpYellow/10 to-orange-500/10 border border-fpYellow/20 rounded-lg p-4">
-              <h3 className="text-white font-bold text-xl leading-tight mb-3">{post.title}</h3>
+              <h3 className={`${isDarkMode ? 'text-white' : 'text-gray-900'} font-bold text-xl leading-tight mb-3`}>{post.title}</h3>
               
               {/* Creator Profile */}
               <div className="flex items-center space-x-3">
@@ -150,9 +151,9 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                   </span>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <h4 className="text-gray-300 font-medium text-sm">{post.creator}</h4>
+                  <h4 className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} font-medium text-sm`}>{post.creator}</h4>
                   <Badge className="bg-fpYellow text-black text-xs">Gold</Badge>
-                  <span className="text-xs text-gray-400">24.5K followers</span>
+                  <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>24.5K followers</span>
                   <span className="text-xs text-green-400">2,340 FPT earned</span>
                 </div>
               </div>
@@ -160,14 +161,14 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             
             {/* Custom Message */}
             <div>
-              <label className="block text-gray-300 mb-1 font-medium text-sm">Customize your message</label>
+              <label className={`block ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-1 font-medium text-sm`}>Customize your message</label>
               <Textarea
                 value={customMessage}
                 onChange={(e) => setCustomMessage(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white min-h-[80px] text-sm"
+                className={`${isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-gray-50 border-gray-300 text-gray-900'} min-h-[80px] text-sm`}
                 placeholder="Write your share message..."
               />
-              <div className="text-right text-gray-400 text-xs mt-1">
+              <div className={`text-right ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-xs mt-1`}>
                 {customMessage.length}/280 characters
               </div>
             </div>
@@ -175,14 +176,14 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
             {/* Platform Selection */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-gray-300 font-medium text-sm">Select platforms to share</label>
+                <label className={`block ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} font-medium text-sm`}>Select platforms to share</label>
                 <div className="flex items-center space-x-2">
                   <Checkbox 
                     checked={distributeToAll}
                     onCheckedChange={handleDistributeAll}
                     className="border-gray-600"
                   />
-                  <span className="text-gray-300 text-xs">Distribute to all</span>
+                  <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-xs`}>Distribute to all</span>
                 </div>
               </div>
               
@@ -193,14 +194,16 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
                     className={`flex items-center space-x-3 p-2 rounded-lg border-2 cursor-pointer transition-colors ${
                       selectedPlatforms.includes(platform.id)
                         ? 'border-fpYellow bg-fpYellow/10'
-                        : 'border-gray-700 bg-gray-800 hover:border-gray-600'
+                        : isDarkMode 
+                          ? 'border-gray-700 bg-gray-800 hover:border-gray-600'
+                          : 'border-gray-300 bg-gray-50 hover:border-gray-400'
                     }`}
                     onClick={() => handlePlatformToggle(platform.id)}
                   >
                     <div className={`w-6 h-6 rounded ${platform.color} flex items-center justify-center text-white text-xs`}>
                       {platform.icon}
                     </div>
-                    <span className="text-white font-medium text-sm">{platform.name}</span>
+                    <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} font-medium text-sm`}>{platform.name}</span>
                     {selectedPlatforms.includes(platform.id) && (
                       <Check className="w-4 h-4 text-fpYellow ml-auto" />
                     )}
@@ -214,7 +217,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-green-400 font-semibold text-sm">Total Estimated Earnings</div>
-                  <div className="text-gray-300 text-xs">
+                  <div className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-xs`}>
                     {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
                   </div>
                 </div>
@@ -226,7 +229,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare })
 
             {/* Action Buttons */}
             <div className="flex gap-3 pt-2">
-              <Button variant="outline" onClick={onClose} className="flex-1 border-gray-600 text-gray-300" disabled={loading}>
+              <Button variant="outline" onClick={onClose} className={`flex-1 ${isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'}`} disabled={loading}>
                 Cancel
               </Button>
               <Button 
