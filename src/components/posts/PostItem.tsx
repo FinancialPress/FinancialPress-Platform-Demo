@@ -12,6 +12,7 @@ import ShareEarnFlow from '@/components/ShareEarnFlow';
 import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import CommentModal from '@/components/modals/CommentModal';
 import { toast } from 'sonner';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface PostItemProps {
   post: Post;
@@ -228,6 +229,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
           }}
           onClose={() => setShowShareModal(false)}
           onShare={handleShareComplete}
+          isDarkMode={isDarkMode}
         />
       )}
 

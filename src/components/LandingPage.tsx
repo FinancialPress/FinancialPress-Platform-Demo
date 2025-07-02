@@ -14,6 +14,7 @@ import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserMode } from '@/hooks/useUserMode';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface LandingPageProps {
   onNavigate?: (screen: number) => void;
@@ -23,6 +24,7 @@ interface LandingPageProps {
 const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
   const { user } = useAuth();
   const { isLiveUser } = useUserMode();
+  const { isDarkMode: themeIsDarkMode } = useTheme();
   const [newsFilter, setNewsFilter] = useState<'latest' | 'trending'>('latest');
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState<any>(null);
@@ -981,6 +983,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           post={selectedContent}
           onClose={() => setShowShareModal(false)}
           onShare={handleShareComplete}
+          isDarkMode={themeIsDarkMode}
         />
       )}
 

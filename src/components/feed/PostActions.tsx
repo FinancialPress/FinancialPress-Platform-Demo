@@ -10,6 +10,7 @@ import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import ShareEarnFlow from '@/components/ShareEarnFlow';
 import CommentModal from '@/components/modals/CommentModal';
 import { toast } from 'sonner';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface PostActionsProps {
   engagement: {
@@ -182,6 +183,7 @@ const PostActions = ({
             onShare();
             setShowShareEarnModal(false);
           }}
+          isDarkMode={isDarkMode}
         />
       )}
 

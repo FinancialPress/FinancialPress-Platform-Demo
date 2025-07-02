@@ -131,6 +131,7 @@ const Index = () => {
             post={mockPost}
             onClose={handleShareClose}
             onShare={handleShare}
+            isDarkMode={isDarkMode}
           />
         </div>
 
