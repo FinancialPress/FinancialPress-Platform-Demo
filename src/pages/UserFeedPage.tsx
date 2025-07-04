@@ -91,7 +91,7 @@ const UserFeedPage = () => {
         isLoggedIn={!!user}
         isDarkMode={isDarkMode}
         userProfile={profile}
-        hideTickerBar={isOnboardingActive}
+        hideTickerBar={true}
       />
       <div className="max-w-[1350px] mx-auto px-2 sm:px-4 lg:px-6 xl:px-8 pt-4 sm:pt-6">
         <UserFeedErrorBoundary isDarkMode={isDarkMode}>
