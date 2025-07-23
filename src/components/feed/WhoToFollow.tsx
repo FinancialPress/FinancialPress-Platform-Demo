@@ -43,7 +43,7 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
       <CardContent className="p-4">
         <h3 className={`text-lg font-semibold ${titleClasses} mb-3 flex items-center`}>
           <Users className="w-4 h-4 mr-2 text-blue-500" />
-          Who to follow
+          Who to Follow
         </h3>
         <div className="space-y-2">
           {suggestedUsers.map((user, index) => (
