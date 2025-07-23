@@ -326,7 +326,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>Views</div>
                         <div>Shares</div>
                         <div>Tips</div>
-                        <div>XP Credits</div>
+                        <div>RP Credits</div>
                         <div>FPT Earnings</div>
                       </div>
                       {topContent.map((content, index) => (
@@ -340,7 +340,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                           <div className={subtleText}>{content.views}</div>
                           <div className={subtleText}>{content.shares}</div>
                           <div className={subtleText}>{content.tips}</div>
-                          <div className="text-blue-400 font-medium">{Math.floor(content.earnings / 2)} XP</div>
+                          <div className="text-blue-400 font-medium">{Math.floor(content.earnings / 2)} RP</div>
                           <div className="text-yellow-500 font-medium">{content.earnings} FPT</div>
                         </div>
                       ))}
@@ -353,7 +353,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>Shared Content</div>
                         <div>Original Author</div>
                         <div>Shares</div>
-                        <div>XP Credits</div>
+                        <div>RP Credits</div>
                         <div>FPT Earnings</div>
                       </div>
                       {topShares.map((share, index) => (
@@ -364,7 +364,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                           </div>
                           <div className={subtleText}>{share.originalAuthor}</div>
                           <div className={subtleText}>{share.shares}</div>
-                          <div className="text-blue-400 font-medium">{Math.floor(share.earnings / 3)} XP</div>
+                          <div className="text-blue-400 font-medium">{Math.floor(share.earnings / 3)} RP</div>
                           <div className="text-yellow-500 font-medium">{share.earnings} FPT</div>
                         </div>
                       ))}
