@@ -221,8 +221,13 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare, i
                     {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
                   </div>
                 </div>
-                <div className="text-xl font-bold text-green-400">
-                  {calculateTotalEarnings()} FPT
+                <div className="flex items-center space-x-3">
+                  <div className="text-xl font-bold text-green-400">
+                    {calculateTotalEarnings()} FPT
+                  </div>
+                  <div className="text-lg font-bold text-blue-400">
+                    {selectedPlatforms.length || 1} XP
+                  </div>
                 </div>
               </div>
             </div>

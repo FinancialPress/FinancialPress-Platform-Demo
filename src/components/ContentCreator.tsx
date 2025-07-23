@@ -533,6 +533,12 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                     {contentType === 'create-earn' ? '5 FPT' : '3 FPT'}
                   </span>
                 </div>
+                <div className="flex justify-between">
+                  <span className={`${mutedText} text-sm`}>XP Credits</span>
+                  <span className="text-blue-400 text-sm font-medium">
+                    {contentType === 'create-earn' ? '2 XP' : contentType === 'share-insight' ? '1 XP' : '1 XP'}
+                  </span>
+                </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                   <Button variant="outline" className={`${isDarkMode ? 'border-gray-600 text-gray-300' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-black'} text-sm`}>
                     Save as Draft

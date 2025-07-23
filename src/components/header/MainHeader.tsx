@@ -206,6 +206,10 @@ const MainHeader = ({
                       <span>💰</span>
                       <span>{fptBalance.toLocaleString()} FPT</span>
                     </div>
+                    <div className="flex items-center bg-blue-500 text-white px-2 py-1 rounded-full space-x-1 font-bold text-sm">
+                      <span>⚡</span>
+                      <span>200 XP</span>
+                    </div>
                     <Badge className="bg-fpYellow text-black text-xs px-2 py-0.5 rounded-full font-semibold">
                       {getRoleBadge(role)}
                     </Badge>
