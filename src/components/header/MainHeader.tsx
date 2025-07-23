@@ -176,8 +176,8 @@ const MainHeader = ({
                 <Menu className="w-5 h-5" />
               </Button>
 
-              <div className="h-12 sm:h-14 w-32 sm:w-[200px] cursor-pointer" onClick={handleHomeClick}>
-                <Logo isDarkMode={isDarkMode} />
+              <div className="h-12 sm:h-14 w-32 sm:w-[200px]">
+                <Logo isDarkMode={isDarkMode} onNavigate={onNavigate} />
               </div>
             </div>
 
