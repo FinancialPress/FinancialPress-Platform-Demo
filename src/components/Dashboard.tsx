@@ -117,23 +117,22 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
             <div className="grid grid-cols-4 gap-4">
               {/* Today's Earnings - Now shows live FPT balance */}
               <Card className={`${cardClasses} col-span-2 border-2 border-fpYellow`}>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
                     <div className={mutedText + ' text-lg font-medium'}>Today's FPT Earnings</div>
                     <DollarSign className="w-8 h-8 text-fpYellow" />
                   </div>
                   <div className="text-4xl font-bold text-fpYellow mb-2">
                     {balanceLoading ? '...' : liveFPTBalance.toLocaleString()}
                   </div>
-                  <div className={mutedText + ' text-base mb-2'}>FPT Balance</div>
-                  <div className="text-sm text-green-400 font-medium">Live Balance</div>
+                  <div className={mutedText + ' text-base'}>FPT Earned</div>
                 </CardContent>
               </Card>
               <Card className={cardClasses}>
                 <CardContent className="p-4">
                   <div className={mutedText + ' text-sm mb-1'}>Weekly FPT Earnings</div>
                   <div className="text-2xl font-bold">75</div>
-                  <div className={mutedText + ' text-xs'}>FP Shares</div>
+                  <div className={mutedText + ' text-xs'}>FPT Earned</div>
                   <div className="text-xs text-green-400">+8 vs last week</div>
                 </CardContent>
               </Card>
