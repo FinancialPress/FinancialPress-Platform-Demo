@@ -10,11 +10,11 @@ interface TopCommentsProps {
 
 const TopComments = ({ isDarkMode = true }: TopCommentsProps) => {
   const topCommenters = [
-    { name: "InsightfulMind", comments: "3,240", badge: "Platinum", followers: "76.3K", earnings: "980 FPT" },
-    { name: "DeepThoughts", comments: "2,890", badge: "Gold", followers: "62.1K", earnings: "820 FPT" },
-    { name: "WiseWords", comments: "2,450", badge: "Gold", followers: "55.8K", earnings: "740 FPT" },
-    { name: "SmartTake", comments: "2,120", badge: "Silver", followers: "48.2K", earnings: "680 FPT" },
-    { name: "QuickWit", comments: "1,890", badge: "Silver", followers: "41.7K", earnings: "590 FPT" }
+    { name: "InsightfulMind", comments: "3,240", badge: "Platinum", followers: "76.3K", earnings: "980 FPT", rp: "270 RP" },
+    { name: "DeepThoughts", comments: "2,890", badge: "Gold", followers: "62.1K", earnings: "820 FPT", rp: "225 RP" },
+    { name: "WiseWords", comments: "2,450", badge: "Gold", followers: "55.8K", earnings: "740 FPT", rp: "200 RP" },
+    { name: "SmartTake", comments: "2,120", badge: "Silver", followers: "48.2K", earnings: "680 FPT", rp: "185 RP" },
+    { name: "QuickWit", comments: "1,890", badge: "Silver", followers: "41.7K", earnings: "590 FPT", rp: "160 RP" }
   ];
 
   const getBadgeColor = (badge: string) => {
@@ -69,7 +69,7 @@ const TopComments = ({ isDarkMode = true }: TopCommentsProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{commenter.earnings}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{commenter.earnings} | {commenter.rp}</div>
                 <Badge className={`${getBadgeColor(commenter.badge)} text-xs`}>
                   {commenter.badge}
                 </Badge>

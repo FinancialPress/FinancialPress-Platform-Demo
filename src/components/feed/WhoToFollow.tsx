@@ -11,11 +11,11 @@ interface WhoToFollowProps {
 const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
   // Updated usernames and added earnings
   const suggestedUsers = [
-    { name: "QuantumInvestor", followers: "21.1K", earnings: "890 FPT", badge: "Gold" },
-    { name: "YieldFarmer", followers: "19.8K", earnings: "760 FPT", badge: "Platinum" },
-    { name: "NFTVisionary", followers: "16.4K", earnings: "650 FPT", badge: "Silver" },
-    { name: "AltcoinExpert", followers: "12.7K", earnings: "580 FPT", badge: "Gold" },
-    { name: "Web3Wizard", followers: "11.2K", earnings: "520 FPT", badge: "Silver" }
+    { name: "QuantumInvestor", followers: "21.1K", earnings: "890 FPT", rp: "250 RP", badge: "Gold" },
+    { name: "YieldFarmer", followers: "19.8K", earnings: "760 FPT", rp: "210 RP", badge: "Platinum" },
+    { name: "NFTVisionary", followers: "16.4K", earnings: "650 FPT", rp: "180 RP", badge: "Silver" },
+    { name: "AltcoinExpert", followers: "12.7K", earnings: "580 FPT", rp: "165 RP", badge: "Gold" },
+    { name: "Web3Wizard", followers: "11.2K", earnings: "520 FPT", rp: "140 RP", badge: "Silver" }
   ];
 
   const cardClasses = isDarkMode 
@@ -56,7 +56,7 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{user.earnings}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{user.earnings} | {user.rp}</div>
                 <Badge className={`${user.badge === 'Platinum' ? 'bg-purple-500' : user.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
                   {user.badge}
                 </Badge>

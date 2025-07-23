@@ -10,11 +10,11 @@ interface TopCreatorsProps {
 
 const TopCreators = ({ isDarkMode = true }: TopCreatorsProps) => {
   const topCreators = [
-    { name: "CryptoWhale", earnings: "1,250 FPT", badge: "Platinum", followers: "45.2K followers", posts: 127 },
-    { name: "BlockchainBull", earnings: "1,150 FPT", badge: "Gold", followers: "38.9K followers", posts: 89 },
-    { name: "DeFiDegen", earnings: "980 FPT", badge: "Gold", followers: "32.1K followers", posts: 156 },
-    { name: "MacroMind", earnings: "890 FPT", badge: "Silver", followers: "28.7K followers", posts: 78 },
-    { name: "TechAnalyst", earnings: "750 FPT", badge: "Silver", followers: "25.3K followers", posts: 94 }
+    { name: "CryptoWhale", earnings: "1,250 FPT", rp: "340 RP", badge: "Platinum", followers: "45.2K followers", posts: 127 },
+    { name: "BlockchainBull", earnings: "1,150 FPT", rp: "315 RP", badge: "Gold", followers: "38.9K followers", posts: 89 },
+    { name: "DeFiDegen", earnings: "980 FPT", rp: "270 RP", badge: "Gold", followers: "32.1K followers", posts: 156 },
+    { name: "MacroMind", earnings: "890 FPT", rp: "245 RP", badge: "Silver", followers: "28.7K followers", posts: 78 },
+    { name: "TechAnalyst", earnings: "750 FPT", rp: "205 RP", badge: "Silver", followers: "25.3K followers", posts: 94 }
   ];
 
   const cardClasses = isDarkMode 
@@ -60,7 +60,7 @@ const TopCreators = ({ isDarkMode = true }: TopCreatorsProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{creator.earnings}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{creator.earnings} | {creator.rp}</div>
                 <Badge className={`${creator.badge === 'Platinum' ? 'bg-purple-500' : creator.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
                   {creator.badge}
                 </Badge>

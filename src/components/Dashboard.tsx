@@ -31,8 +31,8 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
   const [contentTab, setContentTab] = useState('content');
   const { balance: liveFPTBalance, loading: balanceLoading } = useBalance(); // Use centralized balance
   
-  // Set default value to 24 if balance is 0
-  const displayBalance = liveFPTBalance > 0 ? liveFPTBalance : 24;
+  // Set default value to 1247.5 if balance is 0
+  const displayBalance = liveFPTBalance > 0 ? liveFPTBalance : 1247.5;
 
   const earningsData = [
     { day: 'Mon', value: 5 },
@@ -141,9 +141,9 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               </Card>
                 <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className={mutedText + ' text-sm mb-1'}>Weekly XP Credits</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Weekly RP Credits</div>
                   <div className="text-2xl font-bold text-blue-400">48</div>
-                  <div className={mutedText + ' text-xs'}>XP Credits</div>
+                  <div className={mutedText + ' text-xs'}>RP Credits</div>
                   <div className="text-xs text-blue-400">+15% vs last week</div>
                 </CardContent>
               </Card>
