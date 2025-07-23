@@ -200,7 +200,7 @@ const SupportCreatorModal = ({
                 <h4 className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} font-medium text-sm`}>{creatorHandle}</h4>
                 <Badge className="bg-fpYellow text-black text-xs">Gold</Badge>
                 <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{followerCount} followers</span>
-                <span className="text-xs text-green-400">2,340 FPT earned</span>
+                <span className="text-xs text-green-400">240 RP</span>
               </div>
             </div>
           </div>
