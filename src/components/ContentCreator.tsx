@@ -534,7 +534,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className={`${mutedText} text-sm`}>Reputation Points</span>
+                  <span className={`${mutedText} text-sm`}>Reputation</span>
                   <span className="text-blue-400 text-sm font-medium">
                     {contentType === 'create-earn' ? '2 RP' : contentType === 'share-insight' ? '1 RP' : '1 RP'}
                   </span>
