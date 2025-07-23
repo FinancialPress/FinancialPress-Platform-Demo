@@ -141,9 +141,9 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               </Card>
                 <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className={mutedText + ' text-sm mb-1'}>Weekly RP Credits</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Weekly Reputation Points</div>
                   <div className="text-2xl font-bold text-blue-400">48</div>
-                  <div className={mutedText + ' text-xs'}>RP Credits</div>
+                  <div className={mutedText + ' text-xs'}>Reputation Points</div>
                   <div className="text-xs text-blue-400">+15% vs last week</div>
                 </CardContent>
               </Card>
@@ -326,7 +326,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>Views</div>
                         <div>Shares</div>
                         <div>Tips</div>
-                        <div>RP Credits</div>
+                        <div>Reputation Points</div>
                         <div>FPT Earnings</div>
                       </div>
                       {topContent.map((content, index) => (
@@ -353,7 +353,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>Shared Content</div>
                         <div>Original Author</div>
                         <div>Shares</div>
-                        <div>RP Credits</div>
+                        <div>Reputation Points</div>
                         <div>FPT Earnings</div>
                       </div>
                       {topShares.map((share, index) => (
