@@ -23,12 +23,12 @@ export const useBalance = () => {
 
 export const BalanceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
-  const [balance, setBalance] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(1247.5);
   const [loading, setLoading] = useState(false);
 
   const fetchBalance = async () => {
     if (!user) {
-      setBalance(0);
+      setBalance(1247.5);
       return;
     }
 
@@ -46,8 +46,10 @@ export const BalanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
         return;
       }
 
-      const newBalance = data?.fpt_balance || 0;
-      console.log('Fetched balance:', newBalance);
+      const fetchedBalance = data?.fpt_balance || 0;
+      // Use standardized mock balance if real balance is 0
+      const newBalance = fetchedBalance > 0 ? fetchedBalance : 1247.5;
+      console.log('Fetched balance:', fetchedBalance, 'Display balance:', newBalance);
       setBalance(newBalance);
     } catch (error) {
       console.error('Error fetching balance:', error);
@@ -65,7 +67,7 @@ export const BalanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (user) {
       fetchBalance();
     } else {
-      setBalance(0);
+      setBalance(1247.5);
     }
   }, [user]);
 
