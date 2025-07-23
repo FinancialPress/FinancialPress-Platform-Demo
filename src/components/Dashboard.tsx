@@ -353,10 +353,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                       </div>
                       {topShares.map((share, index) => (
                         <div key={index} className="grid grid-cols-5 gap-4 py-2 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <Share2 className="w-4 h-4 text-green-500" />
-                            <span className={textClasses}>{share.title}</span>
-                          </div>
+                          <div className={subtleText}>{share.title}</div>
                           <div className={subtleText}>{share.originalAuthor}</div>
                           <div className={subtleText}>{share.shares}</div>
                           <div className="text-blue-400 font-medium">{Math.floor(share.earnings / 3)} RP</div>
