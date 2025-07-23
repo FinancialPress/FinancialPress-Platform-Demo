@@ -109,7 +109,7 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
           description: 'AI integration in financial services is accelerating. Companies like NVDA, MSFT, and emerging fintech players are positioning themselves for massive growth. The convergence of AI and finance presents unprecedented opportunities for investors.',
           engagement: { likes: 2100, shares: 167, comments: 78, views: 11200 },
           earnings: '42.3 FPT',
-          category: 'AI & Tech',
+          category: 'AI and Tech',
           isRecommended: true,
         },
         {

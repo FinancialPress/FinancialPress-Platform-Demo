@@ -24,7 +24,7 @@ const creators = [
   { name: 'CryptoAnalyst', handle: '@cryptoanalyst', badge: 'Gold Creator', category: 'Crypto Analysis' },
   { name: 'DeFiGuru', handle: '@defiguru', badge: 'Platinum Creator', category: 'DeFi' },
   { name: 'NFTTracker', handle: '@nfttracker', badge: 'Silver Creator', category: 'NFTs' },
-  { name: 'TechAnalyst', handle: '@techanalyst', badge: 'Gold Creator', category: 'AI & Tech' },
+  { name: 'TechAnalyst', handle: '@techanalyst', badge: 'Gold Creator', category: 'AI and Tech' },
   { name: 'MacroMind', handle: '@macromind', badge: 'Platinum Creator', category: 'Macroeconomics' },
   { name: 'StockSage', handle: '@stocksage', badge: 'Gold Creator', category: 'Stock Analysis' },
   { name: 'ForexExpert', handle: '@forexexpert', badge: 'Silver Creator', category: 'Forex' },

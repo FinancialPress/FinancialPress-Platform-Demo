@@ -141,7 +141,7 @@ const PostActions = ({
             onClick={handleShareAndEarn}
           >
             <Share2 className="w-5 h-5" />
-            <span>Share & Earn</span>
+            <span>Share and Earn</span>
           </button>
         </div>
         <button

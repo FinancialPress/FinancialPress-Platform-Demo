@@ -934,7 +934,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
                   {/* Show fewer sections on mobile */}
                   <div className="hidden sm:block space-y-6 sm:space-y-8">
                     {renderSection("Global Markets", newsFilter === 'latest' ? latestNewsBySector.globalMarkets : trendingNewsBySector.globalMarkets)}
-                    {renderSection("AI & Tech", newsFilter === 'latest' ? latestNewsBySector.aiTech : trendingNewsBySector.aiTech)}
+                    {renderSection("AI and Tech", newsFilter === 'latest' ? latestNewsBySector.aiTech : trendingNewsBySector.aiTech)}
                     {renderSection("Economy", newsFilter === 'latest' ? latestNewsBySector.economy : trendingNewsBySector.economy)}
                   </div>
                 </div>

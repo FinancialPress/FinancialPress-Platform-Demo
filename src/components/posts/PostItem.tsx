@@ -199,7 +199,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
                 onClick={handleShareAndEarn}
               >
                 <Share2 className="w-5 h-5" />
-                <span>Share & Earn</span>
+                <span>Share and Earn</span>
               </button>
             </div>
             <button
@@ -219,7 +219,7 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
         </CardContent>
       </Card>
 
-      {/* Share & Earn Modal */}
+      {/* Share and Earn Modal */}
       {showShareModal && (
         <ShareEarnFlow
           post={{

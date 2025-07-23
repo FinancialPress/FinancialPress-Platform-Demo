@@ -168,7 +168,7 @@ const tabButtonClasses = (isActive: boolean) => {
                       </div>
                     </div>
 
-                    {/* Footer Actions - MODIFIED: added Share & Earn and Tips buttons */}
+                    {/* Footer Actions - MODIFIED: added Share and Earn and Tips buttons */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-600 hover:text-red-500'} transition-colors`}>
@@ -185,7 +185,7 @@ const tabButtonClasses = (isActive: boolean) => {
                         </button>
                         <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
                           <Share2 className="w-4 h-4" />
-                          <span className="text-sm">Share & Earn</span>
+                          <span className="text-sm">Share and Earn</span>
                         </button>
                       </div>
                       <button className={`flex items-center space-x-1 ${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
@@ -293,7 +293,7 @@ const tabButtonClasses = (isActive: boolean) => {
                         </button>
                         <button className={`flex items-center space-x-2 ${isDarkMode ? 'text-gray-400 hover:text-yellow-400' : 'text-gray-600 hover:text-yellow-500'} transition-colors`}>
                           <Share2 className="w-5 h-5" />
-                          <span className="text-base">Share & Earn</span>
+                          <span className="text-base">Share and Earn</span>
                         </button>
                       </div>
                       {/* REPLACED: Bookmark icon with HandCoins and "Tips" label */}
