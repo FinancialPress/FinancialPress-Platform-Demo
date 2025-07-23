@@ -331,12 +331,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                       </div>
                       {topContent.map((content, index) => (
                         <div key={index} className="grid grid-cols-6 gap-4 py-2 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-xs font-bold">
-                              {content.title.charAt(0)}
-                            </div>
-                            <span className={textClasses}>{content.title}</span>
-                          </div>
+                          <div className={subtleText}>{content.title}</div>
                           <div className={subtleText}>{content.views}</div>
                           <div className={subtleText}>{content.shares}</div>
                           <div className={subtleText}>{content.tips}</div>
