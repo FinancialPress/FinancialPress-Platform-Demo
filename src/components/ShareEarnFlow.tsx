@@ -154,7 +154,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare, i
                   <h4 className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} font-medium text-sm`}>{post.creator}</h4>
                   <Badge className="bg-fpYellow text-black text-xs">Gold</Badge>
                   <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>24.5K followers</span>
-                  <span className="text-xs text-green-400">240 RP</span>
+                  <span className="text-xs text-blue-400">240 RP</span>
                 </div>
               </div>
             </div>
