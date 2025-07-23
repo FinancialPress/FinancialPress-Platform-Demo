@@ -223,7 +223,7 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare, i
             <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
               <div className="flex items-center justify-between">
                 <div className="flex-1 mr-4">
-                  <div className="text-blue-400 font-semibold text-sm mb-1">Reputation</div>
+                  <div className="text-blue-400 font-semibold text-sm mb-1">Reputation gain</div>
                   <div className="text-lg font-bold text-blue-400">
                     {selectedPlatforms.length || 1} RP
                   </div>
