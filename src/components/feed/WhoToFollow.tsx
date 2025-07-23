@@ -56,7 +56,7 @@ const WhoToFollow = ({ isDarkMode = true }: WhoToFollowProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{user.earnings} | {user.rp}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{user.rp}</div>
                 <Badge className={`${user.badge === 'Platinum' ? 'bg-purple-500' : user.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
                   {user.badge}
                 </Badge>

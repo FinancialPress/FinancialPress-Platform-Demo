@@ -69,7 +69,7 @@ const TopSharers = ({ isDarkMode = true }: TopSharersProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{sharer.earnings} | {sharer.rp}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{sharer.rp}</div>
                 <Badge className={`${getBadgeColor(sharer.badge)} text-xs`}>
                   {sharer.badge}
                 </Badge>

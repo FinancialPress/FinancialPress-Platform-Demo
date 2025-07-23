@@ -69,7 +69,7 @@ const TopComments = ({ isDarkMode = true }: TopCommentsProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{commenter.earnings} | {commenter.rp}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{commenter.rp}</div>
                 <Badge className={`${getBadgeColor(commenter.badge)} text-xs`}>
                   {commenter.badge}
                 </Badge>

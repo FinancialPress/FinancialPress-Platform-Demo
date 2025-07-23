@@ -60,7 +60,7 @@ const TopCreators = ({ isDarkMode = true }: TopCreatorsProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{creator.earnings} | {creator.rp}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{creator.rp}</div>
                 <Badge className={`${creator.badge === 'Platinum' ? 'bg-purple-500' : creator.badge === 'Gold' ? 'bg-yellow-500' : 'bg-gray-500'} text-black text-xs`}>
                   {creator.badge}
                 </Badge>
