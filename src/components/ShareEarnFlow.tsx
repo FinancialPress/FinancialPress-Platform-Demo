@@ -212,21 +212,26 @@ const ShareEarnFlow: React.FC<ShareEarnFlowProps> = ({ post, onClose, onShare, i
               </div>
             </div>
 
+            {/* Platform Selection Summary */}
+            <div className="bg-gray-500/10 border border-gray-500/20 rounded-lg p-3 mb-3">
+              <div className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-sm text-center`}>
+                {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
+              </div>
+            </div>
+
             {/* Earnings Preview */}
             <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
               <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-green-400 font-semibold text-sm">Total Estimated Earnings</div>
-                  <div className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-xs`}>
-                    {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="text-xl font-bold text-green-400">
-                    {calculateTotalEarnings()} FPT
-                  </div>
+                <div className="flex-1 mr-4">
+                  <div className="text-blue-400 font-semibold text-sm mb-1">XP Credits</div>
                   <div className="text-lg font-bold text-blue-400">
                     {selectedPlatforms.length || 1} XP
+                  </div>
+                </div>
+                <div className="flex-2">
+                  <div className="text-green-400 font-semibold text-sm mb-1">Total Estimated Earnings</div>
+                  <div className="text-xl font-bold text-green-400">
+                    {calculateTotalEarnings()} FPT
                   </div>
                 </div>
               </div>
