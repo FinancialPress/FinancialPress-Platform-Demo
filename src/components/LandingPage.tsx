@@ -954,33 +954,31 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           </div>
 
           {/* Right Sidebar - Hidden on mobile, shown on lg+ */}
-          <div className="hidden lg:block space-y-4">
-            {/* Top section with more compact cards */}
-            <div className="space-y-3">
+          <div className="hidden lg:block space-y-2">
+            {/* Top Performers Section - Consolidated */}
+            <div className="space-y-2">
               <TopCreators isDarkMode={isDarkMode} />
               <TopSharers isDarkMode={isDarkMode} />
-              <TopComments isDarkMode={isDarkMode} />
             </div>
             
-            {/* Trending Topics - More compact */}
-            <div className="mt-4">
+            {/* Trending & Stats Combined Section */}
+            <div className="space-y-2">
               <TrendingTopics isDarkMode={isDarkMode} />
-            </div>
-            
-            {/* Stats Section - More compact grid */}
-            <div className="mt-4 space-y-3">
-              <h3 className={sidebarHeaderClasses + ' text-sm'}>Platform Stats</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {liveStats.map((stat, index) => (
-                  <Card key={index} className={cardClasses + ' min-h-0'}>
-                    <CardContent className="p-2 text-center">
-                      <stat.icon className={`w-4 h-4 ${stat.color} mx-auto mb-1`} />
-                      <div className={statCardTextClasses + ' text-sm font-bold'}>{stat.value}</div>
-                      <div className={`text-xs ${textClasses}`}>{stat.label}</div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              
+              {/* Inline Stats - Single row */}
+              <Card className={cardClasses}>
+                <CardContent className="p-3">
+                  <h3 className={`${sidebarHeaderClasses} text-sm mb-2`}>Platform Stats</h3>
+                  <div className="grid grid-cols-2 gap-1 text-center">
+                    {liveStats.slice(0, 4).map((stat, index) => (
+                      <div key={index} className="py-1">
+                        <div className={`${stat.color} text-xs font-bold`}>{stat.value}</div>
+                        <div className={`text-xs ${textClasses}`}>{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
