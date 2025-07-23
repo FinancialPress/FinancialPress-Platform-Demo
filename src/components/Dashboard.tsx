@@ -126,7 +126,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                     <DollarSign className="w-8 h-8 text-fpYellow" />
                   </div>
                   <div className="text-4xl font-bold text-fpYellow mb-2">
-                    {balanceLoading ? '...' : displayBalance.toLocaleString()}
+                    24
                   </div>
                   <div className={mutedText + ' text-base'}>FPT Earned</div>
                 </CardContent>
