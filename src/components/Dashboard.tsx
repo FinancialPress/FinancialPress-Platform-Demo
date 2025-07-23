@@ -119,7 +119,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               <Card className={`${cardClasses} col-span-2 border-2 border-fpYellow`}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className={mutedText + ' text-lg font-medium'}>Today's Earnings</div>
+                    <div className={mutedText + ' text-lg font-medium'}>Today's FPT Earnings</div>
                     <DollarSign className="w-8 h-8 text-fpYellow" />
                   </div>
                   <div className="text-4xl font-bold text-fpYellow mb-2">
@@ -131,17 +131,17 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               </Card>
               <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className={mutedText + ' text-sm mb-1'}>Weekly Earnings</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Weekly FPT Earnings</div>
                   <div className="text-2xl font-bold">75</div>
                   <div className={mutedText + ' text-xs'}>FP Shares</div>
                   <div className="text-xs text-green-400">+8 vs last week</div>
                 </CardContent>
               </Card>
-              <Card className={cardClasses}>
+                <Card className={cardClasses}>
                 <CardContent className="p-4">
-                  <div className={mutedText + ' text-sm mb-1'}>XP Credits Earned</div>
+                  <div className={mutedText + ' text-sm mb-1'}>Weekly XP Credits</div>
                   <div className="text-2xl font-bold text-blue-400">48</div>
-                  <div className={mutedText + ' text-xs'}>Today: 12 | Weekly: 156</div>
+                  <div className={mutedText + ' text-xs'}>XP Credits</div>
                   <div className="text-xs text-blue-400">+15% vs last week</div>
                 </CardContent>
               </Card>
@@ -152,7 +152,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               {/* Earnings over time */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
-                  <CardTitle className={textClasses + ' text-base'}>Earnings Over Time</CardTitle>
+                  <CardTitle className={textClasses + ' text-base'}>FPT Earnings Over Time</CardTitle>
                   <p className={mutedText + ' text-xs'}>Weekly performance trend</p>
                 </CardHeader>
                 <CardContent>
@@ -178,7 +178,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               {/* Earnings by platform (pie chart with vertical legend on left) */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
-                  <CardTitle className={textClasses + ' text-base'}>Earnings by Platform</CardTitle>
+                  <CardTitle className={textClasses + ' text-base'}>FPT Earnings by Platform</CardTitle>
                   <p className={mutedText + ' text-xs'}>Distribution across platforms</p>
                 </CardHeader>
                 <CardContent>
@@ -228,7 +228,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               {/* Earnings by Content */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
-                  <CardTitle className={textClasses + ' text-base'}>Earnings by Content</CardTitle>
+                  <CardTitle className={textClasses + ' text-base'}>FPT Earnings by Content</CardTitle>
                   <p className={mutedText + ' text-xs'}>Your created content performance</p>
                 </CardHeader>
                 <CardContent>
@@ -254,7 +254,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               {/* Earnings by Shares */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
-                  <CardTitle className={textClasses + ' text-base'}>Earnings by Shares</CardTitle>
+                  <CardTitle className={textClasses + ' text-base'}>FPT Earnings by Shares</CardTitle>
                   <p className={mutedText + ' text-xs'}>Your shared content performance</p>
                 </CardHeader>
                 <CardContent>
@@ -280,7 +280,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
               {/* Earnings by Subscribers */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
-                  <CardTitle className={textClasses + ' text-base'}>Subscriber Earnings</CardTitle>
+                  <CardTitle className={textClasses + ' text-base'}>Subscriber FPT Earnings</CardTitle>
                   <p className={mutedText + ' text-xs'}>Monthly subscriber growth</p>
                 </CardHeader>
                 <CardContent>
@@ -308,7 +308,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
             <Card className={cardClasses}>
               <CardHeader className="pb-3">
                 <CardTitle className={textClasses + ' text-base'}>Performance Analytics</CardTitle>
-                <p className={mutedText + ' text-xs'}>Your top earning content and shares</p>
+                <p className={mutedText + ' text-xs'}>Your top FPT earning content and shares</p>
               </CardHeader>
               <CardContent>
                 <Tabs value={contentTab} onValueChange={setContentTab} className="w-full">
@@ -325,7 +325,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>Shares</div>
                         <div>Tips</div>
                         <div>XP Credits</div>
-                        <div>Earnings</div>
+                        <div>FPT Earnings</div>
                       </div>
                       {topContent.map((content, index) => (
                         <div key={index} className="grid grid-cols-6 gap-4 py-2 text-sm">
@@ -352,7 +352,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>Original Author</div>
                         <div>Shares</div>
                         <div>XP Credits</div>
-                        <div>Earnings</div>
+                        <div>FPT Earnings</div>
                       </div>
                       {topShares.map((share, index) => (
                         <div key={index} className="grid grid-cols-5 gap-4 py-2 text-sm">
