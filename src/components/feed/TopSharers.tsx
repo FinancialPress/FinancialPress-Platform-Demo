@@ -10,11 +10,11 @@ interface TopSharersProps {
 
 const TopSharers = ({ isDarkMode = true }: TopSharersProps) => {
   const topSharers = [
-    { name: "ShareMaster", shares: "2,340", badge: "Platinum", followers: "89.2K", earnings: "1,150 FPT" },
-    { name: "ViralTrader", shares: "1,890", badge: "Gold", followers: "67.5K", earnings: "890 FPT" },
-    { name: "ContentCurator", shares: "1,560", badge: "Gold", followers: "54.3K", earnings: "720 FPT" },
-    { name: "NewsHawk", shares: "1,340", badge: "Silver", followers: "45.7K", earnings: "650 FPT" },
-    { name: "InfoStream", shares: "1,120", badge: "Silver", followers: "38.9K", earnings: "580 FPT" }
+    { name: "ShareMaster", shares: "2,340", badge: "Platinum", followers: "89.2K", earnings: "1,150 FPT", rp: "315 RP" },
+    { name: "ViralTrader", shares: "1,890", badge: "Gold", followers: "67.5K", earnings: "890 FPT", rp: "245 RP" },
+    { name: "ContentCurator", shares: "1,560", badge: "Gold", followers: "54.3K", earnings: "720 FPT", rp: "195 RP" },
+    { name: "NewsHawk", shares: "1,340", badge: "Silver", followers: "45.7K", earnings: "650 FPT", rp: "175 RP" },
+    { name: "InfoStream", shares: "1,120", badge: "Silver", followers: "38.9K", earnings: "580 FPT", rp: "155 RP" }
   ];
 
   const getBadgeColor = (badge: string) => {
@@ -69,7 +69,7 @@ const TopSharers = ({ isDarkMode = true }: TopSharersProps) => {
                 </div>
               </div>
               <div className="text-right">
-                <div className={`${earningsClasses} font-bold text-xs`}>{sharer.earnings}</div>
+                <div className={`${earningsClasses} font-bold text-xs`}>{sharer.earnings} | {sharer.rp}</div>
                 <Badge className={`${getBadgeColor(sharer.badge)} text-xs`}>
                   {sharer.badge}
                 </Badge>

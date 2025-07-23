@@ -954,24 +954,33 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
           </div>
 
           {/* Right Sidebar - Hidden on mobile, shown on lg+ */}
-          <div className="hidden lg:block space-y-6">
-            <TopCreators isDarkMode={isDarkMode} />
-            <TopSharers isDarkMode={isDarkMode} />
-            <TopComments isDarkMode={isDarkMode} />
-            <TrendingTopics isDarkMode={isDarkMode} />
+          <div className="hidden lg:block space-y-4">
+            {/* Top section with more compact cards */}
+            <div className="space-y-3">
+              <TopCreators isDarkMode={isDarkMode} />
+              <TopSharers isDarkMode={isDarkMode} />
+              <TopComments isDarkMode={isDarkMode} />
+            </div>
             
-            {/* Stats Section - Moved to Bottom and Stacked */}
-            <div className="space-y-4">
-              <h3 className={sidebarHeaderClasses}>Platform Stats</h3>
-              {liveStats.map((stat, index) => (
-                <Card key={index} className={cardClasses}>
-                  <CardContent className="p-4 text-center">
-                    <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                    <div className={statCardTextClasses}>{stat.value}</div>
-                    <div className={`text-sm ${textClasses}`}>{stat.label}</div>
-                  </CardContent>
-                </Card>
-              ))}
+            {/* Trending Topics - More compact */}
+            <div className="mt-4">
+              <TrendingTopics isDarkMode={isDarkMode} />
+            </div>
+            
+            {/* Stats Section - More compact grid */}
+            <div className="mt-4 space-y-3">
+              <h3 className={sidebarHeaderClasses + ' text-sm'}>Platform Stats</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {liveStats.map((stat, index) => (
+                  <Card key={index} className={cardClasses + ' min-h-0'}>
+                    <CardContent className="p-2 text-center">
+                      <stat.icon className={`w-4 h-4 ${stat.color} mx-auto mb-1`} />
+                      <div className={statCardTextClasses + ' text-sm font-bold'}>{stat.value}</div>
+                      <div className={`text-xs ${textClasses}`}>{stat.label}</div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
         </div>
