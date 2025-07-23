@@ -30,6 +30,9 @@ interface DashboardProps {
 const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
   const [contentTab, setContentTab] = useState('content');
   const { balance: liveFPTBalance, loading: balanceLoading } = useBalance(); // Use centralized balance
+  
+  // Set default value to 24 if balance is 0
+  const displayBalance = liveFPTBalance > 0 ? liveFPTBalance : 24;
 
   const earningsData = [
     { day: 'Mon', value: 5 },
@@ -123,7 +126,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                     <DollarSign className="w-8 h-8 text-fpYellow" />
                   </div>
                   <div className="text-4xl font-bold text-fpYellow mb-2">
-                    {balanceLoading ? '...' : liveFPTBalance.toLocaleString()}
+                    {balanceLoading ? '...' : displayBalance.toLocaleString()}
                   </div>
                   <div className={mutedText + ' text-base'}>FPT Earned</div>
                 </CardContent>
@@ -372,7 +375,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
             </Card>
           </div>
 
-          {/* Right Column - Community & Performance */}
+          {/* Right Column - Community and Performance */}
           <div className="col-span-4 space-y-6">
             {/* Updated Quick Actions */}
             <Card className={cardClasses}>

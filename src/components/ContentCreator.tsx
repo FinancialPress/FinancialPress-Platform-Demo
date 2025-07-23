@@ -452,7 +452,7 @@ const ContentCreator = ({ onNavigate, isDarkMode }: ContentCreatorProps) => {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className={labelClasses}>Date & Time</Label>
+                          <Label className={labelClasses}>Date and Time</Label>
                           <Input 
                             type="datetime-local"
                             className={inputClasses}

@@ -58,7 +58,7 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
       
       console.log('Attempting to add 20 FPT reward for invite');
       
-      // Add 20 FPT reward using the exact same pattern as Share & Earn
+      // Add 20 FPT reward using the exact same pattern as Share and Earn
       const success = await addTokens(
         20,
         'earn_invite', // Use consistent naming pattern like 'earn_share'
@@ -143,7 +143,7 @@ const InviteFriend = ({ isDarkMode }: InviteFriendProps) => {
           ) : (
             <div className="flex items-center space-x-2">
               <Gift className="w-4 h-4" />
-              <span>Send Invite & Earn 20 FPT</span>
+              <span>Send Invite and Earn 20 FPT</span>
             </div>
           )}
         </Button>

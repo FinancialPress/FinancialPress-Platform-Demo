@@ -70,7 +70,7 @@ const LandingPage = ({ onNavigate, isDarkMode = true }: LandingPageProps) => {
     stockMarket: [
       {
         id: 1,
-        title: "S&P 500 Hits New Record High as Tech Stocks Rally",
+        title: "S and P 500 Hits New Record High as Tech Stocks Rally",
         image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&h=200&fit=crop",
         category: "STOCKS",
         author: "Sarah Chen",
