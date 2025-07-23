@@ -361,12 +361,13 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
                   </div>
                 </div>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="lg"
                   onClick={() => onNavigate?.(5)}
-                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-full p-3 sm:p-4"
+                  className="flex-shrink-0 border-2 hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
-                  <PlusCircle className="w-7 h-7 sm:w-8 sm:h-8" />
+                  <PlusCircle className="w-5 h-5 mr-2" />
+                  Create
                 </Button>
               </div>
             </div>
