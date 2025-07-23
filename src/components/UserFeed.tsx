@@ -353,31 +353,20 @@ const UserFeed = ({ onNavigate, isDarkMode, showOnboarding = false, onTourStateC
             {/* What's on your mind textbox */}
             <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-lg p-4 sm:p-6 shadow-sm`} data-tour="whats-on-mind">
               <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
-                  {getUserAvatar() ? (
-                    <img 
-                      src={getUserAvatar()!} 
-                      alt="User avatar" 
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-white font-bold text-sm sm:text-lg">{getUserInitial()}</span>
-                  )}
-                </div>
                 <div className="flex-1 cursor-pointer" onClick={() => onNavigate?.(5)}>
                   <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'} border rounded-full px-3 py-2 sm:px-4 sm:py-3 transition-colors cursor-pointer`}>
                     <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-base sm:text-lg`}>
-                      What's on your mind, {getUserDisplayName()}?
+                      What's on your mind?
                     </span>
                   </div>
                 </div>
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="lg"
                   onClick={() => onNavigate?.(5)}
-                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-full p-1 sm:p-2"
+                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-full p-3 sm:p-4"
                 >
-                  <PlusCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <PlusCircle className="w-7 h-7 sm:w-8 sm:h-8" />
                 </Button>
               </div>
             </div>
