@@ -104,22 +104,22 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-black'}`}>
-      <div className="max-w-[1440px] mx-auto px-8 py-6">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
           <div>
-            <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
-            <p className={mutedText}>Track your content performance and earnings</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Dashboard</h1>
+            <p className={mutedText + ' text-sm sm:text-base'}>Track your content performance and earnings</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           {/* Left Column - Main Dashboard */}
-          <div className="col-span-8 space-y-6">
+          <div className="lg:col-span-8 space-y-4 sm:space-y-6">
             {/* Key Metrics - Today's Earnings shows live balance */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {/* Today's Earnings - Now shows live FPT balance */}
-              <Card className={`${cardClasses} col-span-2 border-2 border-fpYellow`}>
+              <Card className={`${cardClasses} sm:col-span-2 border-2 border-fpYellow`}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className={mutedText + ' text-lg font-medium'}>Today's FPT Earnings</div>
@@ -150,7 +150,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
             </div>
 
             {/* Original Earnings Charts Row */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
               {/* Earnings over time */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
@@ -158,7 +158,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                   <p className={mutedText + ' text-xs'}>Weekly performance trend</p>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={200}>
+                  <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={earningsData}>
                       <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#374151' : '#E5E7EB'} />
                       <XAxis dataKey="day" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} fontSize={12} />
@@ -196,7 +196,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         </div>
                       ))}
                     </div>
-                    <ResponsiveContainer width="100%" height={200}>
+                    <ResponsiveContainer width="100%" height={180}>
                       <PieChart>
                         <Pie
                           data={earningsBySharesData}
@@ -226,7 +226,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
             </div>
 
             {/* New Earnings Charts Row */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {/* Earnings by Content */}
               <Card className={cardClasses}>
                 <CardHeader className="pb-3">
@@ -234,7 +234,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                   <p className={mutedText + ' text-xs'}>Your created content performance</p>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={150}>
+                  <ResponsiveContainer width="100%" height={140}>
                     <BarChart data={earningsByContentData}>
                       <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#374151' : '#E5E7EB'} />
                       <XAxis dataKey="type" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} fontSize={10} />
@@ -260,7 +260,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                   <p className={mutedText + ' text-xs'}>Your shared content performance</p>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={150}>
+                  <ResponsiveContainer width="100%" height={140}>
                     <BarChart data={earningsBySharesData}>
                       <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#374151' : '#E5E7EB'} />
                       <XAxis dataKey="platform" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} fontSize={10} />
@@ -286,7 +286,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                   <p className={mutedText + ' text-xs'}>Monthly subscriber growth</p>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={150}>
+                  <ResponsiveContainer width="100%" height={140}>
                     <LineChart data={subscriberEarningsData}>
                       <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#374151' : '#E5E7EB'} />
                       <XAxis dataKey="month" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} fontSize={10} />
@@ -321,7 +321,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
 
                   <TabsContent value="content">
                     <div className="space-y-3">
-                      <div className={`grid grid-cols-6 gap-4 text-sm ${mutedText} pb-2 border-b ${subtleBorder}`}>
+                      <div className={`hidden sm:grid grid-cols-6 gap-2 sm:gap-4 text-xs sm:text-sm ${mutedText} pb-2 border-b ${subtleBorder}`}>
                         <div>Content</div>
                         <div>Views</div>
                         <div>Shares</div>
@@ -330,13 +330,28 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>Earnings</div>
                       </div>
                       {topContent.map((content, index) => (
-                        <div key={index} className="grid grid-cols-6 gap-4 py-2 text-sm">
-                          <div className={subtleText}>{content.title}</div>
-                          <div className={subtleText}>{content.views}</div>
-                          <div className={subtleText}>{content.shares}</div>
-                          <div className={subtleText}>{content.tips}</div>
-                          <div className="text-blue-400 font-medium">{Math.floor(content.earnings / 2)} RP</div>
-                          <div className="text-yellow-500 font-medium">{content.earnings} FPT</div>
+                        <div key={index} className="border border-gray-200 dark:border-gray-700 rounded p-3 sm:border-0 sm:rounded-none sm:p-0 sm:grid sm:grid-cols-6 sm:gap-2 lg:gap-4 sm:py-2 text-xs sm:text-sm space-y-2 sm:space-y-0">
+                          <div className={subtleText + ' font-medium sm:font-normal'}>{content.title}</div>
+                          <div className={`${subtleText} flex justify-between sm:block`}>
+                            <span className="sm:hidden">Views:</span>
+                            <span>{content.views}</span>
+                          </div>
+                          <div className={`${subtleText} flex justify-between sm:block`}>
+                            <span className="sm:hidden">Shares:</span>
+                            <span>{content.shares}</span>
+                          </div>
+                          <div className={`${subtleText} flex justify-between sm:block`}>
+                            <span className="sm:hidden">Tips:</span>
+                            <span>{content.tips}</span>
+                          </div>
+                          <div className="text-blue-400 font-medium flex justify-between sm:block">
+                            <span className="sm:hidden">Reputation:</span>
+                            <span>{Math.floor(content.earnings / 2)} RP</span>
+                          </div>
+                          <div className="text-yellow-500 font-medium flex justify-between sm:block">
+                            <span className="sm:hidden">Earnings:</span>
+                            <span>{content.earnings} FPT</span>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -344,7 +359,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
 
                   <TabsContent value="shares">
                     <div className="space-y-3">
-                      <div className={`grid grid-cols-5 gap-4 text-sm ${mutedText} pb-2 border-b ${subtleBorder}`}>
+                      <div className={`hidden sm:grid grid-cols-5 gap-2 sm:gap-4 text-xs sm:text-sm ${mutedText} pb-2 border-b ${subtleBorder}`}>
                         <div>Shared Content</div>
                         <div>Original Author</div>
                         <div>Shares</div>
@@ -352,12 +367,24 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
                         <div>FPT Earnings</div>
                       </div>
                       {topShares.map((share, index) => (
-                        <div key={index} className="grid grid-cols-5 gap-4 py-2 text-sm">
-                          <div className={subtleText}>{share.title}</div>
-                          <div className={subtleText}>{share.originalAuthor}</div>
-                          <div className={subtleText}>{share.shares}</div>
-                          <div className="text-blue-400 font-medium">{Math.floor(share.earnings / 3)} RP</div>
-                          <div className="text-yellow-500 font-medium">{share.earnings} FPT</div>
+                        <div key={index} className="border border-gray-200 dark:border-gray-700 rounded p-3 sm:border-0 sm:rounded-none sm:p-0 sm:grid sm:grid-cols-5 sm:gap-2 lg:gap-4 sm:py-2 text-xs sm:text-sm space-y-2 sm:space-y-0">
+                          <div className={subtleText + ' font-medium sm:font-normal'}>{share.title}</div>
+                          <div className={`${subtleText} flex justify-between sm:block`}>
+                            <span className="sm:hidden">Author:</span>
+                            <span>{share.originalAuthor}</span>
+                          </div>
+                          <div className={`${subtleText} flex justify-between sm:block`}>
+                            <span className="sm:hidden">Shares:</span>
+                            <span>{share.shares}</span>
+                          </div>
+                          <div className="text-blue-400 font-medium flex justify-between sm:block">
+                            <span className="sm:hidden">Reputation:</span>
+                            <span>{Math.floor(share.earnings / 3)} RP</span>
+                          </div>
+                          <div className="text-yellow-500 font-medium flex justify-between sm:block">
+                            <span className="sm:hidden">Earnings:</span>
+                            <span>{share.earnings} FPT</span>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -368,7 +395,7 @@ const Dashboard = ({ onNavigate, isDarkMode }: DashboardProps) => {
           </div>
 
           {/* Right Column - Community and Performance */}
-          <div className="col-span-4 space-y-6">
+          <div className="lg:col-span-4 space-y-4 sm:space-y-6">
             {/* Updated Quick Actions */}
             <Card className={cardClasses}>
               <CardHeader className="pb-3">
