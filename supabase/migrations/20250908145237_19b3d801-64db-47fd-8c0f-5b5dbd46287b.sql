@@ -1,0 +1,1 @@
+DELETE FROM posts WHERE id = '14bb3d5e-5935-445a-9f7c-edfc614e8d47' AND title = 'How to build from 0 to 100K Users';
