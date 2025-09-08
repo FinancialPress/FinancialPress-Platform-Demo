@@ -1,0 +1,1 @@
+DELETE FROM posts WHERE id = 'd61b7b30-6a29-47bb-b09f-09cd4e43b26a' AND title = 'Cryptopotimus';
