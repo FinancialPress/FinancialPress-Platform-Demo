@@ -74,47 +74,52 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
   return (
     <Card className={`${cardClasses} transition-colors`}>
       <CardContent className="p-6">
-        {/* User Header */}
+        {/* Creator Identity - Top Right */}
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-              <span className="text-black font-bold">{post.creator.charAt(0)}</span>
-            </div>
-            <div>
-              <div className="flex items-center space-x-2 mb-1">
-                <span className={`${textClasses} font-semibold`}>{post.creator}</span>
-                <Badge
-                  className={`text-xs ${
-                    post.badge === 'Platinum Creator'
-                      ? 'bg-purple-500 text-white'
-                      : post.badge === 'Gold Creator'
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-gray-500 text-white'
-                  }`}
-                >
-                  {post.badge}
-                </Badge>
-                {post.isFollowing && <Badge className="bg-blue-600 text-white text-xs">Following</Badge>}
-                {post.isRecommended && <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>}
-              </div>
-              <div className={`flex items-center space-x-2 ${mutedText} text-sm`}>
-                <span>{post.handle}</span>
-                <span>•</span>
-                <Badge className="bg-blue-600 text-white text-xs">{post.category}</Badge>
-              </div>
+          <div className="flex-1">
+            {/* Badges and Category */}
+            <div className="flex items-center space-x-2 mb-2">
+              <Badge className="bg-blue-600 text-white text-xs">{post.category}</Badge>
+              {post.isFollowing && <Badge className="bg-blue-600 text-white text-xs">Following</Badge>}
+              {post.isRecommended && <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>}
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          
+          {/* Creator Identity & Reputation */}
+          <div className="flex items-center space-x-3">
             {/* Originator Icon */}
             {isFinancialPressPost ? (
               <img 
                 src="/lovable-uploads/36c32632-76d5-49c6-bb65-079fe61ba5f0.png" 
                 alt="Financial Press" 
-                className="w-5 h-5"
+                className="w-4 h-4 opacity-60"
               />
             ) : (
-              <originatorIcon.icon className={`w-5 h-5 ${mutedText}`} />
+              <originatorIcon.icon className={`w-4 h-4 ${mutedText}`} />
             )}
+            
+            {/* Creator Info */}
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                <span className="text-black font-semibold text-sm">{post.creator.charAt(0)}</span>
+              </div>
+              <div className="text-right">
+                <div className={`${textClasses} font-medium text-sm leading-tight`}>{post.creator}</div>
+                <div className={`${mutedText} text-xs`}>{post.handle}</div>
+              </div>
+              
+              {/* Reputation Score Shield */}
+              <div className="relative">
+                <div className="bg-blue-600 rounded-lg px-2 py-1 shadow-sm border border-blue-500">
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-3 h-3 text-blue-100" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-white font-bold text-xs">{Math.floor(Math.random() * 10) + 1}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
