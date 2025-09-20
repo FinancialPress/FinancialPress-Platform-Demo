@@ -1,22 +1,28 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Chrome, Facebook, Twitter, Instagram, Linkedin, Youtube, Calendar } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import PostEngagement from './PostEngagement';
 import PostActions from './PostActions';
+import { supabase } from '@/integrations/supabase/client';
 
 interface FeedPostProps {
   post: {
-    id: number;
-    creator: string;
-    handle: string;
-    badge: string;
-    timeAgo: string;
-    content: string;
-    description: string;
+    id: number | string;
+    creator?: string;
+    handle?: string;
+    badge?: string;
+    timeAgo?: string;
+    content?: string;
+    title?: string;
+    description?: string;
+    body?: string;
     image?: string;
+    image_url?: string;
+    author_id?: string;
     engagement: {
       likes: number;
       shares: number;
@@ -24,7 +30,8 @@ interface FeedPostProps {
       views: number;
     };
     earnings: string;
-    category: string;
+    category?: string;
+    section?: string;
     isRecommended?: boolean;
     isFollowing?: boolean;
   };
@@ -34,9 +41,58 @@ interface FeedPostProps {
 }
 
 const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
+  const [authorProfile, setAuthorProfile] = useState<any>(null);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  
   const cardClasses = isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-gray-300';
   const textClasses = isDarkMode ? 'text-white' : 'text-black';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
+
+  // Fetch author profile for real posts
+  useEffect(() => {
+    const fetchAuthorProfile = async () => {
+      if (post.author_id && !post.creator) {
+        setLoadingProfile(true);
+        try {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('display_name, username, image_url')
+            .eq('id', post.author_id)
+            .single();
+          
+          if (!error && data) {
+            setAuthorProfile(data);
+          }
+        } catch (err) {
+          console.error('Error fetching author profile:', err);
+        } finally {
+          setLoadingProfile(false);
+        }
+      }
+    };
+
+    fetchAuthorProfile();
+  }, [post.author_id, post.creator]);
+
+  // Determine if this is a real post or mock post
+  const isRealPost = !!post.author_id;
+  
+  // Get display values
+  const displayName = isRealPost 
+    ? (authorProfile?.display_name || authorProfile?.username || 'User')
+    : post.creator;
+  
+  const displayHandle = isRealPost 
+    ? (authorProfile?.username ? `@${authorProfile.username}` : '@user')
+    : post.handle;
+    
+  const displayTitle = post.title || post.content || '';
+  const displayDescription = post.body || post.description || '';
+  const displayImage = post.image_url || post.image;
+  const displayCategory = post.section || post.category || 'General';
+  
+  // Generate reputation score (1-10)
+  const reputationScore = Math.floor(Math.random() * 10) + 1;
 
   // Generate random originator icon
   const getOriginatorIcon = () => {
@@ -50,12 +106,13 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
     ];
     
     // Use post ID to consistently pick the same icon for the same post
-    const iconIndex = post.id % icons.length;
+    const numericId = typeof post.id === 'number' ? post.id : parseInt(post.id.toString()) || 0;
+    const iconIndex = numericId % icons.length;
     return icons[iconIndex];
   };
 
-  // Add Financial Press logo for some posts
-  const isFinancialPressPost = post.id % 4 === 0; // Every 4th post
+  // Add Financial Press logo for some posts (only for mock posts)
+  const isFinancialPressPost = !isRealPost && (typeof post.id === 'number' && (post.id as number) % 4 === 0);
   const originatorIcon = getOriginatorIcon();
 
   // Generate current date/time for demo
@@ -79,7 +136,7 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
           <div className="flex-1">
             {/* Badges and Category */}
             <div className="flex items-center space-x-2 mb-2">
-              <Badge className="bg-blue-600 text-white text-xs">{post.category}</Badge>
+              <Badge className="bg-blue-600 text-white text-xs">{displayCategory}</Badge>
               {post.isFollowing && <Badge className="bg-blue-600 text-white text-xs">Following</Badge>}
               {post.isRecommended && <Badge className="bg-green-600 text-white text-xs">Recommended</Badge>}
             </div>
@@ -100,12 +157,23 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
             
             {/* Creator Info */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                <span className="text-black font-semibold text-sm">{post.creator.charAt(0)}</span>
-              </div>
+              {/* Avatar */}
+              <Avatar className="w-8 h-8 border-2 border-white shadow-sm">
+                {isRealPost && authorProfile?.image_url ? (
+                  <AvatarImage src={authorProfile.image_url} alt={displayName} />
+                ) : null}
+                <AvatarFallback className="bg-yellow-500 text-black font-semibold text-sm">
+                  {displayName?.charAt(0)?.toUpperCase() || 'U'}
+                </AvatarFallback>
+              </Avatar>
+              
               <div className="text-right">
-                <div className={`${textClasses} font-medium text-sm leading-tight`}>{post.creator}</div>
-                <div className={`${mutedText} text-xs`}>{post.handle}</div>
+                <div className={`${textClasses} font-medium text-sm leading-tight`}>
+                  {loadingProfile ? 'Loading...' : displayName}
+                </div>
+                <div className={`${mutedText} text-xs`}>
+                  {loadingProfile ? '' : displayHandle}
+                </div>
               </div>
               
               {/* Reputation Score Shield */}
@@ -115,7 +183,7 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
                     <svg className="w-3 h-3 text-blue-100" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-white font-bold text-xs">{Math.floor(Math.random() * 10) + 1}</span>
+                    <span className="text-white font-bold text-xs">{reputationScore}</span>
                   </div>
                 </div>
               </div>
@@ -125,14 +193,14 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
 
         {/* Content */}
         <div className="mb-4">
-          <h3 className={`${textClasses} font-semibold text-xl mb-3`}>{post.content}</h3>
-          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>{post.description}</p>
+          <h3 className={`${textClasses} font-semibold text-xl mb-3`}>{displayTitle}</h3>
+          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>{displayDescription}</p>
         </div>
 
         {/* Image */}
-        {post.image && (
+        {displayImage && (
           <div className="mb-4">
-            <img src={post.image} alt={post.content} className="w-full h-80 rounded-lg object-cover" />
+            <img src={displayImage} alt={displayTitle} className="w-full h-80 rounded-lg object-cover" />
           </div>
         )}
 
@@ -151,7 +219,7 @@ const FeedPost = ({ post, isDarkMode, onShare, onTip }: FeedPostProps) => {
           onShare={onShare}
           onTip={onTip}
           postId={`feed-${post.id}`}
-          postTitle={post.content}
+          postTitle={displayTitle}
         />
 
         {/* Date and Time Strip */}

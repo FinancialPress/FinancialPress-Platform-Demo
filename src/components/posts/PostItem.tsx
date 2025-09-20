@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ExternalLink, Calendar, Heart, Share, MessageCircle, Share2, HandCoins } from 'lucide-react';
 import { Post } from '@/hooks/usePosts';
 import { getPlaceholderImage } from '@/utils/imageUpload';
@@ -13,6 +14,7 @@ import SupportCreatorModal from '@/components/modals/SupportCreatorModal';
 import CommentModal from '@/components/modals/CommentModal';
 import { toast } from 'sonner';
 import { useTheme } from '@/contexts/ThemeContext';
+import { supabase } from '@/integrations/supabase/client';
 
 interface PostItemProps {
   post: Post;
@@ -25,10 +27,38 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
+  const [authorProfile, setAuthorProfile] = useState<any>(null);
+  const [loadingProfile, setLoadingProfile] = useState(false);
   
   // Use real like and comment data
   const { likesCount, isLiked, toggleLike } = useLikes(post.id);
   const { commentsCount } = useComments(post.id);
+
+  // Fetch author profile
+  useEffect(() => {
+    const fetchAuthorProfile = async () => {
+      if (post.author_id) {
+        setLoadingProfile(true);
+        try {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('display_name, username, image_url')
+            .eq('id', post.author_id)
+            .single();
+          
+          if (!error && data) {
+            setAuthorProfile(data);
+          }
+        } catch (err) {
+          console.error('Error fetching author profile:', err);
+        } finally {
+          setLoadingProfile(false);
+        }
+      }
+    };
+
+    fetchAuthorProfile();
+  }, [post.author_id]);
   
   const cardClasses = isDarkMode 
     ? 'bg-gray-900 border-gray-800 hover:border-gray-700' 
@@ -69,6 +99,13 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
   const type = post?.type || 'create_earn';
   const createdAt = post?.created_at || new Date().toISOString();
   const postId = post?.id || 'unknown';
+  
+  // Get display values for author
+  const displayName = authorProfile?.display_name || authorProfile?.username || 'User';
+  const displayHandle = authorProfile?.username ? `@${authorProfile.username}` : '@user';
+  
+  // Generate reputation score (1-10)
+  const reputationScore = Math.floor(Math.random() * 10) + 1;
 
   const handleShareAndEarn = async () => {
     setShowShareModal(true);
@@ -114,35 +151,73 @@ const PostItem = ({ post, isDarkMode }: PostItemProps) => {
                   </Badge>
                 )}
               </div>
-              <h3 className={`${textClasses} font-semibold text-lg mb-2`}>
-                {title}
-              </h3>
-              {body && (
-                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 line-clamp-3`}>
-                  {body}
-                </p>
-              )}
-              {externalUrl && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mb-3"
-                  onClick={() => window.open(externalUrl, '_blank')}
-                >
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Read More
-                </Button>
-              )}
-              {tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {tags.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              )}
             </div>
+            
+            {/* Creator Identity & Reputation - Top Right */}
+            <div className="flex items-center space-x-2">
+              {/* Avatar */}
+              <Avatar className="w-8 h-8 border-2 border-white shadow-sm">
+                {authorProfile?.image_url ? (
+                  <AvatarImage src={authorProfile.image_url} alt={displayName} />
+                ) : null}
+                <AvatarFallback className="bg-yellow-500 text-black font-semibold text-sm">
+                  {displayName?.charAt(0)?.toUpperCase() || 'U'}
+                </AvatarFallback>
+              </Avatar>
+              
+              <div className="text-right">
+                <div className={`${textClasses} font-medium text-sm leading-tight`}>
+                  {loadingProfile ? 'Loading...' : displayName}
+                </div>
+                <div className={`${mutedText} text-xs`}>
+                  {loadingProfile ? '' : displayHandle}
+                </div>
+              </div>
+              
+              {/* Reputation Score Shield */}
+              <div className="relative">
+                <div className="bg-blue-600 rounded-lg px-2 py-1 shadow-sm border border-blue-500">
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-3 h-3 text-blue-100" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-white font-bold text-xs">{reputationScore}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content Section */}
+          <div className="mb-4">
+            <h3 className={`${textClasses} font-semibold text-lg mb-2`}>
+              {title}
+            </h3>
+            {body && (
+              <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 line-clamp-3`}>
+                {body}
+              </p>
+            )}
+            {externalUrl && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="mb-3"
+                onClick={() => window.open(externalUrl, '_blank')}
+              >
+                <ExternalLink className="w-4 h-4 mr-2" />
+                Read More
+              </Button>
+            )}
+            {tags.length > 0 && (
+              <div className="flex flex-wrap gap-1 mb-3">
+                {tags.map((tag, index) => (
+                  <Badge key={index} variant="secondary" className="text-xs">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
           
           {/* Image with safe fallback */}
