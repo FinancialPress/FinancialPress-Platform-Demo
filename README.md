@@ -1,102 +1,150 @@
-Key Features
-Verified "Trust Feed"
-A curated news feed designed to filter out unverified content.
+# FinancialPress Platform Demo
 
-Proof of Provenance: All articles are hashed and anchored to the Hedera Consensus Service (HCS) via the R3L Protocol, creating an immutable audit trail.
+This repository contains an early-stage platform demo and architectural foundation for FinancialPress, a credibility-first financial media platform.
 
-Identity Verification: Contributors undergo tiered verification (from Basic to SEC-compliant KYC) to prevent impersonation and bot activity.
+FinancialPress explores how blockchain-based verification, reputation systems, and aligned incentives can reduce misinformation, restore accountability, and help investors identify signal in an increasingly noisy information environment.
 
-Reputation Engine (RP)
-A non-transferable credibility score that quantifies author trustworthiness.
+This repository represents an active development demo and forward-looking architecture. Open-source components will be released incrementally as they are production-hardened.
 
-Scoring Logic: Reputation Points (RP) are calculated based on historical accuracy, account longevity, and community validation.
+---
 
-Privileges: Higher RP tiers unlock $FPT rewards, enhanced visibility, and governance participation rights.
+## Core Systems
 
-Hybrid Monetization
-Share-to-Earn: A proprietary attribution engine rewards users with $FPT for distributing verified content that drives genuine engagement.
+### Verified Content Feed
+A curated financial news and analysis feed designed to prioritize verified authorship and reduce untrusted or automated content.
 
-Micropayments: Integrated Dropp support enables instant fiat (USD) and cryptocurrency (HBAR/USDC) tipping and pay-per-view access.
+**Proof of Provenance**
+All articles are hashed and anchored to the Hedera Consensus Service (HCS) via the R3L Protocol, creating an immutable audit trail for content origin and integrity.
 
-Technology Stack
-FinancialPress leverages a serverless, event-driven architecture to ensure scalability while relying on Hedera for immutable trust.
+**Identity Verification**
+Contributors undergo tiered identity verification (from Basic to SEC-compliant KYC) to prevent impersonation, bot activity, and fraudulent attribution.
 
-Core Platform
-Web3 & Trust Infrastructure
-DevOps & Analytics
-Infrastructure: AWS Serverless (Lambda, Fargate, API Gateway).
+---
 
-Analytics: Matomo (Privacy-first user tracking) + CloudWatch (System health).
+### Reputation Engine (RP)
+A non-transferable credibility score designed to quantify author trustworthiness over time.
 
-CI/CD: GitHub Actions for automated testing and deployment.
+**Scoring Logic**
+Reputation Points (RP) are calculated based on historical accuracy, account longevity, and community validation.
 
-Development Roadmap
-Development is structured into four distinct phases, transitioning from core infrastructure to global scale.
+**Privileges**
+Higher RP tiers unlock enhanced visibility, governance participation, and eligibility for $FPT-based rewards.
 
-Phase 1: Foundation (Current)
-[x] UI/UX Architecture & Prototype (Next.js)
+---
 
-[x] Identity Infrastructure (Reown AppKit integration)
+### Incentive & Monetization Layer
 
-[x] Database Schema Design (PostgreSQL)
+**Share-to-Earn**
+A proprietary attribution engine rewards users with $FPT for distributing verified content that generates genuine engagement.
 
-Phase 2: Intelligence & Integration (In Progress)
-[ ] Hedera HCS Integration: Logging content hashes for immutable provenance.
+**Micropayments**
+Integrated Dropp support enables instant fiat (USD) and cryptocurrency (HBAR / USDC) tipping and pay-per-view access.
 
-[ ] R3L Pipeline: Connecting the "Proof of Authorship" verification layer.
+---
 
-[ ] Reputation Engine: Deploying the RP scoring logic.
+## Technology Stack
 
-Phase 3: "Genesis" Ambassador Beta
-[ ] Controlled Launch: Releasing the "Verified Feed" to the 1,000+ user waitlist.
+FinancialPress leverages a serverless, event-driven architecture to ensure scalability while relying on Hedera for immutable trust guarantees.
 
-[ ] Ambassador Campaign: Onboarding 10-20 Key Opinion Leaders (KOLs) to drive the "Genesis Airdrop."
+### Core Platform
+- Web3 & Trust Infrastructure
+- DevOps & Analytics
 
-[ ] Micropayments: Activating Dropp for fiat tipping.
+### Infrastructure
+- AWS Serverless (Lambda, Fargate, API Gateway)
 
-Phase 4: TGE & Public Scale
-[ ] Token Generation Event (TGE): Public launch of $FPT.
+### Analytics
+- Matomo (privacy-first user analytics)
+- AWS CloudWatch (system health and observability)
 
-[ ] Enterprise APIs: Opening "Credibility-as-a-Service" data streams.
+### CI/CD
+- GitHub Actions for automated testing and deployment
 
-Getting Started
-Follow these instructions to run the FinancialPress development environment locally.
+---
 
-Prerequisites
-Node.js (v18+)
+## Open Source & Grant Context
 
-npm or yarn
+FinancialPress follows an open-core strategy.
 
-A Hedera Testnet Account (via )
+While the full application is under active development, we plan to open-source key components related to:
+- Content and authorship verification
+- Reputation and credibility scoring models
+- Public APIs and SDKs for third-party integrations
+- Auditability and provenance infrastructure
 
-Installation
-Clone the repository
+Grant funding would support the development and release of these shared infrastructure components for the broader ecosystem, particularly in areas related to trustworthy financial media and verifiable information systems.
 
-Install dependencies
+---
 
-Configure Environment Create a .env.local file in the root directory:
+## Development Roadmap
 
-Run the development server
+Development is structured into four phases, progressing from core infrastructure to public scale.
 
-Open to view the application.
+### Phase 1: Foundation (Current)
+- [x] UI/UX Architecture & Prototype (Next.js)
+- [x] Identity Infrastructure (Reown AppKit integration)
+- [x] Database Schema Design (PostgreSQL)
 
-The Team
+### Phase 2: Intelligence & Integration (In Progress)
+- [ ] Hedera HCS integration for immutable content provenance
+- [ ] R3L pipeline for proof-of-authorship verification
+- [ ] Reputation Engine (RP) scoring logic deployment
+
+### Phase 3: “Genesis” Ambassador Beta
+- [ ] Controlled launch of the Verified Feed to 1,000+ waitlist users
+- [ ] Ambassador campaign onboarding 10–20 key opinion leaders
+- [ ] Activation of Dropp-based fiat micropayments
+
+### Phase 4: Public Launch & Scale
+- [ ] Token Generation Event (TGE) for $FPT
+- [ ] Enterprise APIs and Credibility-as-a-Service data streams
+- [ ] Expanded ecosystem integrations
+
+---
+
+## Getting Started
+
+Follow the steps below to run the FinancialPress development environment locally.
+
+### Prerequisites
+- Node.js (v18+)
+- npm or yarn
+- Hedera Testnet account (when HCS features are enabled)
+
+### Installation
+1. Clone the repository  
+2. Install dependencies  
+3. Configure environment variables by creating a `.env.local` file in the root directory  
+4. Run the development server  
+5. Open the application in your browser  
+
+> Note: This repository is under active development. Local setup instructions may change as infrastructure components are finalized.
+
+---
+
+## The Team
+
 FinancialPress is led by veterans in financial media, blockchain architecture, and enterprise technology.
 
-Mark Chadwick (CEO) - 25+ years in financial media (VantageWire, Equities.com).
+- **Mark Chadwick (CEO)** — 25+ years in financial media and capital markets (VantageWire, Equities.com)
+- **David A. Cohen (CTO)** — Founding advisor of Hedera Hashgraph; AI and decentralized systems expert
+- **Simon Jewell (CSO)** — Web3 strategist specializing in creator economies and fan engagement
+- **Craig Brewster (CXO)** — 30+ years in UX/UI and service design
+- **Roberto Capodieci (Advisor)** — Blockchain architect and innovation lead
+- **Justyn Spooner (Advisor)** — Core Hedera contributor and full-stack developer
 
-David A. Cohen (CTO) - Founding Advisor of Hedera Hashgraph, AI & Decentralized Systems Expert.
+---
 
-Simon Jewell (CSO) - Web3 Strategist, expert in creator economy & fan engagement.
+## Contributing
 
-Craig Brewster (CXO) - 30+ years in UX/UI and Service Design.
+At this stage, FinancialPress is not accepting external code contributions.
 
-Roberto Capodieci (Advisor) - Blockchain Architect & Innovation Lead.
+This repository exists to document architectural direction and prepare for future open-source releases. Planned open-source components will be clearly identified as they are released.
 
-Justyn Spooner (Advisor) - Core Hedera Contributor & Full Stack Dev.
+Please see `CONTRIBUTING.md` for additional details.
 
-Contributing
-We welcome contributions from the Hedera and Thrive communities. Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
+---
 
-License
-This project is licensed under the MIT License - see the file for details.
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
