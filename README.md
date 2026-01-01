@@ -1,7 +1,5 @@
-# FinancialPress Platform Demo
-
-> ** Grant Reviewer Note:**
-> This repository contains the **v2.0 MVP Core (Web2 Foundation)** currently under active development.
+> [!IMPORTANT]
+> **Grant Reviewer Note:** This repository contains the **v2.0 MVP Core (Web2 Foundation)** currently under active development.
 >
 > The **"Core Systems"** described below represent the **Target Architecture**. The specific Hedera-native services (HCS Logging, R3L Verification, and HTS Rewards) are currently stubbed in the `/src/services` directory and are scheduled for implementation during the **Grant Execution Phase**.
 >
