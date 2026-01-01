@@ -1,5 +1,12 @@
 # FinancialPress Platform Demo
 
+> ** Grant Reviewer Note:**
+> This repository contains the **v2.0 MVP Core (Web2 Foundation)** currently under active development.
+>
+> The **"Core Systems"** described below represent the **Target Architecture**. The specific Hedera-native services (HCS Logging, R3L Verification, and HTS Rewards) are currently stubbed in the `/src/services` directory and are scheduled for implementation during the **Grant Execution Phase**.
+>
+> Please refer to `docs/first-tranche-scope.md` for the detailed implementation plan linked to the funding milestones.
+
 This repository contains an early-stage platform demo and architectural foundation for FinancialPress, a credibility-first financial media platform.
 
 FinancialPress explores how blockchain-based verification, reputation systems, and aligned incentives can reduce misinformation, restore accountability, and help investors identify signal in an increasingly noisy information environment.
