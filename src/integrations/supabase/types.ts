@@ -451,18 +451,12 @@ export type Database = {
         }
         Returns: boolean
       }
-      create_earn_post: {
-        Args: { payload: Json }
-        Returns: Json
-      }
+      create_earn_post: { Args: { payload: Json }; Returns: Json }
       get_user_fpt_balance: {
         Args: { target_user_id: string }
         Returns: number
       }
-      share_insight_post: {
-        Args: { payload: Json }
-        Returns: Json
-      }
+      share_insight_post: { Args: { payload: Json }; Returns: Json }
       spend_fpt_tokens: {
         Args: {
           description?: string
